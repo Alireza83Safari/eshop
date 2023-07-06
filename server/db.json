@@ -1,0 +1,466 @@
+{
+  "products": [
+    {
+      "id": "598880ce-df8d-4d45-a4f5-6007d3fc32d9",
+      "name": "iphone13 Pro max",
+      "img": "/images/iphone13.png",
+      "price": "1299",
+      "sale": "43"
+    },
+    {
+      "id": "596e5f27-8830-4673-94f0-e4b93970dc10",
+      "name": "MacBook Pro",
+      "img": "/images/mac.png",
+      "price": "3999",
+      "sale": "432"
+    },
+    {
+      "id": "1e284f6b-b6b7-4ff4-b8b4-03520d32c6bc",
+      "name": "Playstation 5",
+      "img": "/images/ps5.png",
+      "price": "685",
+      "sale": "756"
+    },
+    {
+      "id": "24793bd9-90bd-4fb6-be48-cf2f62bcfad8",
+      "name": "Galaxy S23 Ultra",
+      "img": "/images/s23.png",
+      "price": "643",
+      "sale": "233"
+    },
+    {
+      "id": "470f464a-3afa-460b-8534-601678541682",
+      "name": "hp EliteBook",
+      "img": "/images/hp.png",
+      "price": "599",
+      "sale": "67"
+    },
+    {
+      "id": "2376d6d1-9062-425e-aeb0-4d775cca7065",
+      "name": "Manitor",
+      "img": "/images/manitor.jpg",
+      "price": "1200",
+      "sale": "645"
+    },
+    {
+      "id": "47f5ca34-0520-493c-ac0c-346300274aed",
+      "name": "Men's Analog Wristwatch",
+      "img": "https://dkstatics-public.digikala.com/digikala-products/3aa4cbb0275a137e2608c44cd950203172b29e5b_1663247906.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/format,webp/quality,q_80",
+      "price": "299",
+      "sale": "56"
+    },
+    {
+      "id": "9dfa7a07-c77e-4991-bd7b-dd6e1fccb9f4",
+      "name": "Cooking Kit",
+      "img": "https://dkstatics-public.digikala.com/digikala-products/ccec1e92b9decf518a638885e718539ff84ea3cf_1673257017.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/format,webp/quality,q_80",
+      "price": "109",
+      "sale": "1491"
+    },
+    {
+      "id": "70eeddb8-e8c6-4aa2-bf81-8f1a59bfd33b",
+      "name": "iphone 11",
+      "img": "https://assets.swappie.com/cdn-cgi/image/width=600,height=600,fit=contain,format=auto/swappie-iphone-11-green-back.png?v=35",
+      "price": "799",
+      "sale": "104"
+    }
+  ],
+  "sales": [
+    {
+      "id": 1,
+      "user": "Alireza",
+      "date": "Feb 29th,2023",
+      "product": ["iphone13 Pro max", "iphone12"],
+      "amount": 8973,
+      "status": "done"
+    },
+    {
+      "id": 2,
+      "user": "Amir",
+      "date": "Apr 14th,2022",
+      "product": ["iphone13 Pro max", "iphone12"],
+      "amount": 67623,
+      "status": "done"
+    },
+    {
+      "id": 3,
+      "user": "Reza",
+      "date": "Jul 22th,2023",
+      "product": ["iphone13 Pro max", "iphone12"],
+      "amount": 967,
+      "status": "done"
+    },
+    {
+      "id": 4,
+      "user": "Ali",
+      "date": "Feb 25th,2023",
+      "product": ["iphone13 Pro max", "iphone12"],
+      "amount": 463,
+      "status": "pending"
+    },
+    {
+      "id": 5,
+      "user": "Sam",
+      "date": "Feb 1th,2023",
+      "product": ["iphone13 Pro max", "iphone12"],
+      "amount": 200,
+      "status": "pending"
+    },
+    {
+      "id": 6,
+      "user": "Zeynab",
+      "date": "Jun 11th,2022",
+      "product": ["iphone13 Pro max", "iphone12"],
+      "amount": 564,
+      "status": "done"
+    },
+    {
+      "id": 7,
+      "user": "Fatameh",
+      "date": "Mar 14th,2023",
+      "product": ["iphone13 Pro max", "iphone12"],
+      "amount": 846,
+      "status": "done"
+    },
+    {
+      "id": 8,
+      "user": "Fatameh",
+      "date": "Mar 14th,2023",
+      "product": ["iphone13 Pro max", "iphone12"],
+      "amount": 846,
+      "status": "done"
+    },
+    {
+      "id": 9,
+      "user": "Fatameh",
+      "date": "Mar 14th,2023",
+      "product": ["iphone13 Pro max", "iphone12"],
+      "amount": 846,
+      "status": "done"
+    },    {
+      "id": 1,
+      "user": "Alireza",
+      "date": "Feb 29th,2023",
+      "product": ["iphone13 Pro max", "iphone12"],
+      "amount": 8973,
+      "status": "done"
+    },
+    {
+      "id": 2,
+      "user": "Amir",
+      "date": "Apr 14th,2022",
+      "product": ["iphone13 Pro max", "iphone12"],
+      "amount": 67623,
+      "status": "done"
+    },
+    {
+      "id": 3,
+      "user": "Reza",
+      "date": "Jul 22th,2023",
+      "product": ["iphone13 Pro max", "iphone12"],
+      "amount": 967,
+      "status": "done"
+    },
+    {
+      "id": 4,
+      "user": "Ali",
+      "date": "Feb 25th,2023",
+      "product": ["iphone13 Pro max", "iphone12"],
+      "amount": 463,
+      "status": "pending"
+    },
+    {
+      "id": 5,
+      "user": "Sam",
+      "date": "Feb 1th,2023",
+      "product": ["iphone13 Pro max", "iphone12"],
+      "amount": 200,
+      "status": "pending"
+    },
+    {
+      "id": 6,
+      "user": "Zeynab",
+      "date": "Jun 11th,2022",
+      "product": ["iphone13 Pro max", "iphone12"],
+      "amount": 564,
+      "status": "done"
+    },
+    {
+      "id": 7,
+      "user": "Fatameh",
+      "date": "Mar 14th,2023",
+      "product": ["iphone13 Pro max", "iphone12"],
+      "amount": 846,
+      "status": "done"
+    },
+    {
+      "id": 8,
+      "user": "Fatameh",
+      "date": "Mar 14th,2023",
+      "product": ["iphone13 Pro max", "iphone12"],
+      "amount": 846,
+      "status": "done"
+    },
+    {
+      "id": 9,
+      "user": "Fatameh",
+      "date": "Mar 14th,2023",
+      "product": ["iphone13 Pro max", "iphone12"],
+      "amount": 846,
+      "status": "done"
+    }
+  ],
+  "saleschartweekly": [
+    {
+      "name": "January",
+      "value": 40
+    },
+    {
+      "name": "February",
+      "value": 80
+    },
+    {
+      "name": "March",
+      "value": 220
+    },
+    {
+      "name": "April",
+      "value": 180
+    },
+    {
+      "name": "May",
+      "value": 210
+    },
+    {
+      "name": "June",
+      "value": 240
+    },
+    {
+      "name": "January",
+      "value": 170
+    },
+    {
+      "name": "February",
+      "value": 110
+    },
+    {
+      "name": "March",
+      "value": 90
+    },
+    {
+      "name": "April",
+      "value": 140
+    },
+    {
+      "name": "May",
+      "value": 150
+    },
+    {
+      "name": "June",
+      "value": 120
+    }
+  ],
+  "saleschartmonthly": [
+    {
+      "name": "January",
+      "value": 100
+    },
+    {
+      "name": "February",
+      "value": 56
+    },
+    {
+      "name": "March",
+      "value": 564
+    },
+    {
+      "name": "April",
+      "value": 687
+    },
+    {
+      "name": "May",
+      "value": 324
+    },
+    {
+      "name": "June",
+      "value": 434
+    },
+    {
+      "name": "January",
+      "value": 534
+    },
+    {
+      "name": "February",
+      "value": 455
+    },
+    {
+      "name": "March",
+      "value": 986
+    },
+    {
+      "name": "April",
+      "value": 675
+    },
+    {
+      "name": "May",
+      "value": 675
+    },
+    {
+      "name": "June",
+      "value": 765
+    }
+  ],
+  "topbar": [
+    {
+      "title": "Money to withdraw",
+      "change": "-10",
+      "total": 3213,
+      "date": "Feb 1th,2023"
+    },
+    {
+      "title": "Total Reveneu",
+      "change": "14",
+      "total": 756,
+      "date": "Feb 25th,2023"
+    },
+    {
+      "title": "Total Views",
+      "change": "-24",
+      "total": 4435,
+      "date": "Mar 14th,2023"
+    },
+    {
+      "title": "Total Customer",
+      "change": "34",
+      "total": 7456,
+      "date": "Jul 22th,2023"
+    }
+  ],
+  "comments": [
+    {
+      "user": "Alireza",
+      "date": "Feb 29th,2023",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+      "product": "Iphone 13 promax",
+      "status": "accept"
+    },
+    {
+      "user": "Reza",
+      "date": "Feb 29th,2023",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+      "product": "Iphone 13 promax",
+      "status": "accept"
+    },
+    {
+      "user": "Ali",
+      "date": "Feb 29th,2023",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+      "product": "Iphone 13 promax",
+      "status": "reject"
+    },
+    {
+      "user": "Alireza",
+      "date": "Feb 29th,2023",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+      "product": "Iphone 13 promax",
+      "status": "accept"
+    },
+    {
+      "user": "Alireza",
+      "date": "Feb 29th,2023",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+      "product": "Iphone 13 promax",
+      "status": "accept"
+    },
+    {
+      "user": "Alireza",
+      "date": "Feb 29th,2023",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+      "product": "Iphone 13 promax",
+      "status": "reject"
+    },
+    {
+      "user": "Alireza",
+      "date": "Feb 29th,2023",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+      "product": "Iphone 13 promax",
+      "status": "accept"
+    },
+    {
+      "user": "Alireza",
+      "date": "Feb 29th,2023",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+      "product": "Iphone 13 promax",
+      "status": "reject"
+    },
+    {
+      "user": "Alireza",
+      "date": "Feb 29th,2023",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+      "product": "Iphone 13 promax",
+      "status": "accept"
+    },
+    {
+      "user": "Alireza",
+      "date": "Feb 29th,2023",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+      "product": "Iphone 13 promax",
+      "status": "accept"
+    },
+    {
+      "user": "Reza",
+      "date": "Feb 29th,2023",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+      "product": "Iphone 13 promax",
+      "status": "accept"
+    },
+    {
+      "user": "Ali",
+      "date": "Feb 29th,2023",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+      "product": "Iphone 13 promax",
+      "status": "reject"
+    },
+    {
+      "user": "Alireza",
+      "date": "Feb 29th,2023",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+      "product": "Iphone 13 promax",
+      "status": "accept"
+    },
+    {
+      "user": "Alireza",
+      "date": "Feb 29th,2023",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+      "product": "Iphone 13 promax",
+      "status": "accept"
+    },
+    {
+      "user": "Alireza",
+      "date": "Feb 29th,2023",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+      "product": "Iphone 13 promax",
+      "status": "reject"
+    },
+    {
+      "user": "Alireza",
+      "date": "Feb 29th,2023",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+      "product": "Iphone 13 promax",
+      "status": "accept"
+    },
+    {
+      "user": "Alireza",
+      "date": "Feb 29th,2023",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+      "product": "Iphone 13 promax",
+      "status": "reject"
+    },
+    {
+      "user": "Alireza",
+      "date": "Feb 29th,2023",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+      "product": "Iphone 13 promax",
+      "status": "accept"
+    }
+  ]
+}

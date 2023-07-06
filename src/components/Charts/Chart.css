@@ -1,0 +1,13 @@
+.recharts-surface {
+  margin-top: 30px;
+}
+.recharts-text {
+  font-size: 9px;
+}
+.recharts-dot {
+  fill: #2762eb;
+  background-color: rgb(201, 243, 138);
+}
+.recharts-tooltip-wrapper {
+  background-color: #000;
+}

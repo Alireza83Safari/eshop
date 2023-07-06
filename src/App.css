@@ -1,0 +1,10 @@
+@font-face {
+  font-family: "Poppins";
+  src: url("../public/fonts/Poppins-Medium.ttf");
+}
+
+.App {
+  font-family: "Poppins", "sans-serif";
+  box-sizing: border-box;
+}
+
