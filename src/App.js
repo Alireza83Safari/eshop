@@ -1,10 +1,10 @@
-import { useRoutes } from "react-router-dom";
 import "./App.css";
 import route from "./routes/routes";
 import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
 import { useEffect, useState } from "react";
 import ProductsContext from "./Context/productsContext";
+import { useRoutes } from "react-router-dom";
 
 function App() {
   const [getProducts, setProducts] = useState([]);
@@ -12,21 +12,22 @@ function App() {
   const [mode, setMode] = useState(false);
 
   useEffect(() => {
-    if (
-      localStorage.theme === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      setMode(true);
+    } else {
+      setMode(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (mode) {
+      localStorage.setItem("theme", "dark");
       document.documentElement.classList.add("dark");
     } else {
+      localStorage.setItem("theme", "light");
       document.documentElement.classList.remove("dark");
     }
-    if (!mode) {
-      localStorage.theme = "light";
-    } else if(mode) {
-      localStorage.theme = "dark";
-    }
-    /*  */
   }, [mode]);
 
   const getAllProducts = () => {
@@ -57,5 +58,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
