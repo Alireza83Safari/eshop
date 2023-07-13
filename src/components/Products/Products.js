@@ -13,6 +13,7 @@ export default function Products() {
   const [productEditId, setProductEditId] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showAddProduct, setShowAddProduct] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const [editProductInfos, setEditProductInfos] = useState({
     name: "",
@@ -59,7 +60,7 @@ export default function Products() {
     <section className="p-6 float-right mt-12 h-[100vh] bg-white-200 dark:bg-black-600 w-[87%]">
       <div className="mt-5 px-6 container overflow-x-auto bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-xl">
         <div className="py-4 flex justify-between">
-          <div className="flex items-center relative ml-3 text-gray-200">
+          <div className="flex items-center relative ml-3 text-black-600">
             <FontAwesomeIcon
               icon={faSearch}
               className="absolute left-3 text-black-800 text-sm"
@@ -67,11 +68,13 @@ export default function Products() {
             <input
               type="text"
               placeholder="Search..."
-              className="pl-8 py-1 rounded-lg outline-none bg-white-200 text-gray-700 placeholder:text-black-800 placeholder:text-xs"
+              className="pl-8 py-1 rounded-lg outline-none bg-white-200 placeholder:text-xs"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
           <button
-            className="text-xs bg-blue-600 text-white-100 px-2 rounded-lg mr-7"
+            className="text-xs bg-blue-600 text-white-10 px-2 rounded-lg mr-7"
             onClick={() => setShowAddProduct(true)}
           >
             Add Product <FontAwesomeIcon icon={faPlus} />
@@ -89,34 +92,43 @@ export default function Products() {
             </tr>
           </thead>
           <tbody>
-            {getProducts.map((product, index) => (
-              <tr className="text-sm grid grid-cols-11 text-center" key={index}>
-                <td className="col-span-1 py-2 h-14">{index + 1}</td>
-                <td className="col-span-2 py-2 h-14">{product.name}</td>
-                <td className="col-span-2 py-2 h-14 flex justify-center">
-                  <img src={product.img} alt="product" className="w-10" />
-                </td>
-                <td className="col-span-2 py-2 h-14">${product.price}</td>
-                <td className="col-span-2 py-2 h-14">{product.sale}</td>
-                <td className="col-span-2 py-2 h-14">
-                  <button
-                    className="bg-green-200 text-white-100 mx-2 px-2 rounded-md"
-                    onClick={() => editHandler(product.id)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="bg-red text-white-100 mx-2 px-2 rounded-md"
-                    onClick={() => {
-                      setProductId(product.id);
-                      setShowDeleteModal(true);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {getProducts
+              .filter((product) =>
+                product.name.toLowerCase().includes(searchQuery.toLowerCase())
+              )
+              .map((product, index) => (
+                <tr
+                  className="text-sm grid grid-cols-11 text-center"
+                  key={index}
+                >
+                  {console.log(product.name)}
+
+                  <td className="col-span-1 py-2 h-14">{index + 1}</td>
+                  <td className="col-span-2 py-2 h-14">{product.name}</td>
+                  <td className="col-span-2 py-2 h-14 flex justify-center">
+                    <img src={product.img} alt="product" className="w-10" />
+                  </td>
+                  <td className="col-span-2 py-2 h-14">${product.price}</td>
+                  <td className="col-span-2 py-2 h-14">{product.sale}</td>
+                  <td className="col-span-2 py-2 h-14">
+                    <button
+                      className="bg-green-200 text-white-100 mx-2 px-2 rounded-md"
+                      onClick={() => editHandler(product.id)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="bg-red text-white-100 mx-2 px-2 rounded-md"
+                      onClick={() => {
+                        setProductId(product.id);
+                        setShowDeleteModal(true);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
