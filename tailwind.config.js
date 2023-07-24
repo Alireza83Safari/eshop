@@ -17,16 +17,23 @@ module.exports = {
         100: "#dddd",
         200: "#C7C7D1",
         500: "#ACACAC",
+        800: "#7B7B7B",
       },
 
       dark: "#2E2C3A",
       darkBlue: "#1a1d27",
-      red: "red",
+      red: {
+        100: "#FCE5E6",
+        300: "#ED7071",
+        700: "red",
+      },
       boxbg: "#2e2c3a",
       muted: "#74788d ",
       green: {
-        100: "rgb(201, 243, 138)",
-        200: "#2ab57d",
+        100: "#DFF7E9",
+        300: "#2AC770",
+        400: "rgb(201, 243, 138)",
+        500: "#2ab57d",
       },
       white: {
         100: "#FFFFFF",
@@ -34,7 +41,11 @@ module.exports = {
         300: "#F7F8FC",
       },
       blue: {
+        300: "#6D77D0",
         600: "#2762EB",
+        700: "#3C49C7",
+        800: "#1223C2",
+        900: "#030E8E",
       },
       orange: {
         100: "#FFEFE4",

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import BarChartComponent from "../Charts/BarChart";
+import BarChartComponent from "./Charts/BarChart";
 
-export default function DashboardChart() {
+const DashboardChart = () => {
   const [salesChartWeekly, setSalesChartWeekly] = useState([]);
   const [salesChartMonthly, setSalesChartMonthly] = useState([]);
   const [selectedDataType, setSelectedDataType] = useState("weekly");
@@ -30,14 +30,17 @@ export default function DashboardChart() {
     selectedDataType === "monthly" ? salesChartMonthly : salesChartWeekly;
 
   return (
-    <div className="col-span-7 mx-7">
+    <div className="md:col-span-7 col-span-10 mx-7 md:mb-0 mb-6">
       <div className="mt-6 bg-white-100 dark:bg-black-200 py-5 rounded-xl">
         <div className="flex justify-between px-6">
-          <p className="text-sm font-bold dark:text-white-100">Sales Chart</p>
+          <p className="text-xs font-bold dark:text-white-100 2xl:text-lg">
+            Sales Chart
+          </p>
           <div className="relative">
             <select
-              className="block appearance-none w-full outline-none text-white-100 leading-tight mr-3 bg-blue-600 text-xs py-2 px-3 rounded-md"
+              className="block appearance-none w-full outline-none text-white-100 leading-tight mr-3 bg-blue-600 text-xs lg:text-xs py-2 px-3 rounded-md"
               onChange={valueHandler}
+              value={selectedDataType}
             >
               <option value="weekly">Weekly</option>
               <option value="monthly">Monthly</option>
@@ -47,10 +50,12 @@ export default function DashboardChart() {
             </div>
           </div>
         </div>
-        <div className="flex justify-center bg-white-100 dark:bg-black-200">
-          <BarChartComponent width={"100%"} height={300} datas={selectedData} />
+        <div className="flex justify-center lg:h-80 md:h-72 px-2 bg-white-100 dark:bg-black-200">
+          <BarChartComponent datas={selectedData} />
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default DashboardChart;

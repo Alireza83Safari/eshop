@@ -2,16 +2,29 @@ import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
+import productsContext from "../../Context/productsContext";
 
 export default function DeleteModal({
-  deleteHandler,
   showDeleteModal,
   setShowDeleteModal,
+  productId,
 }) {
+  const { getAllProducts } = useContext(productsContext);
   const cancelDeleteHandler = () => {
     setShowDeleteModal(false);
   };
-
+  const deleteProductHandler = () => {
+    setShowDeleteModal(true);
+    fetch(`http://localhost:9000/products/${productId}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        getAllProducts();
+      })
+      .catch((err) => console.log(err));
+    setShowDeleteModal(false);
+  };
   return ReactDOM.createPortal(
     <div
       className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-full backdrop-blur-sm h-screen flex items-center justify-center transition duration-400 ${
@@ -31,13 +44,13 @@ export default function DeleteModal({
         <div className="flex justify-center">
           <button
             className="bg-red text-white-100 m-3 px-4 py-2 rounded-md"
-            onClick={deleteHandler}
+            onClick={deleteProductHandler}
           >
             Delete
           </button>
           <button
             className="bg-gray-200 text-black-100 m-3 px-4 py-2 rounded-md"
-            onClick={cancelDeleteHandler}
+            onClick={() => setShowDeleteModal(false)}
           >
             Cancel
           </button>

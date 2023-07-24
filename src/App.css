@@ -8,3 +8,6 @@
   box-sizing: border-box;
 }
 
+.custom-progress-bar::-webkit-progress-value {
+  background-color: blue;
+}

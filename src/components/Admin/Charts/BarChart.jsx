@@ -8,9 +8,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const BarChartComponent = ({ width, height, datas }) => {
+const BarChartComponent = ({ datas }) => {
   return (
-    <ResponsiveContainer width={width} height={height}>
+    <ResponsiveContainer>
       <BarChart data={datas}>
         <CartesianGrid horizontal={false} vertical={false} />
         <XAxis dataKey="name" />

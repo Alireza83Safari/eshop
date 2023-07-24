@@ -1,7 +1,5 @@
 import "./App.css";
 import route from "./routes/routes";
-import Header from "./components/Header/Header";
-import Sidebar from "./components/Sidebar/Sidebar";
 import { useEffect, useState } from "react";
 import ProductsContext from "./Context/productsContext";
 import { useRoutes } from "react-router-dom";
@@ -10,7 +8,8 @@ function App() {
   const [getProducts, setProducts] = useState([]);
   const routes = useRoutes(route);
   const [mode, setMode] = useState(false);
-
+  const [showShopSidebar, setShowShopSidebar] = useState(false);
+  const [checkOut, setCheckOut] = useState([]);
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
@@ -31,15 +30,15 @@ function App() {
   }, [mode]);
 
   const getAllProducts = () => {
-    fetch("http://localhost:9000/products/")
+    fetch("http://localhost:9000/products")
       .then((res) => res.json())
-      .then((products) => setProducts(products));
+      .then((products) => {
+        setProducts(products);
+      });
   };
-
   useEffect(() => {
     getAllProducts();
   }, []);
-
   return (
     <div className="App">
       <ProductsContext.Provider
@@ -49,11 +48,13 @@ function App() {
           setProducts,
           mode,
           setMode,
+          showShopSidebar,
+          setShowShopSidebar,
+          checkOut,
+          setCheckOut,
         }}
       >
-        <Header />
         {routes}
-        <Sidebar />
       </ProductsContext.Provider>
     </div>
   );
