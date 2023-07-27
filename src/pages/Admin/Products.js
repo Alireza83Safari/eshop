@@ -11,7 +11,7 @@ import Departments from "../../components/Admin/Departments";
 import PiesChart from "../../components/Admin/Charts/PieChart";
 import ProductsTable from "../../components/Admin/ProductsTable";
 import FilterProducts from "../../components/Admin/FilterProducts";
-import Pagination from "../../components/Pagination";
+import Pagination from "../../components/Admin/Pagination";
 
 const filterReducer = (state, action) => {
   switch (action.type) {

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import FinancialInfos from "../../components/Admin/FinancialInfos";
 import PiesChart from "../../components/Admin/Charts/PieChart";
+import Pagination from "../../components/Admin/Pagination";
 /* import FiancialDetails from "../../components/Admin/FiancialDetails"; */
-import Pagination from "../../components/Pagination";
 
 const Financial = () => {
   const [sales, setSales] = useState([]);

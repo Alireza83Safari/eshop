@@ -60,9 +60,7 @@ export default function ProductsTable({
           .map((product, index) => (
             <tr className="md:text-sm text-xs text-center" key={index}>
               <td className="py-2">{index + 1}</td>
-              <td className="py-2 w-16">
-                {product.name}
-              </td>
+              <td className="py-2 w-16">{product.name}</td>
               <td className="py-2">
                 <img
                   src={product.img}

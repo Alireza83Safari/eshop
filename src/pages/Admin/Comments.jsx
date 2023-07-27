@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CommentsInfos from "../../components/Admin/CommentsInfos";
 import CommentsTable from "../../components/Admin/CommentsTable";
-import Pagination from "../../components/Pagination";
+import Pagination from "../../components/Admin/CommentsTable";
 
 /**
  * Comments component displays a list of comments and their details.
