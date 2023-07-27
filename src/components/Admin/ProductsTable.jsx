@@ -74,8 +74,8 @@ export default function ProductsTable({
                 <button
                   className={`text-xs p-1 rounded-lg ${
                     product.status === "Publish"
-                      ? "bg-green-500 text-white"
-                      : "bg-red-700 text-white"
+                      ? "bg-green-100 text-green-300"
+                      : " bg-red-700 text-white-100"
                   }`}
                 >
                   {product.status}

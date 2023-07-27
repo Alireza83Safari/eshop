@@ -33,17 +33,18 @@ export default function Sidebar() {
   }, [productName]);
 
   return (
-    <section className="fixed top-0 left-0 bg-white-100 dark:bg-black-900 h-full w-[11%] lg:w-[13%] sm:w-[7%] font-bold">
+    <section className="fixed top-0 left-0 bg-white-100 dark:bg-black-900 h-full w-[11%] lg:w-[13%] w-[10%] font-bold">
       <div className="py-5 lg:pl-7 sm:pl-5 pl-3 xl:text-[.9rem] md:text-xs">
         <Link to="dashboard">
-          <div className="pr-3 invisible lg:visible">
+          <div className="w-full invisible lg:visible">
             <img
               src={mode ? "/images/logo-dark.png" : "/images/logo-light.png"}
               alt="logo"
+               className=" w-full pr-10"
             />
           </div>
         </Link>
-        <p className="text-black-200 left-2 dark:text-white-100 whitespace-nowrap lg:text-xs lg:pt-6 invisible lg:visible">
+        <p className="text-black-200 left-2 dark:text-white-100 whitespace-nowrap lg:text-xs lg:pt-10 invisible lg:visible">
           main menu
         </p>
 

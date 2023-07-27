@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 
 export default function Chat() {
   return (
-    <section className="px-6 py-4 float-right md:mt-16 mt-14 bg-white-200 lg:w-[87%] w-[93%] dark:bg-black-600 h-screen">
+    <section className="px-6 py-4 float-right md:mt-20 mt-14 bg-white-200 lg:w-[87%] w-[93%] dark:bg-black-600 h-screen">
       <div className="grid grid-cols-12 bg-white-100 dark:bg-black-200 rounded-xl dark:text-white-100">
         <div className="col-span-2 mt-6 shadow">
           <p className="flex items-center justify-center lg:text-base text-sm px-5 shadow h-20 font-black">

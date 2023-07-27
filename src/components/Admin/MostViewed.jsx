@@ -2,8 +2,8 @@ import React from "react";
 
 export default function MostViewed() {
   return (
-    <div className="md:col-span-3 col-span-10 md:ml-0 ml-6 mr-8 md:mt-6">
-      <div className="bg-white-100 dark:bg-black-200 py-6 px-6 rounded-xl dark:text-white-100">
+    <div className="md:mt-6">
+      <div className="bg-white-100 dark:bg-black-200 py-6 px-5 ml-3 rounded-xl dark:text-white-100">
       <span className="flex justify-center font-bold whitespace-nowrap dark:text-white-100 lg:text-base md:text-xs text-center">
           Most Viewed Product Today
         </span>

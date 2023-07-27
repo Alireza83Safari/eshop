@@ -17,7 +17,7 @@ const Transactions = () => {
   };
 
   return (
-    <div className="md:col-span-7 col-span-10 text-center mt-6 mx-7">
+    <div className="ml-7 md:mr-4 mr-7 mt-6 md:mb-0 mb-6 text-center">
       <p className="2xl:text-lg text-xs font-bold py-2 rounded-t-xl w-full bg-white-100 dark:text-white-100 dark:bg-black-200">
         Transactions
       </p>
@@ -74,8 +74,11 @@ const Transactions = () => {
             ))}
           </tbody>
         </table>
-        <div className="w-full py-3">
-          <Link className="text-sm font-black 2xl:text-xl" to="panel/financial">
+        <div className="w-full py-1">
+          <Link
+            className="text-sm font-black 2xl:text-xl"
+            to="/panel/financial"
+          >
             View more...
           </Link>
         </div>

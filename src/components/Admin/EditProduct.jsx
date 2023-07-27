@@ -41,13 +41,13 @@ export default function EditProduct({
         showEditModal ? "visible" : "invisible"
       }`}
     >
-      <div className="relative w-1/3 bg-white-100 p-5 rounded-xl">
-        <span className="mb-5 text-xl font-bold flex justify-center">
+      <div className="relative w-1/3 bg-white-100 dark:bg-black-200 p-5 rounded-xl">
+        <span className="mb-5 text-xl font-bold flex justify-center dark:text-white-100">
           Edit Product Infos
         </span>
         <form onSubmit={(e) => e.preventDefault()}>
           <div className="grid grid-cols-1 gap-2 mt-2">
-            <span className="font-medium text-gray-800">Name</span>
+            <span className="font-medium text-gray-800 dark:text-white-100">Name</span>
             <input
               type="text"
               name="name"
@@ -57,7 +57,7 @@ export default function EditProduct({
               onChange={newInfoHandler}
             />
 
-            <span className="font-medium text-gray-800">Image Address</span>
+            <span className="font-medium text-gray-800 dark:text-white-100">Image Address</span>
             <input
               type="text"
               name="img"
@@ -67,7 +67,7 @@ export default function EditProduct({
               onChange={newInfoHandler}
             />
 
-            <span className="font-medium text-gray-800">Price</span>
+            <span className="font-medium text-gray-800 dark:text-white-100">Price</span>
             <input
               type="text"
               name="price"
@@ -77,7 +77,7 @@ export default function EditProduct({
               onChange={newInfoHandler}
             />
 
-            <span className="font-medium text-gray-800">Sold</span>
+            <span className="font-medium text-gray-800 dark:text-white-100">Sold</span>
             <input
               type="text"
               name="sale"
@@ -89,7 +89,7 @@ export default function EditProduct({
 
             <div className="flex">
               <div className="mr-2 w-1/2">
-                <span className="font-medium text-gray-800">Status</span>
+                <span className="font-medium text-gray-800 dark:text-white-100">Status</span>
                 <select
                   name="status"
                   id=""
@@ -103,7 +103,7 @@ export default function EditProduct({
                 </select>
               </div>
               <div className="ml-2 w-1/2">
-                <span className="font-medium text-gray-800">Category</span>
+                <span className="font-medium text-gray-800 dark:text-white-100">Category</span>
                 <select
                   name="category"
                   id=""
@@ -134,7 +134,7 @@ export default function EditProduct({
 
             <button
               type="submit"
-              className="w-full py-2 rounded-xl border ml-2"
+              className="w-full py-2 rounded-xl border ml-2 dark:text-white-100"
               onClick={() => setShowEditModal(false)}
             >
               Cancel

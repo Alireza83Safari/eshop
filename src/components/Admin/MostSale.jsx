@@ -2,8 +2,8 @@ import React from "react";
 
 const MostSale = () => {
   return (
-    <div className="md:col-span-3 col-span-10 md:ml-0 ml-6 mr-8 mt-7">
-      <div className="bg-white-100 dark:bg-black-200 dark:text-white-100 py-7 px-6 rounded-xl">
+    <div className="mr-8 mt-6">
+      <div className="bg-white-100 dark:bg-black-200 dark:text-white-100 py-7 px-5 ml-2 rounded-xl">
         <span className="flex justify-center font-bold whitespace-nowrap dark:text-white-100 lg:text-base text-xs text-center">
           Most Sale Product Weekly
         </span>

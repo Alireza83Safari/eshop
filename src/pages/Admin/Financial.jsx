@@ -51,8 +51,8 @@ const Financial = () => {
         <FinancialInfos tax={totalTax} income={income} netProfit={netProfit} />
       </div>
 
-      <div className="grid grid-cols-10">
-        <div className="lg:col-span-7 col-span-10 mt-2 text-center sm:mx-5">
+      <div className="grid grid-cols-12">
+        <div className="lg:col-span-8 col-span-10 mt-2 text-center sm:mx-5">
           <p className="md:text-base text-sm font-bold border-b py-2 w-full bg-white-100 dark:text-white-100 dark:bg-black-200 rounded-t-xl 2xl:text-xl">
             Transactions
           </p>
@@ -144,7 +144,7 @@ const Financial = () => {
           </div>
         </div>
 
-        <div className="relative lg:col-span-3 col-span-10 bg-white-100 dark:bg-black-200 rounded-xl mt-2 mx-4">
+        <div className="relative lg:col-span-4 col-span-10 bg-white-100 dark:bg-black-200 rounded-xl mt-2 mx-4">
           <p className="xl:text-lg md:text-base text-lg text-center pt-6 dark:text-white-100">
             Transactions Chart
           </p>
