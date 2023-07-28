@@ -2,57 +2,72 @@
   "products": [
     {
       "name": "iphone13 Pro max",
+      "brand": "iphone",
       "img": "/images/iphone13.png",
       "price": "1299",
       "sale": "43",
       "status": "Publish",
       "category": "Electronics",
       "id": "598880ce-df8d-4d45-a4f5-6007d3fc32d9",
-      "colors": ["red", "blue", "black", "white"]
-    },
-    {
-      "id": "596e5f27-8830-4673-94f0-e4b93970dc10",
-      "name": "MacBook Pro",
-      "img": "/images/mac.png",
-      "price": "3999",
-      "sale": "432",
-      "category": "Electronics",
-      "status": "Inactive",
-      "colors": ["red", "blue", "black", "white"]
+      "colors": [
+        "red",
+        "blue",
+        "black",
+        "white"
+      ]
     },
     {
       "id": "c3b369c1-1aec-4d79-9591-508385adb54c",
       "name": "HP Victus",
+      "brand": "hp",
       "img": "https://dkstatics-public.digikala.com/digikala-products/b07c67ef3dafe244227a752f2f31ef99b2856887_1671299220.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/format,webp/quality,q_80",
       "price": "700",
       "status": "Inactive",
       "category": "Electronics",
       "sale": "21",
-      "colors": ["red", "blue", "black", "white"]
+      "colors": [
+        "red",
+        "blue",
+        "black",
+        "white"
+      ]
     },
     {
       "id": "00e485e8-d72b-4c1b-9a20-519cd28e15f2",
       "name": "Bosch Dishwasher",
+      "brand": "bosch",
       "img": "https://dkstatics-public.digikala.com/digikala-products/fdd3b43de51a8c23f145086bfbf4020d350038e3_1605167908.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/format,webp/quality,q_80",
       "price": "1200",
       "sale": "4",
       "status": "Publish",
       "category": "Home & Kitchen",
-      "colors": ["red", "blue", "black", "white"]
+      "colors": [
+        "red",
+        "blue",
+        "black",
+        "white"
+      ]
     },
     {
       "id": "1e284f6b-b6b7-4ff4-b8b4-03520d32c6bc",
       "name": "Playstation 5",
+      "brand": "sony",
       "img": "/images/ps5.png",
       "price": "685",
       "status": "Publish",
       "category": "Electronics",
       "sale": "756",
-      "colors": ["red", "blue", "black", "white"]
+      "colors": [
+        "red",
+        "blue",
+        "black",
+        "white"
+      ]
     },
     {
       "id": "24793bd9-90bd-4fb6-be48-cf2f62bcfad8",
       "name": "Galaxy S23 Ultra",
+      "brand": "samsung",
       "img": "/images/s23.png",
       "price": "643",
       "status": "Publish",
@@ -62,135 +77,230 @@
     {
       "id": "470f464a-3afa-460b-8534-601678541682",
       "name": "hp EliteBook",
+      "brand": "hp",
       "img": "/images/hp.png",
       "price": "599",
       "status": "Publish",
       "category": "Electronics",
       "sale": "67",
-      "colors": ["red", "blue", "black", "white"]
+      "colors": [
+        "red",
+        "blue",
+        "black",
+        "white"
+      ]
     },
     {
       "id": "2376d6d1-9062-425e-aeb0-4d775cca7065",
       "name": "Manitor",
+      "brand": "huawei",
       "img": "/images/manitor.jpg",
       "price": "1200",
       "status": "Publish",
       "category": "Electronics",
       "sale": "645",
-      "colors": ["red", "blue", "black", "white"]
+      "colors": [
+        "red",
+        "blue",
+        "black",
+        "white"
+      ]
     },
     {
       "id": "f843e2b8-81db-4f7e-8396-524d4a70ea69",
       "name": "Galaxy S21 FE",
+      "brand": "samsung",
       "img": "https://dkstatics-public.digikala.com/digikala-products/f9e0f4bd266dd2c1e3c300f624e37a5d6cba9d54_1656427600.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/format,webp/quality,q_80",
       "price": "400",
       "status": "Publish",
       "category": "Electronics",
       "sale": "4",
-      "colors": ["red", "blue", "black", "white"]
+      "colors": [
+        "red",
+        "blue",
+        "black",
+        "white"
+      ]
     },
     {
       "id": "9affd76a-90dd-4970-b6c3-815dcbb3a322",
       "name": "Redmi 12C",
+      "brand": "xiaomi",
       "img": "https://dkstatics-public.digikala.com/digikala-products/ddec30308d75798da898e31252e9f44329758dd5_1681210272.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/format,webp/quality,q_80",
       "price": "90",
       "status": "Publish",
       "category": "Electronics",
       "sale": "856",
-      "colors": ["red", "blue", "black", "white"]
+      "colors": [
+        "red",
+        "blue",
+        "black",
+        "white"
+      ]
     },
     {
       "id": "6ae2f650-eb32-47d6-a6e5-75af01a63c4e",
       "name": "Phone 1",
+      "brand": "",
       "img": "https://dkstatics-public.digikala.com/digikala-products/95e9a7327d1f8650f13794a7c33917d9d130b987_1660478804.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/format,webp/quality,q_80",
       "price": "360",
       "status": "Inactive",
       "category": "Electronics",
       "sale": "81",
-      "colors": ["red", "blue", "black", "white"]
+      "colors": [
+        "red",
+        "blue",
+        "black",
+        "white"
+      ]
     },
     {
       "id": "3451e28f-a8d1-4158-86d9-7fad0c7b8692",
       "name": "TUF Gaming",
+      "brand": "asus",
       "img": "https://dkstatics-public.digikala.com/digikala-products/912d2faaeed7cf84f4d637a7d541d8685cc99025_1681821601.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/format,webp/quality,q_80",
       "price": "910",
       "status": "Publish",
       "category": "Electronics",
       "sale": "356",
-      "colors": ["red", "blue", "black", "white"]
+      "colors": [
+        "red",
+        "blue",
+        "black",
+        "white"
+      ]
     },
     {
       "id": "f12a76c3-bea5-4984-8da0-3ae74ca7961a",
       "name": "Espresso",
+      "brand": "",
       "img": "https://dkstatics-public.digikala.com/digikala-products/e983ccf320804782fee34e21c418948b5c225801_1673335462.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/format,webp/quality,q_80",
       "price": "109",
       "sale": "45",
       "status": "Publish",
       "category": "Home & Kitchen",
-      "colors": ["red", "blue", "black", "white"]
+      "colors": [
+        "red",
+        "blue",
+        "black",
+        "white"
+      ]
     },
     {
       "id": "ba46fc30-9db8-4cab-90e9-969c58d94051",
       "name": "Philips HD9863 ",
+      "brand": "philips",
       "img": "https://dkstatics-public.digikala.com/digikala-products/3e990417aea4479f1dbd6969e5cc9a3ff610778a_1654673188.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/format,webp/quality,q_80",
       "price": "399",
       "sale": "76",
       "status": "Publish",
       "category": "Home & Kitchen",
-      "colors": ["red", "blue", "black", "white"]
+      "colors": [
+        "red",
+        "blue",
+        "black",
+        "white"
+      ]
     },
     {
       "id": "70eeddb8-e8c6-4aa2-bf81-8f1a59bfd33b",
       "name": "iphone 11",
+      "brand": "iphone",
       "img": "https://assets.swappie.com/cdn-cgi/image/width=600,height=600,fit=contain,format=auto/swappie-iphone-11-green-back.png?v=35",
       "price": "799",
       "status": "Publish",
       "category": "Electronics",
       "sale": "104",
-      "colors": ["red", "blue", "black", "white"]
+      "colors": [
+        "red",
+        "blue",
+        "black",
+        "white"
+      ]
     },
     {
       "name": "Galaxy A14",
+      "brand": "samsung",
       "img": "https://dkstatics-public.digikala.com/digikala-products/373cf0add6b2964b30a9a59b2ce2f5f2c8ea976f_1678188426.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/format,webp/quality,q_80",
       "price": "100",
       "sale": "43",
       "status": "Inactive",
       "category": "Electronics",
       "id": "12d573c5-1975-4ab6-b07d-27a1b4d7cc6e",
-      "colors": ["red", "blue", "black", "white"]
+      "colors": [
+        "red",
+        "blue",
+        "black",
+        "white"
+      ]
     },
     {
       "id": "a8a8d583-502c-452a-a46c-6cb157c1c054",
       "name": "Nokia 105",
+      "brand": "nokia",
       "img": "https://dkstatics-public.digikala.com/digikala-products/6d0ac0a28c34c29f7dd3019caef0fdb376afefb2_1664877785.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/format,webp/quality,q_80",
       "price": "13",
       "status": "Publish",
       "category": "Electronics",
       "sale": "1954",
-      "colors": ["red", "blue", "black", "white"]
+      "colors": [
+        "red",
+        "blue",
+        "black",
+        "white"
+      ]
+    },
+    {
+      "id": "596e5f27-8830-4673-94f0-e4b93970dc10",
+      "name": "MacBook Pro",
+      "brand": "iphone",
+      "img": "/images/mac.png",
+      "price": "3999",
+      "sale": "432",
+      "category": "Electronics",
+      "status": "Inactive",
+      "colors": [
+        "red",
+        "blue",
+        "black",
+        "white"
+      ]
     },
     {
       "id": "af074fe8-4563-4e05-be6a-cfd4d1f512bc",
       "name": "Mack Book Air",
+      "brand": "apple",
       "img": "https://dkstatics-public.digikala.com/digikala-products/b2c0eb53f0eeacdefb8771155bf5e4887222a654_1672051046.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/format,webp/quality,q_80",
       "price": "999",
       "status": "Inactive",
       "category": "Electronics",
       "sale": "12",
-      "colors": ["red", "blue", "black", "white"]
+      "colors": [
+        "red",
+        "blue",
+        "black",
+        "white"
+      ]
     },
     {
       "id": "f5de2940-9e71-43bf-b12b-18ed5ddbaadf",
       "name": "Legion 5",
+      "brand": "lenovo",
       "img": "https://dkstatics-public.digikala.com/digikala-products/efae2582ca4f2cd32118a390abb4f526ceba94c9_1668594358.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/format,webp/quality,q_80",
       "price": "1200",
       "status": "Inactive",
       "category": "Electronics",
       "sale": "3",
-      "colors": ["red", "blue", "black", "white"]
+      "colors": [
+        "red",
+        "blue",
+        "black",
+        "white"
+      ]
     },
     {
       "name": "Coffee",
+      "brand": "nescafee",
       "img": "https://dkstatics-public.digikala.com/digikala-products/2c1a8769ca2ef92b021eeea84ad747d228c09d53_1650450136.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/format,webp/quality,q_80",
       "price": "10",
       "sale": "4356",
@@ -200,6 +310,7 @@
     },
     {
       "name": "Kaleh Cheeze",
+      "brand": "kaleh",
       "img": "https://dkstatics-public.digikala.com/digikala-products/4428984.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/format,webp/quality,q_80",
       "price": "4",
       "sale": "8675",
@@ -210,32 +321,50 @@
     {
       "id": "97a3c46d-764e-4ca1-b05a-7d48cbf7d75c",
       "name": "Chair",
+      "brand": "",
       "img": "https://dkstatics-public.digikala.com/digikala-products/1206717.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/format,webp/quality,q_80",
       "price": "54",
       "sale": "46",
       "status": "Publish",
       "category": "Travel",
-      "colors": ["red", "blue", "black", "white"]
+      "colors": [
+        "red",
+        "blue",
+        "black",
+        "white"
+      ]
     },
     {
       "id": "d5229546-2f3c-4cc2-851d-b242ebfe941c",
       "name": "Women Shirt",
+      "brand": "",
       "img": "https://dkstatics-public.digikala.com/digikala-products/a02bd3cf9dda1cbb8318d5097b6c58a3acac8314_1689075917.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/format,webp/quality,q_80",
       "price": "9",
       "sale": "567",
       "status": "Publish",
       "category": "Cloths",
-      "colors": ["red", "blue", "black", "white"]
+      "colors": [
+        "red",
+        "blue",
+        "black",
+        "white"
+      ]
     },
     {
       "name": "Men Shirt",
+      "brand": "",
       "img": "https://dkstatics-public.digikala.com/digikala-products/c9f2f71ce19455c7f296da9eec7143e22581e1db_1678978603.jpg?x-oss-process=image/resize,m_lfit,h_300,w_300/format,webp/quality,q_80",
       "price": "8",
       "sale": "7557",
       "status": "Publish",
       "category": "Cloths",
       "id": "d04512d2-1bc4-4688-8c46-9f910ce5f140",
-      "colors": ["red", "blue", "black", "white"]
+      "colors": [
+        "red",
+        "blue",
+        "black",
+        "white"
+      ]
     }
   ],
   "sales": [
@@ -243,7 +372,10 @@
       "id": 1,
       "user": "Alireza",
       "date": "Feb 29th,2023",
-      "product": ["iphone13 Pro max", "iphone12"],
+      "product": [
+        "iphone13 Pro max",
+        "iphone12"
+      ],
       "amount": 8973,
       "status": "done"
     },
@@ -251,7 +383,10 @@
       "id": 2,
       "user": "Amir",
       "date": "Apr 14th,2022",
-      "product": ["iphone13 Pro max", "iphone12"],
+      "product": [
+        "iphone13 Pro max",
+        "iphone12"
+      ],
       "amount": 67623,
       "status": "done"
     },
@@ -259,7 +394,10 @@
       "id": 3,
       "user": "Reza",
       "date": "Jul 22th,2023",
-      "product": ["iphone13 Pro max", "iphone12"],
+      "product": [
+        "iphone13 Pro max",
+        "iphone12"
+      ],
       "amount": 967,
       "status": "done"
     },
@@ -267,7 +405,10 @@
       "id": 4,
       "user": "Ali",
       "date": "Feb 25th,2023",
-      "product": ["iphone13 Pro max", "iphone12"],
+      "product": [
+        "iphone13 Pro max",
+        "iphone12"
+      ],
       "amount": 463,
       "status": "pending"
     },
@@ -275,7 +416,10 @@
       "id": 5,
       "user": "Sam",
       "date": "Feb 1th,2023",
-      "product": ["iphone13 Pro max", "iphone12"],
+      "product": [
+        "iphone13 Pro max",
+        "iphone12"
+      ],
       "amount": 200,
       "status": "pending"
     },
@@ -283,7 +427,10 @@
       "id": 6,
       "user": "Zeynab",
       "date": "Jun 11th,2022",
-      "product": ["iphone13 Pro max", "iphone12"],
+      "product": [
+        "iphone13 Pro max",
+        "iphone12"
+      ],
       "amount": 564,
       "status": "done"
     },
@@ -291,7 +438,10 @@
       "id": 7,
       "user": "Fatameh",
       "date": "Mar 14th,2023",
-      "product": ["iphone13 Pro max", "iphone12"],
+      "product": [
+        "iphone13 Pro max",
+        "iphone12"
+      ],
       "amount": 846,
       "status": "done"
     },
@@ -299,7 +449,10 @@
       "id": 8,
       "user": "Fatameh",
       "date": "Mar 14th,2023",
-      "product": ["iphone13 Pro max", "iphone12"],
+      "product": [
+        "iphone13 Pro max",
+        "iphone12"
+      ],
       "amount": 846,
       "status": "done"
     },
@@ -307,7 +460,10 @@
       "id": 9,
       "user": "Fatameh",
       "date": "Mar 14th,2023",
-      "product": ["iphone13 Pro max", "iphone12"],
+      "product": [
+        "iphone13 Pro max",
+        "iphone12"
+      ],
       "amount": 846,
       "status": "done"
     },
@@ -315,7 +471,10 @@
       "id": 10,
       "user": "Alireza",
       "date": "Feb 29th,2023",
-      "product": ["iphone13 Pro max", "iphone12"],
+      "product": [
+        "iphone13 Pro max",
+        "iphone12"
+      ],
       "amount": 8973,
       "status": "done"
     },
@@ -323,7 +482,10 @@
       "id": 11,
       "user": "Amir",
       "date": "Apr 14th,2022",
-      "product": ["iphone13 Pro max", "iphone12"],
+      "product": [
+        "iphone13 Pro max",
+        "iphone12"
+      ],
       "amount": 67623,
       "status": "done"
     },
@@ -331,7 +493,10 @@
       "id": 12,
       "user": "Reza",
       "date": "Jul 22th,2023",
-      "product": ["iphone13 Pro max", "iphone12"],
+      "product": [
+        "iphone13 Pro max",
+        "iphone12"
+      ],
       "amount": 967,
       "status": "done"
     },
@@ -339,7 +504,10 @@
       "id": 13,
       "user": "Ali",
       "date": "Feb 25th,2023",
-      "product": ["iphone13 Pro max", "iphone12"],
+      "product": [
+        "iphone13 Pro max",
+        "iphone12"
+      ],
       "amount": 463,
       "status": "pending"
     },
@@ -347,7 +515,10 @@
       "id": 14,
       "user": "Amir",
       "date": "Apr 14th,2022",
-      "product": ["iphone13 Pro max", "iphone12"],
+      "product": [
+        "iphone13 Pro max",
+        "iphone12"
+      ],
       "amount": 67623,
       "status": "done"
     },
@@ -355,7 +526,10 @@
       "id": 15,
       "user": "Reza",
       "date": "Jul 22th,2023",
-      "product": ["iphone13 Pro max", "iphone12"],
+      "product": [
+        "iphone13 Pro max",
+        "iphone12"
+      ],
       "amount": 967,
       "status": "done"
     },
@@ -363,7 +537,10 @@
       "id": 16,
       "user": "Sam",
       "date": "Feb 1th,2023",
-      "product": ["iphone13 Pro max", "iphone12"],
+      "product": [
+        "iphone13 Pro max",
+        "iphone12"
+      ],
       "amount": 200,
       "status": "pending"
     },
@@ -371,7 +548,10 @@
       "id": 17,
       "user": "Zeynab",
       "date": "Jun 11th,2022",
-      "product": ["iphone13 Pro max", "iphone12"],
+      "product": [
+        "iphone13 Pro max",
+        "iphone12"
+      ],
       "amount": 564,
       "status": "done"
     },
@@ -379,7 +559,10 @@
       "id": 18,
       "user": "Fatameh",
       "date": "Mar 14th,2023",
-      "product": ["iphone13 Pro max", "iphone12"],
+      "product": [
+        "iphone13 Pro max",
+        "iphone12"
+      ],
       "amount": 846,
       "status": "done"
     },
@@ -387,7 +570,10 @@
       "id": 19,
       "user": "Fatameh",
       "date": "Mar 14th,2023",
-      "product": ["iphone13 Pro max", "iphone12"],
+      "product": [
+        "iphone13 Pro max",
+        "iphone12"
+      ],
       "amount": 846,
       "status": "done"
     },
@@ -395,7 +581,10 @@
       "id": 20,
       "user": "Fatameh",
       "date": "Mar 14th,2023",
-      "product": ["iphone13 Pro max", "iphone12"],
+      "product": [
+        "iphone13 Pro max",
+        "iphone12"
+      ],
       "amount": 846,
       "status": "done"
     }
@@ -513,7 +702,6 @@
       "total": 756,
       "date": "Feb 25th,2023"
     },
-
     {
       "title": "Total Customer",
       "change": "34",
@@ -647,6 +835,56 @@
       "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
       "product": "TUF Gaming",
       "status": "accept"
+    }
+  ],
+  "popular-brand": [
+    {
+      "brand": "Apple",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/391px-Apple_logo_black.svg.png"
+    },
+    {
+      "brand": "Huawei",
+      "url": "https://blog.huawei.com/wp-content/uploads/2018/08/2018e585ace58fb8logo-e7ab96e78988.png"
+    },
+    {
+      "brand": "Xiaomi",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Xiaomi_logo_%282021-%29.svg/1024px-Xiaomi_logo_%282021-%29.svg.png"
+    },
+    {
+      "brand": "Samsung",
+      "url": "https://static-00.iconduck.com/assets.00/samsung-icon-2048x2048-1ej4ectz.png"
+    },
+    {
+      "brand": "Coca Cola",
+      "url": "https://companieslogo.com/img/orig/KO-b23a2a5e.png?t=1684129869"
+    },
+    {
+      "brand": "Nestele",
+      "url": "https://www.pngplay.com/wp-content/uploads/9/Nestle-Logo-Transparent-Free-PNG.png"
+    },
+    {
+      "brand": "Pepsi",
+      "url": "https://cdn.cdnlogo.com/logos/p/57/pepsi.png"
+    },
+    {
+      "brand": "Oppo",
+      "url": "https://download.logo.wine/logo/Oppo/Oppo-Logo.wine.png"
+    }
+  ],
+  "user": [
+    {
+      "username": "cxzcxcx",
+      "email": "alireza83safarii@gmail.com",
+      "password": "xcxzcxc",
+      "confirmPassword": "xzcxczxcxz",
+      "id": 1
+    },
+    {
+      "username": "ALireza",
+      "email": "alireza83safarii@gmail.com",
+      "password": "asdfghjk",
+      "confirmPassword": "asdfghjk",
+      "id": 2
     }
   ]
 }

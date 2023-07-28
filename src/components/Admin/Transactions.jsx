@@ -74,7 +74,7 @@ const Transactions = () => {
             ))}
           </tbody>
         </table>
-        <div className="w-full py-1">
+        <div className="w-full py-2">
           <Link
             className="text-sm font-black 2xl:text-xl"
             to="/panel/financial"

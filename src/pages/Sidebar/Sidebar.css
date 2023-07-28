@@ -1,0 +1,27 @@
+@media (max-width: 1018px) {
+  .hover-element {
+    color: var(--text);
+    text-decoration: none;
+    transition: all 0.3s;
+    margin-bottom: 10px;
+  }
+  .hover-element.active {
+    color: #2762eb;
+    font-weight: bold;
+  }
+}
+
+@media (min-width: 1019px) {
+  .hover-element {
+    color: var(--text);
+    text-decoration: none;
+    transition: all 0.3s;
+    margin-bottom: 10px;
+  }
+  .hover-element.active {
+    color: #2762eb;
+    font-weight: bold;
+    padding-left: 0.6rem;
+    border-left: 3px solid;
+  }
+}

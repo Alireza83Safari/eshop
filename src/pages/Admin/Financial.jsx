@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import FinancialInfos from "../../components/Admin/FinancialInfos";
 import PiesChart from "../../components/Admin/Charts/PieChart";
-import Pagination from "../../components/Admin/Pagination";
+import Pagination from "../../components/Paganation";
 /* import FiancialDetails from "../../components/Admin/FiancialDetails"; */
+
 
 const Financial = () => {
   const [sales, setSales] = useState([]);
@@ -52,7 +53,7 @@ const Financial = () => {
       </div>
 
       <div className="grid grid-cols-12">
-        <div className="lg:col-span-8 col-span-10 mt-2 text-center sm:mx-5">
+        <div className="lg:col-span-8 col-span-10 mt-2 text-center sm:mx-5 sm:mr-5">
           <p className="md:text-base text-sm font-bold border-b py-2 w-full bg-white-100 dark:text-white-100 dark:bg-black-200 rounded-t-xl 2xl:text-xl">
             Transactions
           </p>
@@ -144,7 +145,7 @@ const Financial = () => {
           </div>
         </div>
 
-        <div className="relative lg:col-span-4 col-span-10 bg-white-100 dark:bg-black-200 rounded-xl mt-2 mx-4">
+        <div className="relative lg:col-span-4 col-span-10 bg-white-100 dark:bg-black-200 rounded-xl mt-2 mr-5">
           <p className="xl:text-lg md:text-base text-lg text-center pt-6 dark:text-white-100">
             Transactions Chart
           </p>

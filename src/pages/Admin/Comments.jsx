@@ -71,7 +71,7 @@ export default function Comments() {
             </div>
           </div>
 
-          <div className="md:col-span-3 md:block grid grid-cols-3 md:px-4 md:py-1">
+          <div className="md:col-span-3 md:block grid grid-cols-3 md:px-4 md:py-">
             <CommentsInfos
               totalComments={totalComments}
               totalAccept={totalAccept}

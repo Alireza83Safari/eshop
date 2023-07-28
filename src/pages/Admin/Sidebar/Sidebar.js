@@ -33,7 +33,7 @@ export default function Sidebar() {
   }, [productName]);
 
   return (
-    <section className="fixed top-0 left-0 bg-white-100 dark:bg-black-900 h-full w-[11%] lg:w-[13%] w-[10%] font-bold">
+    <section className="fixed top-0 left-0 bg-white-100 dark:bg-black-900 h-full lg:w-[13%] w-[10%] font-bold">
       <div className="py-5 lg:pl-7 sm:pl-5 pl-3 xl:text-[.9rem] md:text-xs">
         <Link to="dashboard">
           <div className="w-full invisible lg:visible">
