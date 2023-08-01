@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 export default function ProductsTemplate({ product, basketHandler }) {
   return (
-    <section key={product.id} className="sm:px-0 px-8 product">
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden dark:bg-black-800 hover:opacity-70 duration-300">
+    <section key={product.id} className="p-2">
+      <div className="bg-white rounded-lg shadow-lg hover:shadow-2xl overflow-hidden dark:bg-black-800 hover:opacity-70 duration-300">
         <Link to={`/shop/products/${product.id}`}>
           <img
             src={product.img}
