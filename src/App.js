@@ -2,22 +2,22 @@ import "./App.css";
 import route from "./routes/routes";
 import { useEffect, useState } from "react";
 import ProductsContext from "./Context/productsContext";
-import { useRoutes } from "react-router-dom";
+import { useNavigate, useRoutes } from "react-router-dom";
+import AuthContext from "./Context/productsContext";
 
 function App() {
+  const [token, setToken] = useState(false);
+  const [userInfos, setUserInfos] = useState({});
+  const [category, setCategory] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const [getProducts, setProducts] = useState([]);
   const routes = useRoutes(route);
   const [mode, setMode] = useState(false);
   const [showShopSidebar, setShowShopSidebar] = useState(false);
   const [checkOut, setCheckOut] = useState([]);
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") {
-      setMode(true);
-    } else {
-      setMode(false);
-    }
-  }, []);
+  const [brand, setBrand] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (mode) {
@@ -29,33 +29,115 @@ function App() {
     }
   }, [mode]);
 
-  const getAllProducts = () => {
-    fetch("http://localhost:9000/products")
+  const getCategory = () => {
+    setIsLoading(true);
+    fetch("/api/v1/category", {
+      headers: {
+        accept: "application/json",
+      },
+    })
       .then((res) => res.json())
-      .then((products) => {
-        setProducts(products);
+      .then((cate) => {
+        setCategory(cate);
+        setIsLoading(false);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const getBrand = () => {
+    fetch("/api/v1/brand", {
+      headers: {
+        accept: "application/json",
+      },
+    })
+      .then((res) => {
+        res.json();
+      })
+      .then((result) => {
+        setBrand(result);
+      })
+      .catch((error) => {
+        console.log(error.message);
       });
   };
+  const getAllProducts = () => {
+    fetch("api/v1/product", {
+      headers: {
+        accept: "application/json",
+        Authorization: `${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((products) => {
+        setProducts(products.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching products:", error);
+      });
+  };
+
+  const login = (user, token) => {
+    setUserInfos(user.username);
+    setToken(token);
+    localStorage.setItem("user", JSON.stringify({ token }));
+  };
+
   useEffect(() => {
+    //Call getAllProducts
     getAllProducts();
+
+    //Call Brandd
+    getBrand();
+
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      setMode(true);
+    } else {
+      setMode(false);
+    }
+
+    // user is login ? 
+    const userToken = JSON.parse(localStorage.getItem("user"))?.token;
+    if (userToken) {
+      setToken(userToken);
+      getCategory();
+      return;
+    } else {
+      navigate("/login");
+    }
   }, []);
+
   return (
-    <div className="App">
-      <ProductsContext.Provider
+    <div className="App max-w-[1400px] mx-auto relative w-full min-w-full">
+      <AuthContext.Provider
         value={{
-          getAllProducts,
-          getProducts,
-          setProducts,
-          mode,
-          setMode,
-          showShopSidebar,
-          setShowShopSidebar,
-          checkOut,
-          setCheckOut,
+          token,
+          userInfos,
+          login,
         }}
       >
-        {routes}
-      </ProductsContext.Provider>
+        <ProductsContext.Provider
+          value={{
+            getProducts,
+            setProducts,
+            mode,
+            setMode,
+            showShopSidebar,
+            setShowShopSidebar,
+            checkOut,
+            setCheckOut,
+            brand,
+            login,
+            setUserInfos,
+            category,
+            isLoading,
+            setIsLoading,
+            token,
+          }}
+        >
+          {routes}
+        </ProductsContext.Provider>
+      </AuthContext.Provider>
     </div>
   );
 }
