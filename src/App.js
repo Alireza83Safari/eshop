@@ -37,7 +37,7 @@ function App() {
     })
       .then((res) => res.json())
       .then((cate) => {
-        setCategory(cate);
+        setCategory(cate.data);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -103,6 +103,19 @@ function App() {
     localStorage.setItem("user", JSON.stringify({ token }));
   };
 
+  // Function to check if the token has expired
+  const isTokenExpired = () => {
+    const tokenExpiresAt = new Date(userInfos.expiresAt).getTime();
+    return Date.now() >= tokenExpiresAt;
+  };
+
+  // Function to clear the token from localStorage and reset state
+  const clearToken = () => {
+    setUserInfos({});
+    setToken(false);
+    localStorage.removeItem("user");
+  };
+
   useEffect(() => {
     //Call getAllProducts
     getAllProducts();
@@ -126,6 +139,25 @@ function App() {
     } else {
       navigate("/login");
     }
+
+    // Check if the token is expired when the component mounts
+    if (isTokenExpired()) {
+      clearToken();
+    } else {
+      getCategory();
+    }
+
+    // Set up a timer to periodically check if the token is expired
+    const checkTokenExpiration = () => {
+      if (isTokenExpired()) {
+        clearToken();
+      }
+    };
+
+    const tokenCheckInterval = setInterval(checkTokenExpiration, 60000); // Check every minute
+
+    // Clean up the timer when the component unmounts
+    return () => clearInterval(tokenCheckInterval);
   }, []);
 
   return (
