@@ -10,8 +10,7 @@ import productsContext from "../Context/productsContext";
 import Spinner from "../components/Spinner/Spinner";
 
 export default function Orders() {
-  const { token, isLoading } = useContext(productsContext);
-  const [orders, setOrders] = useState([]);
+  const { token, isLoading, getOrder, orders } = useContext(productsContext);
   const totalAmount = orders.reduce(
     (acc, order) => acc + order.price * order.quantity,
     0
@@ -47,21 +46,7 @@ export default function Orders() {
     }
   };
 
-  // get orders from api
-  const getOrder = () => {
-    fetch("/api/v1/order", {
-      headers: {
-        accept: "application/json",
-        Authorization: `${token}`,
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((result) => {
-        setOrders(result.items);
-      });
-  };
+
   const changeIncrementQuantity = async (itemId, id) => {
     try {
       let newQuantity = orders.find((order) => order.id === id).quantity + 1;

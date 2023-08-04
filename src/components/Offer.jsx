@@ -1,38 +1,45 @@
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext, useState, useEffect } from "react";
-import Timer from "./Timer";
+import { ToastContainer, toast } from "react-toastify";
 import productContext from "../Context/productsContext";
 export default function Offer() {
-  const [count, setCount] = useState(0);
-  const { getProducts } = useContext(productContext);
+  const [count, setCount] = useState(1);
+  const { getProducts, setCheckOut } = useContext(productContext);
 
-  const [img, setImg] = useState({
-    name: "iphone13 Pro max",
-    img: "/images/iphone13.png",
+  const [newProduct, setNewProduct] = useState({
+    fileUrl: "uploads/product/459f7e5a-49b8-4ed9-96df-23ab36b6dd6a.png",
   });
 
   useEffect(() => {
     const timer = setInterval(() => {
-      // Generate a random index within the range of products array
       const randomIndex = Math.floor(Math.random() * getProducts.length);
 
-      // Update the img state with the random product's image
-      setImg(getProducts[randomIndex]);
-    }, 10000); // Fetch a random image every 5 seconds
+      setNewProduct(getProducts[randomIndex]);
+    }, 10000);
 
-    // Clean up the interval when the component unmounts
     return () => clearInterval(timer);
   }, [getProducts]);
 
+  const addToCart = (product) => {
+    setCheckOut((prevCheckOut) => [...prevCheckOut, product]);
+    toast.success(`${newProduct.name} added to cart!`, {
+      position: "bottom-right",
+    });
+  };
+
   return (
-    <div className="w-full xl:px-20 md:px-4 mt-52">
+    <section className="w-full xl:px-20 md:px-4 lg:mt-52 mt-36">
       <div className="grid grid-cols-2 relative">
         <div className="text-black-900 dark:text-white-100">
-          <h1 className="font-black text-5xl">we offer you the</h1>
-          <h1 className="font-black text-5xl my-3">best we have</h1>
+          <h1 className="font-black xl:text-5xl lg:text-4xl md:text-3xl text-2xl">
+            we offer you the
+          </h1>
+          <h1 className="font-black xl:text-5xl lg:text-4xl md:text-3xl text-2xl my-3">
+            best we have
+          </h1>
         </div>
-        <p className="px-4 text-black-900 dark:text-white-100">
+        <p className="px-4 text-black-900 dark:text-white-100 lg:text-base text-sm">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, vitae
           placeat? officia, accusamus excepturi sequi nemo illum officiis facere
           vel.
@@ -43,62 +50,82 @@ export default function Offer() {
           <FontAwesomeIcon icon={faArrowUp} />
         </div>
 
-        <div className="w-full bg-gray-200">
-          <img src="/images/iphone13.png" className="p-10" alt="" />
+        <div className="w-full bg-gray-100 flex items-center justify-center">
+          <img
+            src={`http://127.0.0.1:6060/${newProduct.fileUrl}`}
+            className="p-10 object-cover"
+            alt=""
+          />
         </div>
         <div className="ml-5">
-          <p className="font-black text-black-900 dark:text-white-100">Choose Your Coffee</p>
+          <p className="font-black text-black-900 dark:text-white-100">
+            Choose Your Coffee
+          </p>
           <div className="grid grid-cols-3 py-3">
-            <img src="/images/iphone13.png" className="p-1" alt="" />
-            <img src="/images/iphone13.png" className="p-1" alt="" />
-            <img src="/images/iphone13.png" className="p-1" alt="" />
+            <img
+              src={`http://127.0.0.1:6060/${newProduct.fileUrl}`}
+              className="p-1"
+              alt=""
+            />
+            <img
+              src={`http://127.0.0.1:6060/${newProduct.fileUrl}`}
+              className="p-1"
+              alt=""
+            />
+            <img
+              src={`http://127.0.0.1:6060/${newProduct.fileUrl}`}
+              className="p-1"
+              alt=""
+            />
           </div>
           <div className="w-full bg-gray-200 my-5">
-            <span className="mx-5 text-sm">1199$</span>
-            <span className="mx-5 text-sm">1299$</span>
-            <span className="mx-5 text-sm">1399$</span>
+            <span className="mx-5 text-sm">{newProduct.price}$</span>
+            <span className="mx-5 text-sm">{newProduct.price}$</span>
+            <span className="mx-5 text-sm">{newProduct.price}$</span>
           </div>
 
           <div className="text-black-900 dark:text-white-100">
-            <p className="font-black mt-10">Select Best Color</p>
+            <p className="font-black lg:mt-10 md:mt-4">Select Best Color</p>
             <div className="flex my-4">
-              <div className="w-12 h-12 bg-red-700 mr-4 rounded-lg"></div>
-              <div className="w-12 h-12 bg-blue-600 mr-4 rounded-lg"></div>
-              <div className="w-12 h-12 bg-gray-800 mr-4 rounded-lg"></div>
-              <div className="w-12 h-12 bg-orange-400 mr-4 rounded-lg"></div>
+              <div className="lg:w-12 lg:h-12 w-8 h-8 bg-red-700 lg:mr-4 md:mr-1 rounded-lg"></div>
+              <div className="lg:w-12 lg:h-12 w-8 h-8 bg-blue-600 lg:mr-4 md:mr-1 rounded-lg"></div>
+              <div className="lg:w-12 lg:h-12 w-8 h-8 bg-gray-800 lg:mr-4 md:mr-1 rounded-lg"></div>
+              <div className="lg:w-12 lg:h-12 w-8 h-8 bg-orange-400 lg:mr-4 md:mr-1 rounded-lg"></div>
 
               <div className="flex items-center mx-10">
                 <button
                   onClick={() => setCount(count - 1)}
-                  className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 duration-200 focus:outline-none"
+                  className="lg:px-4 lg:py-2 px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 duration-200 focus:outline-none"
                 >
                   -
                 </button>
                 <span className="px-5">{count}</span>
                 <button
                   onClick={() => setCount(count + 1)}
-                  className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 duration-200 focus:outline-none"
+                  className="lg:px-4 lg:py-2 px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 duration-200 focus:outline-none"
                 >
                   +
                 </button>
               </div>
             </div>
 
-            <p className="font-black mt-10">spaciousness</p>
-            <div className="flex justify-between my-4">
+            <p className="font-black lg:mt-10 md:mt-4">spaciousness</p>
+            <div className="flex justify-between my-4 lg:text-base md:text-sm">
               <p>1.Better quality</p>
               <p>2.Variety Color</p>
               <p>3.Best Products</p>
             </div>
 
-            <button className="px-12 py-3 bg-blue-600 text-white-100 rounded-md">
+            <button
+              className="lg:px-12 lg:py-3 md:px-9 py-2 bg-blue-600 text-white-100 rounded-md"
+              onClick={() => addToCart(newProduct)} // Step 1: Call the addToCart function with the selected product
+            >
               Add To Cart
             </button>
           </div>
         </div>
       </div>
-
-     
-    </div>
+      <ToastContainer />
+    </section>
   );
 }

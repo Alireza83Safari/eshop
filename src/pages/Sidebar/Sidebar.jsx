@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
@@ -18,33 +18,25 @@ export default function Sidebar() {
     { icon: faShop, text: "Shop", to: "products" },
     { icon: faRightToBracket, text: "Log In", to: "login" },
   ];
-
-  const { mode, showShopSidebar, setShowShopSidebar } =
-    useContext(productsContext);
+  const { showShopSidebar, setShowShopSidebar } = useContext(productsContext);
 
   return (
     <>
       {showShopSidebar && (
-        <section className="fixed top-0 left-0 z-10 bg-white-200 border-r dark:bg-black-900 h-full lg:w-[13%] w-[10%] font-bold">
-          <div className="py-5 lg:pl-5 sm:pl-5 pl-3 xl:text-[.9rem] md:text-xs mt-10">
-            <div className="flex justify-center items-center w-full lg:pb-5 pr-4 mt-4 invisible lg:visible">
-              <img
-                src={mode ? "/images/shopLogoDark.png" : "/images/shoLlogoLight.png"}
-                alt="logo"
-                className="rounded-md w-32 absolute left-3"
-              />
-
+        <section className=" absolute top-0 left-0 bg-white-200 border-r dark:bg-black-900 h-full lg:w-[11%] md:w-[7%] w-[9%] text-center font-bold">
+          <div className="py-5 lg:pl-5 sm:pl-5 pl-3 xl:text-[.9rem] md:text-xs">
+            <div className="flex justify-center items-center w-full lg:pb-5 pr-4">
               <FontAwesomeIcon
                 icon={faBars}
-                className="text-2xl mr-5 absolute right-0"
+                className="xl:text-4xl md:text-2xl absolute top-6"
                 onClick={() => setShowShopSidebar(!showShopSidebar)}
               />
             </div>
 
-            <div className="lg:mt-6">
+            <div className="mt-12">
               {items.map((item, index) => (
                 <Link
-                  className="flex py-4 items-center lg:text-xs xl:text-base text-black-700 relative dark:text-white-100"
+                  className="flex py-4 items-center lg:text-base xl:text-lg text-black-700 relative dark:text-white-100"
                   key={index}
                   to={item.to}
                 >

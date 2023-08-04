@@ -1,13 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Header from "../pages/Header/Header";
+import Footer from "../pages/Footer";
 
 export default function ProductsTemplate({ product, basketHandler }) {
   return (
     <section key={product.id} className="p-2">
       <div className="bg-white rounded-lg shadow-lg hover:shadow-2xl overflow-hidden dark:bg-black-800 hover:opacity-70 duration-300">
-        <Link to={`/shop/products/${product.id}`}>
+        <Link to={`/products/${product.id}`}>
           <img
-            src={product.img}
+            src={`http://127.0.0.1:6060/${product.fileUrl}`}
             alt="Product"
             className="w-full lg:h-64 sm:h-56 h-72 p-4 object-contain"
           />
@@ -20,12 +22,12 @@ export default function ProductsTemplate({ product, basketHandler }) {
               </h2>
               <button
                 className={`text-gray-700 mb-4 py-1 px-1 text-xs rounded-lg ${
-                  product.category === "Electronics"
+                  product.categoryName === "Electronics"
                     ? "bg-green-400 text-green-500"
                     : "bg-orange-400 text-orange-100"
                 }`}
               >
-                {product.category}
+                {product.categoryName}
               </button>
             </div>
             <p className="py-3 pb-5 dark:text-white-100 text-xs text-gray-800">

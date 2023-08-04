@@ -34,7 +34,6 @@ export default function Register() {
     false
   );
 
-
   useEffect(() => {
     const { password, confirmPassword } = formState.inputs;
     setSameValue(password.value === confirmPassword.value);
@@ -50,19 +49,22 @@ export default function Register() {
     }
 
     let newUserInfo = {
-      username: formState.inputs.username.value,
-      email: formState.inputs.email.value,
       password: formState.inputs.password.value,
+      passwordConfirmation: formState.inputs.confirmPassword.value,
+      username: formState.inputs.username.value,
     };
-    fetch("http://localhost:9000/user", {
+
+    fetch("/api/v1/auth/register", {
       method: "POST",
       headers: {
+        accept: "application/json",
         "Content-Type": "application/json",
       },
+
       body: JSON.stringify(newUserInfo),
     })
       .then((res) => res.json())
-      .then((res) => console.log(res));
+      .then((res) => console.log(res)).catch(err => console.log(err))
   };
 
   return (

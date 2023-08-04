@@ -3,6 +3,10 @@ import productsContext from "../Context/productsContext";
 import ProductsTemplate from "../components/ProductsTemplate";
 import FilterProducts from "../components/FilterProducts";
 import { ToastContainer, toast } from "react-toastify";
+import Header from "./Header/Header";
+import Footer from "./Footer";
+import useProductItem from "../hooks/useProductItem";
+import Spinner from "../components/Spinner/Spinner";
 
 const filterReducer = (state, action) => {
   switch (action.type) {
@@ -20,11 +24,11 @@ const filterReducer = (state, action) => {
 };
 
 export default function Products() {
-  const { getProducts, checkOut, setCheckOut } = useContext(productsContext);
+  const { getProducts, token, isLoading } = useContext(productsContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [paginatedProducts, setPaginatedProducts] = useState([]);
   const [showFilterInSm, setShowFilterInSm] = useState(false);
-
+  const [productId, setProductId] = useState();
   let pageSize = 9;
   let pageNumber;
 
@@ -75,74 +79,109 @@ export default function Products() {
     return priceFilter && categoryFilter;
   };
 
-  const basketHandler = (cartID) => {
+  const { productItem } = useProductItem(productId, token);
+  const valueAtIndex0 = productItem && productItem[0]?.id;
+
+  console.log(valueAtIndex0);
+  const BasketHandler = (cartID) => {
+    setProductId(cartID);
+
     const productToAdd = getProducts.find((product) => product.id === cartID);
 
-    const isProductInCart = checkOut.some((product) => product.id === cartID);
-
-    if (!isProductInCart && productToAdd) {
-      setCheckOut((prevCart) => [...prevCart, productToAdd]);
-    }
+    // const isProductInCart = checkOut.some((product) => product.id === cartID);
 
     toast.success(`${productToAdd.name} added to cart!`, {
       position: "bottom-right",
     });
+
+    let userBasketHandler = {
+      productItemId: valueAtIndex0,
+      quantity: 1,
+    };
+
+    fetch("/api/v1/orderItem", {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(userBasketHandler),
+    })
+      .then((res) => {
+        res.json();
+        console.log(res);
+      })
+      .catch((res) => console.log(res));
   };
+
   return (
-    <section className="relative mx-auto mt-4 py-4 dark:bg-black-200 xl:container">
-      <div className="grid grid-cols-12 xl:px-20 px-5">
-        <div className="col-span-12 flex justify-center">
-          <button
-            className="text-xl p-2 bg-gray-100 rounded-lg absolute top-0 z-10"
-            onClick={() => setShowFilterInSm(!showFilterInSm)}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="30"
-              height="30"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="#000"
-                fillRule="evenodd"
-                d="M15 10.5A3.502 3.502 0 0018.355 8H21a1 1 0 100-2h-2.645a3.502 3.502 0 00-6.71 0H3a1 1 0 000 2h8.645A3.502 3.502 0 0015 10.5zM3 16a1 1 0 100 2h2.145a3.502 3.502 0 006.71 0H21a1 1 0 100-2h-9.145a3.502 3.502 0 00-6.71 0H3z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
-          </button>
-          <FilterProducts
-            state={state}
-            dispatch={dispatch}
-            showFilterInSm={showFilterInSm}
-          />
-        </div>
-
-        <div className="relative grid lg:grid-cols-3 sm:grid-cols-2 col-span-12 mt-5 pb-14">
-          {paginatedProducts.map((product) => (
-            <ProductsTemplate product={product} basketHandler={basketHandler} />
-          ))}
-        </div>
-      </div>
-
-      <div className="flex justify-center ">
-        <div className="flex justify-center absolute bottom-0 mx-auto text-center">
-          {pageNumber.map((page) => (
-            <div
-              className={`" flex items-center justify-center rounded-md font-bold w-8 h-8 m-2 p-3 " ${
-                currentPage === page + 1
-                  ? "bg-blue-600 text-white-100"
-                  : "bg-white-200 text-black-600"
-              }`}
-              onClick={() => setCurrentPage(page + 1)}
-              key={page + 1}
-            >
-              {page + 1}
+    <>
+      <Header />
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <section className="relative mx-auto mt-4 py-4 dark:bg-black-200 xl:container">
+          <div className="grid grid-cols-12 xl:px-20 px-5">
+            <div className="col-span-12 flex justify-center">
+              <button
+                className="text-xl p-2 bg-gray-100 rounded-lg absolute top-0 z-10"
+                onClick={() => setShowFilterInSm(!showFilterInSm)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="30"
+                  height="30"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="#000"
+                    fillRule="evenodd"
+                    d="M15 10.5A3.502 3.502 0 0018.355 8H21a1 1 0 100-2h-2.645a3.502 3.502 0 00-6.71 0H3a1 1 0 000 2h8.645A3.502 3.502 0 0015 10.5zM3 16a1 1 0 100 2h2.145a3.502 3.502 0 006.71 0H21a1 1 0 100-2h-9.145a3.502 3.502 0 00-6.71 0H3z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+              </button>
+              <FilterProducts
+                state={state}
+                dispatch={dispatch}
+                showFilterInSm={showFilterInSm}
+              />
             </div>
-          ))}
-        </div>
-      </div>
-      <ToastContainer />
-    </section>
+
+            <div className="relative grid lg:grid-cols-3 sm:grid-cols-2 col-span-12 mt-5 pb-14">
+              {paginatedProducts.map((product) => (
+                <ProductsTemplate
+                  product={product}
+                  basketHandler={BasketHandler}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="flex justify-center ">
+            <div className="flex justify-center absolute bottom-0 mx-auto text-center">
+              {pageNumber.map((page) => (
+                <div
+                  className={`" flex items-center justify-center rounded-md font-bold w-8 h-8 m-2 p-3 " ${
+                    currentPage === page + 1
+                      ? "bg-blue-600 text-white-100"
+                      : "bg-white-200 text-black-600"
+                  }`}
+                  onClick={() => setCurrentPage(page + 1)}
+                  key={page + 1}
+                >
+                  {page + 1}
+                </div>
+              ))}
+            </div>
+          </div>
+          <ToastContainer />
+        </section>
+      )}
+      <Footer />
+    </>
   );
 }

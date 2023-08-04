@@ -10,12 +10,11 @@ function App() {
   const [userInfos, setUserInfos] = useState({});
   const [category, setCategory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [orders, setOrders] = useState([]);
   const [getProducts, setProducts] = useState([]);
   const routes = useRoutes(route);
   const [mode, setMode] = useState(false);
   const [showShopSidebar, setShowShopSidebar] = useState(false);
-  const [checkOut, setCheckOut] = useState([]);
   const [brand, setBrand] = useState([]);
   const navigate = useNavigate();
 
@@ -41,26 +40,47 @@ function App() {
         setCategory(cate);
         setIsLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.error("Error fetching categories:", err);
+        setIsLoading(false);
+      });
   };
 
   const getBrand = () => {
     fetch("/api/v1/brand", {
       headers: {
         accept: "application/json",
+        Authorization: `${token}`,
       },
     })
       .then((res) => {
-        res.json();
+        return res.json();
       })
       .then((result) => {
-        setBrand(result);
+        setBrand(result.data);
       })
       .catch((error) => {
         console.log(error.message);
       });
   };
+
+  const getOrder = () => {
+    fetch("/api/v1/order", {
+      headers: {
+        accept: "application/json",
+        Authorization: `${token}`,
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((result) => {
+        setOrders(result.items);
+      });
+  };
+
   const getAllProducts = () => {
+    setIsLoading(true);
     fetch("api/v1/product", {
       headers: {
         accept: "application/json",
@@ -70,6 +90,7 @@ function App() {
       .then((res) => res.json())
       .then((products) => {
         setProducts(products.data);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching products:", error);
@@ -89,19 +110,19 @@ function App() {
     //Call Brandd
     getBrand();
 
+    getOrder();
+
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
       setMode(true);
     } else {
       setMode(false);
     }
-
-    // user is login ? 
+    // user is login ?
     const userToken = JSON.parse(localStorage.getItem("user"))?.token;
     if (userToken) {
       setToken(userToken);
       getCategory();
-      return;
     } else {
       navigate("/login");
     }
@@ -124,8 +145,6 @@ function App() {
             setMode,
             showShopSidebar,
             setShowShopSidebar,
-            checkOut,
-            setCheckOut,
             brand,
             login,
             setUserInfos,
@@ -133,6 +152,9 @@ function App() {
             isLoading,
             setIsLoading,
             token,
+            orders,
+            getAllProducts,
+            getOrder,
           }}
         >
           {routes}

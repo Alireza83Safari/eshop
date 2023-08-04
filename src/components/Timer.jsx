@@ -21,7 +21,6 @@ export default function Timer({ days }) {
             setSeconds(59);
           } else {
             if (day > 0) {
-              // Add a check for the day
               setDay((prevDay) => prevDay - 1);
               setHours(23);
               setMinutes(59);
@@ -39,18 +38,18 @@ export default function Timer({ days }) {
 
   return (
     <div className="lg:text-base sm:text-sm flex text-[8px]">
-    <div className="flex justify-center items-center w-14 h-14 rounded-xl text-white-100 bg-blue-600 mr-6">
-      {day !== undefined ? day.toString().padStart(2, "0") : "00"}
+      <div className="flex justify-center items-center lg:w-14 lg:h-14 h-11 w-11 rounded-xl text-white-100 bg-blue-600 mr-6">
+        {day !== undefined ? day.toString().padStart(2, "0") : "00"}
+      </div>
+      <div className="flex justify-center items-center lg:w-14 lg:h-14 h-11 w-11 rounded-xl text-white-100 bg-blue-600 mr-6">
+        {hours !== undefined ? hours.toString().padStart(2, "0") : "00"}
+      </div>
+      <div className="flex justify-center items-center lg:w-14 lg:h-14 h-11 w-11 rounded-xl text-white-100 bg-blue-600 mr-6">
+        {minutes !== undefined ? minutes.toString().padStart(2, "0") : "00"}
+      </div>
+      <div className="flex justify-center items-center lg:w-14 lg:h-14 h-11 w-11 rounded-xl text-white-100 bg-blue-600 mr-6">
+        {seconds !== undefined ? seconds.toString().padStart(2, "0") : "00"}
+      </div>
     </div>
-    <div className="flex justify-center items-center w-14 h-14 rounded-xl text-white-100 bg-blue-600 mr-6">
-      {hours !== undefined ? hours.toString().padStart(2, "0") : "00"}
-    </div>
-    <div className="flex justify-center items-center w-14 h-14 rounded-xl text-white-100 bg-blue-600 mr-6">
-      {minutes !== undefined ? minutes.toString().padStart(2, "0") : "00"}
-    </div>
-    <div className="flex justify-center items-center w-14 h-14 rounded-xl text-white-100 bg-blue-600 mr-6">
-      {seconds !== undefined ? seconds.toString().padStart(2, "0") : "00"}
-    </div>
-  </div>
   );
 }

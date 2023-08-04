@@ -1,6 +1,6 @@
 .custom-loader {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   background: conic-gradient(#0000 10%, #2762eb);
   -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 16px), #000 0);

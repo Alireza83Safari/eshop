@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 export default function Breadcrumb({ links }) {
   return (
     <section className="flex bg-white-100 dark:bg-black-200 py-4 rounded-lg">
-      <div className="flex items-center justify-center px-3 rounded-lg">
+      <div className="flex items-center justify-center pr-2 rounded-lg">
         <FontAwesomeIcon
           icon={faHome}
           className="text-sm text-gray-800 dark:text-white-100"

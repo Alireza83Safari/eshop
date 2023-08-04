@@ -1,19 +1,24 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  emailValidator,
   maxValidator,
   minValidator,
   requiredValidator,
 } from "../validators/rules";
 import Input from "../components/Form/Input";
 import { useForm } from "../hooks/useForm";
+import { useContext } from "react";
+import authContext from "../Context/authContext";
+import productsContext from "../Context/productsContext";
+import Header from "./Header/Header";
+import Footer from "./Footer";
 
 export default function Login() {
   const navigate = useNavigate();
+  const { login } = useContext(productsContext);
   const [formState, onInputHandler] = useForm(
     {
-      email: {
+      username: {
         value: "",
         isValid: false,
       },
@@ -27,35 +32,59 @@ export default function Login() {
 
   const userLogin = (event) => {
     event.preventDefault();
-    const { email, password } = formState.inputs;
+    const { username, password } = formState.inputs;
 
     let userInfo = {
-      email: email,
-      password: password,
+      password: password.value,
+      username: username.value,
     };
+    console.log(userInfo);
+
+    fetch("/api/v1/auth/login", {
+      method: "POST",
+      body: JSON.stringify(userInfo),
+      headers: {
+        "Content-Type": "application/json",
+        accept: "application/json",
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          return res.text().then((text) => {
+            throw new Error(text);
+          });
+        } else {
+          return res.json();
+        }
+      })
+
+      .then((result) => {
+        console.log(result);
+        login(result.user, result.token);
+        navigate("/");
+      });
   };
   return (
-    <div className="flex items-center justify-center my-12">
+    <section className="flex items-center justify-center my-12">
       <form className="w-96 p-6 rounded-lg shadow-md bg-white-300">
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
         <div className="mb-4 mt-12">
           <label
-            htmlFor="email"
+            htmlFor="username"
             className="block text-sm font-medium text-gray-700 dark:text-gray-400"
           >
-            Email
+            username
           </label>
           <Input
-            type="email"
-            id="email"
+            type="username"
+            id="username"
             element="input"
-            placeholder="Email"
+            placeholder="username"
             className="p-2 block w-full rounded-md border shadow-sm outline-none"
             validations={[
               requiredValidator(),
               minValidator(8),
               maxValidator(26),
-              emailValidator(),
             ]}
             onInputHandler={onInputHandler}
           />
@@ -95,6 +124,6 @@ export default function Login() {
           </Link>
         </div>
       </form>
-    </div>
+    </section>
   );
 }
