@@ -7,9 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-
 import Profile from "../../components/Profile/Profile";
-import CheckOut from "../../components/CheckOut/CheckOut";
 import productsContext from "../../Context/productsContext";
 
 export default function Header() {
@@ -19,18 +17,16 @@ export default function Header() {
     showShopSidebar,
     setShowShopSidebar,
     getProducts,
-    checkOut,
+    orders,
   } = useContext(productsContext);
-  const [onScrollHeader, setOnScrollHeader] = useState(false);
-  const [showCheckOut, setShowCheckOut] = useState(false);
+
   const [showProfile, setShowProfile] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrolled = window.scrollY;
-      const profileThreshold = 40;
-      setOnScrollHeader(scrolled > profileThreshold);
-      setShowProfile(false);
+      if (window.scrollY) {
+        setShowProfile(false);
+      }
     };
     window.addEventListener("scroll", handleScroll);
 
@@ -54,16 +50,16 @@ export default function Header() {
   }, [searchQuery, getProducts]);
 
   return (
-    <header className="w-full">
-      <div className="flex justify-between items-center mx-auto 2xl:px-40 px-4 md:py-5 py-3 fixed w-full z-20 bg-white-200 dark:bg-black-800 right-0 top-0">
-        <div className="flex items-center lg:pb-5 pr-4">
-          <div className="mr-20 flex items-center">
+    <header className="w-full min-w-full bg-white-200 dark:bg-black-800">
+      <div className="flex justify-between items-center mx-auto xl:px-20 py-5 px-5 xl:container">
+        <div className="flex items-center">
+          <div className="md:mr-20 mr-6 flex items-center">
             <FontAwesomeIcon
               icon={faBars}
               className="text-2xl md:mr-5 dark:text-white-100"
               onClick={() => setShowShopSidebar(!showShopSidebar)}
             />
-            <Link to="">
+            <Link to="/">
               <img
                 src={
                   mode
@@ -76,7 +72,7 @@ export default function Header() {
             </Link>
           </div>
           <div>
-            <div className="flex items-center relative sm:ml-10 bg-white-100 sm:w-[220px] w-[100px] px-2 rounded-lg text-black-800">
+            <div className="flex items-center relative md:ml-10 bg-white-100  px-2 rounded-lg text-black-800">
               <FontAwesomeIcon
                 icon={faSearch}
                 className="absolute text-xs sm:text-sm left-1"
@@ -86,7 +82,7 @@ export default function Header() {
                 placeholder="search ..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="py-1 outline-none text-gray-700 relative rounded-lg ml-4 sm:w-[220px] w-[100px] placeholder:text-black-800 sm:placeholder:text-sm placeholder:text-xs sm:py-2 "
+                className="py-1 outline-none text-gray-700 relative rounded-lg ml-4 md:w-[220px] w-[100px] placeholder:text-black-800 sm:placeholder:text-sm placeholder:text-xs sm:py-2 "
               />
             </div>
 
@@ -119,30 +115,26 @@ export default function Header() {
           </div>
         </div>
 
-        <div className="flex">
+        <div className="flex items-center">
           <div className="mr-2 py-1 px-2 rounded-lg dark:text-white-100">
-            <div className="px-3 flex items-center usercart-parent">
+            <div className="md:px-3 flex items-center usercart-parent">
               <div className="sm:mx-4 mx-2" onClick={() => setMode(!mode)}>
                 <FontAwesomeIcon
                   icon={faMoon}
                   className="sm:text-2xl text-xl"
                 />
               </div>
-              <div
-                className="sm:mx-4 mx-2"
-                onClick={() => setShowCheckOut(!showCheckOut)}
-              >
-                <Link to="checkout" className="relative">
+              <div className="sm:mx-4 mx-2">
+                <Link to="/checkout" className="relative">
                   <FontAwesomeIcon
                     icon={faCartShopping}
                     className="sm:text-2xl text-xl"
                   />
                   <span className="absolute -top-3 text-white-100 bg-red-700 rounded-full px-1 sm:text-xs text-[9px]">
-                    {checkOut.length}
+                    {orders.length}
                   </span>
                 </Link>
               </div>
-              <CheckOut />
             </div>
           </div>
 
