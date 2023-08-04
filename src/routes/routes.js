@@ -9,7 +9,6 @@ import ShopProducts from "../pages/Products";
 import ProductsInfo from "../pages/ProductsInfo";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-import Blog from "../components/Blog";
 import PanelProducts from "../pages/Admin/Products";
 
 const route = [
@@ -19,7 +18,6 @@ const route = [
   { path: "checkout", element: <CheckOut /> },
   { path: "login", element: <Login /> },
   { path: "register", element: <Register /> },
-  { path: "blog", element: <Blog /> },
 
   {
     path: "/panel/*",
