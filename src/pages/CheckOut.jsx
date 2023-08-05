@@ -2,22 +2,32 @@ import React, { useContext, useEffect, useState } from "react";
 import { faCartShopping, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-
 import Breadcrumb from "../components/Breadcrumb";
 import Header from "./Header/Header";
 import Footer from "./Footer";
 import productsContext from "../Context/productsContext";
 import Spinner from "../components/Spinner/Spinner";
+import useFetch from "../hooks/useFetch";
 
 export default function Orders() {
-  const { token, isLoading, getOrder, orders } = useContext(productsContext);
-  const totalAmount = orders.reduce(
-    (acc, order) => acc + order.price * order.quantity,
-    0
-  );
+  const { token } = useContext(productsContext);
+  const [orders, setOrders] = useState([]);
+  const { datas, fetchData, isLoading } = useFetch("/api/v1/order");
+  useEffect(() => {
+    if (datas && datas.items) {
+      setOrders(datas.items);
+    }
+  }, [datas]);
+
+  const totalAmount = datas?.price || 0;
   const totalTax = totalAmount / 10;
   const totalDiscount = totalAmount / 20;
   const totalPayment = Math.floor(totalAmount - totalDiscount - totalTax);
+  const totalQuantity = orders.reduce(
+    (total, order) => total + order.quantity,
+    0
+  );
+
   const handleIncrement = (productId) => {
     changeIncrementQuantity(productId.productItemId, productId.id);
   };
@@ -38,20 +48,15 @@ export default function Orders() {
       if (!response.ok) {
         throw new Error("Failed to delete the product.");
       }
-      console.log("Product successfully deleted.");
-      // update order
-      getOrder();
+      fetchData();
     } catch (error) {
       console.error("Error deleting the product:", error.message);
     }
   };
 
-
   const changeIncrementQuantity = async (itemId, id) => {
     try {
       let newQuantity = orders.find((order) => order.id === id).quantity + 1;
-
-      // Make the POST request to update the quantity
       const response = await fetch("/api/v1/orderItem", {
         method: "POST",
         headers: {
@@ -61,14 +66,10 @@ export default function Orders() {
         },
         body: JSON.stringify({ productItemId: itemId, quantity: newQuantity }),
       });
-
-      // Check if the request was successful
       if (!response.ok) {
         throw new Error("Failed to update the quantity.");
       }
-
-      // Update the local state with the new quantity
-      getOrder();
+      fetchData();
     } catch (error) {
       console.log("Error updating quantity:", error.message);
     }
@@ -77,8 +78,6 @@ export default function Orders() {
   const changeDecrementQuantity = async (itemId, id) => {
     try {
       let newQuantity = orders.find((order) => order.id === id).quantity - 1;
-
-      // Make the POST request to update the quantity
       const response = await fetch("/api/v1/orderItem", {
         method: "POST",
         headers: {
@@ -89,21 +88,15 @@ export default function Orders() {
         body: JSON.stringify({ productItemId: itemId, quantity: newQuantity }),
       });
 
-      // Check if the request was successful
       if (!response.ok) {
         throw new Error("Failed to update the quantity.");
       }
-
-      // Update the local state with the new quantity
-      getOrder();
+      fetchData();
     } catch (error) {
       console.log("Error updating quantity:", error.message);
     }
   };
 
-  useEffect(() => {
-    getOrder();
-  }, []);
   return (
     <>
       <Header />
@@ -206,7 +199,7 @@ export default function Orders() {
 
             <div className="flex justify-between pt-6 pb-2">
               <p>Items</p>
-              <p className="text-blue-600 font-black">{orders.length}</p>
+              <p className="text-blue-600 font-black">{totalQuantity}</p>
             </div>
 
             <div className="flex justify-between pt-6 pb-2">

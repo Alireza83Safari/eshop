@@ -5,8 +5,9 @@ import FilterProducts from "../components/FilterProducts";
 import { ToastContainer, toast } from "react-toastify";
 import Header from "./Header/Header";
 import Footer from "./Footer";
-import useProductItem from "../hooks/useProductItem";
 import Spinner from "../components/Spinner/Spinner";
+import useFetch from "../hooks/useFetch";
+import usePost from "../hooks/usePost";
 
 const filterReducer = (state, action) => {
   switch (action.type) {
@@ -24,14 +25,15 @@ const filterReducer = (state, action) => {
 };
 
 export default function Products() {
-  const { getProducts, token, isLoading } = useContext(productsContext);
+  const { token } = useContext(productsContext);
+  const [getProducts, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [paginatedProducts, setPaginatedProducts] = useState([]);
   const [showFilterInSm, setShowFilterInSm] = useState(false);
   const [productId, setProductId] = useState();
+
   let pageSize = 9;
   let pageNumber;
-
   let totalPage = Math.ceil(getProducts.length / pageSize);
   pageNumber = Array.from(Array(totalPage).keys());
 
@@ -42,6 +44,56 @@ export default function Products() {
     sortBy: "",
   };
   const [state, dispatch] = useReducer(filterReducer, initialState);
+
+  const filterProducts = (product) => {
+    const { minPrice, maxPrice, selectedCategory } = state;
+    const priceFilter =
+      (!minPrice && !maxPrice) ||
+      (minPrice && !maxPrice && product.price >= parseFloat(minPrice)) ||
+      (!minPrice && maxPrice && product.price <= parseFloat(maxPrice)) ||
+      (minPrice &&
+        maxPrice &&
+        product.price >= parseFloat(minPrice) &&
+        product.price <= parseFloat(maxPrice));
+
+    const categoryFilter =
+      selectedCategory === "All" || product.category === selectedCategory;
+
+    return priceFilter && categoryFilter;
+  };
+  
+  const { datas, isLoading } = useFetch("api/v1/product");
+  useEffect(() => {
+    if (datas && datas.data) {
+      setProducts(datas.data);
+    }
+  }, [datas]);
+
+  const { doPost } = usePost();
+  const { datas: productItem } = useFetch(
+    `/api/v1/productItem/product/${productId}`
+  );
+
+  const valueAtIndex0 = productItem && productItem[0]?.id;
+
+  const BasketHandler = (cartID) => {
+    setProductId(cartID);
+    let userBasketHandler = {
+      productItemId: valueAtIndex0,
+      quantity: 1,
+    };
+
+    doPost("/api/v1/orderItem", userBasketHandler, {
+      accept: "application/json",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    });
+    const productToAdd = getProducts.find((product) => product.id === cartID);
+
+    toast.success(`${productToAdd.name} added to cart!`, {
+      position: "bottom-right",
+    });
+  };
 
   useEffect(() => {
     let endIndex = currentPage * pageSize;
@@ -61,61 +113,6 @@ export default function Products() {
 
     setPaginatedProducts(sortedAndFilteredProducts.slice(startIndex, endIndex));
   }, [getProducts, currentPage, state]);
-
-  const filterProducts = (product) => {
-    const { minPrice, maxPrice, selectedCategory } = state;
-    const priceFilter =
-      (!minPrice && !maxPrice) ||
-      (minPrice && !maxPrice && product.price >= parseFloat(minPrice)) ||
-      (!minPrice && maxPrice && product.price <= parseFloat(maxPrice)) ||
-      (minPrice &&
-        maxPrice &&
-        product.price >= parseFloat(minPrice) &&
-        product.price <= parseFloat(maxPrice));
-
-    const categoryFilter =
-      selectedCategory === "All" || product.category === selectedCategory;
-
-    return priceFilter && categoryFilter;
-  };
-
-  const { productItem } = useProductItem(productId, token);
-  const valueAtIndex0 = productItem && productItem[0]?.id;
-
-  console.log(valueAtIndex0);
-  const BasketHandler = (cartID) => {
-    setProductId(cartID);
-
-    const productToAdd = getProducts.find((product) => product.id === cartID);
-
-    // const isProductInCart = checkOut.some((product) => product.id === cartID);
-
-    toast.success(`${productToAdd.name} added to cart!`, {
-      position: "bottom-right",
-    });
-
-    let userBasketHandler = {
-      productItemId: valueAtIndex0,
-      quantity: 1,
-    };
-
-    fetch("/api/v1/orderItem", {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-
-      body: JSON.stringify(userBasketHandler),
-    })
-      .then((res) => {
-        res.json();
-        console.log(res);
-      })
-      .catch((res) => console.log(res));
-  };
-
   return (
     <>
       <Header />

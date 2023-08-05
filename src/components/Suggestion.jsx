@@ -2,14 +2,41 @@ import React, { useContext, useState, useEffect } from "react";
 import Timer from "./Timer";
 import productContext from "../Context/productsContext";
 import { ToastContainer, toast } from "react-toastify";
+import usePost from "../hooks/usePost";
 
 export default function Suggestion() {
-  const { getProducts, setCheckOut } = useContext(productContext);
+  const { getProducts, token } = useContext(productContext);
 
   const [suggestionProduct, setSuggestionProduct] = useState({
-    fileUrl: "uploads/product/459f7e5a-49b8-4ed9-96df-23ab36b6dd6a.png",
+    id: "47ff1c68-1c11-4627-b212-fb5b0dc62aea",
+    brandName: "Huawei",
+    price: 712,
+    itemId: "0da783f9-2dc1-4da9-967a-a6ee441f40a7",
+    fileUrl: "uploads/product/182a5646-4eba-47eb-93e3-c8b1c08a379b.png",
   });
-  console.log(getProducts);
+  const { doPost } = usePost();
+
+  let findProduct = getProducts.find(
+    (product) => product.id === suggestionProduct.id
+  );
+
+  const addToCart = () => {
+    let productData = {
+      productItemId: findProduct.itemId,
+      quantity: 1,
+    };
+    
+    doPost("/api/v1/orderItem", productData, {
+      accept: "application/json",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    });
+
+    toast.success(`${findProduct.name} added to cart!`, {
+      position: "bottom-right",
+    });
+  };
+
   useEffect(() => {
     const timer = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * getProducts.length);
@@ -19,14 +46,6 @@ export default function Suggestion() {
 
     return () => clearInterval(timer);
   }, [getProducts]);
-
-  const addToCart = (product) => {
-    setCheckOut((prevCheckOut) => [...prevCheckOut, product]);
-
-    toast.success(`${product.name} added to cart!`, {
-      position: "bottom-right",
-    });
-  };
 
   return (
     <section className="w-full px-4 lg:px-20 mt-52">
@@ -58,7 +77,7 @@ export default function Suggestion() {
         <div className="flex justify-center items-center">
           <button
             className="text-white-100 rounded-md py-3 px-20 md:px-14 bg-blue-600 md:mt-0 mt-10"
-            onClick={() => addToCart(suggestionProduct)}
+            onClick={() => addToCart()}
           >
             Buy Now
           </button>

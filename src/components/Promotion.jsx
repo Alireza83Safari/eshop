@@ -7,12 +7,12 @@ import {
   faAngleRight,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
-import "../Style/Style.css";
 import { ToastContainer, toast } from "react-toastify";
 import Timer from "./Timer";
+import usePost from "../hooks/usePost";
 
 export default function Promotion() {
-  const { getProducts, setCheckOut } = useContext(productsContext);
+  const { token, getProducts } = useContext(productsContext);
   const [currentProductIndex, setCurrentProductIndex] = useState(4);
 
   const productsPerSlide = 4;
@@ -35,17 +35,24 @@ export default function Promotion() {
     }
   };
 
+  const { doPost } = usePost();
+
   const handleAddToCart = (productID) => {
-    var findProduct = getProducts.find((product) => product.id === productID);
+    let findProduct = getProducts.find((product) => product.id === productID);
+
+    let productData = {
+      productItemId: findProduct.itemId,
+      quantity: 1,
+    };
+    doPost("/api/v1/orderItem", productData, {
+      accept: "application/json",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    });
+
     toast.success(`${findProduct.name} added to cart!`, {
       position: "bottom-right",
     });
-
-    const newProduct = {
-      ...findProduct,
-    };
-
-    setCheckOut((prev) => [...prev, newProduct]);
   };
 
   return (

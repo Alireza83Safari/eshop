@@ -3,12 +3,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext, useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import productContext from "../Context/productsContext";
+import usePost from "../hooks/usePost";
+
 export default function Offer() {
   const [count, setCount] = useState(1);
-  const { getProducts, setCheckOut } = useContext(productContext);
+  const { getProducts, token } = useContext(productContext);
 
   const [newProduct, setNewProduct] = useState({
-    fileUrl: "uploads/product/459f7e5a-49b8-4ed9-96df-23ab36b6dd6a.png",
+    id: "ae0ed272-feb1-41af-bbc4-d14f03f58992",
+    brandName: "Apple",
+    price: 1299,
+    fileUrl: "uploads/product/01bc03af-9404-4c88-95f5-5dfc6db79634.png",
   });
 
   useEffect(() => {
@@ -21,9 +26,24 @@ export default function Offer() {
     return () => clearInterval(timer);
   }, [getProducts]);
 
-  const addToCart = (product) => {
-    setCheckOut((prevCheckOut) => [...prevCheckOut, product]);
-    toast.success(`${newProduct.name} added to cart!`, {
+  const { doPost } = usePost();
+
+  const handleAddToCart = (productID) => {
+    let findProduct = getProducts.find((product) => product.id === productID);
+
+    let productData = {
+      productItemId: findProduct.itemId,
+      quantity: 1,
+    };
+
+    
+    doPost("/api/v1/orderItem", productData, {
+      accept: "application/json",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    });
+
+    toast.success(`${findProduct.name} added to cart!`, {
       position: "bottom-right",
     });
   };
@@ -118,7 +138,7 @@ export default function Offer() {
 
             <button
               className="lg:px-12 lg:py-3 md:px-9 py-2 bg-blue-600 text-white-100 rounded-md"
-              onClick={() => addToCart(newProduct)} // Step 1: Call the addToCart function with the selected product
+              onClick={() => handleAddToCart(newProduct.id)} // Step 1: Call the addToCart function with the selected product
             >
               Add To Cart
             </button>

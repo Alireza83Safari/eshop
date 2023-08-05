@@ -1,21 +1,17 @@
 import "./App.css";
 import route from "./routes/routes";
+import { useNavigate, useRoutes } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ProductsContext from "./Context/productsContext";
-import { useNavigate, useRoutes } from "react-router-dom";
-import AuthContext from "./Context/productsContext";
+import useFetch from "./hooks/useFetch";
 
 function App() {
   const [token, setToken] = useState(false);
   const [userInfos, setUserInfos] = useState({});
-  const [category, setCategory] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [orders, setOrders] = useState([]);
   const [getProducts, setProducts] = useState([]);
   const routes = useRoutes(route);
   const [mode, setMode] = useState(false);
   const [showShopSidebar, setShowShopSidebar] = useState(false);
-  const [brand, setBrand] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,74 +24,12 @@ function App() {
     }
   }, [mode]);
 
-  const getCategory = () => {
-    setIsLoading(true);
-    fetch("/api/v1/category", {
-      headers: {
-        accept: "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((cate) => {
-        setCategory(cate.data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching categories:", err);
-        setIsLoading(false);
-      });
-  };
-
-  const getBrand = () => {
-    fetch("/api/v1/brand", {
-      headers: {
-        accept: "application/json",
-        Authorization: `${token}`,
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((result) => {
-        setBrand(result.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
-
-  const getOrder = () => {
-    fetch("/api/v1/order", {
-      headers: {
-        accept: "application/json",
-        Authorization: `${token}`,
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((result) => {
-        setOrders(result.items);
-      });
-  };
-
-  const getAllProducts = () => {
-    setIsLoading(true);
-    fetch("api/v1/product", {
-      headers: {
-        accept: "application/json",
-        Authorization: `${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((products) => {
-        setProducts(products.data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching products:", error);
-      });
-  };
+  const { datas: productsData } = useFetch("/api/v1/product");
+  useEffect(() => {
+    if (productsData && productsData.data) {
+      setProducts(productsData.data);
+    }
+  }, [productsData]);
 
   const login = (user, token) => {
     setUserInfos(user.username);
@@ -117,14 +51,6 @@ function App() {
   };
 
   useEffect(() => {
-    //Call getAllProducts
-    getAllProducts();
-
-    //Call Brandd
-    getBrand();
-
-    getOrder();
-
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
       setMode(true);
@@ -135,7 +61,6 @@ function App() {
     const userToken = JSON.parse(localStorage.getItem("user"))?.token;
     if (userToken) {
       setToken(userToken);
-      getCategory();
     } else {
       navigate("/login");
     }
@@ -143,8 +68,6 @@ function App() {
     // Check if the token is expired when the component mounts
     if (isTokenExpired()) {
       clearToken();
-    } else {
-      getCategory();
     }
 
     // Set up a timer to periodically check if the token is expired
@@ -154,7 +77,7 @@ function App() {
       }
     };
 
-    const tokenCheckInterval = setInterval(checkTokenExpiration, 60000); // Check every minute
+    const tokenCheckInterval = setInterval(checkTokenExpiration, 6000); // Check every minute
 
     // Clean up the timer when the component unmounts
     return () => clearInterval(tokenCheckInterval);
@@ -162,36 +85,20 @@ function App() {
 
   return (
     <div className="App max-w-[1400px] mx-auto relative w-full min-w-full">
-      <AuthContext.Provider
+      <ProductsContext.Provider
         value={{
-          token,
-          userInfos,
+          getProducts,
+          mode,
+          setMode,
+          showShopSidebar,
+          setShowShopSidebar,
           login,
+          setUserInfos,
+          token,
         }}
       >
-        <ProductsContext.Provider
-          value={{
-            getProducts,
-            setProducts,
-            mode,
-            setMode,
-            showShopSidebar,
-            setShowShopSidebar,
-            brand,
-            login,
-            setUserInfos,
-            category,
-            isLoading,
-            setIsLoading,
-            token,
-            orders,
-            getAllProducts,
-            getOrder,
-          }}
-        >
-          {routes}
-        </ProductsContext.Provider>
-      </AuthContext.Provider>
+        {routes}
+      </ProductsContext.Provider>
     </div>
   );
 }

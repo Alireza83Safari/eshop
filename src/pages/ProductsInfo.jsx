@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMoneyBill,
@@ -10,45 +10,37 @@ import { Link, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Breadcrumb from "../components/Breadcrumb";
 import productsContext from "../Context/productsContext";
-import "../Style/Style.css";
 import Header from "./Header/Header";
 import Footer from "./Footer";
-import useProductItem from "../hooks/useProductItem";
-import useProductFile from "../hooks/UseProductFile";
+import usePost from "../hooks/usePost";
 
 export default function ProductsInfo() {
-  const { getProducts, setCheckOut, token } = useContext(productsContext);
+  const { getProducts, token } = useContext(productsContext);
   const { productID } = useParams();
+
+  const { doPost } = usePost();
   const findProduct = getProducts.find((product) => product.id == productID);
+
   const handleAddToCart = () => {
-    // Check if the product is found before adding to cart
-    //  if (!productItem) {
-    //   toast.error("Product not found!");
-    //   return;
-    // }
-
-    toast.success(`${productItem.name} added to cart!`, {
-      position: "bottom-right",
-    });
-
-    const newProduct = {
-      ...productItem,
+    let productData = {
+      productItemId: findProduct.itemId,
+      quantity: 1,
     };
 
-    setCheckOut((prev) => [...prev, newProduct]);
+    doPost("/api/v1/orderItem", productData, {
+      accept: "application/json",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    });
+
+    toast.success(`${findProduct.name} added to cart!`, {
+      position: "bottom-right",
+    });
   };
 
-  const { productItem, loading, error } = useProductItem(productID, token);
-  console.log(productItem);
-  console.log(error);
-
-  const { productFile } = useProductFile(productID, token);
-  let prId = productFile[0]?.id;
-
-  if (!productItem) {
+  if (!findProduct) {
     return <div>Product not found!</div>;
   }
-  console.log(findProduct);
   return (
     <>
       <Header />
@@ -58,7 +50,7 @@ export default function ProductsInfo() {
           <div className="lg:col-span-4 md:col-span-5 col-span-12">
             <div className="md:block flex justify-center md:w-80 w-full md:px-4 lg:py-10 md:py-20">
               <img
-                src={`http://127.0.0.1:6060/${findProduct.fileUrl} `}
+                src={`http://127.0.0.1:6060/${findProduct.fileUrl}`}
                 alt=""
                 className="md:w-full w-7/12 object-contain md:py-0 py-5"
               />
@@ -100,9 +92,7 @@ export default function ProductsInfo() {
                   </p>
                   <p className="py-2 sm:text-sm text-xs">
                     Status :
-                    <span className=" text-green-300 font-bold">
-                      {productItem.status}
-                    </span>
+                    <span className=" text-green-300 font-bold">Published</span>
                   </p>
                 </div>
 

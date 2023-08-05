@@ -9,16 +9,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Profile from "../../components/Profile/Profile";
 import productsContext from "../../Context/productsContext";
+import useFetch from "../../hooks/useFetch";
 
 export default function Header() {
-  const {
-    mode,
-    setMode,
-    showShopSidebar,
-    setShowShopSidebar,
-    getProducts,
-    orders,
-  } = useContext(productsContext);
+  const [orders, setOrders] = useState([]);
+  const { mode, setMode, showShopSidebar, setShowShopSidebar, getProducts } =
+    useContext(productsContext);
+
+  const { datas: ordersData } = useFetch("/api/v1/order");
+  useEffect(() => {
+    if (ordersData && ordersData.item) {
+      setOrders(ordersData.item);
+    }
+  }, [ordersData]);
 
   const [showProfile, setShowProfile] = useState(false);
 

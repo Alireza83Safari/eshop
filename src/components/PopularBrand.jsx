@@ -1,9 +1,19 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import productsContext from "../Context/productsContext";
 import Spinner from "./Spinner/Spinner";
+import useFetch from "../hooks/useFetch";
 
 export default function PopularBrand() {
-  const { brand, isLoading } = useContext(productsContext);
+  const [brands, setBrand] = useState([]);
+  const { isLoading } = useContext(productsContext);
+
+  const { datas } = useFetch("/api/v1/brand");
+  useEffect(() => {
+    if (datas && datas.data) {
+      setBrand(datas.data);
+    }
+  }, [datas]);
+
   return (
     <>
       {isLoading ? (
@@ -14,7 +24,7 @@ export default function PopularBrand() {
             Most Popular Brands
           </p>
           <div className="grid lg:grid-cols-8 grid-cols-4 lg:py-7">
-            {brand.map((brand, index) => (
+            {brands.map((brand, index) => (
               <div key={index} className="flex justify-center items-center">
                 <img
                   src={`http://127.0.0.1:6060/${brand.fileUrl}`}
