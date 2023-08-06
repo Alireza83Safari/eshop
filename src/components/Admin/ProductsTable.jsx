@@ -1,103 +1,109 @@
-import React, { useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import productsContext from "../../Context/productsContext";
+import InfosModal from "./InfosModal";
+import useFetch from "../../hooks/useFetch";
 
 export default function ProductsTable({
   paginatedProducts,
-  state,
   searchQuery,
   setProductId,
   setShowDeleteModal,
   setShowEditModal,
   setProductEditId,
-  setEditProductInfos,
 }) {
-  const { getProducts } = useContext(productsContext);
+  const [showInfoModal, setShowInfoModal] = useState(false);
+  const [infosId, setInfosId] = useState(null);
+  const [productInfos, setProductInfos] = useState([]);
+
   const editHandler = (id) => {
     setShowEditModal(true);
     setProductEditId(id);
-    const productToEdit = getProducts.find((product) => product.id === id);
-
-    if (productToEdit) {
-      setEditProductInfos({
-        name: productToEdit.name,
-        img: productToEdit.img,
-        price: productToEdit.price,
-        sale: productToEdit.sale,
-        status: productToEdit.status,
-        category: productToEdit.category,
-      });
-    }
   };
+  const { datas, isLoading } = useFetch(
+    `/api/v1/productItem/product/${infosId}`
+  );
+  useEffect(() => {
+    if (datas && datas.length > 0) {
+      setProductInfos(datas);
+    }
+  }, [datas]);
 
   return (
-    <table className="min-w-full">
-      <thead>
-        <tr className="md:text-sm text-xs text-center border-y">
-          <th className="py-3">NO</th>
-          <th className="py-3">PRODUCT</th>
-          <th className="py-3">Image</th>
-          <th className="py-3">Price</th>
-          <th className="py-3">Sold</th>
-          <th className="py-3 sm:block hidden">Status</th>
-          <th className="py-3">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {paginatedProducts
-          .filter((product) =>
-            product.name.toLowerCase().includes(searchQuery.toLowerCase())
-          )
-          .filter((product) =>
-            state.categoryFilter
-              ? product.category === state.categoryFilter
-              : true
-          )
-          .filter((product) =>
-            state.statusFilter ? product.status === state.statusFilter : true
-          )
-          .map((product, index) => (
-            <tr className="md:text-sm text-xs text-center" key={index}>
-              <td className="py-2">{index + 1}</td>
-              <td className="py-2 w-16">{product.name}</td>
-              <td className="py-2">
-                <img
-                  src={product.img}
-                  alt="product"
-                  className="w-10 h-10 mx-auto"
-                />
-              </td>
-              <td className="py-2">${product.price}</td>
-              <td className="py-2">{product.sale}</td>
-              <td className="sm:block hidden py-3">
-                <button
-                  className={`text-xs p-1 rounded-lg ${
-                    product.status === "Publish"
-                      ? "bg-green-100 text-green-300"
-                      : " bg-red-700 text-white-100"
-                  }`}
-                >
-                  {product.status}
-                </button>
-              </td>
-              <td className="py-2 space-x-2">
-                <button onClick={() => editHandler(product.id)}>
-                  <FontAwesomeIcon icon={faEdit} className="text-orange-400" />
-                </button>
-                <button
-                  className="px-2 py-1 rounded-md text-red-700 text-white"
-                  onClick={() => {
-                    setProductId(product.id);
-                    setShowDeleteModal(true);
-                  }}
-                >
-                  <FontAwesomeIcon icon={faTrash} />
-                </button>
-              </td>
-            </tr>
-          ))}
-      </tbody>
-    </table>
+    <>
+      <table className="min-w-full">
+        <thead>
+          <tr className="md:text-sm sm:text-xs text-[10px] text-center border-y">
+            <th className="py-3">NO</th>
+            <th className="py-3">PRODUCT</th>
+            <th className="py-3">Brand</th>
+            <th className="py-3">Category</th>
+            <th className="py-3">Code</th>
+            <th className="py-3">Actions</th>
+            <th className="py-3">Infos</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {paginatedProducts
+            .filter((product) =>
+              product.name.toLowerCase().includes(searchQuery.toLowerCase())
+            )
+            .map((product, index) => (
+              <tr
+                className="md:text-sm sm:text-xs text-[10px] text-center"
+                key={index}
+              >
+                <td className="py-3">{index + 1}</td>
+                <td className="py-3">{product.name}</td>
+                <td className="py-3 flex justify-center">
+                  <img
+                    src={`http://127.0.0.1:6060/${product.brandFileUrl} `}
+                    alt=""
+                    className="sm:w-8 w-6"
+                  />
+                </td>
+                <td className="py-3">{product.categoryName}</td>
+                <td className="py-3">{product.code}</td>
+                <td className="py-3 md:space-x-2">
+                  <button onClick={() => editHandler(product.id)}>
+                    <FontAwesomeIcon
+                      icon={faEdit}
+                      className="text-orange-400"
+                    />
+                  </button>
+                  <button
+                    className="px-2 py-1 rounded-md text-red-700 text-white"
+                    onClick={() => {
+                      setProductId(product.id);
+                      setShowDeleteModal(true);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </td>
+                <td className="py-3">
+                  <button
+                    className="border md:px-2 px-1 md:text-xs text-[9px] rounded-lg"
+                    onClick={() => {
+                      setShowInfoModal(true);
+                      setInfosId(product.id);
+                    }}
+                  >
+                    Infos
+                  </button>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+
+      <InfosModal
+        showInfoModal={showInfoModal}
+        setShowInfoModal={setShowInfoModal}
+        productInfos={productInfos}
+        isLoading={isLoading}
+      />
+    </>
   );
 }
