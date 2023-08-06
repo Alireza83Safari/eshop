@@ -12,7 +12,7 @@ import Register from "../pages/Register";
 import PanelProducts from "../pages/Admin/Products";
 
 const route = [
-  { path: "", element: <ShopIndex /> },
+  { path: "shop", element: <ShopIndex /> },
   { path: "products", element: <ShopProducts /> },
   { path: "products/:productID", element: <ProductsInfo /> },
   { path: "checkout", element: <CheckOut /> },
@@ -23,7 +23,7 @@ const route = [
     path: "/panel/*",
     element: <Index />,
     children: [
-      { path: "Dashboard/", element: <Dashboard /> },
+      { path: "", element: <Dashboard /> },
       { path: "dashboard", element: <Dashboard /> },
       { path: "product", element: <PanelProducts /> },
       { path: "chat", element: <Chat /> },

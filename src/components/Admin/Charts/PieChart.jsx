@@ -1,7 +1,13 @@
 import React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
 
-const PiesChart = ({ data, COLORS }) => {
+const PiesChart = () => {
+  const COLORS = ["red", "#00C49F", "#FFBB28"];
+  const data = [
+    { name: "Tax", value: 5443 },
+    { name: "Income", value: 4354 },
+    { name: "Net Profit", value: 7634 },
+  ];
   return (
     <ResponsiveContainer width="100%" height={400}>
       <PieChart>

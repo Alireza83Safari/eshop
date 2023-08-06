@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocationپ } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBox,
+  faCoins,
   faCommentDots,
   faGear,
   faGripHorizontal,
   faSignOut,
-  faUserAlt,
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import "./Sidebar.css";
@@ -16,8 +16,8 @@ import productsContext from "../../../Context/productsContext";
 export default function Sidebar() {
   const items = [
     { icon: faGripHorizontal, text: "dashboard", to: "dashboard" },
-    { icon: faBox, text: "products", to: "products" },
-    { icon: faUserAlt, text: "financial", to: "financial" },
+    { icon: faBox, text: "product", to: "product" },
+    { icon: faCoins, text: "financial", to: "financial" },
     { icon: faCommentDots, text: "comments", to: "/panel/comments" },
     { icon: faUserPlus, text: "chat", to: "/panel/chat" },
   ];
@@ -33,14 +33,14 @@ export default function Sidebar() {
   }, [productName]);
 
   return (
-    <section className="fixed top-0 left-0 bg-white-100 dark:bg-black-900 h-full lg:w-[13%] w-[10%] font-bold">
+    <section className="fixed top-0 left-0 bg-white-100 dark:bg-black-900 h-full lg:w-[13%] w-[5%] font-bold">
       <div className="py-5 lg:pl-7 sm:pl-5 pl-3 xl:text-[.9rem] md:text-xs">
         <Link to="dashboard">
           <div className="w-full invisible lg:visible">
             <img
               src={mode ? "/images/logo-dark.png" : "/images/logo-light.png"}
               alt="logo"
-               className=" w-full pr-10"
+              className=" w-full pr-10"
             />
           </div>
         </Link>
