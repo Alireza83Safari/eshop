@@ -8,7 +8,6 @@ import {
 import Input from "../components/Form/Input";
 import { useForm } from "../hooks/useForm";
 import { useContext } from "react";
-import authContext from "../Context/authContext";
 import productsContext from "../Context/productsContext";
 import Header from "./Header/Header";
 import Footer from "./Footer";
