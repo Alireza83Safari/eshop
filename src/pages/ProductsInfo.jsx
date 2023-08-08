@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faHeart,
   faMoneyBill,
   faShieldAlt,
   faStar,
@@ -13,13 +14,16 @@ import productsContext from "../Context/productsContext";
 import Header from "./Header/Header";
 import Footer from "./Footer";
 import usePost from "../hooks/usePost";
+import Comments from "../components/Comments";
+import Description from "../components/Description";
 
 export default function ProductsInfo() {
   const { getProducts, token } = useContext(productsContext);
   const { productID } = useParams();
-
+  const [activeTab, setActiveTab] = useState("description");
   const { doPost } = usePost();
   const findProduct = getProducts.find((product) => product.id == productID);
+  console.log(productID);
 
   const handleAddToCart = () => {
     let productData = {
@@ -38,9 +42,27 @@ export default function ProductsInfo() {
     });
   };
 
+  const addToFavorite = () => {
+    let productData = {
+      productItemId: findProduct.itemId,
+      quantity: 1,
+    };
+
+    doPost("/api/v1/user/favoriteProducts", productData, {
+      accept: "application/json",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    });
+
+    toast.success(`${findProduct.name} added to cart!`, {
+      position: "bottom-right",
+    });
+  };
+
   if (!findProduct) {
     return <div>Product not found!</div>;
   }
+
   return (
     <>
       <Header />
@@ -67,10 +89,17 @@ export default function ProductsInfo() {
                 },
               ]}
             />
-            <div className="text-black-900 dark:text-white-100">
-              <h1 className="sm:text-2xl text-lg font-bold">
-                {findProduct.name}
-              </h1>
+            <div className="text-black-900 dark:text-white-100 pr-4">
+              <div className="flex justify-between">
+                <h1 className="sm:text-2xl text-lg font-bold">
+                  {findProduct.name}
+                </h1>
+                <FontAwesomeIcon
+                  icon={faHeart}
+                  className="mr-10 text-2xl text-red-700 hover:text-red-300 duration-300"
+                  onClick={() => addToFavorite()}
+                />
+              </div>
               <div className="md:flex grid grid-cols-2 sm:py-4 py-6 sm:text-sm text-xs">
                 <div className="sm:mr-8">
                   <FontAwesomeIcon icon={faStar} className="text-green-300" />
@@ -190,29 +219,29 @@ export default function ProductsInfo() {
             </div>
           </div>
         </div>
-        <div className="px-8 lg:mt-20 md:mt-12 mt-4 text-black-900 dark:text-white-100">
+        <div className="px-8 lg:mt-16 md:mt-12 mt-4 text-black-900 dark:text-white-100">
           <div className="flex text-sm pb-5">
-            <Link className="mx-2">DESCRIPTION</Link>
-            <Link className="mx-2">SIZE GUIDE</Link>
-            <Link className="mx-2">REVIEWS</Link>
+            <Link
+              className={`mx-2 ${
+                activeTab === "description" ? "font-bold" : ""
+              }`}
+              onClick={() => setActiveTab("description")}
+            >
+              DESCRIPTION
+            </Link>
+
+            <Link
+              className={`mx-2 ${activeTab === "reviews" ? "font-bold" : ""}`}
+              onClick={() => setActiveTab("reviews")}
+            >
+              REVIEWS
+            </Link>
           </div>
 
-          <div className="border p-4 mb-20">
-            <h3>Product Full Description</h3>
-            <p className="text-gray-800 text-xs leading-5 mt-4">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Accusantium, cumque, earum blanditiis incidunt minus commodi
-              consequatur provident quae. Nihil, alias, vel consequatur ab
-              aliquam aspernatur optio harum facilis excepturi mollitia autem
-              voluptas cum ex veniam numquam quia repudiandae in iure.
-              Assumenda, vel provident molestiae perferendis officia commodi
-              asperiores earum sapiente inventore quam deleniti mollitia
-              consequatur expedita quaerat natus praesentium beatae aut ipsa non
-              ex ullam atque suscipit ut dignissimos magnam!
-            </p>
-          </div>
+          {activeTab === "description" && <Description />}
+
+          {activeTab === "reviews" && <Comments />}
         </div>
-        {/* <Comments /> */}
         <ToastContainer />
       </section>
       <Footer />
