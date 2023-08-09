@@ -25,7 +25,7 @@ export default function Suggestion() {
       productItemId: findProduct.itemId,
       quantity: 1,
     };
-    
+
     doPost("/api/v1/orderItem", productData, {
       accept: "application/json",
       Authorization: `Bearer ${token}`,
@@ -69,7 +69,7 @@ export default function Suggestion() {
         </div>
         <div className="flex justify-center items-center">
           <img
-            src={`http://127.0.0.1:6060/${suggestionProduct.fileUrl}`}
+            src={`http://127.0.0.1:6060/${suggestionProduct?.fileUrl}`}
             alt=""
             className="md:w-full w-[40%]"
           />

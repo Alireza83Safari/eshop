@@ -72,7 +72,7 @@ export default function Offer() {
 
         <div className="w-full bg-gray-100 flex items-center justify-center">
           <img
-            src={`http://127.0.0.1:6060/${newProduct.fileUrl}`}
+            src={`http://127.0.0.1:6060/${newProduct?.fileUrl}`}
             className="p-10 object-cover"
             alt=""
           />
@@ -83,25 +83,25 @@ export default function Offer() {
           </p>
           <div className="grid grid-cols-3 py-3">
             <img
-              src={`http://127.0.0.1:6060/${newProduct.fileUrl}`}
+              src={`http://127.0.0.1:6060/${newProduct?.fileUrl}`}
               className="p-1"
               alt=""
             />
             <img
-              src={`http://127.0.0.1:6060/${newProduct.fileUrl}`}
+              src={`http://127.0.0.1:6060/${newProduct?.fileUrl}`}
               className="p-1"
               alt=""
             />
             <img
-              src={`http://127.0.0.1:6060/${newProduct.fileUrl}`}
+              src={`http://127.0.0.1:6060/${newProduct?.fileUrl}`}
               className="p-1"
               alt=""
             />
           </div>
           <div className="w-full bg-gray-200 my-5">
-            <span className="mx-5 text-sm">{newProduct.price}$</span>
-            <span className="mx-5 text-sm">{newProduct.price}$</span>
-            <span className="mx-5 text-sm">{newProduct.price}$</span>
+            <span className="mx-5 text-sm">{newProduct?.price}$</span>
+            <span className="mx-5 text-sm">{newProduct?.price}$</span>
+            <span className="mx-5 text-sm">{newProduct?.price}$</span>
           </div>
 
           <div className="text-black-900 dark:text-white-100">
