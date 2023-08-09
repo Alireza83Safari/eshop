@@ -1,37 +1,50 @@
 import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 import productsContext from "../../Context/productsContext";
+import { useForm } from "react-hook-form";
+import useFetch from "../../hooks/useFetch";
 
 export default function EditProduct({
-  editProductInfos,
-  setEditProductInfos,
   productEditId,
   showEditModal,
   setShowEditModal,
+  getProductsList,
+  brands,
+  category,
 }) {
-  const { getAllProducts } = useContext(productsContext);
+  // React Hook Form setup
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
 
-  const newInfoHandler = (e) => {
-    setEditProductInfos((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  // Accessing token from context
+  const { token } = useContext(productsContext);
 
-  const postProduct = (e) => {
-    e.preventDefault();
+  // Fetching data for the product to be edited
+  const { datas: editData } = useFetch(
+    `/api/v1/admin/product/${productEditId}`
+  );
 
-    fetch(`http://localhost:9000/products/${productEditId}`, {
-      method: "PUT",
+  // Function to post edited product data
+  const editProductHandler = (e) => {
+    fetch(`/api/v1/product/edit/${productEditId}`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: token,
       },
-      body: JSON.stringify(editProductInfos),
+      body: JSON.stringify(e),
     })
-      .then((res) => res.json())
-      .then((result) => {
-        getAllProducts();
+      .then((res) => {
+        res.json();
+      })
+      .then(() => {
         setShowEditModal(false);
+        getProductsList();
+        reset();
       });
   };
 
@@ -41,84 +54,175 @@ export default function EditProduct({
         showEditModal ? "visible" : "invisible"
       }`}
     >
-      <div className="relative w-1/3 bg-white-100 dark:bg-black-200 p-5 rounded-xl">
-        <span className="mb-5 text-xl font-bold flex justify-center dark:text-white-100">
-          Edit Product Infos
+      <div className="w-1/3  bg-white-100 p-5 rounded-xl">
+        <span className="mb-5 text-xl font-bold flex justify-center">
+          Edit Product
         </span>
-        <form onSubmit={(e) => e.preventDefault()}>
-          <div className="grid grid-cols-1 gap-2 mt-2">
-            <span className="font-medium text-gray-800 dark:text-white-100">Name</span>
-            <input
-              type="text"
-              name="name"
-              placeholder="name"
-              className="border py-2 px-2 rounded-lg outline-none focus:border-blue-600"
-              value={editProductInfos.name}
-              onChange={newInfoHandler}
-            />
 
-            <span className="font-medium text-gray-800 dark:text-white-100">Image Address</span>
-            <input
-              type="text"
-              name="img"
-              placeholder="img"
-              className="border py-2 px-2 rounded-lg outline-none focus:border-blue-600"
-              value={editProductInfos.img}
-              onChange={newInfoHandler}
-            />
-
-            <span className="font-medium text-gray-800 dark:text-white-100">Price</span>
-            <input
-              type="text"
-              name="price"
-              placeholder="price"
-              className="border py-2 px-2 rounded-lg outline-none focus:border-blue-600"
-              value={editProductInfos.price}
-              onChange={newInfoHandler}
-            />
-
-            <span className="font-medium text-gray-800 dark:text-white-100">Sold</span>
-            <input
-              type="text"
-              name="sale"
-              placeholder="sale"
-              className="border py-2 px-2 rounded-lg outline-none focus:border-blue-600"
-              value={editProductInfos.sale}
-              onChange={newInfoHandler}
-            />
-
-            <div className="flex">
-              <div className="mr-2 w-1/2">
-                <span className="font-medium text-gray-800 dark:text-white-100">Status</span>
-                <select
-                  name="status"
-                  id=""
-                  value={editProductInfos.status}
-                  className="border py-2 px-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                  onChange={newInfoHandler}
+        <form
+          onSubmit={handleSubmit(editProductHandler)}
+          className="w-full max-w-sm mx-auto p-4 bg-white rounded-lg"
+        >
+          <div className="grid grid-cols-1 gap-4 mt-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label
+                  htmlFor="name"
+                  className="block text-gray-800 font-medium"
                 >
-                  <option value="">Status</option>
-                  <option value="Publish">Publish</option>
-                  <option value="Inactive">Inactive</option>
-                </select>
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Product Name"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  {...register("name", {
+                    required: "This field is required",
+                  })}
+                  defaultValue={editData?.name}
+                />
+                {errors.name && (
+                  <p className="text-red-700 text-sm">{errors.name.message}</p>
+                )}
               </div>
-              <div className="ml-2 w-1/2">
-                <span className="font-medium text-gray-800 dark:text-white-100">Category</span>
-                <select
-                  name="category"
-                  id=""
-                  value={editProductInfos.category}
-                  placeholder=""
-                  className="border py-2 px-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                  onChange={newInfoHandler}
+
+              <div>
+                <label
+                  htmlFor="colorId"
+                  className="block text-gray-800 font-medium"
                 >
-                  <option value="">Category</option>
-                  <option value="Electronics">Electronics</option>
-                  <option value="Home & Kitchen">Home & Kitchen</option>
-                  <option value="Fresh">Fresh</option>
-                  <option value="Travel">Travel</option>
-                  <option value="Cloths">Cloths</option>
+                  Category
+                </label>
+                <select
+                  name="categoryId"
+                  id="categoryId"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  {...register("categoryId", {
+                    required: "Please select a Category",
+                  })}
+                  defaultValue={editData?.categoryId}
+                >
+                  <option value="">Select a Category</option>
+                  {category &&
+                    category.map((cate) => (
+                      <option key={cate.id} value={cate.id}>
+                        {cate.name}
+                      </option>
+                    ))}
                 </select>
+                {errors.categoryId && (
+                  <p className="text-red-700 text-sm">
+                    {errors.categoryId.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label
+                  htmlFor="brandId"
+                  className="block text-gray-800 font-medium"
+                >
+                  Brand
+                </label>
+                <select
+                  name="brandId"
+                  id="brandId"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  {...register("brandId", {
+                    required: "Please select a brand",
+                  })}
+                  defaultValue={editData?.brandId || ""}
+                >
+                  <option value="">Select a brand</option>
+                  {brands &&
+                    brands.map((brand) => (
+                      <option key={brand.id} value={brand.id}>
+                        {brand.name}
+                      </option>
+                    ))}
+                </select>
+                {errors.brandId && (
+                  <p className="text-red-700 text-sm">
+                    {errors.brandId.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label
+                  htmlFor="code"
+                  className="block text-gray-800 font-medium"
+                >
+                  code
+                </label>
+                <input
+                  type="number"
+                  id="code"
+                  name="code"
+                  placeholder="Product Code"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  {...register("code", {
+                    required: "This field is required",
+                  })}
+                  defaultValue={editData?.code}
+                />
+                {errors.code && (
+                  <p className="text-red-700 text-sm">{errors.code.message}</p>
+                )}
+              </div>
+            </div>
+
+            <div className="">
+              <div>
+                <label
+                  htmlFor="shortDescription"
+                  className="block text-gray-800 font-medium"
+                >
+                  Short Description
+                </label>
+                <input
+                  type="text"
+                  id="shortDescription"
+                  name="shortDescription"
+                  placeholder="Product Short Description"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  {...register("shortDescription", {
+                    required: "This field is required",
+                  })}
+                  defaultValue={editData?.shortDescription}
+                />
+                {errors.shortDescription && (
+                  <p className="text-red-700 text-sm">
+                    {errors.shortDescription.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label
+                  htmlFor="description"
+                  className="block text-gray-800 font-medium"
+                >
+                  Description
+                </label>
+                <input
+                  type="text"
+                  id="description"
+                  name="description"
+                  placeholder="Product Description"
+                  className="border py-4 px-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  {...register("description", {
+                    required: "This field is required",
+                  })}
+                  defaultValue={editData?.description}
+                />
+                {errors.description && (
+                  <p className="text-red-700 text-sm">
+                    {errors.description.message}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -126,15 +230,13 @@ export default function EditProduct({
           <div className="flex justify-center mt-8">
             <button
               type="submit"
-              className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2"
-              onClick={postProduct}
+              className="bg-blue-600 text-white-100 w-1/2 py-2 rounded-xl mr-2"
             >
               Edit Product
             </button>
-
             <button
               type="submit"
-              className="w-full py-2 rounded-xl border ml-2 dark:text-white-100"
+              className="w-1/2 py-2 rounded-xl border ml-2"
               onClick={() => setShowEditModal(false)}
             >
               Cancel

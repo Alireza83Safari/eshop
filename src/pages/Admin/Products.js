@@ -186,7 +186,7 @@ export default function Products() {
         productEditId={productEditId}
         showEditModal={showEditModal}
         setShowEditModal={setShowEditModal}
-        productList={productList}
+        getProductsList={getProductsList}
         brands={brands}
         category={category}
       />
