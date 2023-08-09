@@ -10,6 +10,7 @@ import ProductsInfo from "../pages/ProductsInfo";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import PanelProducts from "../pages/Admin/Products";
+import Favorite from "../pages/Favorite";
 
 const route = [
   { path: "shop", element: <ShopIndex /> },
@@ -18,6 +19,7 @@ const route = [
   { path: "checkout", element: <CheckOut /> },
   { path: "login", element: <Login /> },
   { path: "register", element: <Register /> },
+  { path: "favorite", element: <Favorite /> },
 
   {
     path: "/panel/*",

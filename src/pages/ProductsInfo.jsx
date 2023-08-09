@@ -23,14 +23,15 @@ export default function ProductsInfo() {
   const [activeTab, setActiveTab] = useState("description");
   const { doPost } = usePost();
   const findProduct = getProducts.find((product) => product.id == productID);
-  console.log(productID);
 
+  // Add the product to the cart
   const handleAddToCart = () => {
     let productData = {
       productItemId: findProduct.itemId,
       quantity: 1,
     };
 
+    // Make a POST request to add the product to the cart
     doPost("/api/v1/orderItem", productData, {
       accept: "application/json",
       Authorization: `Bearer ${token}`,
@@ -41,26 +42,42 @@ export default function ProductsInfo() {
       position: "bottom-right",
     });
   };
-
-  const addToFavorite = () => {
+  // Add the product to favorites
+  const addToFavorite = (ID) => {
     let productData = {
-      productItemId: findProduct.itemId,
-      quantity: 1,
+      productItemId: ID,
     };
-
-    doPost("/api/v1/user/favoriteProducts", productData, {
-      accept: "application/json",
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    });
-
-    toast.success(`${findProduct.name} added to cart!`, {
-      position: "bottom-right",
+    // Make a POST request to add the product to favorites
+    fetch("/api/v1/favoriteProductItem", {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(productData),
+    }).then((res) => {
+      res.json();
+      if (res.status === 200) {
+        toast.success(`${findProduct.name} added to favorite!`, {
+          position: "bottom-right",
+        });
+      } else if (res.status === 400) {
+        toast.success(`${findProduct.name} Previously added product`, {
+          position: "bottom-right",
+          type: "warning",
+        });
+      }
     });
   };
 
+  // Display "Product not found" message if the product is not found
   if (!findProduct) {
-    return <div>Product not found!</div>;
+    return (
+      <div className="flex justify-center items-center text-5xl">
+        Product not found!
+      </div>
+    );
   }
 
   return (
@@ -72,7 +89,7 @@ export default function ProductsInfo() {
           <div className="lg:col-span-4 md:col-span-5 col-span-12">
             <div className="md:block flex justify-center md:w-80 w-full md:px-4 lg:py-10 md:py-20">
               <img
-                src={`http://127.0.0.1:6060/${findProduct.fileUrl}`}
+                src={`http://127.0.0.1:6060/${findProduct?.fileUrl}`}
                 alt=""
                 className="md:w-full w-7/12 object-contain md:py-0 py-5"
               />
@@ -97,7 +114,7 @@ export default function ProductsInfo() {
                 <FontAwesomeIcon
                   icon={faHeart}
                   className="mr-10 text-2xl text-red-700 hover:text-red-300 duration-300"
-                  onClick={() => addToFavorite()}
+                  onClick={() => addToFavorite(findProduct?.itemId)}
                 />
               </div>
               <div className="md:flex grid grid-cols-2 sm:py-4 py-6 sm:text-sm text-xs">
@@ -117,7 +134,7 @@ export default function ProductsInfo() {
                 <div className="md:flex grid grid-cols-2">
                   <p className="py-2 mr-20 sm:text-sm text-xs">
                     Category :
-                    <Link to="electronics">{findProduct.categoryName}</Link>
+                    <Link to="electronics">{findProduct?.categoryName}</Link>
                   </p>
                   <p className="py-2 sm:text-sm text-xs">
                     Status :
@@ -145,7 +162,7 @@ export default function ProductsInfo() {
               <h3 className="pb-6 sm:text-sm text-xs sm:py-4 py-6">
                 Total Price:
                 <span className="text-lg ml-4 font-bold text-red-700">
-                  {findProduct.price}$
+                  {findProduct?.price}$
                 </span>
               </h3>
 
