@@ -4,17 +4,25 @@ import React, { useContext, useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import productContext from "../Context/productsContext";
 import usePost from "../hooks/usePost";
+import useFetch from "../hooks/useFetch";
 
 export default function Offer() {
   const [count, setCount] = useState(1);
-  const { getProducts, token } = useContext(productContext);
-
+  const { token } = useContext(productContext);
+  const [getProducts, setProducts] = useState([]);
   const [newProduct, setNewProduct] = useState({
     id: "ae0ed272-feb1-41af-bbc4-d14f03f58992",
     brandName: "Apple",
     price: 1299,
     fileUrl: "uploads/product/01bc03af-9404-4c88-95f5-5dfc6db79634.png",
   });
+
+  const { datas: productsData } = useFetch("/api/v1/product");
+  useEffect(() => {
+    if (productsData && productsData.data) {
+      setProducts(productsData.data);
+    }
+  }, [productsData]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -36,7 +44,6 @@ export default function Offer() {
       quantity: 1,
     };
 
-    
     doPost("/api/v1/orderItem", productData, {
       accept: "application/json",
       Authorization: `Bearer ${token}`,

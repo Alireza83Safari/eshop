@@ -53,7 +53,7 @@ export default function Comments() {
 
   return (
     <>
-      <section className="float-right mt-16 pt-4 px-6 md:pb-16 bg-white-200 dark:text-white-100 min-h-screen dark:bg-black-600 lg:w-[87%] w-[93%] flex">
+      <section className="float-right mt-16 pt-4 px-6 md:pb-16 bg-white-200 dark:text-white-100 min-h-screen dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] flex">
         {isLoading ? (
           <div className="flex justify-center items-center w-full">
             <Spinner />

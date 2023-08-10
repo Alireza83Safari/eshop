@@ -3,10 +3,10 @@ import Timer from "./Timer";
 import productContext from "../Context/productsContext";
 import { ToastContainer, toast } from "react-toastify";
 import usePost from "../hooks/usePost";
+import useFetch from "../hooks/useFetch";
 
 export default function Suggestion() {
-  const { getProducts, token } = useContext(productContext);
-
+  const { token } = useContext(productContext);
   const [suggestionProduct, setSuggestionProduct] = useState({
     id: "47ff1c68-1c11-4627-b212-fb5b0dc62aea",
     brandName: "Huawei",
@@ -14,12 +14,20 @@ export default function Suggestion() {
     itemId: "0da783f9-2dc1-4da9-967a-a6ee441f40a7",
     fileUrl: "uploads/product/182a5646-4eba-47eb-93e3-c8b1c08a379b.png",
   });
-  const { doPost } = usePost();
+
+  const [getProducts, setProducts] = useState([]);
+  const { datas: productsData } = useFetch("/api/v1/product");
+  useEffect(() => {
+    if (productsData && productsData.data) {
+      setProducts(productsData.data);
+    }
+  }, [productsData]);
 
   let findProduct = getProducts.find(
     (product) => product.id === suggestionProduct.id
   );
 
+  const { doPost } = usePost();
   const addToCart = () => {
     let productData = {
       productItemId: findProduct.itemId,

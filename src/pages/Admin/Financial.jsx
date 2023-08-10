@@ -32,7 +32,7 @@ export default function Fiancaial() {
   const COLORS = ["red", "#00C49F", "#FFBB28"];
 
   return (
-    <section className="float-right mt-12 pt-4 md:px-6 pl-4 pb-8 bg-white-200 dark:bg-black-600 lg:w-[87%] w-[93%]">
+    <section className="float-right mt-12 md:px-6 px-2 pb-8 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%]">
       <div className="mb-4">
         <Suspense fallback={<Spinner />}>
           <FinancialInfos
@@ -48,7 +48,7 @@ export default function Fiancaial() {
           <FiancialTable />
         </Suspense>
 
-        <div className="relative lg:col-span-4 col-span-10 bg-white-100 dark:bg-black-200 rounded-xl mt-2 m-5">
+        <div className="relative lg:col-span-4 col-span-12 bg-white-100 dark:bg-black-200 rounded-xl mt-2 md:mx-5 mx-2">
           <p className="xl:text-lg md:text-base text-lg text-center pt-6 dark:text-white-100">
             Transactions Chart
           </p>

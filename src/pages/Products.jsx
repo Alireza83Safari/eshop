@@ -33,11 +33,17 @@ const filterReducer = (state, action) => {
 
 export default function Products() {
   const { token } = useContext(productsContext);
-  const [getProducts, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [paginatedProducts, setPaginatedProducts] = useState([]);
   const [showFilterInSm, setShowFilterInSm] = useState(false);
   const [productId, setProductId] = useState();
+  const [getProducts, setProducts] = useState([]);
+  const { datas: productsData } = useFetch("/api/v1/product");
+  useEffect(() => {
+    if (productsData && productsData.data) {
+      setProducts(productsData.data);
+    }
+  }, [productsData]);
 
   let pageSize = 9;
   let pageNumber;
@@ -189,7 +195,6 @@ export default function Products() {
           <ToastContainer />
         </section>
       )}
-
       <Footer />
     </>
   );

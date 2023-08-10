@@ -15,8 +15,8 @@ import productsContext from "../../Context/productsContext";
 export default function Sidebar() {
   const items = [
     { icon: faHomeAlt, text: "Home", to: "" },
-    { icon: faShop, text: "Shop", to: "products" },
-    { icon: faRightToBracket, text: "Log In", to: "login" },
+    { icon: faShop, text: "Shop", to: "/products" },
+    { icon: faRightToBracket, text: "Log In", to: "/login" },
   ];
   const { showShopSidebar, setShowShopSidebar } = useContext(productsContext);
 

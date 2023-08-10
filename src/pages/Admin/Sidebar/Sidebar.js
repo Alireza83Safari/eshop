@@ -33,31 +33,31 @@ export default function Sidebar() {
   }, [productName]);
 
   return (
-    <section className="fixed top-0 left-0 bg-white-100 dark:bg-black-900 h-full lg:w-[13%] w-[5%] font-bold">
-      <div className="py-5 lg:pl-7 sm:pl-5 pl-3 xl:text-[.9rem] md:text-xs">
-        <Link to="dashboard">
+    <section className="fixed top-0 left-0 bg-white-100 dark:bg-black-900 h-full xl:w-[10%] lg:w-[12%] sm:w-[6%] w-[9%] font-bold">
+      <div className="xl:text-[.9rem] md:text-xs">
+        <Link to="dashboard" className="">
           <div className="w-full invisible lg:visible">
             <img
               src={mode ? "/images/logo-dark.png" : "/images/logo-light.png"}
               alt="logo"
-              className=" w-full pr-10"
+              className="py-3 px-5"
             />
           </div>
         </Link>
-        <p className="text-black-200 left-2 dark:text-white-100 whitespace-nowrap lg:text-xs lg:pt-10 invisible lg:visible">
+        <p className="text-black-200 lg:pl-4 dark:text-white-100 whitespace-nowrap lg:text-xs lg:pt-6 invisible lg:visible">
           main menu
         </p>
 
         <div className="lg:mt-6">
           {items.map((item, index) => (
             <Link
-              className="flex py-4 items-center lg:text-xs xl:text-base text-black-700 relative dark:text-white-100"
+              className="flex py-4 items-center lg:justify-normal justify-center xl:text-sm lg:text-xs text-black-700 relative dark:text-white-100 lg:pl-4"
               key={index}
               to={item.to}
             >
               <div>
                 <div
-                  className={`hover-element relative whitespace-nowrap ${
+                  className={` hover-element relative whitespace-nowrap ${
                     activeId.toLocaleLowerCase() ===
                     item.text.toLocaleLowerCase()
                       ? "active"
@@ -68,7 +68,7 @@ export default function Sidebar() {
                     icon={item.icon}
                     className="lg:text-base text-xl"
                   />
-                  <Link className="ml-3 lg:visible invisible" to={item.to}>
+                  <Link className="ml-3 lg:inline hidden" to={item.to}>
                     {item.text}
                   </Link>
                 </div>
@@ -78,7 +78,7 @@ export default function Sidebar() {
         </div>
       </div>
 
-      <div className="lg:pl-7 sm:pl-5 pl-3 pr-4 xl:text-sm md:text-xs">
+      <div className="lg:pl-7 sm:pl-5 pl-3 xl:text-sm md:text-xs">
         <p className="text-xs lg:flex hidden text-black-200 pt-6 pb-4 dark:text-white-100">
           Options
         </p>

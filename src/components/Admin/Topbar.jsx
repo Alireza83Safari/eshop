@@ -15,7 +15,7 @@ export default function Topbar() {
   return (
     <>
       {topbarData.map((data, index) => (
-        <div className="relative rounded-lg col-span-1 bg-white-100 dark:bg-black-200 p-6 dark:text-white-100 text-black-900">
+        <div className="relative rounded-lg sm:col-span-1 col-span-3 bg-white-100 dark:bg-black-200 p-6 dark:text-white-100 text-black-900">
           <div className="flex items-center sm:justify-between text-xs 2xl:text-base lg:text-sm">
             <p className="xl:mr-4 whitespace-nowrap">{data.title}</p>
             <span

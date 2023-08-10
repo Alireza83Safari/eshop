@@ -1,6 +1,12 @@
-import React, { useContext, useState, Suspense, lazy } from "react";
+import React, { useContext, useState, Suspense, lazy , useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faMoneyBill ,faShieldAlt, faStar, faTruck } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHeart,
+  faMoneyBill,
+  faShieldAlt,
+  faStar,
+  faTruck,
+} from "@fortawesome/free-solid-svg-icons";
 import { Link, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import productsContext from "../Context/productsContext";
@@ -8,16 +14,25 @@ import Header from "./Header/Header";
 import Footer from "./Footer";
 import usePost from "../hooks/usePost";
 import Spinner from "../components/Spinner/Spinner";
+import useFetch from "../hooks/useFetch";
 const Breadcrumb = lazy(() => import("../components/Breadcrumb"));
 const Description = lazy(() => import("../components/Description"));
 const Comments = lazy(() => import("../components/Comments"));
 
 export default function ProductsInfo() {
-  const { getProducts, token } = useContext(productsContext);
+  const { token } = useContext(productsContext);
   const { productID } = useParams();
   const [activeTab, setActiveTab] = useState("description");
   const { doPost } = usePost();
   const findProduct = getProducts.find((product) => product.id == productID);
+
+  const [getProducts, setProducts] = useState([]);
+  const { datas: productsData } = useFetch("/api/v1/product");
+  useEffect(() => {
+    if (productsData && productsData.data) {
+      setProducts(productsData.data);
+    }
+  }, [productsData]);
 
   // Add the product to the cart
   const handleAddToCart = () => {

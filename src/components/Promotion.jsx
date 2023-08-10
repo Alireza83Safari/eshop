@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import productsContext from "../Context/productsContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,10 +10,19 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import Timer from "./Timer";
 import usePost from "../hooks/usePost";
+import useFetch from "../hooks/useFetch";
 
 export default function Promotion() {
-  const { token, getProducts } = useContext(productsContext);
+  const { token } = useContext(productsContext);
   const [currentProductIndex, setCurrentProductIndex] = useState(4);
+
+  const [getProducts, setProducts] = useState([]);
+  const { datas: productsData } = useFetch("/api/v1/product");
+  useEffect(() => {
+    if (productsData && productsData.data) {
+      setProducts(productsData.data);
+    }
+  }, [productsData]);
 
   const productsPerSlide = 4;
 

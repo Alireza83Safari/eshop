@@ -30,7 +30,7 @@ const DashboardChart = () => {
     selectedDataType === "monthly" ? salesChartMonthly : salesChartWeekly;
 
   return (
-    <div className="ml-7 mr-5 md:mb-0 mb-6">
+    <div className="ml-7 mr-5 md:mb-0 mb-6 ">
       <div className="mt-6 bg-white-100 dark:bg-black-200 py-5 rounded-xl">
         <div className="flex justify-between px-6">
           <p className="text-xs font-bold dark:text-white-100 2xl:text-lg">
@@ -50,7 +50,7 @@ const DashboardChart = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-center lg:h-80 md:h-72 px-2 bg-white-100 dark:bg-black-200">
+        <div className="flex justify-center px-2 w-72 bg-white-100 dark:bg-black-200 container">
           <BarChartComponent datas={selectedData} />
         </div>
       </div>

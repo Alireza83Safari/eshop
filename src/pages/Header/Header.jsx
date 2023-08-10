@@ -14,8 +14,15 @@ const Profile = lazy(() => import("../../components/Profile/Profile"));
 
 export default function Header() {
   const [orders, setOrders] = useState([]);
-  const { mode, setMode, showShopSidebar, setShowShopSidebar, getProducts } =
+  const { mode, setMode, showShopSidebar, setShowShopSidebar } =
     useContext(productsContext);
+  const [getProducts, setProducts] = useState([]);
+  const { datas: productsData } = useFetch("/api/v1/product");
+  useEffect(() => {
+    if (productsData && productsData.data) {
+      setProducts(productsData.data);
+    }
+  }, [productsData]);
 
   const { datas: ordersData } = useFetch("/api/v1/order");
   useEffect(() => {
@@ -63,7 +70,7 @@ export default function Header() {
               className="text-2xl md:mr-5 dark:text-white-100"
               onClick={() => setShowShopSidebar(!showShopSidebar)}
             />
-            <Link to="/">
+            <Link to="/shop">
               <img
                 src={
                   mode

@@ -3,13 +3,15 @@ import React from "react";
 import {
   faCircleQuestion,
   faEdit,
+  faHeart,
   faRightFromBracket,
   faUserAstronaut,
   faUserGear,
 } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 export default function Profile() {
   return (
-    <div className="absolute top-16 dark:bg-black-900 dark:text-white-100 bg-white-100 text-sm px-6 py-4 rounded-xl">
+    <div className="absolute top-16 dark:bg-black-900 dark:text-white-100 bg-white-100 text-sm px-6 py-4 rounded-xl z-10">
       <div className="mb-3">
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrT3XAWJ1ibDAoQ7sLZuYTk062ZYlr2JDNzPtmr8savg&usqp=CAU&ec=48665698"
@@ -19,29 +21,34 @@ export default function Profile() {
         <p className="py-1">Alireza Safari</p>
         <p className="text-xs text-gray-500">Premium Member</p>
       </div>
-      <div className="flex items-center py-2">
+
+      <Link className="flex items-center py-2">
         <FontAwesomeIcon icon={faEdit} />
         <p className="pl-2">Edit Profile</p>
-      </div>
-      <div className="flex items-center border-b pb-4 py-1">
+      </Link>
+      <Link className="flex items-center py-2" to="/favorite">
+        <FontAwesomeIcon icon={faHeart} />
+        <p className="pl-2">Favorite Products</p>
+      </Link>
+      <Link className="flex items-center border-b pb-4 py-1">
         <FontAwesomeIcon icon={faUserAstronaut} />
         <p className="pl-2">View Profile</p>
-      </div>
+      </Link>
 
-      <div className="flex py-2 pt-4">
+      <Link className="flex py-2 pt-4">
         <FontAwesomeIcon icon={faCircleQuestion} />
         <p className="pl-2">Help Center</p>
-      </div>
+      </Link>
 
-      <div className="flex py-2">
+      <Link className="flex py-2">
         <FontAwesomeIcon icon={faUserGear} />
         <p className="pl-1">Account Setting</p>
-      </div>
+      </Link>
 
-      <div className="flex py-2">
+      <Link className="flex py-2">
         <FontAwesomeIcon icon={faRightFromBracket} />
         <p className="pl-2">Log Out</p>
-      </div>
+      </Link>
     </div>
   );
 }

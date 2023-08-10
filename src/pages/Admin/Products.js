@@ -91,7 +91,7 @@ export default function Products() {
   }, [productListsData]);
 
   return (
-    <section className="p-6 float-right mt-12 bg-white-200 dark:bg-black-600 lg:w-[87%] w-[93%] min-h-screen">
+    <section className="p-6 float-right mt-12 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] min-h-screen">
       <div className="grid grid-cols-10">
         <div className="lg:col-span-7 col-span-10 mt-5 lg:px-6 px-1 overflow-x-auto relative bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-xl">
           <Suspense fallback={<Spinner />}>

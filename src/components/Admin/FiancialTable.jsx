@@ -24,7 +24,7 @@ export default function FiancialTable() {
     setPaginatedTransactions(sales.slice(startIndex, endIndex));
   }, [currentPage, sales]);
   return (
-    <div className="lg:col-span-8 col-span-10 mt-2 text-center sm:mx-5 sm:mr-5">
+    <div className="lg:col-span-8 col-span-12 md:mt-2 text-center md:mx-5 mx-2 mb-2">
       <p className="md:text-base text-sm font-bold border-b py-2 w-full bg-white-100 dark:text-white-100 dark:bg-black-200 rounded-t-xl 2xl:text-xl">
         Transactions
       </p>

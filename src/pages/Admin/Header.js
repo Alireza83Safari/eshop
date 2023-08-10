@@ -26,7 +26,7 @@ export default function Header() {
   return (
     <header className="relative">
       <div
-        className={` " flex justify-between items-center px-4 md:py-5 py-3 fixed z-10 dark:bg-dark right-0 top-0 w-[89%] lg:w-[87%] sm:w-[93%] " ${
+        className={` " flex justify-between items-center px-4 md:py-5 py-3 fixed z-10 dark:bg-dark right-0 top-0 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] " ${
           onScrollHeader ? "backdrop-blur-lg" : "bg-white-200 "
         }`}
       >
