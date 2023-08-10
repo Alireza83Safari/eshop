@@ -1,13 +1,20 @@
-import React, { useContext, useEffect, useReducer, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+  lazy,
+  Suspense,
+} from "react";
 import productsContext from "../Context/productsContext";
-import ProductsTemplate from "../components/ProductsTemplate";
-import FilterProducts from "../components/FilterProducts";
 import { ToastContainer, toast } from "react-toastify";
-import Header from "./Header/Header";
-import Footer from "./Footer";
 import Spinner from "../components/Spinner/Spinner";
 import useFetch from "../hooks/useFetch";
 import usePost from "../hooks/usePost";
+import Header from "./Header/Header";
+import Footer from "./Footer";
+const ProductsTemplate = lazy(() => import("../components/ProductsTemplate"));
+const FilterProducts = lazy(() => import("../components/FilterProducts"));
 
 const filterReducer = (state, action) => {
   switch (action.type) {
@@ -61,7 +68,7 @@ export default function Products() {
 
     return priceFilter && categoryFilter;
   };
-  
+
   const { datas, isLoading } = useFetch("api/v1/product");
   useEffect(() => {
     if (datas && datas.data) {
@@ -141,20 +148,24 @@ export default function Products() {
                   ></path>
                 </svg>
               </button>
-              <FilterProducts
-                state={state}
-                dispatch={dispatch}
-                showFilterInSm={showFilterInSm}
-              />
+              <Suspense fallback={<Spinner />}>
+                <FilterProducts
+                  state={state}
+                  dispatch={dispatch}
+                  showFilterInSm={showFilterInSm}
+                />
+              </Suspense>
             </div>
 
             <div className="relative grid lg:grid-cols-3 sm:grid-cols-2 col-span-12 mt-5 pb-14">
-              {paginatedProducts.map((product) => (
-                <ProductsTemplate
-                  product={product}
-                  basketHandler={BasketHandler}
-                />
-              ))}
+              <Suspense fallback={<Spinner />}>
+                {paginatedProducts.map((product) => (
+                  <ProductsTemplate
+                    product={product}
+                    basketHandler={BasketHandler}
+                  />
+                ))}
+              </Suspense>
             </div>
           </div>
 
@@ -178,6 +189,7 @@ export default function Products() {
           <ToastContainer />
         </section>
       )}
+
       <Footer />
     </>
   );

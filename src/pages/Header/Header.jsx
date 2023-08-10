@@ -1,15 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, lazy, Suspense } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
   faCartShopping,
   faMoon,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
-import Profile from "../../components/Profile/Profile";
 import productsContext from "../../Context/productsContext";
 import useFetch from "../../hooks/useFetch";
+import Spinner from "../../components/Spinner/Spinner";
+import { Link } from "react-router-dom";
+const Profile = lazy(() => import("../../components/Profile/Profile"));
 
 export default function Header() {
   const [orders, setOrders] = useState([]);
@@ -154,7 +155,9 @@ export default function Header() {
               />
             </div>
           </div>
-          {showProfile && <Profile />}
+          <Suspense fallback={<Spinner />}>
+            {showProfile && <Profile />}
+          </Suspense>
         </div>
       </div>
     </header>

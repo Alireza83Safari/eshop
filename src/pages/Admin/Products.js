@@ -1,19 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import "react-toastify/dist/ReactToastify.css";
-
-import AddNewProduct from "../../components/Admin/AddNewProduct";
-import DeleteModal from "../../components/Admin/DeleteModal";
-import Departments from "../../components/Admin/Departments";
-import PiesChart from "../../components/Admin/Charts/PieChart";
-import ProductsTable from "../../components/Admin/ProductsTable";
-import FilterProducts from "../../components/Admin/FilterProducts";
 import Pagination from "../../components/Paganation";
-import AddProductItem from "../../components/Admin/AddProductItem";
-import AddProductFile from "../../components/Admin/AddProductFile";
-import EditProduct from "../../components/Admin/EditProduct";
 import useFetch from "../../hooks/useFetch";
+import Spinner from "../../components/Spinner/Spinner";
+
+const FilterProducts = lazy(() =>
+  import("../../components/Admin/FilterProducts")
+);
+const Departments = lazy(() => import("../../components/Admin/Departments"));
+const PiesChart = lazy(() => import("../../components/Admin/Charts/PieChart"));
+const ProductsTable = lazy(() =>
+  import("../../components/Admin/ProductsTable")
+);
+const AddNewProduct = lazy(() =>
+  import("../../components/Admin/AddNewProduct")
+);
+const DeleteModal = lazy(() => import("../../components/Admin/DeleteModal"));
+const AddProductItem = lazy(() =>
+  import("../../components/Admin/AddProductItem")
+);
+const AddProductFile = lazy(() =>
+  import("../../components/Admin/AddProductFile")
+);
+const EditProduct = lazy(() => import("../../components/Admin/EditProduct"));
 
 export default function Products() {
   const [productId, setProductId] = useState(null);
@@ -73,7 +84,6 @@ export default function Products() {
     "/api/v1/product/list"
   );
 
-
   useEffect(() => {
     if (productListsData) {
       setProductList(productListsData);
@@ -84,11 +94,13 @@ export default function Products() {
     <section className="p-6 float-right mt-12 bg-white-200 dark:bg-black-600 lg:w-[87%] w-[93%] min-h-screen">
       <div className="grid grid-cols-10">
         <div className="lg:col-span-7 col-span-10 mt-5 lg:px-6 px-1 overflow-x-auto relative bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-xl">
-          <FilterProducts
-            productList={productList}
-            brands={brands}
-            category={category}
-          />
+          <Suspense fallback={<Spinner />}>
+            <FilterProducts
+              productList={productList}
+              brands={brands}
+              category={category}
+            />
+          </Suspense>
 
           <div className="py-4 flex flex-co sm:flex-row justify-between px-4 w-full">
             <div className="flex bg-white-100 rounded-lg relative md:w-auto">
@@ -115,15 +127,17 @@ export default function Products() {
           </div>
 
           <div className="sm:h-[38rem] h-[35rem]">
-            <ProductsTable
-              paginatedProducts={paginatedProducts}
-              searchQuery={searchQuery}
-              setProductId={setProductId}
-              setShowDeleteModal={setShowDeleteModal}
-              setShowEditModal={setShowEditModal}
-              setProductEditId={setProductEditId}
-              productList={productList}
-            />
+            <Suspense fallback={<Spinner />}>
+              <ProductsTable
+                paginatedProducts={paginatedProducts}
+                searchQuery={searchQuery}
+                setProductId={setProductId}
+                setShowDeleteModal={setShowDeleteModal}
+                setShowEditModal={setShowEditModal}
+                setProductEditId={setProductEditId}
+                productList={productList}
+              />
+            </Suspense>
           </div>
           <Pagination
             pageNumber={pageNumber}
@@ -137,59 +151,64 @@ export default function Products() {
             <p className="absolute mt-5 xl:text-lg md:text-base text-lg dark:text-white-100">
               Transactions Chart
             </p>
-            <PiesChart />
+            <Suspense fallback={<Spinner />}>
+              <PiesChart />
+            </Suspense>
           </div>
 
           <div className="dark:bg-black-200 bg-white-100 rounded-xl">
-            <Departments />
+            <Suspense fallback={<Spinner />}>
+              <Departments />
+            </Suspense>
           </div>
         </div>
       </div>
+      <Suspense fallback={<Spinner />}>
+        {showAddProduct && (
+          <AddNewProduct
+            showAddProduct={showAddProduct}
+            setShowAddProduct={setShowAddProduct}
+            setProductCode={setProductCode}
+            setShowProductItem={setShowProductItem}
+            getProductsList={getProductsList}
+            brands={brands}
+            category={category}
+          />
+        )}
 
-      {showAddProduct && (
-        <AddNewProduct
-          showAddProduct={showAddProduct}
-          setShowAddProduct={setShowAddProduct}
-          setProductCode={setProductCode}
-          setShowProductItem={setShowProductItem}
+        {showProductItem && (
+          <AddProductItem
+            showProductItem={showProductItem}
+            setShowProductItem={setShowProductItem}
+            getProductsList={getProductsList}
+            findProduct={findProduct}
+            setShowFile={setShowFile}
+          />
+        )}
+        {showFile && (
+          <AddProductFile
+            findProduct={findProduct}
+            showFile={showFile}
+            setShowFile={setShowFile}
+          />
+        )}
+
+        <DeleteModal
+          productId={productId}
+          showDeleteModal={showDeleteModal}
+          setShowDeleteModal={setShowDeleteModal}
+          getProductsList={getProductsList}
+        />
+
+        <EditProduct
+          productEditId={productEditId}
+          showEditModal={showEditModal}
+          setShowEditModal={setShowEditModal}
           getProductsList={getProductsList}
           brands={brands}
           category={category}
         />
-      )}
-
-      {showProductItem && (
-        <AddProductItem
-          showProductItem={showProductItem}
-          setShowProductItem={setShowProductItem}
-          getProductsList={getProductsList}
-          findProduct={findProduct}
-          setShowFile={setShowFile}
-        />
-      )}
-      {showFile && (
-        <AddProductFile
-          findProduct={findProduct}
-          showFile={showFile}
-          setShowFile={setShowFile}
-        />
-      )}
-
-      <DeleteModal
-        productId={productId}
-        showDeleteModal={showDeleteModal}
-        setShowDeleteModal={setShowDeleteModal}
-        getProductsList={getProductsList}
-      />
-
-      <EditProduct
-        productEditId={productEditId}
-        showEditModal={showEditModal}
-        setShowEditModal={setShowEditModal}
-        getProductsList={getProductsList}
-        brands={brands}
-        category={category}
-      />
+      </Suspense>
     </section>
   );
 }

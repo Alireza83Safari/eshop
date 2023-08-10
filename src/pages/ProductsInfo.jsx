@@ -1,21 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState, Suspense, lazy } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHeart,
-  faMoneyBill,
-  faShieldAlt,
-  faStar,
-  faTruck,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faMoneyBill ,faShieldAlt, faStar, faTruck } from "@fortawesome/free-solid-svg-icons";
 import { Link, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import Breadcrumb from "../components/Breadcrumb";
 import productsContext from "../Context/productsContext";
 import Header from "./Header/Header";
 import Footer from "./Footer";
 import usePost from "../hooks/usePost";
-import Comments from "../components/Comments";
-import Description from "../components/Description";
+import Spinner from "../components/Spinner/Spinner";
+const Breadcrumb = lazy(() => import("../components/Breadcrumb"));
+const Description = lazy(() => import("../components/Description"));
+const Comments = lazy(() => import("../components/Comments"));
 
 export default function ProductsInfo() {
   const { getProducts, token } = useContext(productsContext);
@@ -83,7 +78,6 @@ export default function ProductsInfo() {
   return (
     <>
       <Header />
-
       <section className="md:px-5 xl:px-16 px-2 xl:container mx-auto">
         <div className="grid grid-cols-12">
           <div className="lg:col-span-4 md:col-span-5 col-span-12">
@@ -96,16 +90,18 @@ export default function ProductsInfo() {
             </div>
           </div>
           <div className="lg:col-span-6 md:col-span-7 col-span-12 md:px-0 px-8">
-            <Breadcrumb
-              links={[
-                { id: 1, title: "Home", to: "products" },
-                {
-                  id: 2,
-                  title: "product Info",
-                  to: "checkout",
-                },
-              ]}
-            />
+            <Suspense fallback={<Spinner />}>
+              <Breadcrumb
+                links={[
+                  { id: 1, title: "Home", to: "products" },
+                  {
+                    id: 2,
+                    title: "product Info",
+                    to: "checkout",
+                  },
+                ]}
+              />
+            </Suspense>
             <div className="text-black-900 dark:text-white-100 pr-4">
               <div className="flex justify-between">
                 <h1 className="sm:text-2xl text-lg font-bold">
@@ -254,13 +250,16 @@ export default function ProductsInfo() {
               REVIEWS
             </Link>
           </div>
-
-          {activeTab === "description" && <Description />}
-
-          {activeTab === "reviews" && <Comments />}
+          <Suspense fallback={<Spinner />}>
+            {activeTab === "description" && <Description />}
+          </Suspense>
+          <Suspense fallback={<Spinner />}>
+            {activeTab === "reviews" && <Comments />}
+          </Suspense>
         </div>
         <ToastContainer />
       </section>
+
       <Footer />
     </>
   );

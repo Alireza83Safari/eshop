@@ -1,9 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
-import CommentsInfos from "../../components/Admin/CommentsInfos";
-import CommentsTable from "../../components/Admin/CommentsTable";
+import React, { useContext, useEffect, useState, lazy, Suspense } from "react";
 import productsContext from "../../Context/productsContext";
 import Spinner from "../../components/Spinner/Spinner";
-import Pagination from "../../components/Paganation";
+
+const CommentsInfos = lazy(() =>
+  import("../../components/Admin/CommentsInfos")
+);
+const CommentsTable = lazy(() =>
+  import("../../components/Admin/CommentsTable")
+);
+const Pagination = lazy(() => import("../../components/Paganation"));
 
 export default function Comments() {
   const [comments, setComments] = useState([]);
@@ -47,39 +52,47 @@ export default function Comments() {
   ).length;
 
   return (
-    <section className="float-right mt-16 pt-4 px-6 md:pb-16 bg-white-200 dark:text-white-100 min-h-screen dark:bg-black-600 lg:w-[87%] w-[93%] flex">
-      {isLoading ? (
-        <div className="flex justify-center items-center w-full">
-          <Spinner />
-        </div>
-      ) : (
-        <div className="md:grid grid-cols-12">
-          <div className="md:col-span-9 mt-2 text-center">
-            <p className="text-md 2xl:text-xl font-bold border-b py-2 w-full bg-white-100 rounded-t-xl dark:bg-black-200">
-              Comments
-            </p>
-            <div className="relative lg:px-3 overflow-y-auto bg-white-100 rounded-b-xl dark:bg-black-200">
-              <div className="h-[27.4rem]">
-                <CommentsTable paginatedProducts={paginatedProducts} />
-              </div>
+    <>
+      <section className="float-right mt-16 pt-4 px-6 md:pb-16 bg-white-200 dark:text-white-100 min-h-screen dark:bg-black-600 lg:w-[87%] w-[93%] flex">
+        {isLoading ? (
+          <div className="flex justify-center items-center w-full">
+            <Spinner />
+          </div>
+        ) : (
+          <div className="md:grid grid-cols-12">
+            <div className="md:col-span-9 mt-2 text-center">
+              <p className="text-md 2xl:text-xl font-bold border-b py-2 w-full bg-white-100 rounded-t-xl dark:bg-black-200">
+                Comments
+              </p>
+              <div className="relative lg:px-3 overflow-y-auto bg-white-100 rounded-b-xl dark:bg-black-200">
+                <div className="h-[27.4rem]">
+                  <Suspense fallback={<Spinner />}>
+                    <CommentsTable paginatedProducts={paginatedProducts} />
+                  </Suspense>
+                </div>
 
-              <Pagination
-                pageNumber={pageNumber}
-                setCurrentPage={setCurrentPage}
-                currentPage={currentPage}
-              />
+                <Suspense fallback={<Spinner />}>
+                  <Pagination
+                    pageNumber={pageNumber}
+                    setCurrentPage={setCurrentPage}
+                    currentPage={currentPage}
+                  />
+                </Suspense>
+              </div>
+            </div>
+
+            <div className="md:col-span-3 md:block grid grid-cols-3 md:px-4">
+              <Suspense fallback={<Spinner />}>
+                <CommentsInfos
+                  totalComments={totalComments}
+                  totalAccept={totalAccept}
+                  totalReject={totalReject}
+                />
+              </Suspense>
             </div>
           </div>
-
-          <div className="md:col-span-3 md:block grid grid-cols-3 md:px-4 md:py-">
-            <CommentsInfos
-              totalComments={totalComments}
-              totalAccept={totalAccept}
-              totalReject={totalReject}
-            />
-          </div>
-        </div>
-      )}
-    </section>
+        )}
+      </section>
+    </>
   );
 }
