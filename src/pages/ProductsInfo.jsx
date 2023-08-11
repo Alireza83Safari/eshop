@@ -27,7 +27,7 @@ export default function ProductsInfo() {
   const findProduct = getProducts.find((product) => product.id == productID);
 
   const [getProducts, setProducts] = useState([]);
-  const { datas: productsData } = useFetch("/api/v1/product");
+  const { datas: productsData } = useFetch("/api/v1/user/product");
   useEffect(() => {
     if (productsData && productsData.data) {
       setProducts(productsData.data);
@@ -42,7 +42,7 @@ export default function ProductsInfo() {
     };
 
     // Make a POST request to add the product to the cart
-    doPost("/api/v1/orderItem", productData, {
+    doPost("/api/v1/user/orderItem", productData, {
       accept: "application/json",
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
@@ -58,7 +58,7 @@ export default function ProductsInfo() {
       productItemId: ID,
     };
     // Make a POST request to add the product to favorites
-    fetch("/api/v1/favoriteProductItem", {
+    fetch("/api/v1/user/favoriteProductItem", {
       method: "POST",
       headers: {
         accept: "application/json",

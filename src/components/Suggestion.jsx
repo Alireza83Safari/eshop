@@ -16,7 +16,7 @@ export default function Suggestion() {
   });
 
   const [getProducts, setProducts] = useState([]);
-  const { datas: productsData } = useFetch("/api/v1/product");
+  const { datas: productsData } = useFetch("/api/v1/user/product");
   useEffect(() => {
     if (productsData && productsData.data) {
       setProducts(productsData.data);
@@ -34,7 +34,7 @@ export default function Suggestion() {
       quantity: 1,
     };
 
-    doPost("/api/v1/orderItem", productData, {
+    doPost("/api/v1/user/orderItem", productData, {
       accept: "application/json",
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",

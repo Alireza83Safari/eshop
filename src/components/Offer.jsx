@@ -17,7 +17,7 @@ export default function Offer() {
     fileUrl: "uploads/product/01bc03af-9404-4c88-95f5-5dfc6db79634.png",
   });
 
-  const { datas: productsData } = useFetch("/api/v1/product");
+  const { datas: productsData } = useFetch("/api/v1/user/product");
   useEffect(() => {
     if (productsData && productsData.data) {
       setProducts(productsData.data);
@@ -44,7 +44,7 @@ export default function Offer() {
       quantity: 1,
     };
 
-    doPost("/api/v1/orderItem", productData, {
+    doPost("/api/v1/user/orderItem", productData, {
       accept: "application/json",
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",

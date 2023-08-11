@@ -32,7 +32,7 @@ export default function Favorite() {
 
   // Delete a favorite product
   const deleteFavorite = (ID) => {
-    fetch(`/api/v1/favoriteProductItem/delete/${ID}`, {
+    fetch(`/api/v1/user/favoriteProductItem/delete/${ID}`, {
       headers: {
         accept: "application/json",
         Authorization: token,
@@ -53,7 +53,7 @@ export default function Favorite() {
     };
 
     // Make a POST request to add the product to the cart
-    doPost("/api/v1/orderItem", productData, {
+    doPost("/api/v1/user/orderItem", productData, {
       accept: "application/json",
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",

@@ -17,25 +17,6 @@ function App() {
   };
 
   useEffect(() => {
-    if (mode) {
-      localStorage.setItem("theme", "dark");
-      document.documentElement.classList.add("dark");
-    } else {
-      localStorage.setItem("theme", "light");
-      document.documentElement.classList.remove("dark");
-    }
-  }, [mode]);
-
-  const userLogins = () => {
-    fetch("/api/v1/auth/is_authenticated").then((res) => {
-      if (res.status == 401) {
-        navigate("/login");
-      }
-      res.json();
-    });
-  };
-
-  useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
       setMode(true);
@@ -49,8 +30,17 @@ function App() {
     } else {
       navigate("/login");
     }
-    userLogins();
-  }, []);
+  }, [mode, token]);
+
+  useEffect(() => {
+    if (mode) {
+      localStorage.setItem("theme", "dark");
+      document.documentElement.classList.add("dark");
+    } else {
+      localStorage.setItem("theme", "light");
+      document.documentElement.classList.remove("dark");
+    }
+  }, [mode]);
 
   return (
     <div className="App max-w-[1400px] mx-auto relative w-full min-w-full">

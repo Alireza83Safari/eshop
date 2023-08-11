@@ -13,9 +13,11 @@ import useFetch from "../hooks/useFetch";
 import usePost from "../hooks/usePost";
 import Header from "./Header/Header";
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 const ProductsTemplate = lazy(() => import("../components/ProductsTemplate"));
 const FilterProducts = lazy(() => import("../components/FilterProducts"));
 
+// Reducer function for filtering products
 const filterReducer = (state, action) => {
   switch (action.type) {
     case "SET_MIN_PRICE":
@@ -33,6 +35,7 @@ const filterReducer = (state, action) => {
 
 export default function Products() {
   const { token } = useContext(productsContext);
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [paginatedProducts, setPaginatedProducts] = useState([]);
   const [showFilterInSm, setShowFilterInSm] = useState(false);
@@ -58,6 +61,7 @@ export default function Products() {
   };
   const [state, dispatch] = useReducer(filterReducer, initialState);
 
+  // Filter logic for products
   const filterProducts = (product) => {
     const { minPrice, maxPrice, selectedCategory } = state;
     const priceFilter =
@@ -75,32 +79,38 @@ export default function Products() {
     return priceFilter && categoryFilter;
   };
 
-  const { datas, isLoading } = useFetch("api/v1/product");
+  // Fetch user-specific product data
+  const { datas, isLoading } = useFetch("api/v1/user/product");
   useEffect(() => {
     if (datas && datas.data) {
       setProducts(datas.data);
     }
   }, [datas]);
 
+  // Hook for posting data
   const { doPost } = usePost();
+
+  // Fetch product item details
   const { datas: productItem } = useFetch(
-    `/api/v1/productItem/product/${productId}`
+    `/api/v1/admin/productItem/product/${productId}`
   );
 
-  const valueAtIndex0 = productItem && productItem[0]?.id;
-
+  // Handling adding items to the cart
   const BasketHandler = (cartID) => {
+    const valueAtIndex0 = productItem && productItem[0]?.id;
+
     setProductId(cartID);
     let userBasketHandler = {
       productItemId: valueAtIndex0,
       quantity: 1,
     };
-
-    doPost("/api/v1/orderItem", userBasketHandler, {
+    
+    doPost("/api/v1/user/orderItem", userBasketHandler, {
       accept: "application/json",
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     });
+
     const productToAdd = getProducts.find((product) => product.id === cartID);
 
     toast.success(`${productToAdd.name} added to cart!`, {
@@ -108,6 +118,7 @@ export default function Products() {
     });
   };
 
+  // Update paginated products based on filters and sorting
   useEffect(() => {
     let endIndex = currentPage * pageSize;
     let startIndex = endIndex - pageSize;
@@ -126,6 +137,7 @@ export default function Products() {
 
     setPaginatedProducts(sortedAndFilteredProducts.slice(startIndex, endIndex));
   }, [getProducts, currentPage, state]);
+
   return (
     <>
       <Header />

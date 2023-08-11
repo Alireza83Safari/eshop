@@ -17,7 +17,7 @@ export default function Promotion() {
   const [currentProductIndex, setCurrentProductIndex] = useState(4);
 
   const [getProducts, setProducts] = useState([]);
-  const { datas: productsData } = useFetch("/api/v1/product");
+  const { datas: productsData } = useFetch("/api/v1/user/product");
   useEffect(() => {
     if (productsData && productsData.data) {
       setProducts(productsData.data);

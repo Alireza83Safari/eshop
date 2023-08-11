@@ -19,7 +19,7 @@ export default function AddProductFile() {
     formData.append("fileUrl", data.image[0]);
     setIsLoading(true);
 
-    fetch(`/api/v1/file/uploadImage/${findProduct.id}/1`, {
+    fetch(`/api/v1/user/file/uploadImage/${findProduct.id}/1`, {
       method: "POST",
       body: formData,
     })

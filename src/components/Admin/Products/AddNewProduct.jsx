@@ -30,7 +30,7 @@ export default function AddNewProduct() {
     console.log(data);
     setProductCode(data.code);
     setIsLoading(true);
-    fetch("/api/v1/product", {
+    fetch("/api/v1/admin/product", {
       method: "POST",
       headers: {
         accept: "application/json",

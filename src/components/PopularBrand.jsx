@@ -7,7 +7,7 @@ export default function PopularBrand() {
   const [brands, setBrand] = useState([]);
   const { isLoading } = useContext(productsContext);
 
-  const { datas } = useFetch("/api/v1/brand");
+  const { datas } = useFetch("/api/v1/user/brand");
   useEffect(() => {
     if (datas && datas.data) {
       setBrand(datas.data);
