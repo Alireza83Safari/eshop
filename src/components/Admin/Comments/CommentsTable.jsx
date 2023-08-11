@@ -7,7 +7,7 @@ export default function CommentsTable({ comments, fetchDatas }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [paginatedProducts, setPaginatedProducts] = useState([]);
   const { token } = useContext(productsContext);
-  const pageSize = 8;
+  const pageSize = 11;
   const totalPage = Math.ceil(comments.length / pageSize);
   const pageNumber = Array.from(Array(totalPage).keys());
 
@@ -40,59 +40,59 @@ export default function CommentsTable({ comments, fetchDatas }) {
 
   return (
     <>
-      <table className="min-w-full">
+      <table >
         <thead>
-          <tr className="sm:text-xs text-[12px] 2xl:text-lg grid lg:grid-cols-6 grid-cols-4 border-b">
-            <th className="col-span-1 sm:py-2 py-3">User</th>
-            <th className="col-span-1 sm:py-2 py-3">Comment</th>
-            <th className="col-span-1 sm:py-2 py-3 lg:flex hidden">Product</th>
-            <th className="col-span-1 sm:py-2 py-3">Date</th>
-            <th className="col-span-1 sm:py-2 py-3">rate</th>
-            <th className="col-span-1 sm:py-2 py-3">Status</th>
+          <tr className="sm:text-xs text-[12px] 2xl:text-lg grid lg:grid-cols-6 sm:grid-cols-5 grid-cols-4 border-b sm:py-2 py-3">
+            <th>User</th>
+            <th>Comment</th>
+            <th>Product</th>
+            <th className="lg:block hidden">Date</th>
+            <th className="sm:block hidden">rate</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
           {paginatedProducts.map((comment) => (
             <tr
-              className="sm:text-xs text-[10px] 2xl:text-sm grid lg:grid-cols-6 grid-cols-4 px-4 py-1"
+              className="sm:text-xs text-[10px] 2xl:text-sm grid lg:grid-cols-6 sm:grid-cols-5 grid-cols-4 sm:px-4 sm:py- py-3"
               key={comment.id}
             >
-              <td className="col-span-1 sm:py-2 py-3 flex items-center">
+              <td className=" flex items-center">
                 <p className="font-bold">{comment.username}</p>
               </td>
 
-              <td className="col-span-1 sm:py-2 py-3 whitespace-nowrap text-ellipsis overflow-hidden pr-4">
+              <td className=" whitespace-nowrap text-ellipsis overflow-hidden">
                 {comment.text}
               </td>
-              <td className="col-span-1 sm:py-2 py-3 whitespace-nowrap overflow-auto text-ellipsis lg:flex hidden">
+              <td className=" whitespace-nowrap overflow-auto text-ellipsis">
                 {comment.productName}
               </td>
-              <td className="col-span-1 sm:py-2 py-3">
+              <td className="lg:block hidden">
                 {comment.createdAt.slice(0, 10)}
               </td>
-              <td className="col-span-1 sm:py-2 py-3">{comment.rate}/5</td>
-              <td className="col-span-1 sm:py-2 py-3">
+              <td className="sm:block hidden">{comment.rate}/5</td>
+              <td>
                 {comment.commentStatus === 0 ? (
-                  <div className="">
+                  <div>
                     <button
-                      className="text-[10px] font-black px-2 py-1 rounded-lg bg-green-100 text-green-300 mr-1"
+                      className="text-[10px] font-black p-1 rounded-l-lg bg-green-100 text-green-300"
                       onClick={() => commentStatusHandler(comment.id, 1)}
                     >
                       Accept
                     </button>
                     <button
-                      className="text-[10px] font-black px-2 py-1 rounded-lg  bg-red-300 text-red-100 ml-1"
+                      className="text-[10px] font-black p-1 rounded-r-lg  bg-red-300 text-red-100"
                       onClick={() => commentStatusHandler(comment.id, 2)}
                     >
                       Reject
                     </button>
                   </div>
                 ) : comment.commentStatus === 1 ? (
-                  <button className="text-[10px] font-black px-2 py-1 rounded-lg bg-green-100 text-green-300 mr-1">
+                  <button className="text-[10px] font-black p-1 rounded-lg bg-green-100 text-green-300">
                     Accepted
                   </button>
                 ) : (
-                  <button className="text-[10px] font-black px-2 py-1 rounded-lg  bg-red-300 text-red-100 ml-1">
+                  <button className="text-[10px] font-black p-1 rounded-lg  bg-red-300 text-red-100">
                     Rejected
                   </button>
                 )}

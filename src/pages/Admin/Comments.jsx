@@ -1,97 +1,52 @@
-import React, { useContext, useEffect, useState, lazy, Suspense } from "react";
-import productsContext from "../../Context/productsContext";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import Spinner from "../../components/Spinner/Spinner";
+import instance from "../../api/axios-interceptors";
 
-const CommentsInfos = lazy(() =>
-  import("../../components/Admin/CommentsInfos")
-);
-const CommentsTable = lazy(() =>
-  import("../../components/Admin/CommentsTable")
-);
-const Pagination = lazy(() => import("../../components/Paganation"));
+const CommentsInfos = lazy(() => import("../../components/Admin/Comments/CommentsInfos"));
+const CommentsTable = lazy(() => import("../../components/Admin/Comments/CommentsTable"));
 
 export default function Comments() {
   const [comments, setComments] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [paginatedProducts, setPaginatedProducts] = useState([]);
-  const { isLoading, setLoading } = useContext(productsContext);
 
-  const pageSize = 8;
-  const totalPage = Math.ceil(comments.length / pageSize);
-  const pageNumber = Array.from(Array(totalPage).keys());
-
-  useEffect(() => {
-    const startIndex = (currentPage - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-
-    setPaginatedProducts(comments.slice(startIndex, endIndex));
-  }, [currentPage, comments]);
-
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const response = await fetch("http://localhost:9000/comments/");
-        const commentData = await response.json();
-        setComments(commentData);
-      } catch (error) {
-        console.error("Error fetching comments:", error);
-      } finally {
-        setLoading(false);
+  const fetchDatas = async () => {
+    try {
+      const response = await instance.get("/api/v1/admin/comment");
+      setComments(response.data.data);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
       }
-    };
-
-    fetchComments();
-  }, [isLoading]);
-
-  const totalComments = comments.length;
-  const totalAccept = comments.filter(
-    (comment) => comment.status === "accept"
-  ).length;
-  const totalReject = comments.filter(
-    (comment) => comment.status === "reject"
-  ).length;
+      const data = await response.json();
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchDatas();
+  }, []);
 
   return (
     <>
-      <section className="float-right mt-16 pt-4 px-6 md:pb-16 bg-white-200 dark:text-white-100 min-h-screen dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] flex">
-        {isLoading ? (
-          <div className="flex justify-center items-center w-full">
-            <Spinner />
-          </div>
-        ) : (
-          <div className="md:grid grid-cols-12">
-            <div className="md:col-span-9 mt-2 text-center">
-              <p className="text-md 2xl:text-xl font-bold border-b py-2 w-full bg-white-100 rounded-t-xl dark:bg-black-200">
-                Comments
-              </p>
-              <div className="relative lg:px-3 overflow-y-auto bg-white-100 rounded-b-xl dark:bg-black-200">
-                <div className="h-[27.4rem]">
-                  <Suspense fallback={<Spinner />}>
-                    <CommentsTable paginatedProducts={paginatedProducts} />
-                  </Suspense>
-                </div>
-
+      <section className="float-right mt-16 pt-4 px-4 md:pb-16 bg-white-200 dark:text-white-100 min-h-screen dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%]">
+        <div className="md:grid grid-cols-12">
+          <div className="md:col-span-9 mt-2 text-center">
+            <p className="text-md 2xl:text-xl font-bold border-b py-2 w-full bg-white-100 rounded-t-xl dark:bg-black-200">
+              Comments
+            </p>
+            <div className="relative lg:px-3 overflow-y-auto bg-white-100 rounded-b-xl dark:bg-black-200">
+              <div className="h-[38rem]">
                 <Suspense fallback={<Spinner />}>
-                  <Pagination
-                    pageNumber={pageNumber}
-                    setCurrentPage={setCurrentPage}
-                    currentPage={currentPage}
-                  />
+                  <CommentsTable comments={comments} fetchDatas={fetchDatas} />
                 </Suspense>
               </div>
             </div>
-
-            <div className="md:col-span-3 md:block grid grid-cols-3 md:px-4">
-              <Suspense fallback={<Spinner />}>
-                <CommentsInfos
-                  totalComments={totalComments}
-                  totalAccept={totalAccept}
-                  totalReject={totalReject}
-                />
-              </Suspense>
-            </div>
           </div>
-        )}
+
+          <div className="md:col-span-3 md:block grid grid-cols-2 md:px-4">
+            <Suspense fallback={<Spinner />}>
+              <CommentsInfos comments={comments} />
+            </Suspense>
+          </div>
+        </div>
       </section>
     </>
   );
