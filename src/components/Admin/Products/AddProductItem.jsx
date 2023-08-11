@@ -1,27 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import ReactDOM from "react-dom";
 
 import { useForm } from "react-hook-form";
-import useFetch from "../../hooks/useFetch";
-import Spinner from "../Spinner/Spinner";
+import useFetch from "../../../hooks/useFetch";
+import Spinner from "../../Spinner/Spinner";
+import ProductsTable from "./ProductsTable";
+import ProductsPanelContext from "./ProductsPanelContext";
 
-export default function AddProductItem({
-  showProductItem,
-  getProductsList,
-  setShowProductItem,
-  findProduct,
-  setShowFile,
-}) {
+export default function AddProductItem() {
+  //console.log(findProduct);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm();
-
+  const {
+    getProductsList,
+    setShowFile,
+    findProduct,
+    setShowProductItem,
+    showProductItem,
+  } = useContext(ProductsPanelContext);
   const [colors, setColors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const { datas: colorsData } = useFetch("/api/v1/color");
   useEffect(() => {
     if (colorsData && colorsData.data) {
@@ -120,6 +124,7 @@ export default function AddProductItem({
                       required: "Please select a color",
                     })}
                   >
+                    <option value="">Select Color</option>
                     {colors.map((color) => (
                       <option key={color.id} value={color.id}>
                         {color.name}
@@ -170,9 +175,7 @@ export default function AddProductItem({
                       required: "Please select a status",
                     })}
                   >
-                    <option value="" disabled hidden>
-                      Select a status
-                    </option>
+                    <option value="">Select a status</option>
 
                     <option value="0">Publish</option>
                     <option value="1">InActive</option>

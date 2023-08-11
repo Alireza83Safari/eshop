@@ -1,17 +1,20 @@
 import React, { useContext } from "react";
 import ReactDOM from "react-dom";
-import productsContext from "../../Context/productsContext";
+import productsContext from "../../../Context/productsContext";
 import { useForm } from "react-hook-form";
-import useFetch from "../../hooks/useFetch";
+import useFetch from "../../../hooks/useFetch";
+import ProductsPanelContext from "./ProductsPanelContext";
 
-export default function EditProduct({
-  productEditId,
-  showEditModal,
-  setShowEditModal,
-  getProductsList,
-  brands,
-  category,
-}) {
+export default function EditProduct() {
+  const {
+    setShowEditModal,
+    showEditModal,
+    productEditId,
+    getProductsList,
+    brands,
+    category,
+  } = useContext(ProductsPanelContext);
+
   // React Hook Form setup
   const {
     register,

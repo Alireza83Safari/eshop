@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
-import Spinner from "../Spinner/Spinner";
+import Spinner from "../../Spinner/Spinner";
+import ProductsPanelContext from "./ProductsPanelContext";
 
-export default function AddProductFile({ findProduct, showFile, setShowFile }) {
+export default function AddProductFile() {
   const {
     register,
     handleSubmit,
@@ -11,7 +12,8 @@ export default function AddProductFile({ findProduct, showFile, setShowFile }) {
   } = useForm();
 
   const [isLoading, setIsLoading] = useState(false);
-
+  const { setShowFile, showFile, findProduct } =
+    useContext(ProductsPanelContext);
   const addFile = (data) => {
     const formData = new FormData();
     formData.append("fileUrl", data.image[0]);

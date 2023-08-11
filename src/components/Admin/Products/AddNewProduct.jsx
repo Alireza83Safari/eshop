@@ -1,26 +1,33 @@
 import React, { useContext, useState } from "react";
 import ReactDOM from "react-dom";
-import productsContext from "../../Context/productsContext";
+import productsContext from "../../../Context/productsContext";
 import { useForm } from "react-hook-form";
-import Spinner from "../Spinner/Spinner";
+import Spinner from "../../Spinner/Spinner";
+import ProductsPanelContext from "./ProductsPanelContext";
 
-export default function AddNewProduct({
-  showAddProduct,
-  setShowAddProduct,
-  setProductCode,
-  setShowProductItem,
-  getProductsList,
-  brands,
-  category,
-}) {
+export default function AddNewProduct() {
   const { getAllProducts } = useContext(productsContext);
+  const {
+    getProductsList,
+    brands,
+    category,
+    showAddProduct,
+    setShowAddProduct,
+    setProductCode,
+    setShowProductItem,
+  } = useContext(ProductsPanelContext);
   const [error, setError] = useState(null);
 
-  const { register , handleSubmit , formState: { errors } , reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
   const [isLoading, setIsLoading] = useState(false);
 
-  
   const addNewProducts = (data) => {
+    console.log(data);
     setProductCode(data.code);
     setIsLoading(true);
     fetch("/api/v1/product", {
@@ -80,10 +87,6 @@ export default function AddNewProduct({
                 <p className="text-red-700">{errors.name.message}</p>
               )}
 
-              {errors.img && (
-                <p className="text-red-700">{errors.img.message}</p>
-              )}
-
               <div className="flex">
                 <div className="w-1/2 pr-2">
                   <span className="font-medium text-gray-800">Code</span>
@@ -99,8 +102,8 @@ export default function AddNewProduct({
                       },
                     })}
                   />
-                  {errors.price && (
-                    <p className="text-red-700">{errors.price.message}</p>
+                  {errors.code && (
+                    <p className="text-red-700">{errors.code.message}</p>
                   )}
                   <p className="text-red-700">{error}</p>
                 </div>
@@ -115,13 +118,13 @@ export default function AddNewProduct({
                       required: "This field is required",
                     })}
                   >
-                    <option value="">Brand</option>
+                    <option value="">Select Brand</option>
                     {brands.map((brand) => (
                       <option value={brand.id}>{brand.name}</option>
                     ))}
                   </select>
-                  {errors.status && (
-                    <p className="text-red-700">{errors.status.message}</p>
+                  {errors.brandId && (
+                    <p className="text-red-700">{errors.brandId.message}</p>
                   )}
                 </div>
               </div>
@@ -138,7 +141,7 @@ export default function AddNewProduct({
                       value !== "" || "Please select a category",
                   })}
                 >
-                  <option value="">Category</option>
+                  <option value="">Select Category</option>
                   {category.map((cate) => (
                     <option key={cate.id} value={cate.id}>
                       {cate.name}
@@ -146,8 +149,8 @@ export default function AddNewProduct({
                   ))}
                 </select>
 
-                {errors.category && (
-                  <p className="text-red-700">{errors.category.message}</p>
+                {errors.categoryId && (
+                  <p className="text-red-700">{errors.categoryId.message}</p>
                 )}
               </div>
 
@@ -166,8 +169,10 @@ export default function AddNewProduct({
                   },
                 })}
               />
-              {errors.name && (
-                <p className="text-red-700">{errors.name.message}</p>
+              {errors.shortDescription && (
+                <p className="text-red-700">
+                  {errors.shortDescription.message}
+                </p>
               )}
 
               <span className="font-medium text-gray-800">Decription</span>
@@ -183,8 +188,8 @@ export default function AddNewProduct({
                   },
                 })}
               />
-              {errors.name && (
-                <p className="text-red-700">{errors.name.message}</p>
+              {errors.description && (
+                <p className="text-red-700">{errors.description.message}</p>
               )}
             </div>
 

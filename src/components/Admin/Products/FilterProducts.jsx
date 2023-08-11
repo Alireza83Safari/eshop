@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import ProductsPanelContext from "./ProductsPanelContext";
 
-export default function FilterProducts({
-  brands,
-  category,
-}) {
+export default function FilterProducts() {
+  const { category, brands } = useContext(ProductsPanelContext);
   return (
     <div className="w-full grid grid-cols-2 mt-4 mb-1">
       <div className="mx-4 px-1 border rounded-lg">

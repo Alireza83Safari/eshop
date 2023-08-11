@@ -1,19 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
+import ProductsPanelContext from "./ProductsPanelContext";
 
-export default function DeleteModal({
-  showDeleteModal,
-  setShowDeleteModal,
-  productId,
-  getProductsList,
-}) {
+export default function DeleteModal() {
   const cancelDeleteHandler = () => {
     setShowDeleteModal(false);
   };
+  const { showDeleteModal, setShowDeleteModal,getProductsList,productDeleteId } =
+    useContext(ProductsPanelContext);
   const deleteProductHandler = () => {
-    fetch(`/api/v1/product/delete/${productId}`, {
+    fetch(`/api/v1/product/delete/${productDeleteId}`, {
       method: "POST",
       headers: {
         accept: "application/json",

@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import InfosModal from "./InfosModal";
-import useFetch from "../../hooks/useFetch";
+import InfosModal from "../InfosModal";
+import useFetch from "../../../hooks/useFetch";
+import ProductsPanelContext from "./ProductsPanelContext";
+import Pagination from "../../Paganation";
 
-export default function ProductsTable({
-  paginatedProducts,
-  searchQuery,
-  setProductId,
-  setShowDeleteModal,
-  setShowEditModal,
-  setProductEditId,
-}) {
+export default function ProductsTable() {
+  const [paginatedProducts, setPaginatedProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [infosId, setInfosId] = useState(null);
   const [productInfos, setProductInfos] = useState([]);
+  const { searchQuery, productList ,setProductDeleteId,setShowEditModal,setShowDeleteModal,setProductEditId} = useContext(ProductsPanelContext);
 
   const editHandler = (id) => {
     setShowEditModal(true);
@@ -29,6 +27,17 @@ export default function ProductsTable({
     }
   }, [datas]);
 
+  let pageSize = 10;
+  let pageNumber;
+
+  useEffect(() => {
+    let endIndex = pageSize * currentPage;
+    let startIndex = endIndex - pageSize;
+    setPaginatedProducts(productList.slice(startIndex, endIndex));
+  }, [currentPage, productList]);
+
+  let pageCount = Math.ceil(productList.length / pageSize);
+  pageNumber = Array.from(Array(pageCount).keys());
   return (
     <>
       <table className="min-w-full">
@@ -75,7 +84,7 @@ export default function ProductsTable({
                   <button
                     className="px-2 py-1 rounded-md text-red-700 text-white"
                     onClick={() => {
-                      setProductId(product.id);
+                      setProductDeleteId(product.id);
                       setShowDeleteModal(true);
                     }}
                   >
@@ -103,6 +112,12 @@ export default function ProductsTable({
         setShowInfoModal={setShowInfoModal}
         productInfos={productInfos}
         isLoading={isLoading}
+      />
+
+      <Pagination
+        pageNumber={pageNumber}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
       />
     </>
   );
