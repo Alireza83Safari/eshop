@@ -12,7 +12,7 @@ import useFetch from "../hooks/useFetch";
 export default function Orders() {
   const { token } = useContext(productsContext);
   const [orders, setOrders] = useState([]);
-  const { datas, fetchData, isLoading } = useFetch("/api/v1/order");
+  const { datas, fetchData, isLoading } = useFetch("/api/v1/user/order");
   useEffect(() => {
     if (datas && datas.items) {
       setOrders(datas.items);
@@ -38,7 +38,7 @@ export default function Orders() {
 
   const removeProductHandler = async (id) => {
     try {
-      const response = await fetch(`/api/v1/orderItem/delete/${id}`, {
+      const response = await fetch(`/api/v1/user/orderItem/delete/${id}`, {
         method: "POST",
         headers: {
           accept: "application/json",

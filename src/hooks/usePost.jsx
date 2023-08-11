@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "../api/axios-interceptors";
+import instance from "../api/axios-interceptors";
 const usePost = () => {
   const [postData, setPostData] = useState(null);
   const [postIsloading, setPostLoading] = useState(false);
@@ -11,16 +11,15 @@ const usePost = () => {
     setPostError(null);
 
     try {
-      const response = await axios.post(url, {
-        method: "POST",
+      const response = await instance.post(url, bodyData, {
         headers: {
           ...headers,
         },
-        body: JSON.stringify(bodyData),
+        body: JSON.stringify(),
       });
 
       setResponseOk(response.ok);
-      setPostError(response.status)
+      setPostError(response.status);
       if (!response.ok) {
         throw new Error("Failed to fetch data.");
       }

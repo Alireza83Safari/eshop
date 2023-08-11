@@ -1,5 +1,17 @@
 import axios from "axios";
-const instance = axios.create();
+
+const instance = axios.create({
+  baseURL: "http://localhost:3000/",
+  withCredentials:true
+});
+axios.interceptors.request.use(
+  function (config) {
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
 
 instance.interceptors.response.use(
   function (response) {
