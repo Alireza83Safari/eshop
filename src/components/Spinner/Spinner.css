@@ -1,9 +1,9 @@
 .custom-loader {
-  width: 80px;
-  height: 80px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: conic-gradient(#0000 10%, #2762eb);
-  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 16px), #000 0);
+  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 7px), #000 0);
   animation: s3 1s infinite linear;
 }
 @keyframes s3 {
