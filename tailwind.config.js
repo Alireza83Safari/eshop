@@ -20,15 +20,11 @@ module.exports = {
         800: "#7B7B7B",
       },
 
-      dark: "#2E2C3A",
-      darkBlue: "#1a1d27",
       red: {
         100: "#FCE5E6",
         300: "#ED7071",
         700: "red",
       },
-      boxbg: "#2e2c3a",
-      muted: "#74788d ",
       green: {
         100: "#DFF7E9",
         300: "#2AC770",
