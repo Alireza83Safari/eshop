@@ -11,6 +11,8 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import PanelProducts from "../pages/Admin/Products";
 import Favorite from "../pages/Favorite";
+import Shipping from "../pages/Shipping";
+
 
 const route = [
   { path: "shop", element: <ShopIndex /> },
@@ -20,6 +22,7 @@ const route = [
   { path: "login", element: <Login /> },
   { path: "register", element: <Register /> },
   { path: "favorite", element: <Favorite /> },
+  { path: "checkout/shipping", element: <Shipping /> },
 
   {
     path: "/panel/*",
