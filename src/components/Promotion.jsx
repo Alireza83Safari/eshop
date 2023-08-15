@@ -2,47 +2,26 @@ import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import productsContext from "../Context/productsContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAngleLeft,
-  faAngleRight,
-  faPlus,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
 import Timer from "./Timer";
 import usePost from "../hooks/usePost";
 import useFetch from "../hooks/useFetch";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+
 export default function Promotion() {
   const { token } = useContext(productsContext);
-  const [currentProductIndex, setCurrentProductIndex] = useState(4);
-
   const [getProducts, setProducts] = useState([]);
   const { datas: productsData } = useFetch("/api/v1/user/product");
+
   useEffect(() => {
     if (productsData && productsData.data) {
       setProducts(productsData.data);
     }
   }, [productsData]);
-
-  const productsPerSlide = 4;
-
-  const goToNextProduct = () => {
-    if (currentProductIndex === 20) {
-      setCurrentProductIndex(0);
-    }
-    setCurrentProductIndex((prevIndex) =>
-      prevIndex === getProducts.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const goToPreviousProduct = () => {
-    setCurrentProductIndex((prevIndex) =>
-      prevIndex === 0 ? getProducts.length - 1 : prevIndex - 1
-    );
-    if (currentProductIndex === 0) {
-      setCurrentProductIndex(20);
-    }
-  };
 
   const { doPost } = usePost();
 
@@ -76,40 +55,45 @@ export default function Promotion() {
           Top selling Products
         </p>
 
-        <div className="grid grid-cols-4 h-full border rounded-xl relative ">
-          <button
-            className="absolute w-12 h-12 left-2 top-40 z-10 bg-white-200 rounded-full"
-            onClick={() => goToPreviousProduct()}
-          >
-            <FontAwesomeIcon icon={faAngleLeft} className="text-2xl" />
-          </button>
-          {getProducts
-            .slice(currentProductIndex, currentProductIndex + productsPerSlide)
-            .map((product, index) => (
+        <Swiper
+          slidesPerView={
+            window.innerWidth >= 1024
+              ? 4
+              : window.innerWidth >= 640 && window.innerWidth <= 1024
+              ? 3
+              : 2
+          }
+          spaceBetween={30}
+          pagination={{
+            clickable: true,
+          }}
+          className="mySwiper"
+        >
+          {getProducts.map((product, index) => (
+            <SwiperSlide key={product.id}>
               <div
-                className={`  ${
-                  index === productsPerSlide - 1 ? "" : "border-r"
-                } overflow-hidden dark:bg-black-800 relative hover:shadow-lg duration-200 `}
+                className="overflow-hidden dark:bg-black-800 relative hover:shadow-lg duration-200"
                 key={product.id}
               >
-                <div className="">
-                  <Link to={`products/${product.id}`}>
+                <div className="lg:h-[300px] md:h-[240px] sm:h-[200px] h-[180px] flex justify-center">
+                  <Link
+                    to={`products/${product.id}`}
+                    style={{ display: "block" }}
+                  >
                     <img
                       src={`http://127.0.0.1:6060/${product.fileUrl}`}
                       alt="Product"
-                      className="lg:h-[300px] md:h-[240px] sm:h-[200px] h-[180px] w-full xl:p-10 p-4 relative object-contain product-img"
+                      className="relative object-contain lg:h-[260px] md:h-[220px] sm:h-[180px] h-[160px]"
                     />
                   </Link>
                   <button
-                    className="flex items-center justify-center text-blue-600 hover:text-white-100 hover:bg-blue-300  absolute md:w-10 md:h-10 w-7 h-7 rounded-full xl:bottom-32 lg:bottom-24 md:bottom-20 bottom-16 right-6 z-10 border border-blue-600"
+                    className="flex items-center justify-center text-blue-600 hover:text-white-100 hover:bg-blue-300 absolute md:w-10 md:h-10 w-7 h-7 rounded-full xl:bottom-32 lg:bottom-24 md:bottom-20 bottom-16 right-6 z-10 border border-blue-600"
                     onClick={() => handleAddToCart(product.id)}
                   >
-                    <FontAwesomeIcon
-                      icon={faPlus}
-                      className="md:text-xl text-lg"
-                    />
+                    <FontAwesomeIcon icon={faPlus} className="text-xl" />
                   </button>
                 </div>
+
                 <div className="lg:p-6 p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex">
@@ -120,20 +104,16 @@ export default function Promotion() {
                         $ {product.price / 2}
                       </p>
                     </div>
-                    <span className="md:p-2 p-1 lg:text-sm md:text-xs text-[8px] text-white-100 bg-red-700 rounded-full">
+                    <div className="md:p-2 p-1 lg:text-sm text-xs text-white-100 bg-red-700 rounded-full">
                       %50
-                    </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            ))}
-          <button
-            className="absolute top-40 w-12 h-12 right-2 z-10 bg-white-200 rounded-full"
-            onClick={() => goToNextProduct()}
-          >
-            <FontAwesomeIcon icon={faAngleRight} className="text-2xl" />
-          </button>
-        </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
         <ToastContainer />
       </div>
     </section>

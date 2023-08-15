@@ -37,7 +37,7 @@ export default function Timer({ days }) {
   }, [day, hours, minutes, seconds]);
 
   return (
-    <div className="lg:text-base sm:text-sm flex text-[8px]">
+    <div className="lg:text-base text-sm flex">
       <div className="flex justify-center items-center lg:w-14 lg:h-14 h-11 w-11 rounded-xl text-white-100 bg-blue-600 mr-6">
         {day !== undefined ? day.toString().padStart(2, "0") : "00"}
       </div>

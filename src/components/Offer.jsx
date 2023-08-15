@@ -107,7 +107,7 @@ export default function Offer() {
           placeat? officia, accusamus excepturi sequi nemo illum officiis facere
           vel.
         </p>
-        <h2 className="my-5 text-2xl text-blue-600 font-black md:text-start text-center">
+        <h2 className="md:my-5 mt-3 text-2xl text-blue-600 font-black md:text-start text-center">
           20.45$
         </h2>
 
@@ -118,8 +118,7 @@ export default function Offer() {
         <div className="md:w-full md:bg-gray-100 flex items-center justify-center lg:h-[32rem]">
           <img
             src={`http://127.0.0.1:6060/${newProduct?.fileUrl}`}
-            className="object-contain md:p-10 px-10 py-8 md:h-full h-[24rem]"
-            alt=""
+            className="object-contain md:p-10 px-10 md:h-full h-[24rem]"
           />
         </div>
         <div className="ml-5">
@@ -130,17 +129,14 @@ export default function Offer() {
             <img
               src={`http://127.0.0.1:6060/${newProduct?.fileUrl}`}
               className="p-1 lg:h-[10rem] h-[8rem] object-contain"
-              alt=""
             />
             <img
               src={`http://127.0.0.1:6060/${newProduct?.fileUrl}`}
               className="p-1 lg:h-[10rem] h-[8rem] object-contain"
-              alt=""
             />
             <img
               src={`http://127.0.0.1:6060/${newProduct?.fileUrl}`}
               className="p-1 lg:h-[10rem] h-[8rem] object-contain"
-              alt=""
             />
           </div>
 
@@ -183,12 +179,14 @@ export default function Offer() {
               <p>3.Best Products</p>
             </div>
 
-            <button
-              className="lg:px-12 lg:py-3 md:px-9 px-6 py-2 md:text-base sm:text-sm text-xs bg-blue-600 text-white-100 rounded-md"
-              onClick={() => handleAddToCart(newProduct.id)} // Step 1: Call the addToCart function with the selected product
-            >
-              Add To Cart
-            </button>
+            <div className="md:block flex justify-center">
+              <button
+                className="lg:px-12 md:px-9 px-12 py-3 md:text-base text-sm bg-blue-600 text-white-100 rounded-md"
+                onClick={() => handleAddToCart(newProduct.id)}
+              >
+                Add To Cart
+              </button>
+            </div>
           </div>
         </div>
         <button
