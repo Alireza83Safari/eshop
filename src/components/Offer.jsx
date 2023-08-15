@@ -1,4 +1,8 @@
-import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleLeft,
+  faAngleRight,
+  faArrowUp,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext, useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -10,6 +14,8 @@ export default function Offer() {
   const [count, setCount] = useState(1);
   const { token } = useContext(productContext);
   const [getProducts, setProducts] = useState([]);
+  const [currentProductIndex, setCurrentProductIndex] = useState(0);
+
   const [newProduct, setNewProduct] = useState({
     id: "ae0ed272-feb1-41af-bbc4-d14f03f58992",
     brandName: "Apple",
@@ -24,18 +30,19 @@ export default function Offer() {
     }
   }, [productsData]);
 
+  // Automatically switch to a new product every 10 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * getProducts.length);
-
       setNewProduct(getProducts[randomIndex]);
     }, 10000);
 
-    return () => clearInterval(timer);
+    return () => clearInterval(timer); // Clear interval on unmount
   }, [getProducts]);
 
-  const { doPost } = usePost();
+  const { doPost } = usePost(); // Custom hook for making POST requests
 
+  // Add product to cart and show toast notification
   const handleAddToCart = (productID) => {
     let findProduct = getProducts.find((product) => product.id === productID);
 
@@ -55,10 +62,39 @@ export default function Offer() {
     });
   };
 
+  // Function to navigate to previous product
+  const goToPreviousProduct = () => {
+    setCurrentProductIndex((prevIndex) =>
+      prevIndex === 0 ? getProducts.length - 1 : prevIndex - 1
+    );
+    setNewProduct(getProducts[currentProductIndex]);
+  };
+
+  // Function to navigate to next product
+  const goToNextProduct = () => {
+    if (currentProductIndex === getProducts.length) {
+      setCurrentProductIndex(0);
+    }
+    setCurrentProductIndex((prevIndex) =>
+      prevIndex === getProducts.length - 1 ? 0 : prevIndex + 1
+    );
+    setNewProduct(getProducts[currentProductIndex]);
+  };
+
   return (
-    <section className="w-full xl:px-20 md:px-4 lg:mt-52 mt-36">
-      <div className="grid grid-cols-2 relative">
-        <div className="text-black-900 dark:text-white-100">
+    <section className="w-full xl:px-20 md:px-4 lg:mt-52 md:mt-36 mt-20 relative">
+      <div className="grid md:grid-cols-2 relative">
+        <button
+          className="absolute lg:w-12 lg:h-12 h-9 w-9 left-0 md:top-80 top-96 z-10 bg-white-200 rounded-full outline-none"
+          onClick={goToPreviousProduct}
+        >
+          <FontAwesomeIcon
+            icon={faAngleLeft}
+            className="lg:text-4xl text-2xl"
+          />
+        </button>
+
+        <div className="text-black-900 dark:text-white-100 text-center md:text-start">
           <h1 className="font-black xl:text-5xl lg:text-4xl md:text-3xl text-2xl">
             we offer you the
           </h1>
@@ -66,60 +102,64 @@ export default function Offer() {
             best we have
           </h1>
         </div>
-        <p className="px-4 text-black-900 dark:text-white-100 lg:text-base text-sm">
+        <p className="px-4 text-black-900 dark:text-white-100 lg:text-base text-sm md:text-start text-center">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, vitae
           placeat? officia, accusamus excepturi sequi nemo illum officiis facere
           vel.
         </p>
-        <h2 className="my-5 text-2xl text-blue-600 font-black">20.45$</h2>
+        <h2 className="my-5 text-2xl text-blue-600 font-black md:text-start text-center">
+          20.45$
+        </h2>
 
-        <div className="flex justify-end mr-10 my-5 text-black-900 dark:text-white-100">
+        <div className="flex justify-end mr-10 md:my-5 text-black-900 dark:text-white-100">
           <FontAwesomeIcon icon={faArrowUp} />
         </div>
 
-        <div className="w-full bg-gray-100 flex items-center justify-center">
+        <div className="md:w-full md:bg-gray-100 flex items-center justify-center lg:h-[32rem]">
           <img
             src={`http://127.0.0.1:6060/${newProduct?.fileUrl}`}
-            className="p-10 object-cover"
+            className="object-contain md:p-10 px-10 py-8 md:h-full h-[24rem]"
             alt=""
           />
         </div>
         <div className="ml-5">
           <p className="font-black text-black-900 dark:text-white-100">
-            Choose Your Coffee
+            Choose Your Product
           </p>
           <div className="grid grid-cols-3 py-3">
             <img
               src={`http://127.0.0.1:6060/${newProduct?.fileUrl}`}
-              className="p-1"
+              className="p-1 lg:h-[10rem] h-[8rem] object-contain"
               alt=""
             />
             <img
               src={`http://127.0.0.1:6060/${newProduct?.fileUrl}`}
-              className="p-1"
+              className="p-1 lg:h-[10rem] h-[8rem] object-contain"
               alt=""
             />
             <img
               src={`http://127.0.0.1:6060/${newProduct?.fileUrl}`}
-              className="p-1"
+              className="p-1 lg:h-[10rem] h-[8rem] object-contain"
               alt=""
             />
-          </div>
-          <div className="w-full bg-gray-200 my-5">
-            <span className="mx-5 text-sm">{newProduct?.price}$</span>
-            <span className="mx-5 text-sm">{newProduct?.price}$</span>
-            <span className="mx-5 text-sm">{newProduct?.price}$</span>
           </div>
 
           <div className="text-black-900 dark:text-white-100">
-            <p className="font-black lg:mt-10 md:mt-4">Select Best Color</p>
-            <div className="flex my-4">
-              <div className="lg:w-12 lg:h-12 w-8 h-8 bg-red-700 lg:mr-4 md:mr-1 rounded-lg"></div>
-              <div className="lg:w-12 lg:h-12 w-8 h-8 bg-blue-600 lg:mr-4 md:mr-1 rounded-lg"></div>
-              <div className="lg:w-12 lg:h-12 w-8 h-8 bg-gray-800 lg:mr-4 md:mr-1 rounded-lg"></div>
-              <div className="lg:w-12 lg:h-12 w-8 h-8 bg-orange-400 lg:mr-4 md:mr-1 rounded-lg"></div>
+            <p className="font-black lg:mt-10 md:mt-4 md:block hidden">
+              Select Best Color
+            </p>
+            <div className="flex justify-between my-4">
+              <div className="flex items-center">
+                <p className="font-black lg:mt-10 md:mt-4 text-sm flex md:hidden mr-10 py-5">
+                  Select Best Color
+                </p>
+                <div className="lg:w-12 lg:h-12 md:w-8 md:h-8 w-7 h-7 bg-red-700 lg:mr-4 mr-1 rounded-lg"></div>
+                <div className="lg:w-12 lg:h-12 md:w-8 md:h-8 w-7 h-7 bg-blue-600 lg:mr-4 mr-1 rounded-lg"></div>
+                <div className="lg:w-12 lg:h-12 md:w-8 md:h-8 w-7 h-7 bg-gray-800 lg:mr-4 mr-1 rounded-lg"></div>
+                <div className="lg:w-12 lg:h-12 md:w-8 md:h-8 w-7 h-7 bg-orange-400 lg:mr-4 mr-1 rounded-lg"></div>
+              </div>
 
-              <div className="flex items-center mx-10">
+              <div className="flex items-center md:mx-10 ml-5">
                 <button
                   onClick={() => setCount(count - 1)}
                   className="lg:px-4 lg:py-2 px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 duration-200 focus:outline-none"
@@ -137,20 +177,29 @@ export default function Offer() {
             </div>
 
             <p className="font-black lg:mt-10 md:mt-4">spaciousness</p>
-            <div className="flex justify-between my-4 lg:text-base md:text-sm">
+            <div className="flex justify-between md:my-4 py-6 lg:text-base md:text-sm text-xs">
               <p>1.Better quality</p>
               <p>2.Variety Color</p>
               <p>3.Best Products</p>
             </div>
 
             <button
-              className="lg:px-12 lg:py-3 md:px-9 py-2 bg-blue-600 text-white-100 rounded-md"
+              className="lg:px-12 lg:py-3 md:px-9 px-6 py-2 md:text-base sm:text-sm text-xs bg-blue-600 text-white-100 rounded-md"
               onClick={() => handleAddToCart(newProduct.id)} // Step 1: Call the addToCart function with the selected product
             >
               Add To Cart
             </button>
           </div>
         </div>
+        <button
+          className="absolute lg:w-12 lg:h-12 h-9 w-9 right-0 md:top-80 top-96 z-10 bg-white-200 rounded-full outline-none"
+          onClick={() => goToNextProduct()}
+        >
+          <FontAwesomeIcon
+            icon={faAngleRight}
+            className="lg:text-4xl text-2xl"
+          />
+        </button>
       </div>
       <ToastContainer />
     </section>
