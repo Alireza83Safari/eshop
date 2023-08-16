@@ -7,6 +7,7 @@ import {
   faCommentDots,
   faGear,
   faGripHorizontal,
+  faLayerGroup,
   faSignOut,
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
@@ -20,6 +21,7 @@ export default function Sidebar() {
     { icon: faCoins, text: "financial", to: "financial" },
     { icon: faCommentDots, text: "comments", to: "/panel/comments" },
     { icon: faUserPlus, text: "chat", to: "/panel/chat" },
+    { icon: faLayerGroup, text: "roles", to: "/panel/roles" },
   ];
 
   const location = useLocation().pathname;

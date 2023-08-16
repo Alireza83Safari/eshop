@@ -12,10 +12,13 @@ import Register from "../pages/Register";
 import PanelProducts from "../pages/Admin/Products";
 import Favorite from "../pages/Favorite";
 import Shipping from "../pages/Shipping";
-
+import SearchResult from "../components/SearchResult";
+import Page404 from "../components/Page404";
+import Roles from "../pages/Admin/Roles";
 
 const route = [
   { path: "shop", element: <ShopIndex /> },
+  { path: "", element: <ShopIndex /> },
   { path: "products", element: <ShopProducts /> },
   { path: "products/:productID", element: <ProductsInfo /> },
   { path: "checkout", element: <CheckOut /> },
@@ -23,6 +26,8 @@ const route = [
   { path: "register", element: <Register /> },
   { path: "favorite", element: <Favorite /> },
   { path: "checkout/shipping", element: <Shipping /> },
+  { path: "/search/:searchTerm", element: <SearchResult /> },
+ // { path: "*", element: <Page404 /> },
 
   {
     path: "/panel/*",
@@ -34,6 +39,7 @@ const route = [
       { path: "chat", element: <Chat /> },
       { path: "financial", element: <Financial /> },
       { path: "comments", element: <Comments /> },
+      { path: "roles", element: <Roles /> },
     ],
   },
 ];
