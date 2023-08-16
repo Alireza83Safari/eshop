@@ -12,7 +12,7 @@ import useFetch from "../../hooks/useFetch";
 import Spinner from "../../components/Spinner/Spinner";
 import { Link } from "react-router-dom";
 import instance from "../../api/axios-interceptors";
-import axios from "axios";
+
 const Profile = lazy(() => import("../../components/Profile/Profile"));
 
 export default function Header() {
@@ -20,11 +20,10 @@ export default function Header() {
     useContext(productsContext);
   const [orders, setOrders] = useState(0);
   const [getProducts, setProducts] = useState([]);
-  const [userInfos, setUserInfos] = useState(null);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
 
-  // console.log(userInfos);se
   const productsData = async () => {
     try {
       const response = await instance.get("/api/v1/user/product");
@@ -43,24 +42,10 @@ export default function Header() {
     }
   };
 
-  const getMe = async () => {
-    try {
-      const response = await instance.get("/api/v1/user/is_authenticated");
-      setUserInfos(response.data);
-    } catch (error) {
-      console.log("failed fetching products", error);
-    }
-  };
+  const { datas: userInfos } = useFetch("/api/v1/user/is_authenticated");
 
   const [showProfile, setShowProfile] = useState(false);
 
-  /*   useEffect(() => {
-    axios
-      .get("/api/v1/user/is_authenticate")
-      .then((res) => console.log(res.data))
-      .then((data) => setUserInfos(data.data));
-  }, []); */
-  //console.log(userInfos);
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY) {
@@ -88,7 +73,6 @@ export default function Header() {
   useEffect(() => {
     // Call productsData and ordersData if userIsLogin is true
     if (userIsLogin) {
-      getMe();
       productsData();
       ordersData();
     }

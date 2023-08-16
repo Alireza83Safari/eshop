@@ -3,6 +3,7 @@ import { faMoon, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import productsContext from "../../Context/productsContext";
 import Profile from "../../components/Admin/Profile";
+import useFetch from "../../hooks/useFetch";
 
 export default function Header() {
   const [onScrollHeader, setOnScrollHeader] = useState(false);
@@ -22,6 +23,8 @@ export default function Header() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const { datas: userInfo } = useFetch("/api/v1/user/is_authenticated");
 
   return (
     <header className="relative">
@@ -56,7 +59,7 @@ export default function Header() {
             className="relative flex items-center border-l dark:text-white-100 border-gray-100 px-4 "
             onClick={() => setShowProfile(!showProfile)}
           >
-            <p className="text-xs mr-2 sm:flex hidden">Alireza Safari</p>
+            <p className="text-xs mr-2 sm:flex hidden">{userInfo?.username}</p>
             <div className="w-9 h-9">
               <img
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrT3XAWJ1ibDAoQ7sLZuYTk062ZYlr2JDNzPtmr8savg&usqp=CAU&ec=48665698"
