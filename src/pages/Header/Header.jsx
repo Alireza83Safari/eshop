@@ -13,7 +13,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import { Link } from "react-router-dom";
 import instance from "../../api/axios-interceptors";
 
-const Profile = lazy(() => import("../../components/Profile/Profile"));
+const Profile = lazy(() => import("../../components/Profile"));
 
 export default function Header() {
   const { mode, setMode, showShopSidebar, setShowShopSidebar, userIsLogin } =

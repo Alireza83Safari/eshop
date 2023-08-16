@@ -2,9 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { faMoon, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import productsContext from "../../Context/productsContext";
-import Profile from "../../components/Admin/Profile";
 import useFetch from "../../hooks/useFetch";
-
+import Profile from "../../components/Profile"
 export default function Header() {
   const [onScrollHeader, setOnScrollHeader] = useState(false);
   const { mode, setMode } = useContext(productsContext);
