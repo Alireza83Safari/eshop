@@ -8,10 +8,10 @@ import {
   faSignIn,
 } from "@fortawesome/free-solid-svg-icons";
 import productsContext from "../../Context/productsContext";
+import instance from "../../api/axios-interceptors";
+import { Link } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import Spinner from "../../components/Spinner/Spinner";
-import { Link } from "react-router-dom";
-import instance from "../../api/axios-interceptors";
 
 const Profile = lazy(() => import("../../components/Profile"));
 
@@ -19,19 +19,7 @@ export default function Header() {
   const { mode, setMode, showShopSidebar, setShowShopSidebar, userIsLogin } =
     useContext(productsContext);
   const [orders, setOrders] = useState(0);
-  const [getProducts, setProducts] = useState([]);
-
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState([]);
-
-  const productsData = async () => {
-    try {
-      const response = await instance.get("/api/v1/user/product");
-      setProducts(response.data.data);
-    } catch (error) {
-      console.log("failed fetching products", error);
-    }
-  };
 
   const ordersData = async () => {
     try {
@@ -47,33 +35,8 @@ export default function Header() {
   const [showProfile, setShowProfile] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY) {
-        setShowProfile(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (searchQuery.trim().length) {
-      const filtered = getProducts.filter((product) =>
-        product.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setFilteredProducts(filtered);
-    } else {
-      setFilteredProducts([]);
-    }
-  }, [searchQuery, getProducts]);
-
-  useEffect(() => {
     // Call productsData and ordersData if userIsLogin is true
     if (userIsLogin) {
-      productsData();
       ordersData();
     }
   }, [userIsLogin]);
@@ -109,46 +72,25 @@ export default function Header() {
           </div>
           <div>
             <div className="flex items-center relative md:ml-10 bg-white-100  px-2 rounded-lg text-black-800">
-              <FontAwesomeIcon
-                icon={faSearch}
+              <button
                 className="absolute text-xs sm:text-sm left-1"
                 onClick={() => searchInHref()}
-              />
+              >
+                <FontAwesomeIcon icon={faSearch} />
+              </button>
               <input
                 type="text"
                 placeholder="search ..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="py-1 outline-none text-gray-700 relative rounded-lg ml-4 md:w-[220px] w-[100px] placeholder:text-black-800 sm:placeholder:text-sm placeholder:text-xs sm:py-2 "
+                onKeyUp={(e) => {
+                  if (e.key === "Enter") {
+                    searchInHref();
+                  }
+                }}
+                className="py-1 outline-none text-gray-700 relative rounded-lg ml-4 md:w-[220px] w-[100px] placeholder:text-black-800 sm:placeholder:text-sm placeholder:text-xs sm:py-2"
               />
             </div>
-
-            {searchQuery.length ? (
-              filteredProducts.length === 0 ? (
-                <div className="absolute top-16 mt-1 sm:ml-11 sm:w-[220px] w-[100px] h-14 bg-white-100 dark:bg-black-200 text-black-900 dark:text-white-100 z-10 rounded-lg shadow-lg">
-                  <div className="mt-4 text-center">
-                    <p className="text-sm text-red-700 ">
-                      Product is not found
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <div className="absolute top-16 sm:ml-10 sm:w-[220px] w-[100px] h-60 overflow-y-auto bg-white-200 dark:bg-black-800 border text-black-900 dark:text-white-100  dark:border-white-100 z-10 rounded-lg shadow-lg">
-                  {filteredProducts.map((product) => (
-                    <Link to={`products/${product.id}`} key={product.id}>
-                      <div className="flex items-center p-2 border-b dark:border-white-100">
-                        <img
-                          src={product.img}
-                          alt={product.name}
-                          className="w-10 h-10 rounded-md"
-                        />
-                        <p className="ml-3 text-sm">{product.name}</p>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              )
-            ) : null}
           </div>
         </div>
 
@@ -169,7 +111,7 @@ export default function Header() {
                       className="sm:text-2xl text-xl"
                     />
                     <span className="absolute -top-3 text-white-100 bg-red-700 rounded-full px-1 sm:text-xs text-[9px]">
-                      {orders.length}
+                      {orders}
                     </span>
                   </Link>
                 ) : (
