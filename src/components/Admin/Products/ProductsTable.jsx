@@ -19,7 +19,7 @@ export default function ProductsTable() {
     setProductEditId(id);
   };
   const { datas, isLoading } = useFetch(
-    `/api/v1/productItem/product/${infosId}`
+    `/api/v1/admin/productItem/product/${infosId}`
   );
   useEffect(() => {
     if (datas && datas.length > 0) {

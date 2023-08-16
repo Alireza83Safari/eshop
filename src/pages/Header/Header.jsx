@@ -5,34 +5,62 @@ import {
   faCartShopping,
   faMoon,
   faSearch,
+  faSignIn,
 } from "@fortawesome/free-solid-svg-icons";
 import productsContext from "../../Context/productsContext";
 import useFetch from "../../hooks/useFetch";
 import Spinner from "../../components/Spinner/Spinner";
 import { Link } from "react-router-dom";
+import instance from "../../api/axios-interceptors";
+import axios from "axios";
 const Profile = lazy(() => import("../../components/Profile/Profile"));
 
 export default function Header() {
-  const [orders, setOrders] = useState([]);
-  const { mode, setMode, showShopSidebar, setShowShopSidebar } =
+  const { mode, setMode, showShopSidebar, setShowShopSidebar, userIsLogin } =
     useContext(productsContext);
+  const [orders, setOrders] = useState(0);
   const [getProducts, setProducts] = useState([]);
-  const { datas: productsData } = useFetch("/api/v1/product");
-  useEffect(() => {
-    if (productsData && productsData.data) {
-      setProducts(productsData.data);
-    }
-  }, [productsData]);
+  const [userInfos, setUserInfos] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
-  const { datas: ordersData } = useFetch("/api/v1/order");
-  useEffect(() => {
-    if (ordersData && ordersData.item) {
-      setOrders(ordersData.item);
+  // console.log(userInfos);se
+  const productsData = async () => {
+    try {
+      const response = await instance.get("/api/v1/user/product");
+      setProducts(response.data.data);
+    } catch (error) {
+      console.log("failed fetching products", error);
     }
-  }, [ordersData]);
+  };
+
+  const ordersData = async () => {
+    try {
+      const response = await instance.get("/api/v1/user/order");
+      setOrders(response.data.items.length);
+    } catch (error) {
+      console.log("failed fetching products", error);
+    }
+  };
+
+  const getMe = async () => {
+    try {
+      const response = await instance.get("/api/v1/user/is_authenticated");
+      setUserInfos(response.data);
+    } catch (error) {
+      console.log("failed fetching products", error);
+    }
+  };
 
   const [showProfile, setShowProfile] = useState(false);
 
+  /*   useEffect(() => {
+    axios
+      .get("/api/v1/user/is_authenticate")
+      .then((res) => console.log(res.data))
+      .then((data) => setUserInfos(data.data));
+  }, []); */
+  //console.log(userInfos);
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY) {
@@ -46,9 +74,6 @@ export default function Header() {
     };
   }, []);
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState([]);
-
   useEffect(() => {
     if (searchQuery.trim().length) {
       const filtered = getProducts.filter((product) =>
@@ -59,6 +84,22 @@ export default function Header() {
       setFilteredProducts([]);
     }
   }, [searchQuery, getProducts]);
+
+  useEffect(() => {
+    // Call productsData and ordersData if userIsLogin is true
+    if (userIsLogin) {
+      getMe();
+      productsData();
+      ordersData();
+    }
+  }, [userIsLogin]);
+
+  const searchInHref = () => {
+    if (searchQuery.trim().length) {
+      // Redirect to the search results page using React Router
+      document.location.href = `/search/${searchQuery}`;
+    }
+  };
 
   return (
     <header className="w-full min-w-full bg-white-200 dark:bg-black-800">
@@ -87,6 +128,7 @@ export default function Header() {
               <FontAwesomeIcon
                 icon={faSearch}
                 className="absolute text-xs sm:text-sm left-1"
+                onClick={() => searchInHref()}
               />
               <input
                 type="text"
@@ -136,15 +178,24 @@ export default function Header() {
                 />
               </div>
               <div className="sm:mx-4 mx-2">
-                <Link to="/checkout" className="relative">
-                  <FontAwesomeIcon
-                    icon={faCartShopping}
-                    className="sm:text-2xl text-xl"
-                  />
-                  <span className="absolute -top-3 text-white-100 bg-red-700 rounded-full px-1 sm:text-xs text-[9px]">
-                    {orders.length}
-                  </span>
-                </Link>
+                {userIsLogin ? (
+                  <Link to="/checkout" className="relative">
+                    <FontAwesomeIcon
+                      icon={faCartShopping}
+                      className="sm:text-2xl text-xl"
+                    />
+                    <span className="absolute -top-3 text-white-100 bg-red-700 rounded-full px-1 sm:text-xs text-[9px]">
+                      {orders.length}
+                    </span>
+                  </Link>
+                ) : (
+                  <Link to="/login" className="relative">
+                    <FontAwesomeIcon
+                      icon={faSignIn}
+                      className="sm:text-2xl text-xl"
+                    />
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -153,17 +204,25 @@ export default function Header() {
             className="relative flex items-center border-l dark:text-white-100 border-gray-100 px-4 "
             onClick={() => setShowProfile(!showProfile)}
           >
-            <p className="text-xs mr-2 sm:flex hidden">Alireza Safari</p>
-            <div className="w-9 h-9">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrT3XAWJ1ibDAoQ7sLZuYTk062ZYlr2JDNzPtmr8savg&usqp=CAU&ec=48665698"
-                alt="admin image"
-                className="rounded-full w-full h-full border-2 border-white-100"
-              />
-            </div>
+            {userIsLogin ? (
+              <>
+                <p className="text-xs mr-2 sm:flex hidden">
+                  {userInfos?.username}
+                </p>
+                <div className="w-9 h-9">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrT3XAWJ1ibDAoQ7sLZuYTk062ZYlr2JDNzPtmr8savg&usqp=CAU&ec=48665698"
+                    alt="admin image"
+                    className="rounded-full w-full h-full border-2 border-white-100"
+                  />
+                </div>
+              </>
+            ) : (
+              <Link to="/login">login / register</Link>
+            )}
           </div>
           <Suspense fallback={<Spinner />}>
-            {showProfile && <Profile />}
+            {showProfile && <Profile username={userInfos?.username} />}
           </Suspense>
         </div>
       </div>

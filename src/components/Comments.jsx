@@ -21,7 +21,7 @@ export default function Comments() {
     datas: getComments,
     fetchData: fetchComments,
     isLoading: commentIsLoading,
-  } = useFetch(`/api/v1/comment?productId=${productID}`);
+  } = useFetch(`/api/v1/user/comment?productId=${productID}`);
 
   console.log(getComments);
   useEffect(() => {

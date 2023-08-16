@@ -11,6 +11,7 @@ import Input from "../components/Form/Input";
 
 export default function Register() {
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
   const [sameValue, setSameValue] = useState(false);
   const [formState, onInputHandler] = useForm(
     {
@@ -54,19 +55,25 @@ export default function Register() {
       username: formState.inputs.username.value,
     };
 
-    fetch("/api/v1/auth/register", {
+    fetch("/api/v1/user/register", {
       method: "POST",
       headers: {
         accept: "application/json",
         "Content-Type": "application/json",
       },
-
       body: JSON.stringify(newUserInfo),
     })
-      .then((res) => res.json())
-      .then((res) => console.log(res)).catch(err => console.log(err))
+      .then((res) => {
+        res.json();
+        console.log("68",res);
+      })
+      .then((res) => {
+        setError(res.errors);
+        console.log("71",res.errors);
+      })
+      .catch((err) => console.log("74",err));
   };
-
+  //console.log(error);
   return (
     <div className="flex items-center justify-center my-12">
       <form className="w-96 p-6 rounded-lg shadow-md bg-white-300">
@@ -91,8 +98,10 @@ export default function Register() {
             ]}
             onInputHandler={onInputHandler}
           />
+          <span className=" text-red-700 text-center text-xs">
+            {error?.username}
+          </span>
         </div>
-
         <div className="mb-4 mt-6">
           <label
             htmlFor="email"
@@ -114,6 +123,9 @@ export default function Register() {
             ]}
             onInputHandler={onInputHandler}
           />
+          <span className=" text-red-700 text-center text-xs">
+            {error?.email}
+          </span>
         </div>
 
         <div className="mb-4 mt-6">
@@ -159,6 +171,9 @@ export default function Register() {
             onInputHandler={onInputHandler}
             sameValue={sameValue}
           />
+          <span className=" text-red-700 text-center text-xs">
+            {error?.password}
+          </span>
         </div>
         <button
           type="submit"
@@ -170,7 +185,7 @@ export default function Register() {
         </button>
 
         <div className="mt-6 text-center">
-          <Link className="text-xs" to="/shop/login">
+          <Link className="text-xs" to="/login">
             Don't Have an Account? <span>Log In</span>
           </Link>
         </div>

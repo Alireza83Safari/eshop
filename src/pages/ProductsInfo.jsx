@@ -1,4 +1,4 @@
-import React, { useContext, useState, Suspense, lazy , useEffect } from "react";
+import React, { useContext, useState, Suspense, lazy, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart,
@@ -24,7 +24,6 @@ export default function ProductsInfo() {
   const { productID } = useParams();
   const [activeTab, setActiveTab] = useState("description");
   const { doPost } = usePost();
-  const findProduct = getProducts.find((product) => product.id == productID);
 
   const [getProducts, setProducts] = useState([]);
   const { datas: productsData } = useFetch("/api/v1/user/product");
@@ -34,6 +33,7 @@ export default function ProductsInfo() {
     }
   }, [productsData]);
 
+  const findProduct = getProducts.find((product) => product.id == productID);
   // Add the product to the cart
   const handleAddToCart = () => {
     let productData = {

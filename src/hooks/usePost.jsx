@@ -18,15 +18,18 @@ const usePost = () => {
         body: JSON.stringify(),
       });
 
+      console.log(response);
       setResponseOk(response.ok);
-      setPostError(response.status);
+       setPostError(response.status);
+       console.log(response);
       if (!response.ok) {
         throw new Error("Failed to fetch data.");
       }
+      setPostData(response);
       const responseData = await response.json();
-      setPostData(responseData);
     } catch (error) {
-      setPostError(error.message);
+      setPostError(error);
+      console.log(error);
     } finally {
       setPostLoading(false);
     }

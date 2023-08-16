@@ -50,13 +50,15 @@ export default function ProductsPanel() {
   }, [categoryData]);
 
   const { datas: productListsData, fetchData: getProductsList } = useFetch(
-    "/api/v1/product/list"
+    "/api/v1/user/product"
   );
+  console.log(productListsData?.data);
   useEffect(() => {
     if (productListsData) {
-      setProductList(productListsData);
+      console.log(productListsData);
+      setProductList(productListsData?.data);
     }
-  }, [productListsData]);
+  }, []);
 
   return (
     <ProductsPanelContext.Provider

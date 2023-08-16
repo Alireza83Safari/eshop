@@ -77,7 +77,7 @@ export default function Suggestion() {
     setSuggestionProduct(getProducts[currentProductIndex]);
   };
   return (
-    <section className="w-full px-4 lg:px-20 lg:mt-52 mt-28 relative">
+    <section className="w-full px-4 lg:px-20 lg:mt-52 mt-32 relative">
       <button
         className="absolute lg:w-12 lg:h-12 h-9 w-9 left-0 top-40 z-10 bg-white-200 rounded-full outline-none"
         onClick={goToPreviousProduct}

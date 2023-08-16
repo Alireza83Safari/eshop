@@ -15,7 +15,7 @@ export default function Favorite() {
 
   // Fetch favorite products from the server
   const getFavoriteProducts = () => {
-    fetch("/api/v1/user/favoriteProducts", {
+    fetch("/api/v1/user/profile/favoriteProducts", {
       headers: {
         accept: "application/json",
         Authorization: token,

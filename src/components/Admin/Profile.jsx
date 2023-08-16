@@ -7,7 +7,10 @@ import {
   faUserAstronaut,
   faUserGear,
 } from "@fortawesome/free-solid-svg-icons";
-export default function Profile() {
+import useFetch from "../../hooks/useFetch";
+export default function Profile({ username }) {
+  const { datas: userInfo } = useFetch("/api/v1/user/is_authenticated");
+  console.log(userInfo);
   return (
     <div className="absolute top-16 dark:bg-black-900 dark:text-white-100 bg-white-100 text-sm px-6 py-4 rounded-xl">
       <div className="mb-3">
@@ -16,7 +19,7 @@ export default function Profile() {
           alt="admin image"
           className="rounded-full w-12 h-12 border-2 border-white-100 mb-3"
         />
-        <p className="py-1">Alireza Safari</p>
+        <p className="py-1">{username}</p>
         <p className="text-xs text-gray-500">Premium Member</p>
       </div>
       <div className="flex items-center py-2">

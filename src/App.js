@@ -7,6 +7,7 @@ import ProductsContext from "./Context/productsContext";
 function App() {
   const routes = useRoutes(route);
   const [token, setToken] = useState(null);
+  const [userIsLogin, setUserIsLogin] = useState(false);
   const [mode, setMode] = useState(false);
   const [showShopSidebar, setShowShopSidebar] = useState(false);
   const navigate = useNavigate();
@@ -23,14 +24,17 @@ function App() {
     } else {
       setMode(false);
     }
+  }, [mode]);
 
+  useEffect(() => {
     const userToken = JSON.parse(localStorage.getItem("user"))?.token;
     if (userToken) {
       setToken(userToken);
+      setUserIsLogin(true);
     } else {
       navigate("/login");
     }
-  }, [mode, token]);
+  }, [token]);
 
   useEffect(() => {
     if (mode) {
@@ -40,7 +44,7 @@ function App() {
       localStorage.setItem("theme", "light");
       document.documentElement.classList.remove("dark");
     }
-  }, [mode]);
+  }, []);
 
   return (
     <div className="App max-w-[1400px] mx-auto relative w-full min-w-full">
@@ -52,6 +56,7 @@ function App() {
           setShowShopSidebar,
           login,
           token,
+          userIsLogin,
         }}
       >
         {routes}

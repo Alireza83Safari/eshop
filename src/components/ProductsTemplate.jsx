@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Header from "../pages/Header/Header";
-import Footer from "../pages/Footer";
 
 export default function ProductsTemplate({ product, basketHandler }) {
   return (

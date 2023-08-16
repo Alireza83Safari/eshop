@@ -7,12 +7,12 @@ export default function PopularBrand() {
   const [brands, setBrand] = useState([]);
   const { isLoading } = useContext(productsContext);
 
-  const { datas } = useFetch("/api/v1/user/brand");
+  const { datas: brand } = useFetch("/api/v1/user/brand/selectList");
   useEffect(() => {
-    if (datas && datas.data) {
-      setBrand(datas.data);
+    if (brand && brand.data) {
+      setBrand(brand.data);
     }
-  }, [datas]);
+  }, [brand]);
 
   return (
     <>
@@ -27,7 +27,7 @@ export default function PopularBrand() {
             {brands.map((brand, index) => (
               <div key={index} className="flex justify-center items-center">
                 <img
-                  src={`http://127.0.0.1:6060/${brand.fileUrl}`}
+                  src={`http://127.0.0.1:6060/${brands.fileUrl}`}
                   alt={brand.brand}
                   className="sm:w-28 sm:h-28 w-20 h-20 object-contain py-3"
                 />
