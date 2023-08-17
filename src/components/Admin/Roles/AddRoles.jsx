@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { useForm, Controller } from "react-hook-form";
 import useFetch from "../../../hooks/useFetch";
-import usePost from "../../../hooks/usePost";
 import instance from "../../../api/axios-interceptors";
+import { faX } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function AddRoles({ showAddRoles, setShowAddRoles }) {
   const [selectedPermissions, setSelectedPermissions] = useState([]);
@@ -12,7 +13,6 @@ export default function AddRoles({ showAddRoles, setShowAddRoles }) {
     control,
     formState: { errors },
   } = useForm();
-  const { datas: rolesData } = useFetch("/api/v1/admin/role");
   const { datas: permissionsData } = useFetch("/api/v1/admin/role/permissions");
 
   const permissionsName =
@@ -38,7 +38,6 @@ export default function AddRoles({ showAddRoles, setShowAddRoles }) {
       permissions: selectedPermissions,
     };
 
-    console.log(newRole);
     instance.post("/api/v1/admin/role", newRole).then((res) => {
       if (res.status === 200) {
         setShowAddRoles(false);
@@ -53,11 +52,11 @@ export default function AddRoles({ showAddRoles, setShowAddRoles }) {
         showAddRoles ? "visible" : "invisible"
       }`}
     >
-      <div className="h-full bg-white-100 w-11/12 overflow-auto p-10">
+      <div className="bg-white-100 w-11/12 overflow-auto p-3 h-[40rem] rounded-xl relative">
         <form onSubmit={handleSubmit(editRolesHandler)}>
           <div className="flex justify-between">
-            <h1 className="mb-8 font-black">Edit Roles</h1>
-            <div>
+            <h1 className="mb-8 font-black">Add New Role</h1>
+            <div className="mr-5">
               <button
                 type="button"
                 className="px-2 py-1 text-sm text-white-100 text-white rounded-md bg-blue-600"
@@ -66,6 +65,12 @@ export default function AddRoles({ showAddRoles, setShowAddRoles }) {
                 Select All
               </button>
             </div>
+            <button
+              onClick={() => setShowAddRoles(false)}
+              className=" absolute top-2 right-2"
+            >
+              <FontAwesomeIcon icon={faX} className="text-red-700" />
+            </button>
           </div>
           <div className="grid grid-cols-2">
             <div className="py-1">

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import useFetch from "../../../hooks/useFetch";
-import usePost from "../../../hooks/usePost";
 import instance from "../../../api/axios-interceptors";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faX } from "@fortawesome/free-solid-svg-icons";
 
 export default function EditRole({
   showEditRoles,
@@ -13,14 +14,8 @@ export default function EditRole({
   const [selectedPermissions, setSelectedPermissions] = useState([]);
 
   const { datas: editRoleData } = useFetch(`/api/v1/admin/role/${editRoleId}`);
-  console.log(editRoleData?.name);
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-    register,
-  } = useForm();
-  const { datas: rolesData } = useFetch("/api/v1/admin/role");
+  const { handleSubmit, control, register } = useForm();
+
   const { datas: permissionsData } = useFetch("/api/v1/admin/role/permissions");
 
   const permissionsName =
@@ -37,7 +32,6 @@ export default function EditRole({
       setSelectedPermissions(allPermissions);
     }
   };
-
   const handleSubmitNewRole = (data) => {
     const newRole = {
       code: data.code,
@@ -46,14 +40,17 @@ export default function EditRole({
       permissions: selectedPermissions,
     };
 
-    console.log(newRole);
-    instance.post("/api/v1/admin/role", newRole).then((res) => {
-      if (res.status === 200) {
-        setShowEditRoles(false);
-      } else {
-        alert("GET ERROR");
-      }
-    });
+    instance
+      .post(`/api/v1/admin/role/edit/${editRoleId}`, newRole)
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          setShowEditRoles(false);
+        } else {
+          alert("GET ERROR");
+        }
+      })
+      .catch((err) => console.log(err));
   };
   return ReactDOM.createPortal(
     <div
@@ -61,10 +58,9 @@ export default function EditRole({
         showEditRoles ? "visible" : "invisible"
       }`}
     >
-      <div className="h-full bg-white-100 w-11/12 overflow-auto p-10">
+      <div className="bg-white-100 w-11/12 overflow-auto p-3 h-[40rem] rounded-xl">
         <form onSubmit={handleSubmit(handleSubmitNewRole)}>
-          <div className="flex justify-between">
-            <h1 className="mb-8 font-black">ٍEdit Roles</h1>
+          <div className="flex justify-between mb-4">
             <div>
               <button
                 type="button"
@@ -74,61 +70,60 @@ export default function EditRole({
                 Select All
               </button>
             </div>
+            <button onClick={() => setShowEditRoles(false)}>
+              <FontAwesomeIcon icon={faX} className="text-red-700" />
+            </button>
           </div>
           <div className="grid grid-cols-2">
             <div className="py-1">
               <label htmlFor="name" className="font-bold">
                 Role Name
               </label>
-              <Controller
+
+              <input
+                type="text"
+                id="name"
                 name="name"
+                placeholder="Role Name"
+                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                {...register("name", {
+                  required: "This field is required",
+                })}
                 defaultValue={editRoleData?.name}
-                control={control}
-                rules={{ required: "Name is required" }}
-                render={({ field }) => (
-                  <input
-                    {...field}
-                    type="text"
-                    id="name"
-                    className="w-full border placeholder:text-sm"
-                    placeholder="Name"
-                  />
-                )}
               />
-              {errors.name && (
-                <p className="text-red-700 text-xs">{errors.name.message}</p>
-              )}
             </div>
+
             <div className="py-1">
               <label htmlFor="code" className="font-bold">
                 Role Code
               </label>
+
               <input
                 type="text"
                 id="code"
-                className="w-full border placeholder:text-sm"
-                placeholder="Code"
-                {...register("code", { required: "Code is required" })}
+                name="code"
+                placeholder="Role Code"
+                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                {...register("code", {
+                  required: "This field is required",
+                })}
+                defaultValue={editRoleData?.code}
               />
-              {errors.code && (
-                <p className="text-red-700 text-xs">{errors.code.message}</p>
-              )}
             </div>
           </div>
 
           <div className="mt-1 grid grid-cols-2">
-            {permissionsName.map((category, index) => (
+            {permissionsName.map((permi, index) => (
               <div key={index} className="border">
-                <p className="p-2">{category}</p>
+                <p className="p-2">{permi}</p>
                 <ul className="text-xs grid grid-cols-2 gap-2 p-4">
                   {permissionsData.map(
                     (permission) =>
-                      permission.name === category &&
+                      permission.name === permi &&
                       permission.children.map((child, childIndex) => (
                         <li key={childIndex}>
                           <input
                             type="checkbox"
-                            value={child.code}
                             checked={selectedPermissions.includes(child.code)}
                             onChange={() => {
                               if (selectedPermissions.includes(child.code)) {
