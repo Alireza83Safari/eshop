@@ -35,14 +35,14 @@ export default function ProductsPanel() {
   const [brands, setBrands] = useState([]);
   const [category, setCategory] = useState([]);
 
-  const { datas: brandsData } = useFetch("/api/v1/brand");
+  const { datas: brandsData } = useFetch("/api/v1/admin/brand");
   useEffect(() => {
     if (brandsData && brandsData.data) {
       setBrands(brandsData.data);
     }
   }, [brandsData]);
 
-  const { datas: categoryData } = useFetch("/api/v1/category");
+  const { datas: categoryData } = useFetch("/api/v1/admin/category");
   useEffect(() => {
     if (categoryData && categoryData.data) {
       setCategory(categoryData.data);
@@ -52,10 +52,8 @@ export default function ProductsPanel() {
   const { datas: productListsData, fetchData: getProductsList } = useFetch(
     "/api/v1/user/product"
   );
-  console.log(productListsData?.data);
   useEffect(() => {
     if (productListsData) {
-      console.log(productListsData);
       setProductList(productListsData?.data);
     }
   }, []);

@@ -32,7 +32,7 @@ export default function Promotion() {
       productItemId: findProduct.itemId,
       quantity: 1,
     };
-    doPost("/api/v1/orderItem", productData, {
+    doPost("/api/v1/user/orderItem", productData, {
       accept: "application/json",
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",

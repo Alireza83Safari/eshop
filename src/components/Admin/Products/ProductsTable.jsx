@@ -5,6 +5,7 @@ import InfosModal from "../InfosModal";
 import useFetch from "../../../hooks/useFetch";
 import ProductsPanelContext from "./ProductsPanelContext";
 import Pagination from "../../Paganation";
+import instance from "../../../api/axios-interceptors";
 
 export default function ProductsTable() {
   const [paginatedProducts, setPaginatedProducts] = useState([]);
@@ -12,7 +13,24 @@ export default function ProductsTable() {
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [infosId, setInfosId] = useState(null);
   const [productInfos, setProductInfos] = useState([]);
-  const { searchQuery, productList ,setProductDeleteId,setShowEditModal,setShowDeleteModal,setProductEditId} = useContext(ProductsPanelContext);
+  const {
+    searchQuery,
+    setProductDeleteId,
+    setShowEditModal,
+    setShowDeleteModal,
+    setProductEditId,
+  } = useContext(ProductsPanelContext);
+  const [productList, setProductList] = useState([]);
+
+  const fetchProductList = () => {
+    instance.get("/api/v1/admin/product").then((res) => {
+      setProductList(res.data);
+    });
+  };
+
+  useEffect(() => {
+    fetchProductList();
+  }, []);
 
   const editHandler = (id) => {
     setShowEditModal(true);
@@ -38,6 +56,7 @@ export default function ProductsTable() {
 
   let pageCount = Math.ceil(productList.length / pageSize);
   pageNumber = Array.from(Array(pageCount).keys());
+
   return (
     <>
       <table className="min-w-full">
@@ -64,18 +83,18 @@ export default function ProductsTable() {
                 key={index}
               >
                 <td className="py-3">{index + 1}</td>
-                <td className="py-3">{product.name}</td>
+                <td className="py-3">{product?.name}</td>
                 <td className="py-3 flex justify-center">
                   <img
-                    src={`http://127.0.0.1:6060/${product.brandFileUrl} `}
+                    src={`http://127.0.0.1:6060/${product?.brandFileUrl} `}
                     alt=""
                     className="sm:w-8 w-6"
                   />
                 </td>
-                <td className="py-3">{product.categoryName}</td>
-                <td className="py-3">{product.code}</td>
+                <td className="py-3">{product?.categoryName}</td>
+                <td className="py-3">{product?.code}</td>
                 <td className="py-3 md:space-x-2">
-                  <button onClick={() => editHandler(product.id)}>
+                  <button onClick={() => editHandler(product?.id)}>
                     <FontAwesomeIcon
                       icon={faEdit}
                       className="text-orange-400"
@@ -84,7 +103,7 @@ export default function ProductsTable() {
                   <button
                     className="px-2 py-1 rounded-md text-red-700 text-white"
                     onClick={() => {
-                      setProductDeleteId(product.id);
+                      setProductDeleteId(product?.id);
                       setShowDeleteModal(true);
                     }}
                   >
@@ -96,7 +115,7 @@ export default function ProductsTable() {
                     className="border md:px-2 px-1 md:text-xs text-[9px] rounded-lg"
                     onClick={() => {
                       setShowInfoModal(true);
-                      setInfosId(product.id);
+                      setInfosId(product?.id);
                     }}
                   >
                     Infos
@@ -106,14 +125,12 @@ export default function ProductsTable() {
             ))}
         </tbody>
       </table>
-
       <InfosModal
         showInfoModal={showInfoModal}
         setShowInfoModal={setShowInfoModal}
         productInfos={productInfos}
         isLoading={isLoading}
       />
-
       <Pagination
         pageNumber={pageNumber}
         setCurrentPage={setCurrentPage}

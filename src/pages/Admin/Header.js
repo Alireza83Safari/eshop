@@ -3,7 +3,7 @@ import { faMoon, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import productsContext from "../../Context/productsContext";
 import useFetch from "../../hooks/useFetch";
-import Profile from "../../components/Profile"
+import Profile from "../../components/Profile";
 export default function Header() {
   const [onScrollHeader, setOnScrollHeader] = useState(false);
   const { mode, setMode } = useContext(productsContext);
@@ -28,7 +28,7 @@ export default function Header() {
   return (
     <header className="relative">
       <div
-        className={` " flex justify-between items-center px-4 md:py-5 py-3 fixed z-10 dark:bg-dark right-0 top-0 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] " ${
+        className={` " flex justify-between items-center px-4 md:py-5 py-3 fixed z-10 dark:bg-dark right-0 top-0 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] bg-white-100 dark:bg-black-900 " ${
           onScrollHeader ? "backdrop-blur-lg" : "bg-white-200 "
         }`}
       >
