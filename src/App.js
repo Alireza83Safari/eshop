@@ -18,15 +18,6 @@ function App() {
   };
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") {
-      setMode(true);
-    } else {
-      setMode(false);
-    }
-  }, [mode]);
-
-  useEffect(() => {
     const userToken = JSON.parse(localStorage.getItem("user"))?.token;
     if (userToken) {
       setToken(userToken);
@@ -37,6 +28,15 @@ function App() {
   }, [token]);
 
   useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      setMode(true);
+    } else {
+      setMode(false);
+    }
+  }, []);
+
+  useEffect(() => {
     if (mode) {
       localStorage.setItem("theme", "dark");
       document.documentElement.classList.add("dark");
@@ -44,7 +44,7 @@ function App() {
       localStorage.setItem("theme", "light");
       document.documentElement.classList.remove("dark");
     }
-  }, []);
+  }, [mode]);
 
   return (
     <div className="App max-w-[1400px] mx-auto relative w-full min-w-full">
