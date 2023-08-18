@@ -18,7 +18,7 @@ export default function Header() {
   const { mode, setMode, showShopSidebar, setShowShopSidebar, userIsLogin } =
     useContext(productsContext);
   const [orders, setOrders] = useState(0);
-  const [userInfos, setUserInfos] = useState(0);
+  const [userInfos, setUserInfos] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   const ordersData = async () => {
@@ -32,8 +32,8 @@ export default function Header() {
 
   const fetcUserInfos = async () => {
     try {
-      const response = await instance.get("/api/v1/user/order");
-      setUserInfos(response.data.items.length);
+      const response = await instance.get("/api/v1/admin/is_authenticated");
+      setUserInfos(response.data);
     } catch (error) {
       console.log("failed fetching products", error);
     }
