@@ -10,7 +10,6 @@ import {
 import productsContext from "../../Context/productsContext";
 import instance from "../../api/axios-interceptors";
 import { Link } from "react-router-dom";
-import useFetch from "../../hooks/useFetch";
 import Spinner from "../../components/Spinner/Spinner";
 
 const Profile = lazy(() => import("../../components/Profile"));
@@ -19,6 +18,7 @@ export default function Header() {
   const { mode, setMode, showShopSidebar, setShowShopSidebar, userIsLogin } =
     useContext(productsContext);
   const [orders, setOrders] = useState(0);
+  const [userInfos, setUserInfos] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
 
   const ordersData = async () => {
@@ -30,7 +30,14 @@ export default function Header() {
     }
   };
 
-  const { datas: userInfos } = useFetch("/api/v1/user/is_authenticated");
+  const fetcUserInfos = async () => {
+    try {
+      const response = await instance.get("/api/v1/user/order");
+      setUserInfos(response.data.items.length);
+    } catch (error) {
+      console.log("failed fetching products", error);
+    }
+  };
 
   const [showProfile, setShowProfile] = useState(false);
 
@@ -38,12 +45,12 @@ export default function Header() {
     // Call productsData and ordersData if userIsLogin is true
     if (userIsLogin) {
       ordersData();
+      fetcUserInfos();
     }
   }, [userIsLogin]);
 
   const searchInHref = () => {
     if (searchQuery.trim().length) {
-      // Redirect to the search results page using React Router
       document.location.href = `/search/${searchQuery}`;
     }
   };
