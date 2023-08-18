@@ -2,17 +2,17 @@ import React, { lazy, Suspense } from "react";
 import Spinner from "../../components/Spinner/Spinner";
 
 const DashboardChart = lazy(() =>
-  import("../../components/Admin/DashboardChart")
+  import("../../components/Admin/Dashboard/DashboardChart")
 );
-const Topbar = lazy(() => import("../../components/Admin/Topbar"));
-const MostViewed = lazy(() => import("../../components/Admin/MostViewed"));
-const Transactions = lazy(() => import("../../components/Admin/Transactions"));
-const MostSale = lazy(() => import("../../components/Admin/MostSale"));
+const Topbar = lazy(() => import("../../components/Admin/Dashboard/Topbar"));
+const MostViewed = lazy(() => import("../../components/Admin/Dashboard/MostViewed"));
+const Transactions = lazy(() => import("../../components/Admin/Dashboard/Transactions"));
+const MostSale = lazy(() => import("../../components/Admin/Dashboard/MostSale"));
 
 const Dashboard = () => {
   return (
     <section className="float-right md:mt-16 mt-12 pb-10 pt-4 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%]">
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-7 py-3 mx-7 rounded-xl mt-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-7 py-3 mx-7 rounded-xl mt-4 md:ml-7 ml-3 ">
         <Suspense fallback={<Spinner />}>
           <Topbar />
         </Suspense>

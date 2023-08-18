@@ -1,21 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function Topbar() {
-  const [topbarData, setTopbarData] = useState([]);
+  const [topbarData, setTopbarData] = useState([
+    {
+      title: "Money to withdraw",
+      change: "-10",
+      total: 3213,
+      date: "Feb 1th,2023",
+    },
+    {
+      title: "Total Reveneu",
+      change: "14",
+      total: 756,
+      date: "Feb 25th,2023",
+    },
+    {
+      title: "Total Customer",
+      change: "34",
+      total: 7456,
+      date: "Jul 22th,2023",
+    },
+  ]);
 
-  useEffect(() => {
-    fetch("http://localhost:9000/topbar/")
-      .then((res) => res.json())
-      .then((products) => {
-        setTopbarData(products);
-      });
-  }, []);
-  /* md:px-6 sm:my-5 sm:px-4 py-2 px-6 md:mx-2 */
   return (
     <>
       {topbarData.map((data, index) => (
-        <div className="relative rounded-lg sm:col-span-1 col-span-3 bg-white-100 dark:bg-black-200 p-6 dark:text-white-100 text-black-900">
+        <div
+          className="relative rounded-lg sm:col-span-1 col-span-3 bg-white-100 dark:bg-black-200 p-6 dark:text-white-100 text-black-900"
+          key={index}
+        >
           <div className="flex items-center sm:justify-between text-xs 2xl:text-base lg:text-sm">
             <p className="xl:mr-4 whitespace-nowrap">{data.title}</p>
             <span

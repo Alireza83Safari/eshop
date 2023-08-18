@@ -2,8 +2,8 @@ import React from "react";
 
 const MostSale = () => {
   return (
-    <div className="mr-8 mt-6">
-      <div className="bg-white-100 dark:bg-black-200 dark:text-white-100 py-7 px-5 ml-2 rounded-xl">
+    <div className="mr-7 mt-3">
+      <div className="bg-white-100 dark:bg-black-200 dark:text-white-100 py-7 px-5 ml-3 rounded-xl">
         <span className="flex justify-center font-bold whitespace-nowrap dark:text-white-100 lg:text-base text-xs text-center">
           Most Sale Product Weekly
         </span>
@@ -19,7 +19,7 @@ const MostSale = () => {
           <p className="py-1 lg:py-0">View: 42,654</p>
         </div>
         <div className="w-full">
-        <button className="bg-blue-600 w-full rounded-lg text-white-300 lg:mt-7 mt-3 md:py-1 py-2 lg:text-base text-xs">
+          <button className="bg-blue-600 w-full rounded-lg text-white-300 lg:mt-7 mt-3 md:py-1 py-2 lg:text-base text-xs">
             Show Details
           </button>
         </div>

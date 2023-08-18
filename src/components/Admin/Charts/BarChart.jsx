@@ -10,10 +10,10 @@ import {
 
 const BarChartComponent = ({ datas }) => {
   return (
-    <ResponsiveContainer>
+    <ResponsiveContainer width="100%" height={300}>
       <BarChart data={datas}>
         <CartesianGrid horizontal={false} vertical={false} />
-        <XAxis dataKey="name" />
+        <XAxis dataKey="key" />
         <Tooltip />
         <Bar dataKey="value" fill="#2762EB" />
       </BarChart>
