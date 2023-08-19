@@ -5,7 +5,6 @@ import {
   faBars,
   faGear,
   faHomeAlt,
-  faRightToBracket,
   faShop,
   faSignOut,
 } from "@fortawesome/free-solid-svg-icons";

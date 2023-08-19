@@ -1,9 +1,8 @@
-import React, { useContext, useState, Suspense, lazy, useEffect } from "react";
+import React, {  useState, Suspense, lazy, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faStar } from "@fortawesome/free-solid-svg-icons";
 import { Link, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import productsContext from "../Context/productsContext";
 import Header from "./Header/Header";
 import Footer from "./Footer";
 import usePost from "../hooks/usePost";
@@ -16,7 +15,6 @@ const Description = lazy(() => import("../components/ProductInfo/Description"));
 const Comments = lazy(() => import("../components/ProductInfo/Comments"));
 
 export default function ProductsInfo() {
-  const { token } = useContext(productsContext);
   const { productID } = useParams();
   const [activeTab, setActiveTab] = useState("description");
   const { doPost } = usePost();

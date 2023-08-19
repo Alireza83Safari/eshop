@@ -12,11 +12,6 @@ function App() {
   const [showShopSidebar, setShowShopSidebar] = useState(false);
   const navigate = useNavigate();
 
-  const login = (user, token) => {
-    setToken(token);
-    localStorage.setItem("user", JSON.stringify({ token }));
-  };
-
   useEffect(() => {
     const userToken = JSON.parse(localStorage.getItem("user"))?.token;
     if (userToken) {
@@ -54,7 +49,6 @@ function App() {
           setMode,
           showShopSidebar,
           setShowShopSidebar,
-          login,
           token,
           userIsLogin,
         }}

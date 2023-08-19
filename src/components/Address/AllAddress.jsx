@@ -31,7 +31,6 @@ export default function AllAddress() {
     instance
       .post(`/api/v1/user/address/delete/${id}`)
       .then((res) => {
-        console.log(res);
         fetchAddress();
         toast.success(`delete is successfuly`, {
           position: "bottom-right",

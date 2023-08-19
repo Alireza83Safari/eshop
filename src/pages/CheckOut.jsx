@@ -1,16 +1,16 @@
-import React, { useContext, useEffect, useState, lazy, Suspense } from "react";
+import React, {  useEffect, useState } from "react";
 import { faCartShopping, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Breadcrumb from "../components/Breadcrumb";
 import Header from "./Header/Header";
 import Footer from "./Footer";
-import productsContext from "../Context/productsContext";
 import Spinner from "../components/Spinner/Spinner";
 import useFetch from "../hooks/useFetch";
+import instance from "../api/axios-interceptors";
 
 export default function Orders() {
-  const { token } = useContext(productsContext);
+
   const [orders, setOrders] = useState([]);
   const { datas, fetchData, isLoading } = useFetch("/api/v1/user/order");
   useEffect(() => {
@@ -38,60 +38,39 @@ export default function Orders() {
 
   const removeProductHandler = async (id) => {
     try {
-      const response = await fetch(`/api/v1/user/orderItem/delete/${id}`, {
-        method: "POST",
-        headers: {
-          accept: "application/json",
-          Authorization: `${token}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error("Failed to delete the product.");
+      const response = await instance.post(
+        `/api/v1/user/orderItem/delete/${id}`
+      );
+      if (response.status === 200) {
+        fetchData();
       }
-      fetchData();
     } catch (error) {
       console.error("Error deleting the product:", error.message);
     }
   };
 
   const changeIncrementQuantity = async (itemId, id) => {
+    let newQuantity = orders.find((order) => order.id === id).quantity + 1;
+    let productData = { productItemId: itemId, quantity: newQuantity };
     try {
-      let newQuantity = orders.find((order) => order.id === id).quantity + 1;
-      const response = await fetch("/api/v1/orderItem", {
-        method: "POST",
-        headers: {
-          accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `${token}`,
-        },
-        body: JSON.stringify({ productItemId: itemId, quantity: newQuantity }),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to update the quantity.");
+      const response = await instance.post("/api/v1/orderItem", productData);
+      if (response.status === 200) {
+        fetchData();
       }
-      fetchData();
     } catch (error) {
       console.log("Error updating quantity:", error.message);
     }
   };
 
   const changeDecrementQuantity = async (itemId, id) => {
+    let newQuantity = orders.find((order) => order.id === id).quantity - 1;
+    let productData = { productItemId: itemId, quantity: newQuantity };
     try {
-      let newQuantity = orders.find((order) => order.id === id).quantity - 1;
-      const response = await fetch("/api/v1/orderItem", {
-        method: "POST",
-        headers: {
-          accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `${token}`,
-        },
-        body: JSON.stringify({ productItemId: itemId, quantity: newQuantity }),
-      });
+      const response = await instance.post("/api/v1/orderItem", productData);
 
-      if (!response.ok) {
-        throw new Error("Failed to update the quantity.");
+      if (response.status === 200) {
+        fetchData();
       }
-      fetchData();
     } catch (error) {
       console.log("Error updating quantity:", error.message);
     }

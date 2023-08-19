@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
-import productsContext from "../../Context/productsContext";
 import instance from "../../api/axios-interceptors";
 import { AddressContext } from "./AddressContext";
 
@@ -10,7 +9,6 @@ export default function AddNewAddress() {
   const { showAddAddress, setShowAddAddress, fetchAddress } =
     useContext(AddressContext);
   console.log(addressError);
-  const { token } = useContext(productsContext);
   const {
     register,
     handleSubmit,
@@ -30,13 +28,7 @@ export default function AddNewAddress() {
     };
 
     instance
-      .post("/api/v1/user/address", addressData, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      })
+      .post("/api/v1/user/address", addressData)
       .then((res) => {
         if (res.status === 200) {
           reset();

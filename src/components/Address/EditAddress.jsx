@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
-import productsContext from "../../Context/productsContext";
 import instance from "../../api/axios-interceptors";
 import { AddressContext } from "./AddressContext";
 
@@ -15,8 +14,7 @@ export default function EditAddress() {
     fetchAddress,
     setError500,
   } = useContext(AddressContext);
-  console.log(addressError);
-  const { token } = useContext(productsContext);
+
   const { register, handleSubmit, reset } = useForm();
 
   const { datas: addressData } = useFetch(
@@ -37,18 +35,9 @@ export default function EditAddress() {
     try {
       const res = await instance.post(
         `/api/v1/user/address/edit/${editAddressId}`,
-        addressData,
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: token,
-          },
-        }
+        addressData
       );
 
-      console.log(res);
-      console.log(res.status);
       if (res.status === 200) {
         reset();
         setShowEditAddress(false);

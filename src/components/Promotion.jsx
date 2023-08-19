@@ -69,7 +69,7 @@ export default function Promotion() {
               >
                 <div className="lg:h-[300px] md:h-[240px] sm:h-[200px] h-[180px] flex justify-center">
                   <Link
-                    to={`products/${product.id}`}
+                    to={`/products/${product.id}`}
                     style={{ display: "block" }}
                   >
                     <img

@@ -14,7 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./Sidebar.css";
 import productsContext from "../../../Context/productsContext";
-
+import instance from "../../../api/axios-interceptors";
 export default function Sidebar() {
   const items = [
     { icon: faGripHorizontal, text: "dashboard", to: "dashboard" },
@@ -36,6 +36,9 @@ export default function Sidebar() {
     setActiveId(productName);
   }, [productName]);
 
+  const logoutHandler = () => {
+    instance.get("/api/v1/admin/logout").then((res) => console.log(res));
+  };
   return (
     <section className="fixed top-0 left-0 bg-white-100 dark:bg-black-900 h-full xl:w-[10%] lg:w-[12%] sm:w-[6%] w-[9%] font-bold">
       <div className="xl:text-[.9rem] md:text-xs">
@@ -98,7 +101,10 @@ export default function Sidebar() {
             icon={faSignOut}
             className="mr-3 lg:text-base text-xl"
           />
-          <p className="invisible lg:visible"> Log Out</p>
+          <p className="invisible lg:visible" onClick={() => logoutHandler()}>
+            {" "}
+            Log Out
+          </p>
         </Link>
       </div>
     </section>

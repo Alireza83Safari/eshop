@@ -40,7 +40,7 @@ export default function ProductsTemplate({ product, basketHandler }) {
             <button
               className="px-4 py-2 bg-blue-600 text-white-100 text-sm rounded-lg hover:bg-blue-900 duration-200 transition"
               onClick={() => {
-                basketHandler(product.id);
+                basketHandler(product);
               }}
             >
               Add to Cart

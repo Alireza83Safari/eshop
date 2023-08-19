@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
-import productsContext from "../../../Context/productsContext";
 import { useForm } from "react-hook-form";
 import useFetch from "../../../hooks/useFetch";
 import instance from "../../../api/axios-interceptors";
@@ -9,23 +8,17 @@ export default function EditUser({
   showEditUser,
   editUserID,
 }) {
-  // React Hook Form setup
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm();
 
-  // Accessing token from context
-  const { token } = useContext(productsContext);
-
-  // Fetching data for the product to be edited
   const { datas: editData } = useFetch(`/api/v1/admin/product/${editUserID}`);
-  console.log(editUserID);
+  const { datas: rolesData, fetchData } = useFetch("/api/v1/admin/role");
 
   // Function to post edited product data
-  const editProductHandler = (userData) => {
+  const editProductHandler = async (userData) => {
     let editUserModel = {
       email: userData.email,
       enabled: true,
@@ -36,23 +29,19 @@ export default function EditUser({
       roleId: userData.roleId,
       username: userData.username,
     };
-    console.log(editUserModel);
-    instance
-      .post(`/api/v1/admin/user/edit/${editUserID}`, editUserModel, {
-        headers: {
-          accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      })
 
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
+    try {
+      const response = await instance.post(
+        `/api/v1/admin/user/edit/${editUserID}`,
+        editUserModel
+      );
+      if (response.status === 200) {
+        fetchData();
+      }
+    } catch (error) {
+      console.error("Error deleting the product:", error.message);
+    }
   };
-
-  const { datas: rolesData, fetchData } = useFetch("/api/v1/admin/role");
 
   return ReactDOM.createPortal(
     <div

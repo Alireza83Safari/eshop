@@ -1,26 +1,20 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header/Header";
 import Footer from "./Footer";
-import productsContext from "../Context/productsContext";
 import Breadcrumb from "../components/Breadcrumb";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import usePost from "../hooks/usePost";
 import { ToastContainer, toast } from "react-toastify";
+import instance from "../api/axios-interceptors";
 
 export default function Favorite() {
-  const { token } = useContext(productsContext);
   const [favoriteProducts, setFavoriteProducts] = useState([]);
 
   // Fetch favorite products from the server
   const getFavoriteProducts = () => {
-    fetch("/api/v1/user/profile/favoriteProducts", {
-      headers: {
-        accept: "application/json",
-        Authorization: token,
-      },
-    })
+    fetch("/api/v1/user/profile/favoriteProducts")
       .then((res) => res.json())
       .then((favorite) => {
         setFavoriteProducts(favorite.data);
@@ -30,21 +24,14 @@ export default function Favorite() {
     getFavoriteProducts();
   }, []);
 
+  const { doPost } = usePost();
+
   // Delete a favorite product
   const deleteFavorite = (ID) => {
-    fetch(`/api/v1/user/favoriteProductItem/delete/${ID}`, {
-      headers: {
-        accept: "application/json",
-        Authorization: token,
-      },
-      method: "POST",
-    }).then((res) => {
-      res.json();
-      getFavoriteProducts(); // Refresh the favorite product list
+    doPost(`/api/v1/user/favoriteProductItem/delete/${ID}`).then(() => {
+      getFavoriteProducts();
     });
   };
-
-  const { doPost } = usePost();
 
   const handleAddToCart = (ID) => {
     let productData = {
@@ -53,11 +40,7 @@ export default function Favorite() {
     };
 
     // Make a POST request to add the product to the cart
-    doPost("/api/v1/user/orderItem", productData, {
-      accept: "application/json",
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    });
+    doPost("/api/v1/user/orderItem", productData);
 
     toast.success(`added to cart!`, {
       position: "bottom-right",

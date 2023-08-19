@@ -1,12 +1,10 @@
 import React, {
-  useContext,
   useEffect,
   useReducer,
   useState,
   lazy,
   Suspense,
 } from "react";
-import productsContext from "../Context/productsContext";
 import { ToastContainer, toast } from "react-toastify";
 import Spinner from "../components/Spinner/Spinner";
 import useFetch from "../hooks/useFetch";
@@ -34,14 +32,12 @@ const filterReducer = (state, action) => {
 };
 
 export default function Products() {
-  const { token } = useContext(productsContext);
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [paginatedProducts, setPaginatedProducts] = useState([]);
   const [showFilterInSm, setShowFilterInSm] = useState(false);
-  const [productId, setProductId] = useState();
   const [getProducts, setProducts] = useState([]);
-  const { datas: productsData } = useFetch("/api/v1/product");
+  const { datas: productsData } = useFetch("/api/v1/user/product");
   useEffect(() => {
     if (productsData && productsData.data) {
       setProducts(productsData.data);
@@ -91,25 +87,20 @@ export default function Products() {
   const { doPost } = usePost();
 
   // Fetch product item details
-  const { datas: productItem } = useFetch(
-    `/api/v1/admin/productItem/product/${productId}`
-  );
 
   // Handling adding items to the cart
   const BasketHandler = (cartID) => {
+    const { datas: productItem } = useFetch(
+      `/api/v1/admin/productItem/product/${cartID}`
+    );
     const valueAtIndex0 = productItem && productItem[0]?.id;
 
-    setProductId(cartID);
     let userBasketHandler = {
       productItemId: valueAtIndex0,
       quantity: 1,
     };
-    
-    doPost("/api/v1/user/orderItem", userBasketHandler, {
-      accept: "application/json",
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    });
+
+    doPost("/api/v1/user/orderItem", userBasketHandler);
 
     const productToAdd = getProducts.find((product) => product.id === cartID);
 

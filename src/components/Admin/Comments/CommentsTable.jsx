@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Pagination from "../../Paganation";
-import productsContext from "../../../Context/productsContext";
 import usePost from "../../../hooks/usePost";
 
 export default function CommentsTable({ comments, fetchDatas }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [paginatedProducts, setPaginatedProducts] = useState([]);
-  const { token } = useContext(productsContext);
   const pageSize = 11;
   const totalPage = Math.ceil(comments.length / pageSize);
   const pageNumber = Array.from(Array(totalPage).keys());
@@ -28,19 +26,13 @@ export default function CommentsTable({ comments, fetchDatas }) {
     };
     console.log(statusInfo);
 
-    doPost(`/api/v1/admin/comment/changeStatus/${productId}`, statusInfo, {
-      headers: {
-        accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    });
+    doPost(`/api/v1/admin/comment/changeStatus/${productId}`, statusInfo);
     fetchDatas();
   };
 
   return (
     <>
-      <table >
+      <table>
         <thead>
           <tr className="sm:text-xs text-[12px] 2xl:text-lg grid lg:grid-cols-6 sm:grid-cols-5 grid-cols-4 border-b sm:py-2 py-3">
             <th>User</th>

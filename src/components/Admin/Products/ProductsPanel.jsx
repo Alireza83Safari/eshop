@@ -7,7 +7,7 @@ import Spinner from "../../Spinner/Spinner";
 import ProductsPanelContext from "./ProductsPanelContext";
 
 const FilterProducts = lazy(() => import("./FilterProducts"));
-const Departments = lazy(() => import("../Departments"));
+const Departments = lazy(() => import("./Departments"));
 const PiesChart = lazy(() => import("../Charts/PieChart"));
 const ProductsTable = lazy(() => import("./ProductsTable"));
 const AddNewProduct = lazy(() => import("./AddNewProduct"));

@@ -7,16 +7,14 @@ import {
 } from "../validators/rules";
 import Input from "../components/Form/Input";
 import { useForm } from "../hooks/useForm";
-import { useContext } from "react";
-import productsContext from "../Context/productsContext";
 import Header from "./Header/Header";
 import Footer from "./Footer";
+import instance from "../api/axios-interceptors";
 
 export default function Login() {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   console.log("error", error);
-  const { login } = useContext(productsContext);
   const [formState, onInputHandler] = useForm(
     {
       username: {
@@ -39,33 +37,19 @@ export default function Login() {
       password: password.value,
       username: username.value,
     };
-    console.log(userInfo);
 
-    fetch("/api/v1/user/login", {
-      method: "POST",
-      body: JSON.stringify(userInfo),
-      headers: {
-        "Content-Type": "application/json",
-        accept: "application/json",
-      },
-    })
-      .then((res) => {
-        console.log(res.status);
-        if (res.status === 422) {
-          setError("user is not found");
-        } else if (!res.ok) {
-          return res.text().then((text) => {
-            throw new Error(text);
-          });
-        } else {
-          return res.json();
-        }
-      })
-
-      .then((result) => {
-        login(result.user, result.token);
+    instance.post("/api/v1/user/login", userInfo).then((res) => {
+      console.log(res);
+      if (res.status === 200) {
+        let token = res.data.token;
+        console.log("token", token);
+        localStorage.setItem("user", JSON.stringify({ token }));
         navigate("/shop");
-      });
+        return res.json();
+      } else if (res.status === 422) {
+        setError("user is not found");
+      }
+    });
   };
   return (
     <>

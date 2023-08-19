@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import ReactDOM from "react-dom";
-import productsContext from "../../../Context/productsContext";
 import { useForm } from "react-hook-form";
 import useFetch from "../../../hooks/useFetch";
 import ProductsPanelContext from "./ProductsPanelContext";
+import instance from "../../../api/axios-interceptors";
 
 export default function EditProduct() {
   const {
@@ -23,32 +23,26 @@ export default function EditProduct() {
     reset,
   } = useForm();
 
-  // Accessing token from context
-  const { token } = useContext(productsContext);
-
   // Fetching data for the product to be edited
   const { datas: editData } = useFetch(
     `/api/v1/admin/product/${productEditId}`
   );
 
   // Function to post edited product data
-  const editProductHandler = (e) => {
-    fetch(`/api/v1/product/edit/${productEditId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-      body: JSON.stringify(e),
-    })
-      .then((res) => {
-        res.json();
-      })
-      .then(() => {
+  const editProductHandler = async (e) => {
+    try {
+      const response = await instance.post(
+        `/api/v1/product/edit/${productEditId}`,
+        e
+      );
+      if (response.status === 200) {
         setShowEditModal(false);
         getProductsList();
         reset();
-      });
+      }
+    } catch (error) {
+      console.error("Error deleting the product:", error.message);
+    }
   };
 
   return ReactDOM.createPortal(
