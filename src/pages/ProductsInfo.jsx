@@ -1,12 +1,6 @@
 import React, { useContext, useState, Suspense, lazy, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHeart,
-  faMoneyBill,
-  faShieldAlt,
-  faStar,
-  faTruck,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faStar } from "@fortawesome/free-solid-svg-icons";
 import { Link, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import productsContext from "../Context/productsContext";
@@ -15,9 +9,11 @@ import Footer from "./Footer";
 import usePost from "../hooks/usePost";
 import Spinner from "../components/Spinner/Spinner";
 import useFetch from "../hooks/useFetch";
+import ProductFeature from "../components/ProductInfo/ProductFeature";
+import instance from "../api/axios-interceptors";
 const Breadcrumb = lazy(() => import("../components/Breadcrumb"));
-const Description = lazy(() => import("../components/Description"));
-const Comments = lazy(() => import("../components/Comments"));
+const Description = lazy(() => import("../components/ProductInfo/Description"));
+const Comments = lazy(() => import("../components/ProductInfo/Comments"));
 
 export default function ProductsInfo() {
   const { token } = useContext(productsContext);
@@ -41,32 +37,7 @@ export default function ProductsInfo() {
       quantity: 1,
     };
 
-    // Make a POST request to add the product to the cart
-    doPost("/api/v1/user/orderItem", productData, {
-      accept: "application/json",
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    });
-
-    toast.success(`${findProduct.name} added to cart!`, {
-      position: "bottom-right",
-    });
-  };
-  // Add the product to favorites
-  const addToFavorite = (ID) => {
-    let productData = {
-      productItemId: ID,
-    };
-    // Make a POST request to add the product to favorites
-    fetch("/api/v1/user/favoriteProductItem", {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(productData),
-    }).then((res) => {
+    instance.post("/api/v1/user/orderItem", productData).then((res) => {
       res.json();
       if (res.status === 200) {
         toast.success(`${findProduct.name} added to favorite!`, {
@@ -79,6 +50,28 @@ export default function ProductsInfo() {
         });
       }
     });
+  };
+  // Add the product to favorites
+  const addToFavorite = (ID) => {
+    let productData = {
+      productItemId: ID,
+    };
+    // Make a POST request to add the product to favorites
+    instance
+      .post("/api/v1/user/favoriteProductItem", productData)
+      .then((res) => {
+        res.json();
+        if (res.status === 200) {
+          toast.success(`${findProduct.name} added to favorite!`, {
+            position: "bottom-right",
+          });
+        } else if (res.status === 400) {
+          toast.success(`${findProduct.name} Previously added product`, {
+            position: "bottom-right",
+            type: "warning",
+          });
+        }
+      });
   };
 
   // Display "Product not found" message if the product is not found
@@ -187,64 +180,7 @@ export default function ProductsInfo() {
           </div>
 
           <div className="lg:col-span-2 col-span-12 lg:block sm:flex justify-between block lg:my-0 my-16 lg:px-0 px-12 text-black-900 dark:text-white-100">
-            <div className="relative lg:my-5">
-              <div className="flex">
-                <div className="mr-4">
-                  <FontAwesomeIcon
-                    icon={faTruck}
-                    className="block sm:text-xl text-2xl my-2 mr-2 text-blue-600"
-                  />
-                </div>
-                <div>
-                  <p className="sm:text-xs my-1">FREE SHIPPING</p>
-                  <p className="sm:text-[10px] text-sm text-gray-800">
-                    Free shipping on all
-                  </p>
-                </div>
-              </div>
-              <span className="sm:text-[10px] text-xs absolute top-9 text-gray-800">
-                orders
-              </span>
-            </div>
-
-            <div className="relative lg:my-12 sm:my-0 my-12">
-              <div className="flex">
-                <div className="mr-4">
-                  <FontAwesomeIcon
-                    icon={faMoneyBill}
-                    className="block sm:text-xl text-2xl my-2 mr-2 text-green-300"
-                  />
-                </div>
-                <div>
-                  <p className="sm:text-xs sm:my-1 mt-2 sm:whitespace-normal whitespace-nowrap">
-                    MONEY BACK <br className="sm:flex hidden" /> GUARANTEE
-                  </p>
-                </div>
-              </div>
-              <span className="sm:text-[10px] text-xs absolute top-10 text-gray-800 whitespace-nowrap">
-                100% money back guarantee.
-              </span>
-            </div>
-
-            <div className="relative lg:my-12 sm:my-0 my-7">
-              <div className="flex">
-                <div className="mr-4">
-                  <FontAwesomeIcon
-                    icon={faShieldAlt}
-                    className="block sm:text-xl text-2xl my-2 mr-2 text-orange-400"
-                  />
-                </div>
-                <div>
-                  <p className="sm:text-xs my-1">SAFE & SECURE</p>
-                  <p className="sm:text-[10px] text-sm text-gray-800">
-                    Lorem ipsum dolor sitall
-                  </p>
-                </div>
-              </div>
-              <span className="sm:text-[10px] text-xs absolute top-9 text-gray-800">
-                amet
-              </span>
-            </div>
+            <ProductFeature />
           </div>
         </div>
         <div className="px-8 lg:mt-16 md:mt-12 mt-4 text-black-900 dark:text-white-100">

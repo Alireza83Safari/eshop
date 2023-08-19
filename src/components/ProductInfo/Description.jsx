@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import useFetch from "../hooks/useFetch";
+import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import { Spinner } from "flowbite-react";
 

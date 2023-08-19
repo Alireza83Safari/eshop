@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Spinner from "../Spinner/Spinner";
+import Spinner from "../../Spinner/Spinner";
 
 export default function InfosModal({
   showInfoModal,
