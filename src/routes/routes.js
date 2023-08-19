@@ -3,7 +3,6 @@ import Chat from "../pages/Admin/Chat";
 import Comments from "../pages/Admin/Comments";
 import Dashboard from "../pages/Admin/Dashboard";
 import ShopIndex from "../components/index";
-import CheckOut from "../pages/CheckOut";
 import ShopProducts from "../pages/Products";
 import ProductsInfo from "../pages/ProductsInfo";
 import Login from "../pages/Login";
@@ -16,6 +15,7 @@ import Page404 from "../components/Page404";
 import Roles from "../pages/Admin/Roles";
 import Users from "../pages/Admin/Users";
 import Orders from "../pages/Admin/Orders";
+import CheckOut from "../pages/Checkout/CheckOut";
 
 const route = [
   { path: "shop", element: <ShopIndex /> },
