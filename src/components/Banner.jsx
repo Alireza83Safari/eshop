@@ -18,9 +18,12 @@ export default function Banner() {
           </p>
 
           <div className="sm:block flex justify-center">
-            <button className="xl:py-4 mb-4 xl:px-14 md:py-3 md:px-10 py-2 px-16 bg-blue-600 text-white-100 rounded-md sm:inline flex justify-center">
-              <Link to="/products">Buy Now</Link>
-            </button>
+            <Link
+              to="/products"
+              className="xl:py-4 mb-4 xl:px-14 md:py-3 md:px-10 py-2 px-16 bg-blue-600 text-white-100 rounded-md sm:inline flex justify-center"
+            >
+              Buy Now
+            </Link>
           </div>
         </div>
         <div className="flex justify-end items-center container order-1">

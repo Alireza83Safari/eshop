@@ -1,19 +1,17 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import productsContext from "../Context/productsContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
 import Timer from "./Timer";
-import usePost from "../hooks/usePost";
 import useFetch from "../hooks/useFetch";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
+import instance from "../api/axios-interceptors";
 
 export default function Promotion() {
-  const { token } = useContext(productsContext);
   const [getProducts, setProducts] = useState([]);
   const { datas: productsData } = useFetch("/api/v1/user/product");
 
@@ -23,23 +21,17 @@ export default function Promotion() {
     }
   }, [productsData]);
 
-  const { doPost } = usePost();
-
   const handleAddToCart = (productID) => {
-    let findProduct = getProducts.find((product) => product.id === productID);
-
     let productData = {
-      productItemId: findProduct.itemId,
+      productItemId: productID.itemId,
       quantity: 1,
     };
-    doPost("/api/v1/user/orderItem", productData, {
-      accept: "application/json",
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    });
-
-    toast.success(`${findProduct.name} added to cart!`, {
-      position: "bottom-right",
+    instance.post("/api/v1/user/orderItem", productData).then((res) => {
+      if (res.status === 200) {
+        toast.success(`${productID.name} added to cart!`, {
+          position: "bottom-right",
+        });
+      }
     });
   };
 
@@ -88,7 +80,7 @@ export default function Promotion() {
                   </Link>
                   <button
                     className="flex items-center justify-center text-blue-600 hover:text-white-100 hover:bg-blue-300 absolute md:w-10 md:h-10 w-7 h-7 rounded-full xl:bottom-32 lg:bottom-24 md:bottom-20 bottom-16 right-6 z-10 border border-blue-600"
-                    onClick={() => handleAddToCart(product.id)}
+                    onClick={() => handleAddToCart(product)}
                   >
                     <FontAwesomeIcon icon={faPlus} className="text-xl" />
                   </button>

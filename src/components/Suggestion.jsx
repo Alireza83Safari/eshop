@@ -1,21 +1,19 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Timer from "./Timer";
-import productContext from "../Context/productsContext";
 import { ToastContainer, toast } from "react-toastify";
-import usePost from "../hooks/usePost";
 import useFetch from "../hooks/useFetch";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import instance from "../api/axios-interceptors";
 
 export default function Suggestion() {
-  const { token } = useContext(productContext);
   const [currentProductIndex, setCurrentProductIndex] = useState(0);
   const [suggestionProduct, setSuggestionProduct] = useState({
-    id: "47ff1c68-1c11-4627-b212-fb5b0dc62aea",
-    brandName: "Huawei",
-    price: 712,
-    itemId: "0da783f9-2dc1-4da9-967a-a6ee441f40a7",
-    fileUrl: "uploads/product/182a5646-4eba-47eb-93e3-c8b1c08a379b.png",
+    id: "ae0ed272-feb1-41af-bbc4-d14f03f58992",
+    name: "Iphone 13 pro max",
+    price: 1299,
+    itemId: "7e8e6f2b-24af-4c53-9586-7a452df153fd",
+    fileUrl: "uploads/product/01bc03af-9404-4c88-95f5-5dfc6db79634.png",
   });
 
   const [getProducts, setProducts] = useState([]);
@@ -26,25 +24,19 @@ export default function Suggestion() {
     }
   }, [productsData]);
 
-  let findProduct = getProducts.find(
-    (product) => product.id === suggestionProduct.id
-  );
+  const addToCart = (data) => {
+    console.log(data);
 
-  const { doPost } = usePost();
-  const addToCart = () => {
     let productData = {
-      productItemId: findProduct.itemId,
+      productItemId: data.itemId,
       quantity: 1,
     };
-
-    doPost("/api/v1/user/orderItem", productData, {
-      accept: "application/json",
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    });
-
-    toast.success(`${findProduct.name} added to cart!`, {
-      position: "bottom-right",
+    instance.post("/api/v1/user/orderItem", productData).then((res) => {
+      if (res.status === 200) {
+        toast.success(`${data.name} added to cart!`, {
+          position: "bottom-right",
+        });
+      }
     });
   };
 
@@ -112,7 +104,7 @@ export default function Suggestion() {
         <div className="flex justify-center items-center">
           <button
             className="text-white-100 rounded-md py-3 px-20 md:px-14 bg-blue-600 md:mt-40 mt-10"
-            onClick={() => addToCart()}
+            onClick={() => addToCart(suggestionProduct)}
           >
             Buy Now
           </button>

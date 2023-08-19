@@ -4,10 +4,11 @@ import instance from "../api/axios-interceptors";
 import Spinner from "./Spinner/Spinner";
 import Header from "../pages/Header/Header";
 import Footer from "../pages/Footer";
+import { ToastContainer, toast } from "react-toastify";
 const ProductsTemplate = lazy(() => import("./ProductsTemplate"));
 
 export default function SearchResults() {
-  const { searchTerm } = useParams(); // Access the search query from the URL
+  const { searchTerm } = useParams();
   const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
@@ -16,7 +17,7 @@ export default function SearchResults() {
         const response = await instance.get(
           `/api/v1/user/product?searchTerm=${searchTerm}`
         );
-        console.log(response.data.data);
+
         setSearchResults(response?.data?.data);
       } catch (error) {
         console.log("Error fetching search results:", error);
@@ -27,25 +28,18 @@ export default function SearchResults() {
   }, [searchTerm]);
 
   const BasketHandler = (cartID) => {
-    /*       const valueAtIndex0 = productItem && productItem[0]?.id;
-    
-        setProductId(cartID);
-        let userBasketHandler = {
-          productItemId: valueAtIndex0,
-          quantity: 1,
-        };
-        
-        doPost("/api/v1/user/orderItem", userBasketHandler, {
-          accept: "application/json",
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        });
-    
-        const productToAdd = getProducts.find((product) => product.id === cartID);
-    
-        toast.success(`${productToAdd.name} added to cart!`, {
+    let userBasketHandler = {
+      productItemId: cartID.itemId,
+      quantity: 1,
+    };
+
+    instance.post("/api/v1/user/orderItem", userBasketHandler).then((res) => {
+      if (res.status === 200) {
+        toast.success(`${cartID.name} added to cart!`, {
           position: "bottom-right",
-        }); */
+        });
+      }
+    });
   };
 
   return (
@@ -66,7 +60,9 @@ export default function SearchResults() {
         ) : (
           <p>not found anything</p>
         )}
+        <ToastContainer />
       </section>
+
       <Footer />
     </>
   );

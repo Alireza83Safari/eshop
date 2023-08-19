@@ -4,15 +4,14 @@ import {
   faArrowUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import productContext from "../Context/productsContext";
 import usePost from "../hooks/usePost";
 import useFetch from "../hooks/useFetch";
+import instance from "../api/axios-interceptors";
 
 export default function Offer() {
   const [count, setCount] = useState(1);
-  const { token } = useContext(productContext);
   const [getProducts, setProducts] = useState([]);
   const [currentProductIndex, setCurrentProductIndex] = useState(0);
 
@@ -40,25 +39,19 @@ export default function Offer() {
     return () => clearInterval(timer); // Clear interval on unmount
   }, [getProducts]);
 
-  const { doPost } = usePost(); // Custom hook for making POST requests
-
   // Add product to cart and show toast notification
   const handleAddToCart = (productID) => {
-    let findProduct = getProducts.find((product) => product.id === productID);
-
     let productData = {
-      productItemId: findProduct.itemId,
+      productItemId: productID.itemId,
       quantity: 1,
     };
 
-    doPost("/api/v1/user/orderItem", productData, {
-      accept: "application/json",
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    });
-
-    toast.success(`${findProduct.name} added to cart!`, {
-      position: "bottom-right",
+    instance.post("/api/v1/user/orderItem", productData).then((res) => {
+      if (res.status === 200) {
+        toast.success(`${productID.name} added to cart!`, {
+          position: "bottom-right",
+        });
+      }
     });
   };
 
@@ -182,7 +175,7 @@ export default function Offer() {
             <div className="md:block flex justify-center">
               <button
                 className="lg:px-12 md:px-9 px-12 py-3 md:text-base text-sm bg-blue-600 text-white-100 rounded-md"
-                onClick={() => handleAddToCart(newProduct.id)}
+                onClick={() => handleAddToCart(newProduct)}
               >
                 Add To Cart
               </button>
