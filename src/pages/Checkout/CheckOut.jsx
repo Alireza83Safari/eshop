@@ -10,7 +10,6 @@ const CheckoutDetails = lazy(() => import("./CheckoutDetails"));
 
 export default function Orders() {
   const { datas: orders, fetchData } = useFetch("/api/v1/user/order");
-
   return (
     <>
       <Header />
@@ -26,13 +25,13 @@ export default function Orders() {
         </div>
 
         <div className="flex justify-center">
-          <div className="relative max-h-[34rem] overflow-x-auto">
+          <div className="relative max-h-[40rem] overflow-x-auto">
             <Suspense fallback={<Spinner />}>
-              <CheckoutProducts orders={orders?.items} fetchData={fetchData} />
+              <CheckoutProducts orders={orders} fetchData={fetchData} />
             </Suspense>
           </div>
           <Suspense fallback={<Spinner />}>
-            <CheckoutDetails orders={orders?.items} />
+            <CheckoutDetails orders={orders} />
           </Suspense>
         </div>
       </section>

@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function CheckoutDetails({  orders }) {
+export default function CheckoutDetails({ orders }) {
   const totalAmount = orders?.price || 0;
   const totalTax = totalAmount / 10;
   const totalDiscount = totalAmount / 20;
   const totalPayment = Math.floor(totalAmount - totalDiscount - totalTax);
-  const totalQuantity = orders?.reduce(
+  const totalQuantity = orders?.items.reduce(
     (total, order) => total + order.quantity,
     0
   );

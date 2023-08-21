@@ -30,7 +30,8 @@ export default function CheckoutProducts({ orders, fetchData }) {
   };
 
   const changeIncrementQuantity = async (itemId, id) => {
-    let newQuantity = orders?.find((order) => order.id === id).quantity + 1;
+    let newQuantity =
+      orders?.items.find((order) => order.id === id).quantity + 1;
     let productData = { productItemId: itemId, quantity: newQuantity };
     try {
       const response = await instance.post("/api/v1/orderItem", productData);
@@ -43,7 +44,8 @@ export default function CheckoutProducts({ orders, fetchData }) {
   };
 
   const changeDecrementQuantity = async (itemId, id) => {
-    let newQuantity = orders?.find((order) => order.id === id).quantity - 1;
+    let newQuantity =
+      orders?.items.find((order) => order.id === id).quantity - 1;
     let productData = { productItemId: itemId, quantity: newQuantity };
     try {
       const response = await instance.post("/api/v1/orderItem", productData);
@@ -62,14 +64,14 @@ export default function CheckoutProducts({ orders, fetchData }) {
         <p className="ml-2 text-lg">Shopping Cart</p>
       </div>
 
-      <div className="border md:px-5 lg:w-[40rem] w-[90vw]">
-        {!orders?.length ? (
+      <div className="border md:px-5 xl:w-[50rem] lg:w-[40rem] w-[90vw]">
+        {!orders?.items.length ? (
           <Suspense fallback={<Spinner />}>
             <CheckoutEmpty />
           </Suspense>
         ) : (
           <>
-            {orders.map((order) => (
+            {orders?.items?.map((order) => (
               <Suspense fallback={<Spinner />}>
                 <ProductTemplate
                   order={order}
