@@ -8,7 +8,6 @@ import ProductsInfo from "../pages/ProductsInfo";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import PanelProducts from "../pages/Admin/Products";
-import Favorite from "../pages/Favorite";
 import Shipping from "../pages/Shipping";
 import SearchResult from "../components/SearchResult";
 import Page404 from "../components/Page404";
@@ -16,6 +15,11 @@ import Roles from "../pages/Admin/Roles";
 import Users from "../pages/Admin/Users";
 import Orders from "../pages/Admin/Orders";
 import CheckOut from "../pages/Checkout/CheckOut";
+import ProfilePage from "../pages/ProfilePage";
+import ProfileAddress from "../components/Profile/ProfileAddress";
+import ProfileFavorite from "../components/Profile/ProfileFavorite";
+import ProfileOrders from "../components/Profile/ProfileOrders";
+import ProfileComments from "../components/Profile/ProfileComments";
 
 const route = [
   { path: "shop", element: <ShopIndex /> },
@@ -25,10 +29,20 @@ const route = [
   { path: "checkout", element: <CheckOut /> },
   { path: "login", element: <Login /> },
   { path: "register", element: <Register /> },
-  { path: "favorite", element: <Favorite /> },
   { path: "checkout/shipping", element: <Shipping /> },
   { path: "/search/:searchTerm", element: <SearchResult /> },
-  // { path: "*", element: <Page404 /> },
+  {
+    path: "profile/*",
+    element: <ProfilePage />,
+    children: [
+      { path: "address", element: <ProfileAddress /> },
+      { path: "favorite", element: <ProfileFavorite /> },
+      { path: "orders", element: <ProfileOrders /> },
+      { path: "comments", element: <ProfileComments /> },
+    ],
+  },
+
+  { path: "*", element: <Page404 /> },
 
   {
     path: "/panel/*",
