@@ -1,10 +1,12 @@
 import React, { Suspense, lazy } from "react";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Spinner from "../../components/Spinner/Spinner";
+import Spinner from "../Spinner/Spinner";
 import instance from "../../api/axios-interceptors";
 
-const ProductTemplate = lazy(() => import("./ProductTemplate"));
+const ProductTemplate = lazy(() =>
+  import("./ProductTemplate")
+);
 const CheckoutEmpty = lazy(() => import("./CheckoutEmpty"));
 
 export default function CheckoutProducts({ orders, fetchData }) {
@@ -31,10 +33,10 @@ export default function CheckoutProducts({ orders, fetchData }) {
 
   const changeIncrementQuantity = async (itemId, id) => {
     let newQuantity =
-      orders?.items.find((order) => order.id === id).quantity + 1;
+      orders?.items.find((order) => order.id == id).quantity + 1;
     let productData = { productItemId: itemId, quantity: newQuantity };
     try {
-      const response = await instance.post("/api/v1/orderItem", productData);
+      const response = await instance.post("/api/v1/user/orderItem", productData);
       if (response.status === 200) {
         fetchData();
       }
@@ -45,10 +47,10 @@ export default function CheckoutProducts({ orders, fetchData }) {
 
   const changeDecrementQuantity = async (itemId, id) => {
     let newQuantity =
-      orders?.items.find((order) => order.id === id).quantity - 1;
+      orders?.items.find((order) => order.id == id).quantity - 1;
     let productData = { productItemId: itemId, quantity: newQuantity };
     try {
-      const response = await instance.post("/api/v1/orderItem", productData);
+      const response = await instance.post("/api/v1/user/orderItem", productData);
 
       if (response.status === 200) {
         fetchData();
@@ -76,7 +78,7 @@ export default function CheckoutProducts({ orders, fetchData }) {
                 <ProductTemplate
                   order={order}
                   handleIncrement={handleIncrement}
-                  handleDecremen={handleDecrement}
+                  handleDecrement={handleDecrement}
                   removeProductHandler={removeProductHandler}
                 />
               </Suspense>

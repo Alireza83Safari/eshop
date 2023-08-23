@@ -102,7 +102,6 @@ export default function Sidebar() {
             className="mr-3 lg:text-base text-xl"
           />
           <p className="invisible lg:visible" onClick={() => logoutHandler()}>
-            {" "}
             Log Out
           </p>
         </Link>

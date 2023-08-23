@@ -14,7 +14,7 @@ import Page404 from "../components/Page404";
 import Roles from "../pages/Admin/Roles";
 import Users from "../pages/Admin/Users";
 import Orders from "../pages/Admin/Orders";
-import CheckOut from "../pages/Checkout/CheckOut";
+import CheckOut from "../pages/CheckOut";
 import ProfilePage from "../pages/ProfilePage";
 import ProfileAddress from "../components/Profile/ProfileAddress";
 import ProfileFavorite from "../components/Profile/ProfileFavorite";
@@ -41,8 +41,6 @@ const route = [
       { path: "comments", element: <ProfileComments /> },
     ],
   },
-
-  { path: "*", element: <Page404 /> },
 
   {
     path: "/panel/*",

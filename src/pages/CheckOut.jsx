@@ -1,12 +1,16 @@
 import React, { Suspense, lazy } from "react";
-import Breadcrumb from "../../components/Breadcrumb";
-import Header from "../Header/Header";
-import Footer from "../Footer";
-import useFetch from "../../hooks/useFetch";
-import Spinner from "../../components/Spinner/Spinner";
+import Breadcrumb from "../components/Breadcrumb";
+import Header from "./Header/Header";
+import Footer from "./Footer";
+import useFetch from "../hooks/useFetch";
+import Spinner from "../components/Spinner/Spinner";
 
-const CheckoutProducts = lazy(() => import("./CheckoutProducts"));
-const CheckoutDetails = lazy(() => import("./CheckoutDetails"));
+const CheckoutProducts = lazy(() =>
+  import("../components/Checkout/CheckoutProducts")
+);
+const CheckoutDetails = lazy(() =>
+  import("../components/Checkout/CheckoutDetails")
+);
 
 export default function Orders() {
   const { datas: orders, fetchData } = useFetch("/api/v1/user/order");

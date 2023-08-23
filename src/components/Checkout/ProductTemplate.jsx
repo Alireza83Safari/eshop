@@ -6,7 +6,7 @@ export default function ProductTemplate({
   order,
   handleDecrement,
   handleIncrement,
-  removeProductHandler
+  removeProductHandler,
 }) {
   return (
     <div key={order.id} className="flex items-center border-b h-36">
@@ -25,9 +25,7 @@ export default function ProductTemplate({
 
         <div className="flex items-center md:mx-10 mx-4">
           <button
-            onClick={() => {
-              handleDecrement(order);
-            }}
+            onClick={() => handleDecrement(order)}
             className="md:px-4 px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 duration-200 focus:outline-none"
           >
             -
