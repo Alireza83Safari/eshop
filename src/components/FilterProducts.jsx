@@ -1,20 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import useFetch from "../hooks/useFetch";
 
-export default function FilterProducts({ state, dispatch, showFilterInSm }) {
-  const handleMinPriceChange = (event) => {
-    dispatch({ type: "SET_MIN_PRICE", payload: event.target.value });
+export default function FilterProducts({ showFilterInSm, setCurrentPage }) {
+  const history = useNavigate();
+  const location = useParams();
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const { datas: categoryData } = useFetch("/api/v1/user/category/selectList");
+  const { datas: brandData } = useFetch("/api/v1/user/brand");
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    const searchParams = new URLSearchParams(location.search);
+
+    if (value === "All") {
+      searchParams.delete(name);
+    } else {
+      searchParams.set(name, value);
+    }
+
+    history({ search: searchParams.toString() });
+
+    setCurrentPage(1);
   };
 
-  const handleMaxPriceChange = (event) => {
-    dispatch({ type: "SET_MAX_PRICE", payload: event.target.value });
-  };
+  const handlePrice = () => {
+    const searchParams = new URLSearchParams(location.search);
+    const newMinPrice = minPrice !== "" ? parseInt(minPrice) : null;
+    const newMaxPrice = maxPrice !== "" ? parseInt(maxPrice) : null;
 
-  const handleCategoryChange = (event) => {
-    dispatch({ type: "SET_CATEGORY", payload: event.target.value });
-  };
+    if (newMinPrice !== null) {
+      searchParams.set("minPrice", newMinPrice);
+    } else {
+      searchParams.delete("minPrice");
+    }
+    if (newMaxPrice !== null) {
+      searchParams.set("maxPrice", newMaxPrice);
+    } else {
+      searchParams.delete("maxPrice");
+    }
 
-  const handleSortChange = (event) => {
-    dispatch({ type: "SET_SORT", payload: event.target.value });
+    history({ search: searchParams.toString() });
+
+    setCurrentPage(1);
   };
 
   return (
@@ -37,19 +66,22 @@ export default function FilterProducts({ state, dispatch, showFilterInSm }) {
           <input
             type="number"
             placeholder="min"
+            value={minPrice}
+            onChange={(e) => setMinPrice(e.target.value)}
             id="minPrice"
             name="minPrice"
-            value={state.minPrice}
-            onChange={handleMinPriceChange}
             className="block text-sm border border-gray-300 w-1/2 rounded px-3 py-2 mb-2 mr-2 focus:outline-none focus:border-blue-600"
           />
           <input
             type="number"
             placeholder="max"
+            value={maxPrice}
+            onChange={(e) => {
+              setMaxPrice(e.target.value);
+              handlePrice();
+            }}
             id="maxPrice"
             name="maxPrice"
-            value={state.maxPrice}
-            onChange={handleMaxPriceChange}
             className="block relative text-sm border border-gray-300 w-1/2 rounded px-3 py-2 mb-2 ml-2 focus:outline-none focus:border-blue-600"
           />
         </div>
@@ -58,56 +90,54 @@ export default function FilterProducts({ state, dispatch, showFilterInSm }) {
       </div>
 
       <div className="text-xs mx-6 py-2">
-        <label htmlFor="category" className="font-medium mb-1">
+        <label htmlFor="categoryId" className="font-medium mb-1">
           Category:
         </label>
         <select
-          id="category"
-          name="category"
-          value={state.selectedCategory}
-          onChange={handleCategoryChange}
+          id="categoryId"
+          name="categoryId"
+          onChange={handleInputChange}
           className="block border border-gray-300 w-full rounded px-3 py-2 mb-2 focus:outline-none focus:border-blue-600"
         >
           <option value="All">All</option>
-          <option value="Electronics">Electronics</option>
-          <option value="Home & Kitchen">Home & Kitchen</option>
-          <option value="Fresh">Fresh</option>
-          <option value="Travel">Travel</option>
-          <option value="Cloths">Cloths</option>
+          {categoryData?.data.map((cate) => (
+            <option value={cate.key}>{cate.value}</option>
+          ))}
         </select>
       </div>
 
       <div className="text-xs mx-6 py-2">
-        <label htmlFor="sort" className="font-medium mb-1">
+        <label htmlFor="order" className="font-medium mb-1">
           Sort By Price:
         </label>
         <select
-          id="sort"
-          name="sort"
-          value={state.sortBy}
-          onChange={handleSortChange}
+          id="order"
+          name="order"
           className="block border border-gray-300 w-full rounded px-3 py-2 mb-2 focus:outline-none focus:border-blue-600"
+          onChange={handleInputChange}
         >
           <option value="">None</option>
-          <option value="lowToHigh">Price: Low to High</option>
-          <option value="highToLow">Price: High to Low</option>
+          <option value="cheap">cheap</option>
+          <option value="newest">newest</option>
+          <option value="topSell">topSell</option>
+          <option value="expersive">expersive</option>
         </select>
       </div>
 
       <div className="text-xs mx-6 py-2">
-        <label htmlFor="sort" className="font-medium mb-1">
-          Sort By Count:
+        <label htmlFor="brandId" className="font-medium mb-1">
+          Sort By Brand:
         </label>
         <select
-          id="sort"
-          name="sort"
-          value={state.sortBy}
-          onChange={handleSortChange}
+          id="brandId"
+          name="brandId"
           className="block border border-gray-300 w-full rounded px-3 py-2 mb-2 focus:outline-none focus:border-blue-600"
+          onChange={handleInputChange}
         >
           <option value="">None</option>
-          <option value="lowToHigh">Price: Low to High</option>
-          <option value="highToLow">Price: High to Low</option>
+          {brandData?.data.map((brand) => (
+            <option value={brand.id}>{brand.name}</option>
+          ))}
         </select>
       </div>
     </section>

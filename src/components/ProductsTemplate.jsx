@@ -1,17 +1,34 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import usePost from "../hooks/usePost";
+import { toast } from "react-toastify";
 
-export default function ProductsTemplate({ product, basketHandler }) {
+export default function ProductsTemplate({ product }) {
+  const { doPost } = usePost();
+
+  const BasketHandler = (data) => {
+    let userBasketHandler = {
+      productItemId: data?.itemId,
+      quantity: 1,
+    };
+
+    doPost("/api/v1/user/orderItem", userBasketHandler);
+
+    toast.success(`${data?.name} added to cart!`, {
+      position: "bottom-right",
+    });
+  };
+
   return (
     <section key={product.id} className="p-2">
       <div className="bg-white rounded-lg shadow-lg hover:shadow-2xl overflow-hidden dark:bg-black-800 hover:opacity-70 duration-300">
-        <Link to={`/products/${product.id}`}>
+        <div>
           <img
             src={`http://127.0.0.1:6060/${product.fileUrl}`}
             alt="Product"
             className="w-full lg:h-64 sm:h-56 h-72 p-4 object-contain"
           />
-        </Link>
+        </div>
         <div className="p-6 ">
           <Link to={`/shop/products/${product.id}`}>
             <div className="flex justify-between">
@@ -40,7 +57,7 @@ export default function ProductsTemplate({ product, basketHandler }) {
             <button
               className="px-4 py-2 bg-blue-600 text-white-100 text-sm rounded-lg hover:bg-blue-900 duration-200 transition"
               onClick={() => {
-                basketHandler(product);
+                BasketHandler(product);
               }}
             >
               Add to Cart
