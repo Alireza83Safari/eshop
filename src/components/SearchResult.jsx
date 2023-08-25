@@ -45,20 +45,32 @@ export default function SearchResults() {
   return (
     <>
       <Header />
-      <section>
+      <section className="min-h-screen">
         {searchResults.length ? (
           <div className="relative grid grid-cols-3 mt-5 pb-14">
             {searchResults?.map((product) => (
-              <Suspense fallback={<Spinner />}>
-                <ProductsTemplate
-                  product={product}
-                  basketHandler={BasketHandler}
-                />
-              </Suspense>
+              <div className="relative grid lg:grid-cols-3 sm:grid-cols-2 col-span-12 mt-5 pb-14">
+                <Suspense fallback={<Spinner />}>
+                  <ProductsTemplate
+                    product={product}
+                    basketHandler={BasketHandler}
+                  />
+                </Suspense>
+              </div>
             ))}
           </div>
         ) : (
-          <p>not found anything</p>
+          <div className="flex justify-center items-center mt-32">
+            <div>
+              <img
+                src="https://www.digikala.com/statics/img/svg/plp/not-found.svg"
+                alt=""
+              />
+              <p className="text-center mt-8 text-lg font-bold">
+                Product Not Found
+              </p>
+            </div>
+          </div>
         )}
         <ToastContainer />
       </section>
