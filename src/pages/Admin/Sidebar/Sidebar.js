@@ -9,7 +9,6 @@ import {
   faGripHorizontal,
   faLayerGroup,
   faSignOut,
-  faUserPlus,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import "./Sidebar.css";
@@ -21,7 +20,6 @@ export default function Sidebar() {
     { icon: faBox, text: "product", to: "product" },
     { icon: faCoins, text: "orders", to: "orders" },
     { icon: faCommentDots, text: "comments", to: "/panel/comments" },
-    { icon: faUserPlus, text: "chat", to: "/panel/chat" },
     { icon: faLayerGroup, text: "roles", to: "/panel/roles" },
     { icon: faUsers, text: "users", to: "/panel/users" },
   ];

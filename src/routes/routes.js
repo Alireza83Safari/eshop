@@ -1,5 +1,4 @@
 import Index from "../components/Admin";
-import Chat from "../pages/Admin/Chat";
 import Comments from "../pages/Admin/Comments";
 import Dashboard from "../pages/Admin/Dashboard";
 import ShopIndex from "../components/index";
@@ -49,7 +48,6 @@ const route = [
       { path: "", element: <Dashboard /> },
       { path: "dashboard", element: <Dashboard /> },
       { path: "product", element: <PanelProducts /> },
-      { path: "chat", element: <Chat /> },
       { path: "Orders", element: <Orders /> },
       { path: "comments", element: <Comments /> },
       { path: "roles", element: <Roles /> },
