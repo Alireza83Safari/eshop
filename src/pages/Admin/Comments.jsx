@@ -1,7 +1,6 @@
 import React, { useEffect, useState, lazy, Suspense } from "react";
 import Spinner from "../../components/Spinner/Spinner";
 import instance from "../../api/axios-interceptors";
-
 const CommentsInfos = lazy(() => import("../../components/Admin/Comments/CommentsInfos"));
 const CommentsTable = lazy(() => import("../../components/Admin/Comments/CommentsTable"));
 
@@ -11,7 +10,7 @@ export default function Comments() {
   const fetchDatas = async () => {
     try {
       const response = await instance.get("/api/v1/admin/comment");
-      setComments(response.data.data);
+      setComments(response?.data.data);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }

@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "../../Paganation";
 import usePost from "../../../hooks/usePost";
+import { useLocation, useNavigate } from "react-router-dom";
+import instance from "../../../api/axios-interceptors";
 
 export default function CommentsTable({ comments, fetchDatas }) {
+  const location = useLocation();
+  const history = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [paginatedProducts, setPaginatedProducts] = useState([]);
-  const pageSize = 11;
-  const totalPage = Math.ceil(comments.length / pageSize);
+  const [pageSize, setPageSize] = useState(11);
+  const totalPage = Math.ceil(comments?.length / pageSize);
   const pageNumber = Array.from(Array(totalPage).keys());
-
-  useEffect(() => {
-    const startIndex = (currentPage - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-
-    setPaginatedProducts(
-      comments !== null ? comments.slice(startIndex, endIndex) : []
-    );
-  }, [currentPage, comments]);
 
   const { doPost } = usePost();
   const commentStatusHandler = (productId, statusCode) => {
@@ -29,6 +24,22 @@ export default function CommentsTable({ comments, fetchDatas }) {
     doPost(`/api/v1/admin/comment/changeStatus/${productId}`, statusInfo);
     fetchDatas();
   };
+
+  const getPaginationComments = async () => {
+    history(`?page=${currentPage}&limit=${pageSize}`);
+    try {
+      const response = await instance.get(
+        `/api/v1/admin/comment?page=${currentPage}&limit=${pageSize}`
+      );
+      setPaginatedProducts(response?.data?.data);
+    } catch (error) {
+      console.log("Error fetching search results:", error);
+    }
+  };
+
+  useEffect(() => {
+    getPaginationComments();
+  }, [currentPage, location.search]);
 
   return (
     <>
@@ -44,7 +55,7 @@ export default function CommentsTable({ comments, fetchDatas }) {
           </tr>
         </thead>
         <tbody>
-          {paginatedProducts.map((comment) => (
+          {paginatedProducts?.map((comment) => (
             <tr
               className="sm:text-xs text-[10px] 2xl:text-sm grid lg:grid-cols-6 sm:grid-cols-5 grid-cols-4 sm:px-4 sm:py- py-3"
               key={comment.id}
@@ -64,7 +75,7 @@ export default function CommentsTable({ comments, fetchDatas }) {
               </td>
               <td className="sm:block hidden">{comment.rate}/5</td>
               <td>
-                {comment.commentStatus === 0 ? (
+                {comments?.commentStatus === 0 ? (
                   <div>
                     <button
                       className="text-[10px] font-black p-1 rounded-l-lg bg-green-100 text-green-300"
