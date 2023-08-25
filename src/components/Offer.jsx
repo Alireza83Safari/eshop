@@ -6,7 +6,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import usePost from "../hooks/usePost";
 import useFetch from "../hooks/useFetch";
 import instance from "../api/axios-interceptors";
 
@@ -73,12 +72,18 @@ export default function Offer() {
     );
     setNewProduct(getProducts[currentProductIndex]);
   };
-
+  const [hover, setHover] = useState(false);
   return (
-    <section className="w-full xl:px-20 md:px-4 lg:mt-52 md:mt-36 mt-20 relative">
+    <section
+      className="w-full xl:px-20 md:px-4 lg:mt-52 md:mt-36 mt-20 relative"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
       <div className="grid md:grid-cols-2 relative">
         <button
-          className="absolute lg:w-12 lg:h-12 h-9 w-9 left-0 md:top-80 top-96 z-10 bg-white-200 rounded-full outline-none"
+          className={`absolute left-2 top-80 z-10 outline-none ${
+            hover ? "opacity-100" : "opacity-0"
+          }`}
           onClick={goToPreviousProduct}
         >
           <FontAwesomeIcon
@@ -183,7 +188,9 @@ export default function Offer() {
           </div>
         </div>
         <button
-          className="absolute lg:w-12 lg:h-12 h-9 w-9 right-0 md:top-80 top-96 z-10 bg-white-200 rounded-full outline-none"
+          className={`absolute right-2 top-80 z-10 outline-none ${
+            hover ? "opacity-100" : "opacity-0"
+          }`}
           onClick={() => goToNextProduct()}
         >
           <FontAwesomeIcon
