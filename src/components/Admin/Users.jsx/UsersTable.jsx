@@ -4,12 +4,31 @@ import usePost from "../../../hooks/usePost";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import EditUser from "./EditUser";
+import instance from "../../../api/axios-interceptors";
 
-export default function UsersTable({ users, fetchUsers }) {
+export default function UsersTable() {
   const [showEditUser, setShowEditUser] = useState(false);
   const [editUserID, setEditUserID] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [paginatedUser, setPaginatedUser] = useState([]);
+
+  const [users, setUsers] = useState([]);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await instance.get("/api/v1/admin/user");
+      setUsers(response.data.data);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   const pageSize = 11;
   const totalPage = Math.ceil(users?.length / pageSize);
@@ -92,6 +111,7 @@ export default function UsersTable({ users, fetchUsers }) {
         showEditUser={showEditUser}
         setShowEditUser={setShowEditUser}
         editUserID={editUserID}
+        fetchUsers={fetchUsers}
       />
     </>
   );
