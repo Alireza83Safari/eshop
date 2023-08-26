@@ -1,70 +1,70 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import ReactDOM from "react-dom";
-
-import { useForm } from "react-hook-form";
 import useFetch from "../../../hooks/useFetch";
 import Spinner from "../../Spinner/Spinner";
-import ProductsTable from "./ProductsTable";
 import ProductsPanelContext from "./ProductsPanelContext";
+import instance from "../../../api/axios-interceptors";
+import { itemValidation } from "../../../validators/itemValidation";
 
-export default function AddProductItem() {
-  //console.log(findProduct);
-
+export default function AddProductItem({}) {
   const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
-  const {
-    getProductsList,
+    fetchProductList,
     setShowFile,
-    findProduct,
     setShowProductItem,
+    newProductId,
     showProductItem,
   } = useContext(ProductsPanelContext);
-  const [colors, setColors] = useState([]);
+
+  const [errors, setErrors] = useState();
+  const [productItemInfo, setProductItemInfo] = useState({
+    status: "",
+    price: "",
+    colorId: "",
+    quantity: "",
+    isMainItem: "",
+  });
+
   const [isLoading, setIsLoading] = useState(false);
 
-  const { datas: colorsData } = useFetch("/api/v1/color");
-  useEffect(() => {
-    if (colorsData && colorsData.data) {
-      setColors(colorsData.data);
-    }
-  }, [colorsData]);
+  const { datas: colors } = useFetch("/api/v1/admin/color");
 
-  const addItem = (data) => {
-    let productItem = {
-      colorId: data.colorId,
-      isMainItem: true,
-      price: Number(data.price),
-      productId: findProduct.id,
-      quantity: Number(data.quantity),
-      status: data.status == "0" ? 0 : 1,
-    };
+  const addItem = async (event) => {
+    event.preventDefault();
+
+    itemValidation(productItemInfo, errors, setErrors);
 
     setIsLoading(true);
-    fetch("/api/v1/productItem", {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(productItem),
-    })
-      .then((res) => {
-        console.log(res);
-        setIsLoading(false);
-        if (res.ok) {
-          setShowProductItem(false);
-          setShowFile(true);
-        }
-        reset();
+    let productItem = {
+      colorId: productItemInfo?.colorId,
+      isMainItem: productItemInfo?.isMainItem === "true" ? true : false,
+      price: Number(productItemInfo?.price),
+      productId: newProductId,
+      quantity: Number(productItemInfo?.quantity),
+      status: Number(productItemInfo?.status),
+    };
 
-        getProductsList();
-        res.json();
-      })
-      .catch((err) => console.log(err));
+    try {
+      const response = await instance.post(
+        `/api/v1/admin/productItem`,
+        productItem
+      );
+      setIsLoading(false);
+      if (response.status === 200) {
+        setShowProductItem(false);
+        setShowFile(true);
+        fetchProductList();
+      }
+    } catch (error) {
+      console.error("Error deleting the product:", error);
+      setIsLoading(false);
+    }
+  };
+
+  const setProductItemInfos = (event) => {
+    setProductItemInfo({
+      ...productItemInfo,
+      [event.target.name]: event.target.value,
+    });
   };
 
   return ReactDOM.createPortal(
@@ -82,7 +82,7 @@ export default function AddProductItem() {
           </span>
 
           <form
-            onSubmit={handleSubmit(addItem)}
+            onSubmit={addItem}
             className="w-full max-w-sm mx-auto p-4 bg-white rounded-lg"
           >
             <div className="grid grid-cols-1 gap-4 mt-4">
@@ -100,13 +100,11 @@ export default function AddProductItem() {
                     name="price"
                     placeholder="Product Price"
                     className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    {...register("price", {
-                      required: "This field is required",
-                    })}
+                    onChange={setProductItemInfos}
+                    value={productItemInfo?.price}
                   />
-                  {errors.quantity && (
-                    <p className="text-red-700">{errors.price.message}</p>
-                  )}
+
+                  <p className="text-red-700">{errors?.price}</p>
                 </div>
 
                 <div>
@@ -120,20 +118,17 @@ export default function AddProductItem() {
                     name="colorId"
                     id="colorId"
                     className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    {...register("colorId", {
-                      required: "Please select a color",
-                    })}
+                    onChange={setProductItemInfos}
+                    value={productItemInfo?.colorId}
                   >
                     <option value="">Select Color</option>
-                    {colors.map((color) => (
+                    {colors?.data.map((color) => (
                       <option key={color.id} value={color.id}>
                         {color.name}
                       </option>
                     ))}
                   </select>
-                  {errors.colorId && (
-                    <p className="text-red-700">{errors.colorId.message}</p>
-                  )}
+                  <p className="text-red-700">{errors?.colorId}</p>
                 </div>
               </div>
 
@@ -151,15 +146,12 @@ export default function AddProductItem() {
                     name="quantity"
                     placeholder="Product Quantity"
                     className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    {...register("quantity", {
-                      required: "This field is required",
-                    })}
+                    onChange={setProductItemInfos}
+                    value={productItemInfo?.quantity}
                   />
-                  {errors.quantity && (
-                    <p className="text-red-700">{errors.quantity.message}</p>
-                  )}
-                </div>
 
+                  <p className="text-red-700">{errors?.quantity}</p>
+                </div>
                 <div>
                   <label
                     htmlFor="status"
@@ -171,18 +163,37 @@ export default function AddProductItem() {
                     name="status"
                     id="status"
                     className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    {...register("status", {
-                      required: "Please select a status",
-                    })}
+                    onChange={setProductItemInfos}
+                    value={productItemInfo?.status}
                   >
                     <option value="">Select a status</option>
 
                     <option value="0">Publish</option>
                     <option value="1">InActive</option>
                   </select>
-                  {errors.status && (
-                    <p className="text-red-700">{errors.status.message}</p>
-                  )}
+                  <p className="text-red-700">{errors?.status}</p>
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="isMainItem"
+                    className="block text-gray-800 font-medium"
+                  >
+                    isMainItem
+                  </label>
+                  <select
+                    name="isMainItem"
+                    id="isMainItem"
+                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                    onChange={setProductItemInfos}
+                    value={productItemInfo?.isMainItem}
+                  >
+                    <option value="">Select a isMainItem</option>
+
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                  </select>
+                  <p className="text-red-700">{errors?.isMainItem}</p>
                 </div>
               </div>
             </div>

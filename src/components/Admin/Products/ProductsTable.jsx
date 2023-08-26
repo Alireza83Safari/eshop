@@ -5,7 +5,6 @@ import InfosModal from "./InfosModal";
 import useFetch from "../../../hooks/useFetch";
 import ProductsPanelContext from "./ProductsPanelContext";
 import Pagination from "../../Paganation";
-import instance from "../../../api/axios-interceptors";
 
 export default function ProductsTable() {
   const [paginatedProducts, setPaginatedProducts] = useState([]);
@@ -13,29 +12,21 @@ export default function ProductsTable() {
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [infosId, setInfosId] = useState(null);
   const [productInfos, setProductInfos] = useState([]);
+
   const {
     searchQuery,
     setProductDeleteId,
     setShowEditModal,
     setShowDeleteModal,
     setProductEditId,
+    productList,
   } = useContext(ProductsPanelContext);
-  const [productList, setProductList] = useState([]);
-
-  const fetchProductList = () => {
-    instance.get("/api/v1/admin/product").then((res) => {
-      setProductList(res.data);
-    });
-  };
-
-  useEffect(() => {
-    fetchProductList();
-  }, []);
 
   const editHandler = (id) => {
     setShowEditModal(true);
     setProductEditId(id);
   };
+
   const { datas, isLoading } = useFetch(
     `/api/v1/admin/productItem/product/${infosId}`
   );
@@ -45,7 +36,7 @@ export default function ProductsTable() {
     }
   }, [datas]);
 
-  let pageSize = 10;
+  let pageSize = 11;
   let pageNumber;
 
   useEffect(() => {

@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import Spinner from "../../Spinner/Spinner";
 import ProductsPanelContext from "./ProductsPanelContext";
+import instance from "../../../api/axios-interceptors";
 
 export default function AddProductFile() {
   const {
@@ -12,28 +13,28 @@ export default function AddProductFile() {
   } = useForm();
 
   const [isLoading, setIsLoading] = useState(false);
-  const { setShowFile, showFile, findProduct } =
+  const { setShowFile, showFile, newProductId } =
     useContext(ProductsPanelContext);
-  const addFile = (data) => {
+  const addFile = async (data) => {
     const formData = new FormData();
     formData.append("fileUrl", data.image[0]);
     setIsLoading(true);
 
-    fetch(`/api/v1/user/file/uploadImage/${findProduct.id}/1`, {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => {
-        setIsLoading(false);
-        console.log(res);
-        if (res.ok) {
-          setShowFile(false);
-        }
-        return res.json();
-      })
-      .then(() => {
+    try {
+      const response = await instance.post(
+        `/api/v1/user/file/uploadImage/${newProductId}/1`,
+        formData
+      );
+      if (response.status === 200) {
+        //fetchData();
         reset();
-      });
+        setIsLoading(false);
+        setShowFile(false);
+      }
+    } catch (error) {
+      console.log("Error deleting the product:", error.message);
+      setIsLoading(false);
+    }
   };
 
   return (

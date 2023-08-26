@@ -5,8 +5,8 @@ import "react-toastify/dist/ReactToastify.css";
 import useFetch from "../../../hooks/useFetch";
 import Spinner from "../../Spinner/Spinner";
 import ProductsPanelContext from "./ProductsPanelContext";
+import instance from "../../../api/axios-interceptors";
 
-const FilterProducts = lazy(() => import("./FilterProducts"));
 const Departments = lazy(() => import("./Departments"));
 const PiesChart = lazy(() => import("../Charts/PieChart"));
 const ProductsTable = lazy(() => import("./ProductsTable"));
@@ -25,37 +25,16 @@ export default function ProductsPanel() {
   const [productEditId, setProductEditId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showFile, setShowFile] = useState(false);
-  const [productCode, setProductCode] = useState("");
+  const [newProductId, setNewProductId] = useState("");
   const [productList, setProductList] = useState([]);
 
-  const findProduct = productList.find(
-    (product) => product.code === productCode
-  );
-
-  const [brands, setBrands] = useState([]);
-  const [category, setCategory] = useState([]);
-
-  const { datas: brandsData } = useFetch("/api/v1/admin/brand");
+  const fetchProductList = () => {
+    instance.get("/api/v1/admin/product").then((res) => {
+      setProductList(res.data);
+    });
+  };
   useEffect(() => {
-    if (brandsData && brandsData.data) {
-      setBrands(brandsData.data);
-    }
-  }, [brandsData]);
-
-  const { datas: categoryData } = useFetch("/api/v1/admin/category");
-  useEffect(() => {
-    if (categoryData && categoryData.data) {
-      setCategory(categoryData.data);
-    }
-  }, [categoryData]);
-
-  const { datas: productListsData, fetchData: getProductsList } = useFetch(
-    "/api/v1/user/product"
-  );
-  useEffect(() => {
-    if (productListsData) {
-      setProductList(productListsData?.data);
-    }
+    fetchProductList();
   }, []);
 
   return (
@@ -70,29 +49,22 @@ export default function ProductsPanel() {
         setShowDeleteModal,
         setProductEditId,
         productEditId,
-        getProductsList,
         productDeleteId,
         setShowFile,
         showFile,
-        findProduct,
         showProductItem,
         setShowProductItem,
-        findProduct,
-        category,
-        brands,
         showAddProduct,
         setShowAddProduct,
-        setProductCode,
+        setNewProductId,
         setShowProductItem,
+        newProductId,
+        fetchProductList,
       }}
     >
       <section className="p-6 float-right mt-12 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] min-h-screen">
         <div className="grid grid-cols-10">
           <div className="lg:col-span-7 col-span-10 mt-5 lg:px-6 px-1 overflow-x-auto relative bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-xl">
-            <Suspense fallback={<Spinner />}>
-              <FilterProducts />
-            </Suspense>
-
             <div className="py-4 flex flex-co sm:flex-row justify-between px-4 w-full">
               <div className="flex bg-white-100 rounded-lg relative md:w-auto">
                 <input
