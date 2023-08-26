@@ -3,26 +3,33 @@ import ReactDOM from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import ProductsPanelContext from "./ProductsPanelContext";
+import instance from "../../../api/axios-interceptors";
 
 export default function DeleteModal() {
   const cancelDeleteHandler = () => {
     setShowDeleteModal(false);
   };
-  const { showDeleteModal, setShowDeleteModal,getProductsList,productDeleteId } =
-    useContext(ProductsPanelContext);
-  const deleteProductHandler = () => {
-    fetch(`/api/v1/product/delete/${productDeleteId}`, {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-      },
-    })
-      .then((res) => {
-        res.json();
+  const {
+    showDeleteModal,
+    setShowDeleteModal,
+    fetchProductList,
+    productDeleteId,
+  } = useContext(ProductsPanelContext);
+  const deleteProductHandler = async () => {
+    try {
+      const response = await instance.post(
+        `/api/v1/admin/product/delete/${productDeleteId}`
+      );
+      console.log(response);
+      //setIsLoading(false);
+      if (response.status === 200) {
         setShowDeleteModal(false);
-        getProductsList();
-      })
-      .catch((err) => console.log(err));
+        fetchProductList();
+      }
+    } catch (error) {
+      console.error("Error deleting the product:", error);
+      //setIsLoading(false);
+    }
   };
   return ReactDOM.createPortal(
     <div
