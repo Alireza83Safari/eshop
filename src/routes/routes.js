@@ -9,7 +9,6 @@ import Register from "../pages/Register";
 import PanelProducts from "../pages/Admin/Products";
 import Shipping from "../pages/Shipping";
 import SearchResult from "../components/SearchResult";
-import Page404 from "../components/Page404";
 import Roles from "../pages/Admin/Roles";
 import Users from "../pages/Admin/Users";
 import Orders from "../pages/Admin/Orders";
@@ -19,6 +18,8 @@ import ProfileAddress from "../components/Profile/ProfileAddress";
 import ProfileFavorite from "../components/Profile/ProfileFavorite";
 import ProfileOrders from "../components/Profile/ProfileOrders";
 import ProfileComments from "../components/Profile/ProfileComments";
+import PrivateRoute from "../components/Admin/PrivateRoute";
+import AdminLogin from "../pages/Admin/AdminLogin";
 
 const route = [
   { path: "shop", element: <ShopIndex /> },
@@ -40,18 +41,60 @@ const route = [
       { path: "comments", element: <ProfileComments /> },
     ],
   },
-
+  { path: "adminlogin", element: <AdminLogin /> },
   {
     path: "/panel/*",
     element: <Index />,
     children: [
-      { path: "", element: <Dashboard /> },
-      { path: "dashboard", element: <Dashboard /> },
-      { path: "product", element: <PanelProducts /> },
-      { path: "Orders", element: <Orders /> },
-      { path: "comments", element: <Comments /> },
-      { path: "roles", element: <Roles /> },
-      { path: "users", element: <Users /> },
+      {
+        path: "dashboard",
+        element: (
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "product",
+        element: (
+          <PrivateRoute>
+            <PanelProducts />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "Orders",
+        element: (
+          <PrivateRoute>
+            <Orders />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "comments",
+        element: (
+          <PrivateRoute>
+            <Comments />
+          </PrivateRoute>
+        ),
+      },
+
+      {
+        path: "roles",
+        element: (
+          <PrivateRoute>
+            <Roles />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "users",
+        element: (
+          <PrivateRoute>
+            <Users />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 ];
