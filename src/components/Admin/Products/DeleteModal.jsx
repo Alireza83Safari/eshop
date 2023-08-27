@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import ProductsPanelContext from "./ProductsPanelContext";
-import instance from "../../../api/axios-interceptors";
+import adminAxios from "../../../api/adminInterceptors";
 
 export default function DeleteModal() {
   const cancelDeleteHandler = () => {
@@ -17,8 +17,8 @@ export default function DeleteModal() {
   } = useContext(ProductsPanelContext);
   const deleteProductHandler = async () => {
     try {
-      const response = await instance.post(
-        `/api/v1/admin/product/delete/${productDeleteId}`
+      const response = await adminAxios.post(
+        `/product/delete/${productDeleteId}`
       );
       console.log(response);
       //setIsLoading(false);

@@ -13,7 +13,7 @@ const CheckoutDetails = lazy(() =>
 );
 
 export default function Orders() {
-  const { datas: orders, fetchData } = useFetch("/api/v1/user/order");
+  const { datas: orders, fetchData } = useFetch("/order");
   return (
     <>
       <Header />

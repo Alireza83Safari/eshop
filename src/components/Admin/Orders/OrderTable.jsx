@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Pagination from "../../Paganation";
-import instance from "../../../api/axios-interceptors";
+import adminAxios from "../../../api/adminInterceptors";
 
 export default function OrderTable() {
   const [paginatedTransactions, setPaginatedTransactions] = useState([]);
@@ -9,7 +9,7 @@ export default function OrderTable() {
 
   const fetchOrders = async () => {
     try {
-      const response = await instance.get("/api/v1/admin/order");
+      const response = await adminAxios.get("/order");
       setSales(response.data.data);
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -23,7 +23,7 @@ export default function OrderTable() {
     fetchOrders();
   }, []);
 
-  const pageSize = 11;
+  const pageSize = 7;
   const totalPage = Math.ceil(sales?.length / pageSize);
   const pageNumber = Array.from(Array(totalPage).keys());
 

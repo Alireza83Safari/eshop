@@ -7,7 +7,7 @@ import "../../pages/Admin/Sidebar/Sidebar.css";
 
 
 export default function ProfileMenu() {
-  const { datas } = useFetch("/api/v1/user/is_authenticated");
+  const { datas } = useFetch("/is_authenticated");
   const items = [
     { icon: faShop, text: "orders", to: `/profile/orders` },
     { icon: faRoute, text: "address", to: "/profile/address" },

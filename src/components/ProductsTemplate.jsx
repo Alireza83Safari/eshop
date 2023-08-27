@@ -12,7 +12,7 @@ export default function ProductsTemplate({ product }) {
       quantity: 1,
     };
 
-    doPost("/api/v1/user/orderItem", userBasketHandler);
+    doPost("/orderItem", userBasketHandler);
 
     toast.success(`${data?.name} added to cart!`, {
       position: "bottom-right",
@@ -22,13 +22,13 @@ export default function ProductsTemplate({ product }) {
   return (
     <section key={product.id} className="p-2">
       <div className="bg-white rounded-lg shadow-lg hover:shadow-2xl overflow-hidden dark:bg-black-800 hover:opacity-70 duration-300">
-        <div>
+        <Link to={`/products/${product.id}`}>
           <img
             src={`http://127.0.0.1:6060/${product.fileUrl}`}
             alt="Product"
             className="w-full lg:h-64 sm:h-56 h-72 p-4 object-contain"
           />
-        </div>
+        </Link>
         <div className="p-6 ">
           <Link to={`/shop/products/${product.id}`}>
             <div className="flex justify-between">

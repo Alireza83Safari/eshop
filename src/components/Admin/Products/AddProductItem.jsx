@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import useFetch from "../../../hooks/useFetch";
 import Spinner from "../../Spinner/Spinner";
 import ProductsPanelContext from "./ProductsPanelContext";
-import instance from "../../../api/axios-interceptors";
+import adminAxios from "../../../api/adminInterceptors";
 import { itemValidation } from "../../../validators/itemValidation";
 
 export default function AddProductItem({}) {
@@ -44,8 +44,8 @@ export default function AddProductItem({}) {
     };
 
     try {
-      const response = await instance.post(
-        `/api/v1/admin/productItem`,
+      const response = await adminAxios.post(
+        `/productItem`,
         productItem
       );
       setIsLoading(false);

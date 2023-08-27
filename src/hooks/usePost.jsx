@@ -1,5 +1,5 @@
 import { useState } from "react";
-import instance from "../api/axios-interceptors";
+import instance from "../api/userInterceptors";
 const usePost = () => {
   const [postData, setPostData] = useState(null);
   const [postIsloading, setPostLoading] = useState(false);
@@ -20,8 +20,8 @@ const usePost = () => {
 
       console.log(response);
       setResponseOk(response.ok);
-       setPostError(response.status);
-       console.log(response);
+      setPostError(response.status);
+      console.log(response);
       if (!response.ok) {
         throw new Error("Failed to fetch data.");
       }

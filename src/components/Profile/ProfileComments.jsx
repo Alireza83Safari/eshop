@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
-import instance from "../../api/axios-interceptors";
+import instance from "../../api/userInterceptors";
 import Pagination from "../Paganation";
 
 export default function ProfileComments() {
   const [paginatedComments, setPaginatedComments] = useState([]);
-  const { datas: comments } = useFetch("/api/v1/user/comment");
+  const { datas: comments } = useFetch("/comment");
   const [currentPage, setCurrentPage] = useState(1);
   let pageSize = 6;
   let totalPage = 1;
@@ -16,11 +16,10 @@ export default function ProfileComments() {
   }
   let pageNumber = Array.from(Array(totalPage).keys());
 
-
   const fetchSearchResults = async () => {
     try {
       const response = await instance.get(
-        `/api/v1/user/comment?page=${currentPage}&limit=${pageSize}`
+        `/comment?page=${currentPage}&limit=${pageSize}`
       );
       setPaginatedComments(response?.data.data);
     } catch (error) {
@@ -30,7 +29,6 @@ export default function ProfileComments() {
   useEffect(() => {
     fetchSearchResults();
   }, [currentPage]);
-
 
   return (
     <section className="relative pb-16">

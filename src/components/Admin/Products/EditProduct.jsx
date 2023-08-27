@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import ProductsPanelContext from "./ProductsPanelContext";
-import instance from "../../../api/axios-interceptors";
+import adminAxios from "../../../api/adminInterceptors";
 import { productFormValidation } from "../../../validators/productFormValidation";
 import Spinner from "../../Spinner/Spinner";
 import useFetch from "../../../hooks/useFetch";
@@ -43,7 +43,7 @@ export default function EditProduct() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        instance.get(`/api/v1/admin/product/${productEditId}`).then((infos) => {
+        adminAxios.get(`/product/${productEditId}`).then((infos) => {
           setProductInfo({
             ...productInfo,
             brandId: infos?.data.brandId,
@@ -66,7 +66,7 @@ export default function EditProduct() {
     event.preventDefault();
     setLoading(true);
     try {
-      const response = await instance.post(
+      const response = await adminAxios.post(
         `/api/v1/admin/product/edit/${productEditId}`,
         productInfo
       );

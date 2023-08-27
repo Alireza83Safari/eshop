@@ -10,7 +10,7 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import useFetch from "../../hooks/useFetch";
-import instance from "../../api/axios-interceptors";
+import instance from "../../api/userInterceptors";
 import { ToastContainer, toast } from "react-toastify";
 import EditAddress from "../Address/EditAddress";
 import AddNewAddress from "../Address/AddNewAddress";
@@ -21,11 +21,11 @@ export default function ProfileAddress() {
   const [showAddAddress, setShowAddAddress] = useState(null);
 
   const { datas: userAddress, fetchData: fetchAddress } = useFetch(
-    "/api/v1/user/address"
+    "/address"
   );
 
   const deleteAddressHandler = (id) => {
-    instance.post(`/api/v1/user/address/delete/${id}`).then((res) => {
+    instance.post(`/address/delete/${id}`).then((res) => {
       fetchAddress();
       toast.success(`delete is successfuly`, {
         position: "bottom-right",

@@ -8,17 +8,25 @@ function App() {
   const routes = useRoutes(route);
   const [token, setToken] = useState(null);
   const [userIsLogin, setUserIsLogin] = useState(false);
+  const [adminIsLogin, setAdminIsLogin] = useState(true);
   const [mode, setMode] = useState(false);
   const [showShopSidebar, setShowShopSidebar] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const userToken = JSON.parse(localStorage.getItem("user"))?.token;
+    const adminToken = JSON.parse(localStorage.getItem("admin"))?.token;
+    console.log(adminToken);
     if (userToken) {
       setToken(userToken);
       setUserIsLogin(true);
     } else {
       navigate("/login");
+    }
+    if (adminToken) {
+      setAdminIsLogin(true);
+    } else {
+      navigate("/adminlogin");
     }
   }, [token]);
 
@@ -51,6 +59,7 @@ function App() {
           setShowShopSidebar,
           token,
           userIsLogin,
+          adminIsLogin,
         }}
       >
         {routes}

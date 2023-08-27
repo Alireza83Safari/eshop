@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Pagination from "../../Paganation";
 import usePost from "../../../hooks/usePost";
 import { useLocation, useNavigate } from "react-router-dom";
-import instance from "../../../api/axios-interceptors";
+import adminAxios from "../../../api/adminInterceptors";
 
 export default function CommentsTable({ comments, fetchDatas }) {
   const location = useLocation();
@@ -28,8 +28,8 @@ export default function CommentsTable({ comments, fetchDatas }) {
   const getPaginationComments = async () => {
     history(`?page=${currentPage}&limit=${pageSize}`);
     try {
-      const response = await instance.get(
-        `/api/v1/admin/comment?page=${currentPage}&limit=${pageSize}`
+      const response = await adminAxios.get(
+        `/comment?page=${currentPage}&limit=${pageSize}`
       );
       setPaginatedProducts(response?.data?.data);
     } catch (error) {

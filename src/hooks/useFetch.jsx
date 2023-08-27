@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import instance from "../api/axios-interceptors";
+import instance from "../api/userInterceptors";
 
 const useFetch = (url) => {
   const [datas, setDatas] = useState(null);

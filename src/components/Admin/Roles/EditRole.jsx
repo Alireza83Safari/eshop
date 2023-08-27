@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
 import useFetch from "../../../hooks/useFetch";
-import instance from "../../../api/axios-interceptors";
+import adminAxios from "../../../api/adminInterceptors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 
@@ -40,8 +40,8 @@ export default function EditRole({
       permissions: selectedPermissions,
     };
 
-    instance
-      .post(`/api/v1/admin/role/edit/${editRoleId}`, newRole)
+    adminAxios
+      .post(`/role/edit/${editRoleId}`, newRole)
       .then((res) => {
         console.log(res);
         if (res.status === 200) {

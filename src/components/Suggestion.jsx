@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import useFetch from "../hooks/useFetch";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import instance from "../api/axios-interceptors";
+import instance from "../api/userInterceptors";
 
 export default function Suggestion() {
   const [currentProductIndex, setCurrentProductIndex] = useState(0);
@@ -22,7 +22,7 @@ export default function Suggestion() {
   });
 
   const [getProducts, setProducts] = useState([]);
-  const { datas: productsData } = useFetch("/api/v1/user/product");
+  const { datas: productsData } = useFetch("/product");
   useEffect(() => {
     if (productsData && productsData.data) {
       setProducts(productsData.data);
@@ -34,7 +34,7 @@ export default function Suggestion() {
       productItemId: data.itemId,
       quantity: 1,
     };
-    instance.post("/api/v1/user/orderItem", productData).then((res) => {
+    instance.post("/orderItem", productData).then((res) => {
       if (res.status === 200) {
         toast.success(`${data.name} added to cart!`, {
           position: "bottom-right",

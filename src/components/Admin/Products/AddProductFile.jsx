@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import Spinner from "../../Spinner/Spinner";
 import ProductsPanelContext from "./ProductsPanelContext";
-import instance from "../../../api/axios-interceptors";
+import instance from "../../../api/userInterceptors";
 
 export default function AddProductFile() {
   const {

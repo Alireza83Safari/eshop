@@ -7,8 +7,8 @@ export default function FilterProducts({ showFilterInSm, setCurrentPage }) {
   const location = useParams();
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-  const { datas: categoryData } = useFetch("/api/v1/user/category/selectList");
-  const { datas: brandData } = useFetch("/api/v1/user/brand");
+  const { datas: categoryData } = useFetch("/category/selectList");
+  const { datas: brandData } = useFetch("/brand");
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;

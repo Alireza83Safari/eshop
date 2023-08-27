@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import ReactDOM from "react-dom";
 import ProductsPanelContext from "./ProductsPanelContext";
-import instance from "../../../api/axios-interceptors";
+import adminAxios from "../../../api/adminInterceptors";
 import useFetch from "../../../hooks/useFetch";
 import { productFormValidation } from "../../../validators/productFormValidation";
 import Spinner from "../../Spinner/Spinner";
@@ -32,10 +32,7 @@ export default function AddNewProduct() {
 
     setLoading(true);
     try {
-      const response = await instance.post(
-        "/api/v1/admin/product",
-        productInfo
-      );
+      const response = await adminAxios.post("/product", productInfo);
       setNewProductId(response?.data.data);
       if (response.status === 200) {
         fetchProductList();

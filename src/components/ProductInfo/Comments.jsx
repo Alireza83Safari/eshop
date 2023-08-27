@@ -1,22 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import useFetch from "../../hooks/useFetch";
 import { ToastContainer } from "react-toastify";
 import CommentsTemplate from "./CommentsTemplate";
 import AddComment from "./AddComment";
+import instance from "../../api/userInterceptors";
 
 export default function Comments() {
   const { productID } = useParams();
+  const [getComments, setComments] = useState([]);
 
-  const { datas: getComments, fetchData: fetchComments } = useFetch(
-    `/api/v1/user/comment/product/${productID}`
-  );
+  const fetchComments = async () => {
+    try {
+      const response = await instance.get(
+        `/comment/product/${productID}`
+      );
+
+      if (response.status === 200) {
+        setComments(response?.data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchComments();
+  }, []);
 
   return (
     <div className="border p-4 mb-20 bg-white-300 dark:bg-black-900 rounded-xl">
       <>
-        {getComments?.data.length > 0 ? (
-          getComments?.data.map((comment, index) => (
+        {getComments?.length > 0 ? (
+          getComments?.map((comment, index) => (
             <CommentsTemplate index={index} comment={comment} />
           ))
         ) : (

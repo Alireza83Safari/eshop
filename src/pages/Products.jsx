@@ -5,7 +5,7 @@ import useFetch from "../hooks/useFetch";
 import Header from "./Header/Header";
 import Footer from "./Footer";
 import Pagination from "../components/Paganation";
-import instance from "../api/axios-interceptors";
+import instance from "../api/userInterceptors";
 import { useLocation } from "react-router-dom";
 const ProductsTemplate = lazy(() => import("../components/ProductsTemplate"));
 const FilterProducts = lazy(() => import("../components/FilterProducts"));
@@ -28,7 +28,7 @@ export default function Products() {
   const fetchSearchResults = async () => {
     try {
       const response = await instance.get(
-        `/api/v1/user/product?page=${currentPage}&limit=${pageSize}`
+        `/product?page=${currentPage}&limit=${pageSize}`
       );
     } catch (error) {
       console.log("Error fetching search results:", error);
@@ -38,7 +38,7 @@ export default function Products() {
   const filterProductHandler = () => {
     let url = location.search;
     instance
-      .get(`/api/v1/user/product${url}`)
+      .get(`/product${url}`)
       .then((res) => setFilterProduct(res?.data));
   };
 

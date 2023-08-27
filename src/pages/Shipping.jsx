@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Header from "./Header/Header";
 import Footer from "./Footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
+import usePost from "../hooks/usePost";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight, faLocationPin } from "@fortawesome/free-solid-svg-icons";
 import AllAddress from "../components/Address/AllAddress";
@@ -16,13 +17,13 @@ export default function Shipping() {
   const [showEditAddress, setShowEditAddress] = useState(false);
   const [editAddressId, setEditAddressId] = useState(null);
   const [error500, setError500] = useState(false);
-
+  const navigate = useNavigate();
   const { datas: userAddress, fetchData: fetchAddress } = useFetch(
-    "/api/v1/user/address"
+    "/address"
   );
   const [orders, setOrders] = useState([]);
-  // console.log(orders);
-  const { datas: getOrders } = useFetch("/api/v1/user/order");
+
+  const { datas: getOrders } = useFetch("/order");
   useEffect(() => {
     if (getOrders && getOrders.items) {
       setOrders(getOrders.items);
@@ -38,12 +39,15 @@ export default function Shipping() {
     0
   );
 
+  const { doPost, postData } = usePost();
+  const buyProducts = () => {
+    doPost(`/order/checkout/${userAddress[0].id}`);
+    navigate("/");
+  };
+
   return (
     <AddressContext.Provider
       value={{
-        setShowEditAddress,
-        showEditAddress,
-        editAddressId,
         showAddAddress,
         setShowAddAddress,
         setEditAddressId,
@@ -163,7 +167,10 @@ export default function Shipping() {
             </div>
 
             <Link>
-              <button className=" w-full mt-3 py-2 bg-blue-600 text-xs text-white-100 rounded-lg">
+              <button
+                className=" w-full mt-3 py-2 bg-blue-600 text-xs text-white-100 rounded-lg"
+                onClick={() => buyProducts()}
+              >
                 Order Placement
               </button>
             </Link>
@@ -197,8 +204,18 @@ export default function Shipping() {
       </section>
 
       <AllAddress />
-      <AddNewAddress />
-      <EditAddress />
+      <AddNewAddress
+        showAddAddress={showAddAddress}
+        setShowAddAddress={setShowAddAddress}
+        fetchAddress={fetchAddress}
+      />
+      <EditAddress
+        showEditAddress={showEditAddress}
+        setShowEditAddress={setShowEditAddress}
+        editAddressId={editAddressId}
+        fetchAddress={fetchAddress}
+        setError500={setError500}
+      />
       <Footer />
     </AddressContext.Provider>
   );

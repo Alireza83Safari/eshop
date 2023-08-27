@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
-import useFetch from "../../hooks/useFetch";
-import { ToastContainer, toast } from "react-toastify";
-import instance from "../../api/axios-interceptors";
+import instance from "../../api/userInterceptors";
 
 export default function AddComment({ fetchComments }) {
   const [strengths, setStrengths] = useState([]);
@@ -51,27 +49,24 @@ export default function AddComment({ fetchComments }) {
     };
 
     try {
-      await instance.post("/api/v1/user/comment", commentObj);
+      await instance.post("/comment", commentObj);
       fetchComments();
-      toast.success("Comment added", {
-        position: "bottom-right",
-      });
       setRate(null);
       setCommentValue("");
       setStrengths([]);
       setWeakPoints([]);
-      setIsCommentEmpty(true); // Reset to initial state
+      setIsCommentEmpty(true);
     } catch (error) {
       console.error(error);
-      toast.error("Failed to add comment", {
-        position: "bottom-right",
-      });
     }
   };
 
   useEffect(() => {
     setIsCommentEmpty(
-      !commentValue || !rate || strengths.length === 0 || weakPoints.length === 0
+      !commentValue ||
+        !rate ||
+        strengths.length === 0 ||
+        weakPoints.length === 0
     );
   }, [commentValue, rate, strengths, weakPoints]);
 
@@ -91,8 +86,8 @@ export default function AddComment({ fetchComments }) {
       <fieldset className="mb-2">
         <legend className="text-sm text-gray-600">Rate this product:</legend>
         <div className="flex items-center">
-          {[1, 2, 3, 4, 5].map((rating) => (
-            <label key={rating} className="mr-2">
+          {[1, 2, 3, 4, 5].map((rating, index) => (
+            <label key={index} className="mr-2">
               <input
                 type="radio"
                 name="rating"
@@ -195,7 +190,9 @@ export default function AddComment({ fetchComments }) {
 
       <button
         className={` bg-blue-500 text-white font-semibold py-2 px-4 mt-4 rounded-md focus:outline-none ${
-          isCommentEmpty ? "bg-gray-200 cursor-not-allowed" : "hover:bg-blue-600"
+          isCommentEmpty
+            ? "bg-gray-200 cursor-not-allowed"
+            : "hover:bg-blue-600"
         }`}
         onClick={addCommentHandler}
         disabled={isCommentEmpty}

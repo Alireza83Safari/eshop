@@ -2,7 +2,7 @@ import React from "react";
 import useFetch from "../hooks/useFetch";
 
 export default function PopularBrand() {
-  const { datas: brand } = useFetch("/api/v1/user/brand");
+  const { datas: brand } = useFetch("/brand");
 
   return (
     <>

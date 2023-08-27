@@ -13,7 +13,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./Sidebar.css";
 import productsContext from "../../../Context/productsContext";
-import instance from "../../../api/axios-interceptors";
+import instance from "../../../api/userInterceptors";
+
 export default function Sidebar() {
   const items = [
     { icon: faGripHorizontal, text: "dashboard", to: "dashboard" },

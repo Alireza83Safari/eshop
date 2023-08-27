@@ -1,14 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
-import instance from "../../api/axios-interceptors";
-import { AddressContext } from "./AddressContext";
+import instance from "../../api/userInterceptors";
 
-export default function AddNewAddress() {
+export default function AddNewAddress({
+  showAddAddress,
+  setShowAddAddress,
+  fetchAddress,
+}) {
   const [addressError, setAddressError] = useState(null);
-  const { showAddAddress, setShowAddAddress, fetchAddress } =
-    useContext(AddressContext);
-  console.log(addressError);
+
   const {
     register,
     handleSubmit,
@@ -28,7 +29,7 @@ export default function AddNewAddress() {
     };
 
     instance
-      .post("/api/v1/user/address", addressData)
+      .post("/address", addressData)
       .then((res) => {
         if (res.status === 200) {
           reset();

@@ -2,48 +2,55 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import usePost from "../../hooks/usePost";
 import { ToastContainer, toast } from "react-toastify";
+import instance from "../../api/userInterceptors";
 
 export default function ProfileFavorite() {
   const [favoriteProducts, setFavoriteProducts] = useState([]);
 
-  // Fetch favorite products from the server
-  const getFavoriteProducts = () => {
-    fetch("/api/v1/user/profile/favoriteProducts")
-      .then((res) => res.json())
-      .then((favorite) => {
-        setFavoriteProducts(favorite.data);
-      });
+  const getFavoriteProducts = async () => {
+    try {
+      const response = await instance.get(`/profile/favoriteProducts`);
+      setFavoriteProducts(response?.data);
+    } catch (error) {
+      console.log("Error fetching search results:", error);
+    }
   };
   useEffect(() => {
     getFavoriteProducts();
   }, []);
 
-  const { doPost } = usePost();
-
-  // Delete a favorite product
-  const deleteFavorite = (ID) => {
-    doPost(`/api/v1/user/favoriteProductItem/delete/${ID}`).then(() => {
-      getFavoriteProducts();
-      toast.success(`delete from favorie!`, {
-        position: "bottom-right",
-      });
-    });
+  const deleteFavorite = async (ID) => {
+    try {
+      const response = await instance.post(`/favoriteProductItem/delete/${ID}`);
+      setFavoriteProducts(response?.data);
+      if (response.status === 200) {
+        getFavoriteProducts();
+        toast.success(`delete from favorie!`, {
+          position: "bottom-right",
+        });
+      }
+    } catch (error) {
+      console.log("Error fetching search results:", error);
+    }
   };
 
-  const handleAddToCart = (ID) => {
+  const handleAddToCart = async (ID) => {
     let productData = {
       productItemId: ID,
       quantity: 1,
     };
-
-    // Make a POST request to add the product to the cart
-    doPost("/api/v1/user/orderItem", productData);
-
-    toast.success(`added to cart!`, {
-      position: "bottom-right",
-    });
+    try {
+      const response = await instance.post("/orderItem", productData);
+      setFavoriteProducts(response?.data);
+      if (response.status === 200) {
+        toast.success(`added to cart!`, {
+          position: "bottom-right",
+        });
+      }
+    } catch (error) {
+      console.log("Error fetching search results:", error);
+    }
   };
 
   return (

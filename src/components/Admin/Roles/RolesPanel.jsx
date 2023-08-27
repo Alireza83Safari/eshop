@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import useFetch from "../../../hooks/useFetch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
-import instance from "../../../api/axios-interceptors";
+import adminAxios from "../../../api/adminInterceptors";
 import EditRole from "./EditRole";
 import AddRoles from "./AddRoles";
 import PermissionInfo from "./PermissionInfo";
@@ -16,7 +16,7 @@ export default function RolesPanel() {
   const { datas: rolesData, fetchData } = useFetch("/api/v1/admin/role");
 
   const deleteRoleHandler = (roleId) => {
-    instance.post(`/api/v1/admin/role/delete/${roleId}`).then((res) => {
+    adminAxios.post(`/role/delete/${roleId}`).then((res) => {
       if (res.status === 200) {
         fetchData();
       }

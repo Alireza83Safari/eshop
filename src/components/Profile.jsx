@@ -11,10 +11,10 @@ import {
 import { Link } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 export default function Profile() {
-  const { datas: userInfo } = useFetch("/api/v1/user/is_authenticated");
-  console.log(userInfo);
+  const { datas: userInfo } = useFetch("/is_authenticated");
+ 
   return (
-    <div className="absolute top-16 dark:bg-black-900 dark:text-white-100 bg-white-100 text-sm px-6 py-4 rounded-xl z-10">
+    <div className="absolute top-16 dark:bg-black-900 dark:text-white-100 bg-white-100 text-sm px-6 py-4 rounded-xl z-10 border">
       <div className="mb-3">
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrT3XAWJ1ibDAoQ7sLZuYTk062ZYlr2JDNzPtmr8savg&usqp=CAU&ec=48665698"
@@ -29,11 +29,11 @@ export default function Profile() {
         <FontAwesomeIcon icon={faEdit} />
         <p className="pl-2">Edit Profile</p>
       </Link>
-      <Link className="flex items-center py-2" to="/favorite">
+      <Link className="flex items-center py-2" to="/profile/favorite">
         <FontAwesomeIcon icon={faHeart} />
         <p className="pl-2">Favorite Products</p>
       </Link>
-      <Link className="flex items-center border-b pb-4 py-1">
+      <Link className="flex items-center border-b pb-4 py-1" to="/profile">
         <FontAwesomeIcon icon={faUserAstronaut} />
         <p className="pl-2">View Profile</p>
       </Link>

@@ -12,7 +12,7 @@ import {
   faUser,
   faMultiply,
 } from "@fortawesome/free-solid-svg-icons";
-import instance from "../../api/axios-interceptors";
+import instance from "../../api/userInterceptors";
 import { ToastContainer, toast } from "react-toastify";
 import { AddressContext } from "./AddressContext";
 
@@ -29,7 +29,7 @@ export default function AllAddress() {
 
   const deleteAddressHandler = (id) => {
     instance
-      .post(`/api/v1/user/address/delete/${id}`)
+      .post(`/address/delete/${id}`)
       .then((res) => {
         fetchAddress();
         toast.success(`delete is successfuly`, {

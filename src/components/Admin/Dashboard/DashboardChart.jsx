@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BarChartComponent from "../Charts/BarChart";
-import instance from "../../../api/axios-interceptors";
+import adminAxios from "../../../api/adminInterceptors";
 
 const dataTypeMapping = {
   hour: "Hour",
@@ -20,8 +20,8 @@ export default function DashboardChart() {
   }, [selectedDataType]);
 
   const fetchData = (dataType) => {
-    instance
-      .get(`/api/v1/admin/report/sellsChart?type=${dataType}`)
+    adminAxios
+      .get(`/report/sellsChart?type=${dataType}`)
       .then((response) => {
         setChartData(response.data);
       });

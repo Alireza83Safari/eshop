@@ -1,8 +1,12 @@
 import React, { useEffect, useState, lazy, Suspense } from "react";
 import Spinner from "../../components/Spinner/Spinner";
-import instance from "../../api/axios-interceptors";
-const CommentsInfos = lazy(() => import("../../components/Admin/Comments/CommentsInfos"));
-const CommentsTable = lazy(() => import("../../components/Admin/Comments/CommentsTable"));
+import instance from "../../api/userInterceptors";
+const CommentsInfos = lazy(() =>
+  import("../../components/Admin/Comments/CommentsInfos")
+);
+const CommentsTable = lazy(() =>
+  import("../../components/Admin/Comments/CommentsTable")
+);
 
 export default function Comments() {
   const [comments, setComments] = useState([]);

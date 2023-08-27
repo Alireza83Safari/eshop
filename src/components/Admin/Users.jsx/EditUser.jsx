@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import useFetch from "../../../hooks/useFetch";
-import instance from "../../../api/axios-interceptors";
+import adminAxios from "../../../api/adminInterceptors";
 import Spinner from "../../Spinner/Spinner";
 
 export default function EditUser({
@@ -24,7 +24,7 @@ export default function EditUser({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        instance.get(`/api/v1/admin/user/${editUserID}`).then((usetData) => {
+        adminAxios.get(`/user/${editUserID}`).then((usetData) => {
           setUserInfos({
             ...userInfos,
             firstName: usetData?.data.firstName,
@@ -44,14 +44,14 @@ export default function EditUser({
     fetchData();
   }, [showEditUser]);
 
-  const { datas: rolesData } = useFetch("/api/v1/admin/role");
+  const { datas: rolesData } = useFetch("/role");
 
   const editUserHandler = async (userData) => {
     userData.preventDefault();
     setIsLoading(true);
     try {
-      const response = await instance.post(
-        `/api/v1/admin/user/edit/${editUserID}`,
+      const response = await adminAxios.post(
+        `/user/edit/${editUserID}`,
         userInfos
       );
       if (response.status === 200) {

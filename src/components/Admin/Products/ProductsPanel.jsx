@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useFetch from "../../../hooks/useFetch";
 import Spinner from "../../Spinner/Spinner";
 import ProductsPanelContext from "./ProductsPanelContext";
-import instance from "../../../api/axios-interceptors";
+import adminAxios from "../../../api/adminInterceptors";
 
 const Departments = lazy(() => import("./Departments"));
 const PiesChart = lazy(() => import("../Charts/PieChart"));
@@ -29,7 +29,7 @@ export default function ProductsPanel() {
   const [productList, setProductList] = useState([]);
 
   const fetchProductList = () => {
-    instance.get("/api/v1/admin/product").then((res) => {
+    adminAxios.get("/product").then((res) => {
       setProductList(res.data);
     });
   };

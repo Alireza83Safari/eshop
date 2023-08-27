@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { useForm, Controller } from "react-hook-form";
 import useFetch from "../../../hooks/useFetch";
-import instance from "../../../api/axios-interceptors";
+import adminAxios from "../../../api/adminInterceptors";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -38,7 +38,7 @@ export default function AddRoles({ showAddRoles, setShowAddRoles }) {
       permissions: selectedPermissions,
     };
 
-    instance.post("/api/v1/admin/role", newRole).then((res) => {
+    adminAxios.post("/role", newRole).then((res) => {
       if (res.status === 200) {
         setShowAddRoles(false);
       } else {

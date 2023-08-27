@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import useFetch from "../hooks/useFetch";
-import instance from "../api/axios-interceptors";
+import instance from "../api/userInterceptors";
 
 export default function Offer() {
   const [count, setCount] = useState(1);
@@ -21,7 +21,7 @@ export default function Offer() {
     fileUrl: "uploads/product/01bc03af-9404-4c88-95f5-5dfc6db79634.png",
   });
 
-  const { datas: productsData } = useFetch("/api/v1/user/product");
+  const { datas: productsData } = useFetch("/product");
   useEffect(() => {
     if (productsData && productsData.data) {
       setProducts(productsData.data);
@@ -45,7 +45,7 @@ export default function Offer() {
       quantity: 1,
     };
 
-    instance.post("/api/v1/user/orderItem", productData).then((res) => {
+    instance.post("/orderItem", productData).then((res) => {
       if (res.status === 200) {
         toast.success(`${productID.name} added to cart!`, {
           position: "bottom-right",

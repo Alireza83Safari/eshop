@@ -1,6 +1,6 @@
 import React, { Suspense, lazy, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import instance from "../api/axios-interceptors";
+import instance from "../api/userInterceptors";
 import Spinner from "./Spinner/Spinner";
 import Header from "../pages/Header/Header";
 import Footer from "../pages/Footer";
@@ -15,7 +15,7 @@ export default function SearchResults() {
     const fetchSearchResults = async () => {
       try {
         const response = await instance.get(
-          `/api/v1/user/product?searchTerm=${searchTerm}`
+          `/product?searchTerm=${searchTerm}`
         );
 
         setSearchResults(response?.data?.data);
@@ -33,7 +33,7 @@ export default function SearchResults() {
       quantity: 1,
     };
 
-    instance.post("/api/v1/user/orderItem", userBasketHandler).then((res) => {
+    instance.post("/orderItem", userBasketHandler).then((res) => {
       if (res.status === 200) {
         toast.success(`${cartID.name} added to cart!`, {
           position: "bottom-right",

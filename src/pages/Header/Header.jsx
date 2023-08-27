@@ -8,7 +8,7 @@ import {
   faSignIn,
 } from "@fortawesome/free-solid-svg-icons";
 import productsContext from "../../Context/productsContext";
-import instance from "../../api/axios-interceptors";
+import instance from "../../api/userInterceptors";
 import { Link } from "react-router-dom";
 import Spinner from "../../components/Spinner/Spinner";
 
@@ -23,7 +23,7 @@ export default function Header() {
 
   const ordersData = async () => {
     try {
-      const response = await instance.get("/api/v1/user/order");
+      const response = await instance.get("/order");
       setOrders(response.data.items.length);
     } catch (error) {
       console.log("failed fetching products", error);

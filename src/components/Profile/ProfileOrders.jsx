@@ -2,7 +2,7 @@ import React from "react";
 import useFetch from "../../hooks/useFetch";
 
 export default function ProfileOrders() {
-  const { datas: orders } = useFetch("/api/v1/user/profile/orders");
+  const { datas: orders } = useFetch("/profile/orders");
 
   return (
     <div>

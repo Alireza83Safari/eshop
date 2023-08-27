@@ -9,7 +9,7 @@ export default function Description() {
     datas: getDesc,
     fetchData: fetchDesc,
     isLoading,
-  } = useFetch(`/api/v1/user/product/${productID}`);
+  } = useFetch(`/product/${productID}`);
 
   useEffect(() => {
     fetchDesc();

@@ -2,18 +2,17 @@ import React, { useContext, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
-import instance from "../../api/axios-interceptors";
+import instance from "../../api/userInterceptors";
 import { AddressContext } from "./AddressContext";
 
-export default function EditAddress() {
+export default function EditAddress({
+  showEditAddress,
+  setShowEditAddress,
+  editAddressId,
+  fetchAddress,
+  setError500,
+}) {
   const [addressError, setAddressError] = useState(null);
-  const {
-    showEditAddress,
-    setShowEditAddress,
-    editAddressId,
-    fetchAddress,
-    setError500,
-  } = useContext(AddressContext);
 
   const { register, handleSubmit, reset } = useForm();
 
@@ -45,9 +44,9 @@ export default function EditAddress() {
       }
     } catch (err) {
       console.log(err?.response.status);
-      if (err?.response.status === 500) {
+      /*  if (err?.response.status === 500) {
         setError500(true);
-      }
+      } */
       setAddressError(err?.response.data.errors);
     }
   };

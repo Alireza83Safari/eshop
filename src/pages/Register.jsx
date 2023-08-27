@@ -8,9 +8,10 @@ import {
   requiredValidator,
 } from "../validators/rules";
 import Input from "../components/Form/Input";
+import instance from "../api/userInterceptors";
+import { toast } from "react-toastify";
 
 export default function Register() {
-  const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [sameValue, setSameValue] = useState(false);
   const [formState, onInputHandler] = useForm(
@@ -40,7 +41,7 @@ export default function Register() {
     setSameValue(password.value === confirmPassword.value);
   }, [formState.inputs.password, formState.inputs.confirmPassword]);
 
-  const sendUserData = (event) => {
+  const sendUserData = async (event) => {
     event.preventDefault();
     const { password, confirmPassword } = formState.inputs;
 
@@ -55,23 +56,14 @@ export default function Register() {
       username: formState.inputs.username.value,
     };
 
-    fetch("/api/v1/user/register", {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newUserInfo),
-    })
-      .then((res) => {
-        res.json();
-        console.log("68",res);
-      })
-      .then((res) => {
-        setError(res.errors);
-        console.log("71",res.errors);
-      })
-      .catch((err) => console.log("74",err));
+    try {
+      await instance.post("/register", newUserInfo);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed ", {
+        position: "bottom-right",
+      });
+    }
   };
   //console.log(error);
   return (

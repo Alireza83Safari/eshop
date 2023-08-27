@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import instance from "../../../api/axios-interceptors";
+import adminAxios from "../../../api/adminInterceptors";
 
 export default function Transactions() {
   const [sales, setSales] = useState([]);
 
   const productSales = () => {
-    instance.get("/api/v1/admin/order").then((res) => setSales(res.data.data));
+    adminAxios.get("/order").then((res) => setSales(res.data.data));
   };
 
   useEffect(() => {
