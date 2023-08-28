@@ -21,7 +21,7 @@ export default function ProfileAddress() {
   const [showAddAddress, setShowAddAddress] = useState(null);
 
   const { datas: userAddress, fetchData: fetchAddress } = useFetch(
-    "/address"
+    "/address", instance
   );
 
   const deleteAddressHandler = (id) => {

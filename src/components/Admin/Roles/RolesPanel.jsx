@@ -11,9 +11,9 @@ export default function RolesPanel() {
   const [showAddRoles, setShowAddRoles] = useState(false);
   const [showEditRoles, setShowEditRoles] = useState(false);
   const [showPermissionInfo, setShowPermissionInfo] = useState(false);
-  const [editRoleId, setEditRoleId] = useState();
+  const [editRoleId, setEditRoleId] = useState(null);
   const [permissionInfo, setPermissionInfo] = useState();
-  const { datas: rolesData, fetchData } = useFetch("/api/v1/admin/role");
+  const { datas: rolesData, fetchData } = useFetch("/role", adminAxios);
 
   const deleteRoleHandler = (roleId) => {
     adminAxios.post(`/role/delete/${roleId}`).then((res) => {

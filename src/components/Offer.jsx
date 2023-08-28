@@ -21,7 +21,7 @@ export default function Offer() {
     fileUrl: "uploads/product/01bc03af-9404-4c88-95f5-5dfc6db79634.png",
   });
 
-  const { datas: productsData } = useFetch("/product");
+  const { datas: productsData } = useFetch("/product",instance);
   useEffect(() => {
     if (productsData && productsData.data) {
       setProducts(productsData.data);

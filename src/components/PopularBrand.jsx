@@ -1,8 +1,9 @@
 import React from "react";
 import useFetch from "../hooks/useFetch";
+import instance from "../api/userInterceptors";
 
 export default function PopularBrand() {
-  const { datas: brand } = useFetch("/brand");
+  const { datas: brand } = useFetch("/brand",instance);
 
   return (
     <>

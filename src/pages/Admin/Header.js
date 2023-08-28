@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import productsContext from "../../Context/productsContext";
 import useFetch from "../../hooks/useFetch";
 import Profile from "../../components/Profile";
+import adminAxios from "../../api/adminInterceptors";
 export default function Header() {
   const [onScrollHeader, setOnScrollHeader] = useState(false);
   const { mode, setMode } = useContext(productsContext);
@@ -23,7 +24,7 @@ export default function Header() {
     };
   }, []);
 
-  const { datas: userInfo } = useFetch("/api/v1/user/is_authenticated");
+  const { datas: userInfo } = useFetch("/is_authenticated",adminAxios);
 
   return (
     <header className="relative">

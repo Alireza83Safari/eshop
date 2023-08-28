@@ -10,6 +10,7 @@ import AllAddress from "../components/Address/AllAddress";
 import AddNewAddress from "../components/Address/AddNewAddress";
 import EditAddress from "../components/Address/EditAddress";
 import { AddressContext } from "../components/Address/AddressContext";
+import instance from "../api/userInterceptors";
 
 export default function Shipping() {
   const [showAddAddress, setShowAddAddress] = useState(false);
@@ -19,11 +20,11 @@ export default function Shipping() {
   const [error500, setError500] = useState(false);
   const navigate = useNavigate();
   const { datas: userAddress, fetchData: fetchAddress } = useFetch(
-    "/address"
+    "/address",instance
   );
   const [orders, setOrders] = useState([]);
 
-  const { datas: getOrders } = useFetch("/order");
+  const { datas: getOrders } = useFetch("/order",instance);
   useEffect(() => {
     if (getOrders && getOrders.items) {
       setOrders(getOrders.items);

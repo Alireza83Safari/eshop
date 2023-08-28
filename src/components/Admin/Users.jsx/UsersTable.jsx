@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "../../Paganation";
-import usePost from "../../../hooks/usePost";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import EditUser from "./EditUser";
@@ -11,7 +10,6 @@ export default function UsersTable() {
   const [editUserID, setEditUserID] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [paginatedUser, setPaginatedUser] = useState([]);
-
   const [users, setUsers] = useState([]);
 
   const fetchUsers = async () => {
@@ -41,10 +39,15 @@ export default function UsersTable() {
     setPaginatedUser(users !== null ? users.slice(startIndex, endIndex) : []);
   }, [currentPage, users]);
 
-  const { doPost } = usePost();
-  const deleteUser = (ID) => {
-    doPost(`/api/v1/admin/user/delete/${ID}`);
-    fetchUsers();
+  const deleteUser = async (ID) => {
+    try {
+      const response = await adminAxios.post(`/user/delete/${ID}`);
+      if (response.status === 200) {
+        fetchUsers();
+      }
+    } catch (error) {
+      console.error("Error deleting the product:", error.message);
+    }
   };
 
   return (

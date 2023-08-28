@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "../../Paganation";
-import usePost from "../../../hooks/usePost";
 import { useLocation, useNavigate } from "react-router-dom";
 import adminAxios from "../../../api/adminInterceptors";
 
@@ -13,16 +12,24 @@ export default function CommentsTable({ comments, fetchDatas }) {
   const totalPage = Math.ceil(comments?.length / pageSize);
   const pageNumber = Array.from(Array(totalPage).keys());
 
-  const { doPost } = usePost();
-  const commentStatusHandler = (productId, statusCode) => {
+  const commentStatusHandler = async (productId, statusCode) => {
     const statusInfo = {
       note: "test",
       status: Number(statusCode),
     };
-    console.log(statusInfo);
 
-    doPost(`/api/v1/admin/comment/changeStatus/${productId}`, statusInfo);
-    fetchDatas();
+
+    try {
+      const response = await adminAxios.post(
+        `/comment/changeStatus/${productId}`,
+        statusInfo
+      );
+      if (response.status === 200) {
+        fetchDatas();
+      }
+    } catch (error) {
+      console.error("Error deleting the product:", error.message);
+    }
   };
 
   const getPaginationComments = async () => {

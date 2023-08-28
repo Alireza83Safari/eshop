@@ -22,7 +22,7 @@ export default function Suggestion() {
   });
 
   const [getProducts, setProducts] = useState([]);
-  const { datas: productsData } = useFetch("/product");
+  const { datas: productsData } = useFetch("/product",instance);
   useEffect(() => {
     if (productsData && productsData.data) {
       setProducts(productsData.data);

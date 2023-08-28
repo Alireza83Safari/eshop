@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import { Spinner } from "flowbite-react";
+import instance from "../../api/userInterceptors";
 
 export default function Description() {
   const { productID } = useParams();
@@ -9,7 +10,7 @@ export default function Description() {
     datas: getDesc,
     fetchData: fetchDesc,
     isLoading,
-  } = useFetch(`/product/${productID}`);
+  } = useFetch(`/product/${productID}`, instance);
 
   useEffect(() => {
     fetchDesc();

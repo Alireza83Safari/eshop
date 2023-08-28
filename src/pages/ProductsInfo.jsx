@@ -5,6 +5,7 @@ import Header from "./Header/Header";
 import Footer from "./Footer";
 import Spinner from "../components/Spinner/Spinner";
 import useFetch from "../hooks/useFetch";
+import instance from "../api/userInterceptors";
 const ProductFeature = lazy(() =>
   import("../components/ProductInfo/ProductFeature")
 );
@@ -18,7 +19,7 @@ const Comments = lazy(() => import("../components/ProductInfo/Comments"));
 export default function ProductsInfo() {
   const { productID } = useParams();
   const [activeTab, setActiveTab] = useState("description");
-  const { datas: productsData } = useFetch("/product");
+  const { datas: productsData } = useFetch("/product",instance);
   const findProduct = productsData?.data.find(
     (product) => product.id == productID
   );

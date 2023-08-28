@@ -4,10 +4,11 @@ import { faHeart, faRoute, faShop } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useFetch from "../../hooks/useFetch";
 import "../../pages/Admin/Sidebar/Sidebar.css";
+import instance from "../../api/userInterceptors";
 
 
 export default function ProfileMenu() {
-  const { datas } = useFetch("/is_authenticated");
+  const { datas } = useFetch("/is_authenticated",instance);
   const items = [
     { icon: faShop, text: "orders", to: `/profile/orders` },
     { icon: faRoute, text: "address", to: "/profile/address" },

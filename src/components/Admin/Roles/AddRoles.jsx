@@ -13,8 +13,7 @@ export default function AddRoles({ showAddRoles, setShowAddRoles }) {
     control,
     formState: { errors },
   } = useForm();
-  const { datas: permissionsData } = useFetch("/api/v1/admin/role/permissions");
-
+  const { datas: permissionsData } = useFetch("/role/permissions", adminAxios);
   const permissionsName =
     permissionsData?.map((permission) => permission.name) || [];
 

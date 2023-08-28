@@ -1,8 +1,9 @@
 import React from "react";
 import useFetch from "../../hooks/useFetch";
+import instance from "../../api/userInterceptors";
 
 export default function ProfileOrders() {
-  const { datas: orders } = useFetch("/profile/orders");
+  const { datas: orders } = useFetch("/profile/orders",instance);
 
   return (
     <div>

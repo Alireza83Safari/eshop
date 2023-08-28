@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
+import instance from "../api/userInterceptors";
 
 export default function FilterProducts({ showFilterInSm, setCurrentPage }) {
   const history = useNavigate();
   const location = useParams();
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-  const { datas: categoryData } = useFetch("/category/selectList");
-  const { datas: brandData } = useFetch("/brand");
+  const { datas: categoryData } = useFetch("/category/selectList",instance);
+  const { datas: brandData } = useFetch("/brand",instance);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;

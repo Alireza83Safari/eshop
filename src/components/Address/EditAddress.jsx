@@ -1,21 +1,18 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
 import instance from "../../api/userInterceptors";
-import { AddressContext } from "./AddressContext";
 
 export default function EditAddress({
   showEditAddress,
   setShowEditAddress,
   editAddressId,
   fetchAddress,
-  setError500,
 }) {
   const [addressError, setAddressError] = useState(null);
 
   const { register, handleSubmit, reset } = useForm();
-
   const { datas: addressData } = useFetch(
     `/api/v1/user/address/${editAddressId}`
   );
@@ -44,9 +41,7 @@ export default function EditAddress({
       }
     } catch (err) {
       console.log(err?.response.status);
-      /*  if (err?.response.status === 500) {
-        setError500(true);
-      } */
+      
       setAddressError(err?.response.data.errors);
     }
   };

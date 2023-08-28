@@ -44,7 +44,8 @@ export default function EditUser({
     fetchData();
   }, [showEditUser]);
 
-  const { datas: rolesData } = useFetch("/role");
+  const { datas: rolesData } = useFetch("/role",adminAxios);
+  
 
   const editUserHandler = async (userData) => {
     userData.preventDefault();

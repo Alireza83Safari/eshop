@@ -4,6 +4,7 @@ import Header from "./Header/Header";
 import Footer from "./Footer";
 import useFetch from "../hooks/useFetch";
 import Spinner from "../components/Spinner/Spinner";
+import instance from "../api/userInterceptors";
 
 const CheckoutProducts = lazy(() =>
   import("../components/Checkout/CheckoutProducts")
@@ -13,7 +14,7 @@ const CheckoutDetails = lazy(() =>
 );
 
 export default function Orders() {
-  const { datas: orders, fetchData } = useFetch("/order");
+  const { datas: orders, fetchData } = useFetch("/order",instance);
   return (
     <>
       <Header />

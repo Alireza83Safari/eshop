@@ -8,8 +8,9 @@ import {
   faUserGear,
 } from "@fortawesome/free-solid-svg-icons";
 import useFetch from "../../hooks/useFetch";
+import adminAxios from "../../api/adminInterceptors";
 export default function Profile() {
-  const { datas: userInfo } = useFetch("/api/v1/user/is_authenticated");
+  const { datas: userInfo } = useFetch("/is_authenticated", adminAxios);
 
   return (
     <div className="absolute top-16 dark:bg-black-900 dark:text-white-100 bg-white-100 text-sm px-6 py-4 rounded-xl">

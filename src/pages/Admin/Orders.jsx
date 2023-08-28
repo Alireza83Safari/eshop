@@ -1,7 +1,6 @@
 import React, { useEffect, useState, lazy, Suspense } from "react";
 import Spinner from "../../components/Spinner/Spinner";
-import useFetch from "../../hooks/useFetch";
-import instance from "../../api/userInterceptors";
+import adminAxios from "../../api/adminInterceptors";
 
 const PiesChart = lazy(() => import("../../components/Admin/Charts/PieChart"));
 const OrderTable = lazy(() =>
@@ -20,7 +19,7 @@ export default function Orders() {
 
   const fetchOrders = async () => {
     try {
-      const response = await instance.get("/api/v1/admin/order");
+      const response = await adminAxios.get("/order");
       setSales(response.data.data);
       if (!response.ok) {
         throw new Error("Network response was not ok");

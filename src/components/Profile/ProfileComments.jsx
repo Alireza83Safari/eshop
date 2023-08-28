@@ -7,7 +7,7 @@ import Pagination from "../Paganation";
 
 export default function ProfileComments() {
   const [paginatedComments, setPaginatedComments] = useState([]);
-  const { datas: comments } = useFetch("/comment");
+  const { datas: comments } = useFetch("/comment",instance);
   const [currentPage, setCurrentPage] = useState(1);
   let pageSize = 6;
   let totalPage = 1;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
 import useFetch from "../../../hooks/useFetch";
@@ -12,11 +12,24 @@ export default function EditRole({
   editRoleId,
 }) {
   const [selectedPermissions, setSelectedPermissions] = useState([]);
+  const [editRoleData, setEditRoleData] = useState(null);
+  const { datas: permissionsData } = useFetch("/role/permissions", adminAxios);
 
-  const { datas: editRoleData } = useFetch(`/api/v1/admin/role/${editRoleId}`);
-  const { handleSubmit, control, register } = useForm();
-
-  const { datas: permissionsData } = useFetch("/api/v1/admin/role/permissions");
+  const getEditRolaData = async () => {
+    try {
+      const response = await adminAxios.get(`/role/${editRoleId}`);
+      setEditRoleData(response?.data);
+      if (response.status === 200) {
+      }
+    } catch (error) {
+      console.error("Error deleting the product:", error.message);
+    }
+  };
+  useEffect(()=>{
+    getEditRolaData()
+  },[editRoleId])
+  
+  const { handleSubmit, register } = useForm();
 
   const permissionsName =
     permissionsData?.map((permission) => permission.name) || [];
@@ -43,7 +56,6 @@ export default function EditRole({
     adminAxios
       .post(`/role/edit/${editRoleId}`, newRole)
       .then((res) => {
-        console.log(res);
         if (res.status === 200) {
           setShowEditRoles(false);
         } else {

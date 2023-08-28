@@ -10,8 +10,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
+import instance from "../api/userInterceptors";
 export default function Profile() {
-  const { datas: userInfo } = useFetch("/is_authenticated");
+  const { datas: userInfo } = useFetch("/is_authenticated",instance);
  
   return (
     <div className="absolute top-16 dark:bg-black-900 dark:text-white-100 bg-white-100 text-sm px-6 py-4 rounded-xl z-10 border">

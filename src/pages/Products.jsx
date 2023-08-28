@@ -23,7 +23,7 @@ export default function Products() {
   let totalPage = Math.ceil(getProducts?.length / pageSize || 1);
   pageNumber = Array.from(Array(totalPage).keys());
 
-  const { datas: productsData, isLoading } = useFetch("api/v1/user/product");
+  const { datas: productsData, isLoading } = useFetch("/product",instance);
 
   const fetchSearchResults = async () => {
     try {
