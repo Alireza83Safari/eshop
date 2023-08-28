@@ -22,7 +22,7 @@ export default function AddProductFile() {
 
     try {
       const response = await instance.post(
-        `/api/v1/user/file/uploadImage/${newProductId}/1`,
+        `/file/uploadImage/${newProductId}/1`,
         formData
       );
       if (response.status === 200) {

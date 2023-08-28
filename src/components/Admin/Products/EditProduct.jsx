@@ -37,11 +37,12 @@ export default function EditProduct() {
       [event.target.name]: event.target.value,
     });
   };
-  const { datas: brands } = useFetch("/api/v1/admin/brand");
-  const { datas: category } = useFetch("/api/v1/admin/category");
+  const { datas: brands } = useFetch("/brand", adminAxios);
+  const { datas: category } = useFetch("/category", adminAxios);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         adminAxios.get(`/product/${productEditId}`).then((infos) => {
           setProductInfo({
@@ -55,8 +56,10 @@ export default function EditProduct() {
             topFeatures: infos?.data.topFeatures,
           });
         });
+        setLoading(false);
       } catch (err) {
         console.log(err);
+        setLoading(false);
       }
     };
     fetchData();
@@ -67,7 +70,7 @@ export default function EditProduct() {
     setLoading(true);
     try {
       const response = await adminAxios.post(
-        `/api/v1/admin/product/edit/${productEditId}`,
+        `/product/edit/${productEditId}`,
         productInfo
       );
       if (response.status === 200) {
@@ -82,7 +85,6 @@ export default function EditProduct() {
   };
   useEffect(() => {
     const hasError = Object.values(errors).some((error) => error !== "");
-
     setFormHaveError(hasError);
   }, [errors]);
 
@@ -236,18 +238,17 @@ export default function EditProduct() {
                 </div>
               </div>
             </div>
-
             <div className="flex justify-center mt-8">
               <button
-                type="submit"
+                type="click"
                 className="bg-blue-600 disabled:bg-gray-100 text-white-100 w-1/2 py-2 rounded-xl mr-2"
-                onSubmit={editProductHandler}
+                onClick={editProductHandler}
                 disabled={formHaveError}
               >
                 Edit Product
               </button>
               <button
-                type="submit"
+                type="click"
                 className="w-1/2 py-2 rounded-xl border ml-2"
                 onclick={() => setShowEditModal(false)}
               >

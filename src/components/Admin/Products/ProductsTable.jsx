@@ -2,9 +2,9 @@ import React, { useEffect, useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import InfosModal from "./InfosModal";
-import useFetch from "../../../hooks/useFetch";
 import ProductsPanelContext from "./ProductsPanelContext";
 import Pagination from "../../Paganation";
+import adminAxios from "../../../api/adminInterceptors";
 
 export default function ProductsTable() {
   const [paginatedProducts, setPaginatedProducts] = useState([]);
@@ -12,7 +12,7 @@ export default function ProductsTable() {
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [infosId, setInfosId] = useState(null);
   const [productInfos, setProductInfos] = useState([]);
-
+  const [isLoading, setLoading] = useState(false);
   const {
     searchQuery,
     setProductDeleteId,
@@ -27,14 +27,23 @@ export default function ProductsTable() {
     setProductEditId(id);
   };
 
-  const { datas, isLoading } = useFetch(
-    `/api/v1/admin/productItem/product/${infosId}`
-  );
-  useEffect(() => {
-    if (datas && datas.length > 0) {
-      setProductInfos(datas);
+  const getProductInfo = async () => {
+    setLoading(true);
+    try {
+      const response = await adminAxios.get(`/productItem/product/${infosId}`);
+      console.log(response);
+      if (response.status === 200) {
+        setProductInfos(response?.data);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Error deleting the product:", error);
+      setLoading(false);
     }
-  }, [datas]);
+  };
+  useEffect(() => {
+    getProductInfo();
+  }, [infosId]);
 
   let pageSize = 11;
   let pageNumber;

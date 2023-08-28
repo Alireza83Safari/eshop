@@ -20,15 +20,12 @@ export default function DeleteModal() {
       const response = await adminAxios.post(
         `/product/delete/${productDeleteId}`
       );
-      console.log(response);
-      //setIsLoading(false);
       if (response.status === 200) {
         setShowDeleteModal(false);
         fetchProductList();
       }
     } catch (error) {
       console.error("Error deleting the product:", error);
-      //setIsLoading(false);
     }
   };
   return ReactDOM.createPortal(

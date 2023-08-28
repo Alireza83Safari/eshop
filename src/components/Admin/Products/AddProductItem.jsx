@@ -26,7 +26,7 @@ export default function AddProductItem({}) {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const { datas: colors } = useFetch("/api/v1/admin/color");
+  const { datas: colors } = useFetch("/color", adminAxios);
 
   const addItem = async (event) => {
     event.preventDefault();
@@ -44,10 +44,7 @@ export default function AddProductItem({}) {
     };
 
     try {
-      const response = await adminAxios.post(
-        `/productItem`,
-        productItem
-      );
+      const response = await adminAxios.post(`/productItem`, productItem);
       setIsLoading(false);
       if (response.status === 200) {
         setShowProductItem(false);

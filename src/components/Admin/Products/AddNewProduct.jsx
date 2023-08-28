@@ -55,9 +55,8 @@ export default function AddNewProduct() {
     });
   };
 
-  const { datas: category } = useFetch("/api/v1/admin/category");
-
-  const { datas: brands } = useFetch("/api/v1/admin/brand");
+  const { datas: category } = useFetch("/category", adminAxios);
+  const { datas: brands } = useFetch("/brand", adminAxios);
 
   return ReactDOM.createPortal(
     <div

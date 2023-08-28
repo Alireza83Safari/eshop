@@ -2,7 +2,6 @@ import React, { useEffect, useState, lazy, Suspense } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import "react-toastify/dist/ReactToastify.css";
-import useFetch from "../../../hooks/useFetch";
 import Spinner from "../../Spinner/Spinner";
 import ProductsPanelContext from "./ProductsPanelContext";
 import adminAxios from "../../../api/adminInterceptors";
