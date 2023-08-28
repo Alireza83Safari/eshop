@@ -3,27 +3,25 @@ import { Link, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Header from "./Header/Header";
 import Footer from "./Footer";
-import Spinner from "../components/Spinner/Spinner";
 import useFetch from "../hooks/useFetch";
 import instance from "../api/userInterceptors";
-const ProductFeature = lazy(() =>
-  import("../components/ProductInfo/ProductFeature")
-);
-const ProductContent = lazy(() =>
-  import("../components/ProductInfo/ProductContent")
-);
-const Breadcrumb = lazy(() => import("../components/Breadcrumb"));
-const Description = lazy(() => import("../components/ProductInfo/Description"));
-const Comments = lazy(() => import("../components/ProductInfo/Comments"));
+import ProductFeature from "../components/ProductInfo/ProductFeature";
+import ProductContent from "../components/ProductInfo/ProductContent";
+import Breadcrumb from "../components/Breadcrumb";
+import Description from "../components/ProductInfo/Description";
+import Comments from "../components/ProductInfo/Comments";
 
 export default function ProductsInfo() {
   const { productID } = useParams();
   const [activeTab, setActiveTab] = useState("description");
-  const { datas: productsData } = useFetch("/product",instance);
+  const { datas: productsData } = useFetch("/product", instance);
   const findProduct = productsData?.data.find(
     (product) => product.id == productID
   );
-
+  const { datas: productItem } = useFetch(
+    `/productItem/${findProduct?.itemId}`,
+    instance
+  );
   return (
     <>
       <Header />
@@ -39,25 +37,22 @@ export default function ProductsInfo() {
             </div>
           </div>
           <div className="lg:col-span-6 md:col-span-7 col-span-12 md:px-0 px-8">
-            <Suspense fallback={<Spinner />}>
-              <Breadcrumb
-                links={[
-                  { id: 1, title: "Home", to: "products" },
-                  {
-                    id: 2,
-                    title: "product Info",
-                    to: "checkout",
-                  },
-                ]}
-              />
-            </Suspense>
+            <Breadcrumb
+              links={[
+                { id: 1, title: "Home", to: "products" },
+                {
+                  id: 2,
+                  title: "product Info",
+                  to: "checkout",
+                },
+              ]}
+            />
 
-            <Suspense fallback={<Spinner />}>
-              <ProductContent
-                findProduct={findProduct}
-                getProducts={productsData?.data}
-              />
-            </Suspense>
+            <ProductContent
+              findProduct={findProduct}
+              getProducts={productsData?.data}
+              productItem={productItem}
+            />
           </div>
 
           <div className="lg:col-span-2 col-span-12 lg:block sm:flex justify-between block lg:my-0 my-16 lg:px-0 px-12 text-black-900 dark:text-white-100">
@@ -81,12 +76,10 @@ export default function ProductsInfo() {
               REVIEWS
             </Link>
           </div>
-          <Suspense fallback={<Spinner />}>
-            {activeTab === "description" && <Description />}
-          </Suspense>
-          <Suspense fallback={<Spinner />}>
-            {activeTab === "reviews" && <Comments />}
-          </Suspense>
+          {activeTab === "description" && (
+            <Description productItem={productItem} />
+          )}
+          {activeTab === "reviews" && <Comments />}
         </div>
         <ToastContainer />
       </section>

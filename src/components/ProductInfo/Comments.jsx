@@ -11,9 +11,7 @@ export default function Comments() {
 
   const fetchComments = async () => {
     try {
-      const response = await instance.get(
-        `/comment/product/${productID}`
-      );
+      const response = await instance.get(`/comment/product/${productID}`);
 
       if (response.status === 200) {
         setComments(response?.data.data);

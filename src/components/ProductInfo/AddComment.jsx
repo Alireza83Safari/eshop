@@ -192,7 +192,7 @@ export default function AddComment({ fetchComments }) {
         className={` bg-blue-500 text-white font-semibold py-2 px-4 mt-4 rounded-md focus:outline-none ${
           isCommentEmpty
             ? "bg-gray-200 cursor-not-allowed"
-            : "hover:bg-blue-600"
+            : "bg-blue-600"
         }`}
         onClick={addCommentHandler}
         disabled={isCommentEmpty}

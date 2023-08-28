@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import instance from "../../api/userInterceptors";
 import { ToastContainer, toast } from "react-toastify";
 
-export default function ProductContent({ findProduct }) {
+export default function ProductContent({ findProduct, productItem }) {
   const handleAddToCart = () => {
     const productData = {
       productItemId: findProduct.itemId,
@@ -48,7 +48,6 @@ export default function ProductContent({ findProduct }) {
         }
       });
   };
-
   return (
     <>
       <div className="text-black-900 dark:text-white-100 pr-4">
@@ -86,13 +85,14 @@ export default function ProductContent({ findProduct }) {
             </p>
           </div>
 
-          <div className="mb-4 flex sm:text-sm text-xs sm:py-2 py-6 my-3">
+          <div className="mb-4 flex items-center sm:text-sm text-xs sm:py-2 py-6 my-3">
             <p>Color:</p>
             <div className="mt-2 flex">
-              <div className="bg-green-300 mx-1 w-10 h-10 rounded-full"></div>
-              <div className="bg-red-700 mx-1 w-10 h-10 rounded-full"></div>
-              <div className="bg-blue-600 mx-1 w-10 h-10 rounded-full"></div>
-              <div className="bg-white-100 border mx-1 w-10 h-10 rounded-full"></div>
+              {productItem?.colors?.map((color) => (
+                <div
+                  className={` mx-1 w-10 h-10 rounded-full bg-[${color?.colorHex}] `}
+                ></div>
+              ))}
             </div>
           </div>
 
@@ -106,7 +106,13 @@ export default function ProductContent({ findProduct }) {
         <h3 className="pb-6 sm:text-sm text-xs sm:py-4 py-6 my-3">
           Total Price:
           <span className="text-lg ml-4 font-bold text-red-700">
-            {findProduct?.price}$
+            {Math.floor(
+              productItem?.discountValue
+                ? findProduct?.price -
+                    (productItem?.discountValue / 100) * findProduct?.price
+                : findProduct?.price
+            )}
+            $
           </span>
         </h3>
 
