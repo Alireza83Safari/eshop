@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const adminAxios = axios.create({
-  baseURL: "http://localhost:3000/api/v1/admin/",
+  baseURL: "/api/v1/admin/",
   withCredentials: true,
 });
 axios.interceptors.request.use(
@@ -19,12 +19,10 @@ adminAxios.interceptors.response.use(
   },
   function (error) {
     if (error.response.status === 401) {
-      document.location.href = "/adminlogin";
-      localStorage.removeItem("admin");
+      document.location.href = "/panel/login";
     }
     if (error.response.status === 403) {
-      document.location.href = "/adminlogin";
-      localStorage.removeItem("admin");
+      document.location.href = "/panel";
     }
     return Promise.reject(error);
   }

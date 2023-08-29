@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:3000/api/v1/user/",
+  baseURL: "/api/v1/user/",
   withCredentials: true,
 });
 axios.interceptors.request.use(
@@ -21,6 +21,9 @@ instance.interceptors.response.use(
     if (error.response.status === 401) {
       document.location.href = "/login";
       localStorage.removeItem("user");
+    }
+    if (error.response.status === 403) {
+      document.location.href = "";
     }
     return Promise.reject(error);
   }
