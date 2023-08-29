@@ -14,6 +14,7 @@ import {
 import "./Sidebar.css";
 import productsContext from "../../../Context/productsContext";
 import instance from "../../../api/userInterceptors";
+import adminAxios from "../../../api/adminInterceptors";
 
 export default function Sidebar() {
   const items = [
@@ -26,17 +27,17 @@ export default function Sidebar() {
   ];
 
   const location = useLocation().pathname;
-  const productName = location.substring(location.lastIndexOf("/") + 1);
-
-  const [activeId, setActiveId] = useState(productName || "dashboard");
+  const pathNames = location.substring(location.lastIndexOf("/") + 1);
+  console.log(pathNames);
+  const [activeId, setActiveId] = useState(pathNames || "dashboard");
   const { mode } = useContext(productsContext);
 
   useEffect(() => {
-    setActiveId(productName);
-  }, [productName]);
+    setActiveId(pathNames);
+  }, [pathNames]);
 
   const logoutHandler = () => {
-    instance.get("/api/v1/admin/logout").then((res) => console.log(res));
+    adminAxios.get("/api/v1/admin/logout");
   };
   return (
     <section className="fixed top-0 left-0 bg-white-100 dark:bg-black-900 h-full xl:w-[10%] lg:w-[12%] sm:w-[6%] w-[9%] font-bold">

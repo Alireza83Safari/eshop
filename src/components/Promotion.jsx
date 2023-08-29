@@ -12,7 +12,8 @@ import instance from "../api/userInterceptors";
 
 export default function Promotion() {
   const { datas: productsData } = useFetch(
-    "/product?onlyDiscount=true",instance
+    "/product?onlyDiscount=true",
+    instance
   );
 
   const handleAddToCart = (productID) => {

@@ -41,7 +41,7 @@ const route = [
       { path: "comments", element: <ProfileComments /> },
     ],
   },
-  { path: "adminlogin", element: <AdminLogin /> },
+  { path: "panel/login", element: <AdminLogin /> },
   {
     path: "/panel/*",
     element: <Index />,

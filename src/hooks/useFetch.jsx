@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
-import instance from "../api/userInterceptors";
 
-const useFetch = (url) => {
+const useFetch = (url, customInstance) => {
   const [datas, setDatas] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const fetchData = async () => {
     try {
-      const response = await instance.get(url);
+      const response = await customInstance.get(url);
       setDatas(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -19,7 +18,7 @@ const useFetch = (url) => {
 
   useEffect(() => {
     fetchData();
-  }, [url]);
+  }, [url, customInstance]);
 
   return { datas, isLoading, error, fetchData };
 };

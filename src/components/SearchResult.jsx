@@ -49,7 +49,7 @@ export default function SearchResults() {
         {searchResults.length ? (
           <div className="relative grid grid-cols-3 mt-5 pb-14">
             {searchResults?.map((product) => (
-              <div className="relative grid lg:grid-cols-3 sm:grid-cols-2 col-span-12 mt-5 pb-14">
+              <div className="relative">
                 <Suspense fallback={<Spinner />}>
                   <ProductsTemplate
                     product={product}

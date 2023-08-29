@@ -9,7 +9,7 @@ export default function Login() {
   const navigate = useNavigate();
   const [errors, setErrors] = useState(null);
   const [serverErrors, setServerErrors] = useState(null);
-  
+
   const [loginInfos, setLoginInfos] = useState({
     username: "",
     password: "",
@@ -44,8 +44,10 @@ export default function Login() {
       <Header />
 
       <section className="flex items-center justify-center my-12">
-        <form className="w-96 p-6 rounded-lg shadow-md bg-white-300">
-          <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+        <form className="w-96 p-6 rounded-xl shadow-md bg-white-300 dark:bg-black-900">
+          <h2 className="text-2xl font-bold mb-6 text-center dark:text-white-200">
+            Login
+          </h2>
           <span className=" text-red-700 text-center text-xs">
             {serverErrors?.message}
           </span>
@@ -56,7 +58,7 @@ export default function Login() {
           <div className="mb-4 mt-6">
             <label
               htmlFor="username"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-400"
+              className="block text-sm font-medium text-gray-700 dark:text-white-200"
             >
               username
             </label>
@@ -76,7 +78,7 @@ export default function Login() {
           <div className="mb-4 mt-6">
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-400"
+              className="block text-sm font-medium text-gray-700 dark:text-white-200"
             >
               Password
             </label>
@@ -100,7 +102,7 @@ export default function Login() {
           >
             Login
           </button>
-          <div className="mt-6 text-center">
+          <div className="mt-6 text-center text-white-200">
             <Link className="text-xs" to="/register">
               Dont Havent an Account? <span>Sign Up</span>
             </Link>

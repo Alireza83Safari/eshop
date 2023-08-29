@@ -1,34 +1,40 @@
-import "./App.css";
-import route from "./routes/routes";
-import { useNavigate, useRoutes } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useRoutes } from "react-router-dom";
+import axios from "axios";
 import ProductsContext from "./Context/productsContext";
+import route from "./routes/routes";
+import "./App.css";
 
 function App() {
   const routes = useRoutes(route);
-  const [token, setToken] = useState(null);
   const [userIsLogin, setUserIsLogin] = useState(false);
-  const [adminIsLogin, setAdminIsLogin] = useState(true);
+  const [adminIsLogin, setAdminIsLogin] = useState(false);
   const [mode, setMode] = useState(false);
   const [showShopSidebar, setShowShopSidebar] = useState(false);
-  const navigate = useNavigate();
+
+  const userLogin = () => {
+    axios.get("api/v1/user/is_authenticated").then((res) => {
+      if (res.status === 200) {
+        setUserIsLogin(true);
+      }
+    });
+  };
+
+  const adminLogin = () => {
+    axios.get("/api/v1/admin/is_authenticated").then((res) => {
+      if (res.status === 200) {
+        setAdminIsLogin(true);
+      }
+    });
+  };
 
   useEffect(() => {
-    const userToken = JSON.parse(localStorage.getItem("user"))?.token;
-    const adminToken = JSON.parse(localStorage.getItem("admin"))?.token;
-    console.log(adminToken);
-    if (userToken) {
-      setToken(userToken);
-      setUserIsLogin(true);
-    } else {
-      navigate("/login");
-    }
-    if (adminToken) {
-      setAdminIsLogin(true);
-    } else {
-      navigate("/adminlogin");
-    }
-  }, [token]);
+    userLogin();
+  }, [userIsLogin]);
+
+  useEffect(() => {
+    adminLogin();
+  }, [adminIsLogin]);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -57,7 +63,6 @@ function App() {
           setMode,
           showShopSidebar,
           setShowShopSidebar,
-          token,
           userIsLogin,
           adminIsLogin,
         }}

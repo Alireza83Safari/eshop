@@ -63,8 +63,10 @@ export default function Register() {
     <>
       <Header />
       <div className="flex items-center justify-center my-12">
-        <form className="w-96 p-6 rounded-lg shadow-md bg-white-300">
-          <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+        <form className="w-96 p-6 rounded-xl shadow-md bg-white-300 dark:bg-black-900">
+          <h2 className="text-2xl font-bold mb-6 text-center dark:text-white-200">
+            Register
+          </h2>
           <span className="text-red-700 text-center text-xs">
             {serverErrors?.password}
           </span>
@@ -72,7 +74,7 @@ export default function Register() {
           <div className="mb-4 mt-6">
             <label
               htmlFor="username"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-400"
+              className="block text-sm font-medium text-gray-700 dark:text-white-200"
             >
               Username
             </label>
@@ -96,7 +98,7 @@ export default function Register() {
           <div className="mb-4 mt-6">
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-400"
+              className="block text-sm font-medium text-gray-700 dark:text-white-200"
             >
               Password
             </label>
@@ -117,7 +119,7 @@ export default function Register() {
           <div className="mb-4 mt-6">
             <label
               htmlFor="passwordConfirmation"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-400"
+              className="block text-sm font-medium text-gray-700 dark:text-white-200"
             >
               Confirm Password
             </label>

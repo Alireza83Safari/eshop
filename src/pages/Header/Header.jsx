@@ -25,24 +25,19 @@ export default function Header() {
     try {
       const response = await instance.get("/order");
       setOrders(response.data.items.length);
-    } catch (error) {
-      console.log("failed fetching products", error);
-    }
+    } catch (error) {}
   };
 
   const fetcUserInfos = async () => {
     try {
-      const response = await instance.get("/api/v1/admin/is_authenticated");
-      setUserInfos(response.data);
-    } catch (error) {
-      console.log("failed fetching products", error);
-    }
+      const response = await instance.get("/is_authenticated");
+      setUserInfos(response?.data);
+    } catch (error) {}
   };
 
   const [showProfile, setShowProfile] = useState(false);
 
   useEffect(() => {
-    // Call productsData and ordersData if userIsLogin is true
     if (userIsLogin) {
       ordersData();
       fetcUserInfos();
@@ -54,7 +49,6 @@ export default function Header() {
       document.location.href = `/search/${searchQuery}`;
     }
   };
-
   return (
     <header className="w-full min-w-full bg-white-200 dark:bg-black-800">
       <div className="flex justify-between items-center mx-auto xl:px-20 py-5 px-5 xl:container">
@@ -154,9 +148,11 @@ export default function Header() {
               <Link to="/login">login / register</Link>
             )}
           </div>
-          <Suspense fallback={<Spinner />}>
-            {showProfile && <Profile username={userInfos?.username} />}
-          </Suspense>
+          {userIsLogin && (
+            <Suspense fallback={<Spinner />}>
+              {showProfile && <Profile username={userInfos?.username} />}
+            </Suspense>
+          )}
         </div>
       </div>
     </header>

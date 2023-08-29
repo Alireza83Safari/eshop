@@ -5,5 +5,5 @@ import productsContext from "../../Context/productsContext";
 export default function PrivateRoute({ children }) {
   const navigate = useNavigate();
   const { adminIsLogin } = useContext(productsContext);
-  return <>{adminIsLogin ? children : navigate("/panel/login")}</>;
+  return <>{adminIsLogin ? children : <h1>You Havent Access Here</h1>}</>;
 }

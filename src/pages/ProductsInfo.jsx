@@ -28,11 +28,11 @@ export default function ProductsInfo() {
       <section className="md:px-5 xl:px-16 px-2 xl:container mx-auto">
         <div className="grid grid-cols-12">
           <div className="lg:col-span-4 md:col-span-5 col-span-12">
-            <div className="md:block flex justify-center md:w-80 w-full md:px-4 lg:py-10 md:py-20">
+            <div className="md:block flex justify-center h-full w-full md:px-4 lg:py-10 md:py-20">
               <img
                 src={`http://127.0.0.1:6060/${findProduct?.fileUrl}`}
                 alt=""
-                className="md:w-full w-7/12 object-contain md:py-0 py-5"
+                className="md:w-full w-7/12 object-cover md:py-0 py-5"
               />
             </div>
           </div>
