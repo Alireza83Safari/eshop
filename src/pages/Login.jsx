@@ -1,55 +1,43 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  maxValidator,
-  minValidator,
-  requiredValidator,
-} from "../validators/rules";
-import Input from "../components/Form/Input";
-import { useForm } from "../hooks/useForm";
 import Header from "./Header/Header";
 import Footer from "./Footer";
 import instance from "../api/userInterceptors";
+import { loginValidation } from "../validators/loginValidation";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [error, setError] = useState(null);
+  const [errors, setErrors] = useState(null);
+  const [serverErrors, setServerErrors] = useState(null);
+  
+  const [loginInfos, setLoginInfos] = useState({
+    username: "",
+    password: "",
+  });
 
-  const [formState, onInputHandler] = useForm(
-    {
-      username: {
-        value: "",
-        isValid: false,
-      },
-      password: {
-        value: "",
-        isValid: false,
-      },
-    },
-    false
-  );
+  const loginInfosHandler = (event) => {
+    setLoginInfos({
+      ...loginInfos,
+      [event.target.name]: event.target.value,
+    });
+  };
 
   const userLogin = (event) => {
     event.preventDefault();
-    const { username, password } = formState.inputs;
+    loginValidation(loginInfos, errors, setErrors);
 
-    let userInfo = {
-      password: password.value,
-      username: username.value,
-    };
-
-    instance.post("/login", userInfo).then((res) => {
-      console.log(res);
-      if (res.status === 200) {
-        let token = res.data.token;
-        console.log("token", token);
-        localStorage.setItem("user", JSON.stringify({ token }));
-        navigate("/shop");
-        return res.json();
-      } else if (res.status === 422) {
-        setError("user is not found");
-      }
-    });
+    instance
+      .post("/login", loginInfos)
+      .then((res) => {
+        if (res.status === 200) {
+          let token = res.data.token;
+          localStorage.setItem("user", JSON.stringify({ token }));
+          navigate("/shop");
+        }
+      })
+      .catch((err) => {
+        setServerErrors(err?.response?.data);
+      });
   };
   return (
     <>
@@ -58,27 +46,32 @@ export default function Login() {
       <section className="flex items-center justify-center my-12">
         <form className="w-96 p-6 rounded-lg shadow-md bg-white-300">
           <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-          <span className=" text-red-700 text-center">{error}</span>
-          <div className="mb-4 mt-12">
+          <span className=" text-red-700 text-center text-xs">
+            {serverErrors?.message}
+          </span>
+          <br />
+          <span className=" text-red-700 text-center text-xs">
+            {serverErrors?.errors?.password}
+          </span>
+          <div className="mb-4 mt-6">
             <label
               htmlFor="username"
               className="block text-sm font-medium text-gray-700 dark:text-gray-400"
             >
               username
             </label>
-            <Input
-              type="username"
-              id="username"
+            <input
+              type="text"
+              name="username"
               element="input"
               placeholder="username"
               className="p-2 block w-full rounded-md border shadow-sm outline-none"
-              validations={[
-                requiredValidator(),
-                minValidator(3),
-                maxValidator(26),
-              ]}
-              onInputHandler={onInputHandler}
+              onChange={loginInfosHandler}
+              value={loginInfos?.username}
             />
+            <span className=" text-red-700 text-center text-xs">
+              {errors?.username}
+            </span>
           </div>
           <div className="mb-4 mt-6">
             <label
@@ -87,24 +80,22 @@ export default function Login() {
             >
               Password
             </label>
-            <Input
+            <input
               type="password"
-              id="password"
-              element="input"
+              name="password"
               placeholder="password"
               className="p-2 block w-full rounded-md border shadow-sm outline-none"
-              validations={[
-                requiredValidator(),
-                minValidator(8),
-                maxValidator(26),
-              ]}
-              onInputHandler={onInputHandler}
+              onChange={loginInfosHandler}
+              value={loginInfos?.password}
             />
+            <span className=" text-red-700 text-center text-xs">
+              {errors?.password}
+            </span>
           </div>
           <button
             type="submit"
-            className="w-full mt-8 py-2 px-4 bg-blue-600 hover:bg-blue-700 duration-300 text-white-100 rounded-lg focus:outline-none"
-            disabled={!formState.isFormValid}
+            className="w-full mt-8 py-2 px-4 bg-blue-600 hover:bg-blue-700 duration-300 text-white-100 rounded-lg disabled:bg-gray-200"
+            disabled={errors?.length}
             onClick={userLogin}
           >
             Login
