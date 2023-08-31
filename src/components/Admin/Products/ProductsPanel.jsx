@@ -117,7 +117,7 @@ export default function ProductsPanel() {
               </Suspense>
             </div>
 
-            <div className="dark:bg-black-200 bg-white-100 rounded-xl">
+            <div className="dark:bg-black-200 bg-white-100 rounded-xl h-[21rem]">
               <Suspense fallback={<Spinner />}>
                 <Departments />
               </Suspense>
