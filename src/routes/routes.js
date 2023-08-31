@@ -1,3 +1,5 @@
+import React from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Index from "../components/Admin";
 import Comments from "../pages/Admin/Comments";
 import Dashboard from "../pages/Admin/Dashboard";
@@ -22,7 +24,6 @@ import PrivateRoute from "../components/Admin/PrivateRoute";
 import AdminLogin from "../pages/Admin/AdminLogin";
 
 const route = [
-  { path: "shop", element: <ShopIndex /> },
   { path: "", element: <ShopIndex /> },
   { path: "products", element: <ShopProducts /> },
   { path: "products/:productID", element: <ProductsInfo /> },
@@ -46,6 +47,14 @@ const route = [
     path: "/panel/*",
     element: <Index />,
     children: [
+      {
+        path: "",
+        element: (
+          <PrivateRoute>
+            <Navigate to="dashboard" />
+          </PrivateRoute>
+        ),
+      },
       {
         path: "dashboard",
         element: (

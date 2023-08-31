@@ -10,7 +10,7 @@ export default function Index() {
   return (
     <>
       <Header />
-      {routes}
+
       <Outlet />
       <Sidebar />
     </>
