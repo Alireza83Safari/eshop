@@ -28,17 +28,12 @@ export default function AllAddress() {
   } = useContext(AddressContext);
 
   const deleteAddressHandler = (id) => {
-    instance
-      .post(`/address/delete/${id}`)
-      .then((res) => {
-        fetchAddress();
-        toast.success(`delete is successfuly`, {
-          position: "bottom-right",
-        });
-      })
-      .catch((err) => {
-        console.log(err);
+    instance.post(`/address/delete/${id}`).then((res) => {
+      fetchAddress();
+      toast.success(`delete is successfuly`, {
+        position: "bottom-right",
       });
+    });
   };
   return ReactDOM.createPortal(
     <div
