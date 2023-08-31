@@ -1,10 +1,11 @@
 import React, { useEffect, useState, lazy, Suspense } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faPercent, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import "react-toastify/dist/ReactToastify.css";
 import Spinner from "../../Spinner/Spinner";
 import ProductsPanelContext from "./ProductsPanelContext";
 import adminAxios from "../../../api/adminInterceptors";
+import Discount from "./Discount/Discount";
 
 const Departments = lazy(() => import("./Departments"));
 const PiesChart = lazy(() => import("../Charts/PieChart"));
@@ -18,6 +19,7 @@ const EditProduct = lazy(() => import("./EditProduct"));
 export default function ProductsPanel() {
   const [productDeleteId, setProductDeleteId] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showDiscount, setShowDiscount] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [showProductItem, setShowProductItem] = useState(false);
@@ -59,12 +61,14 @@ export default function ProductsPanel() {
         setShowProductItem,
         newProductId,
         fetchProductList,
+        showDiscount,
+        setShowDiscount,
       }}
     >
       <section className="p-6 float-right mt-12 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] min-h-screen">
         <div className="grid grid-cols-10">
           <div className="lg:col-span-7 col-span-10 mt-5 lg:px-6 px-1 overflow-x-auto relative bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-xl">
-            <div className="py-4 flex flex-co sm:flex-row justify-between px-4 w-full">
+            <div className="py-4 flex justify-between px-4 w-full">
               <div className="flex bg-white-100 rounded-lg relative md:w-auto">
                 <input
                   type="text"
@@ -80,12 +84,20 @@ export default function ProductsPanel() {
                 />
               </div>
 
-              <button
-                className="sm:text-xs text-[10px] bg-blue-600 text-white-100 px-2 rounded-lg whitespace-nowrap"
-                onClick={() => setShowAddProduct(true)}
-              >
-                Add Product <FontAwesomeIcon icon={faPlus} />
-              </button>
+              <div>
+                <button
+                  className="sm:text-xs text-[10px] bg-blue-600 text-white-100 p-2 mr-2 rounded-lg whitespace-nowrap"
+                  onClick={() => setShowAddProduct(true)}
+                >
+                  Add Product <FontAwesomeIcon icon={faPlus} />
+                </button>
+                <button
+                  className="sm:text-xs text-[10px] bg-orange-400 text-white-100 p-2 rounded-lg whitespace-nowrap"
+                  onClick={() => setShowDiscount(true)}
+                >
+                  Add Discount <FontAwesomeIcon icon={faPercent} />
+                </button>
+              </div>
             </div>
 
             <div className="sm:h-[38rem] h-[35rem]">
@@ -114,13 +126,10 @@ export default function ProductsPanel() {
         </div>
         <Suspense fallback={<Spinner />}>
           {showAddProduct && <AddNewProduct />}
-
           {showProductItem && <AddProductItem />}
-
           {showFile && <AddProductFile />}
-
+          <Discount />
           <DeleteModal />
-
           <EditProduct />
         </Suspense>
       </section>
