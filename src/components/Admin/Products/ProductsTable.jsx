@@ -31,13 +31,11 @@ export default function ProductsTable() {
     setLoading(true);
     try {
       const response = await adminAxios.get(`/productItem/product/${infosId}`);
-      console.log(response);
       if (response.status === 200) {
         setProductInfos(response?.data);
         setLoading(false);
       }
     } catch (error) {
-      console.error("Error deleting the product:", error);
       setLoading(false);
     }
   };
@@ -100,8 +98,9 @@ export default function ProductsTable() {
                       className="text-orange-400"
                     />
                   </button>
+
                   <button
-                    className="px-2 py-1 rounded-md text-red-700 text-white"
+                    className="py-1 rounded-md text-red-700 text-white"
                     onClick={() => {
                       setProductDeleteId(product?.id);
                       setShowDeleteModal(true);

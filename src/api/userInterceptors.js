@@ -15,9 +15,11 @@ axios.interceptors.request.use(
 
 instance.interceptors.response.use(
   function (response) {
+    //console.log(response);
     return response;
   },
   function (error) {
+    //console.log("response", error.request.responseURL);
     if (error.response.status === 401) {
       document.location.href = "/login";
       localStorage.removeItem("user");

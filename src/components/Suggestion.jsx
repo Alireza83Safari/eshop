@@ -90,7 +90,7 @@ export default function Suggestion() {
       onMouseLeave={() => setHover(false)}
     >
       <button
-        className={`absolute left-8 top-40 z-10 outline-none ${
+        className={`absolute left-8 top-40 z-10 outline-none duration-500 ${
           hover ? "opacity-100" : "opacity-0"
         }`}
         onClick={goToPreviousProduct}
@@ -135,7 +135,7 @@ export default function Suggestion() {
         </div>
       </div>
       <button
-        className={`absolute right-8 top-40 z-10 outline-none ${
+        className={`absolute right-8 top-40 z-10 outline-none duration-500 ${
           hover ? "opacity-100" : "opacity-0"
         }`}
         onClick={() => goToNextProduct()}

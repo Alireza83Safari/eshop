@@ -19,7 +19,7 @@ adminAxios.interceptors.response.use(
   },
   function (error) {
     if (error.response.status === 401) {
-      document.location.href = "/panel/login";
+     // document.location.href = "/panel/login";
     }
     if (error.response.status === 403) {
       document.location.href = "/panel";

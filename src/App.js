@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useRoutes } from "react-router-dom";
+import { Navigate, Route, useRoutes } from "react-router-dom";
 import axios from "axios";
 import ProductsContext from "./Context/productsContext";
 import route from "./routes/routes";
@@ -18,6 +18,7 @@ function App() {
         setUserIsLogin(true);
       }
     });
+    //.catch((err) => console.log(err));
   };
 
   const adminLogin = () => {

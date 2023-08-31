@@ -14,12 +14,12 @@ const CheckoutDetails = lazy(() =>
 );
 
 export default function Orders() {
-  const { datas: orders, fetchData } = useFetch("/order",instance);
+  const { datas: orders, fetchData } = useFetch("/order", instance);
   return (
     <>
       <Header />
 
-      <section className="bg-white-100  dark:bg-black-200 text-black-900 mt-4 mb-8 z-10 dark:text-white-100">
+      <section className="bg-white-100  dark:bg-black-200 text-black-900 mb-8 z-10 dark:text-white-100 mt-24">
         <div className="flex justify-center mb-5">
           <Breadcrumb
             links={[

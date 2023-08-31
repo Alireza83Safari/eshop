@@ -6,6 +6,7 @@ import {
   faMoon,
   faSearch,
   faSignIn,
+  faSun,
 } from "@fortawesome/free-solid-svg-icons";
 import productsContext from "../../Context/productsContext";
 import instance from "../../api/userInterceptors";
@@ -49,8 +50,11 @@ export default function Header() {
       document.location.href = `/search/${searchQuery}`;
     }
   };
+
+  let getTheme = localStorage.getItem("theme");
+
   return (
-    <header className="w-full min-w-full bg-white-200 dark:bg-black-800">
+    <header className="w-full min-w-full bg-white-200 dark:bg-black-800 fixed top-0 z-10">
       <div className="flex justify-between items-center mx-auto xl:px-20 py-5 px-5 xl:container">
         <div className="flex items-center">
           <div className="md:mr-20 mr-6 flex items-center">
@@ -100,7 +104,7 @@ export default function Header() {
             <div className="md:px-3 flex items-center usercart-parent">
               <div className="sm:mx-4 mx-2" onClick={() => setMode(!mode)}>
                 <FontAwesomeIcon
-                  icon={faMoon}
+                  icon={getTheme == "light" ? faMoon : faSun}
                   className="sm:text-2xl text-xl"
                 />
               </div>

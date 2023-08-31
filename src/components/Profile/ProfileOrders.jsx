@@ -3,14 +3,14 @@ import useFetch from "../../hooks/useFetch";
 import instance from "../../api/userInterceptors";
 
 export default function ProfileOrders() {
-  const { datas: orders } = useFetch("/profile/orders",instance);
+  const { datas: orders } = useFetch("/profile/orders", instance);
 
   return (
     <div>
       {orders?.map((data) => (
         <div className="px-8 border-b py-8">
-          <div className="flex justify-between">
-            <div className="flex">
+          <div className="md:flex md:justify-between grid grid-cols-2">
+            <div className="flex md:mb-0 mb-4 items-center">
               <p className="mr-2 text-sm text-gray-800">status:</p>
               <p className="flex">
                 {data.status === "1" ? (
@@ -27,20 +27,26 @@ export default function ProfileOrders() {
               </p>
             </div>
 
-            <div className="flex">
+            <div className="flex md:mb-0 mb-4 items-center">
               <p className="mr-2 text-sm text-gray-800">Date:</p>
-              <p className="">{data?.createdAt.slice(0, 9)}</p>
+              <p className="dark:text-white-100 text-black-900  text-sm lg:text-base">
+                {data?.createdAt.slice(0, 9)}
+              </p>
             </div>
-            <div className="flex">
+            <div className="flex md:mb-0 mb-4 items-center">
               <p className="mr-2 text-sm text-gray-800">price:</p>
-              <p className="">{data.price}$</p>
+              <p className="dark:text-white-100 text-black-900 text-sm lg:text-base ">
+                {data.price}$
+              </p>
             </div>
-            <div className="flex">
+            <div className="flex md:mb-0 mb-4 items-center">
               <p className="mr-2 text-sm text-gray-800">code:</p>
-              <p>{data.code}</p>
+              <p className="dark:text-white-100 text-black-900 text-sm lg:text-base ">
+                {data.code}
+              </p>
             </div>
           </div>
-          <div className="flex pt-5">
+          <div className="flex pt-5  overflow-auto">
             {data?.fileUrls?.map((file) => (
               <img
                 src={`http://127.0.0.1:6060/${file}`}

@@ -1,28 +1,39 @@
 import React from "react";
 import useFetch from "../hooks/useFetch";
 import instance from "../api/userInterceptors";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 export default function PopularBrand() {
-  const { datas: brand } = useFetch("/brand",instance);
+  const { datas: brand } = useFetch("/brand", instance);
 
   return (
-    <>
-      <section className="md:px-5 mt-40 text-black-900 dark:text-white-100">
-        <p className="pb-3 text-xl font-bold text-center">
-          Most Popular Brands
-        </p>
-        <div className="grid lg:grid-cols-8 grid-cols-4 gid-cols-3 lg:py-7 pb-7">
-          {brand?.data?.map((brand, index) => (
-            <div key={index} className="flex justify-center items-center">
-              <img
-                src={`http://127.0.0.1:6060/${brand.fileUrl}`}
-                alt={brand.brand}
-                className="sm:w-28 sm:h-28 w-20 h-20 object-contain py-3"
-              />
-            </div>
-          ))}
-        </div>
-      </section>
-    </>
+    <section className="md:px-5 mt-40 text-black-900 dark:text-white-100">
+      <p className="pb-3 md:mb-8 md:text-2xl sm:text-xl font-bold text-center">
+        Most Popular Brands
+      </p>
+      <Swiper
+        slidesPerView={
+          window.innerWidth >= 1024
+            ? 6
+            : window.innerWidth >= 640 && window.innerWidth <= 1024
+            ? 4
+            : 4
+        }
+        spaceBetween={15}
+      >
+        {brand?.data?.map((brand, index) => (
+          <SwiperSlide
+            key={index}
+            className="flex justify-center items-center mb-8"
+          >
+            <img
+              src={`http://127.0.0.1:6060/${brand.fileUrl}`}
+              alt={brand.brand}
+              className="sm:w-32 sm:h-32 w-24 h-24 object-contain py-3"
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </section>
   );
 }

@@ -73,11 +73,11 @@ export default function Products() {
       {isLoading ? (
         <Spinner />
       ) : (
-        <section className="relative mx-auto mt-4 py-4 dark:bg-black-200 xl:container min-h-screen">
+        <section className="relative mx-auto py-4 dark:bg-black-200 xl:container min-h-screen mt-24">
           <div className="grid grid-cols-12 xl:px-20 px-5">
             <div className="col-span-12 flex justify-center">
               <button
-                className="text-xl p-2 bg-gray-100 rounded-lg absolute top-0 z-10"
+                className="text-xl p-2 bg-gray-100 rounded-lg absolute top-0"
                 onClick={() => setShowFilterInSm(!showFilterInSm)}
               >
                 <img src="/images/filter.svg" alt="" />

@@ -6,7 +6,6 @@ import instance from "../api/userInterceptors";
 
 export default function Banner() {
   const [banner, setBanner] = useState([]);
-
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {

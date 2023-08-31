@@ -21,7 +21,8 @@ export default function ProfileAddress() {
   const [showAddAddress, setShowAddAddress] = useState(null);
 
   const { datas: userAddress, fetchData: fetchAddress } = useFetch(
-    "/address", instance
+    "/address",
+    instance
   );
 
   const deleteAddressHandler = (id) => {
@@ -33,8 +34,8 @@ export default function ProfileAddress() {
     });
   };
   return (
-    <div className="bg-white-100 rounded-lg overflow-auto relative">
-      <div className="flex justify-between items-center py-5 border-b px-3 w-full sticky top-0 bg-white-100 rounded-t-lg">
+    <div className="bg-white-100 dark:bg-black-800 dark:text-white-100 rounded-xl overflow-auto relative">
+      <div className="flex justify-between items-center py-5 border-b px-3 w-full sticky top-0 rounded-t-lg">
         <p className="font-bold text-lg border-b-2 border-blue-600 pb-2">
           Address
         </p>

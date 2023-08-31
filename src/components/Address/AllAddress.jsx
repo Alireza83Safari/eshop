@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+/* import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -119,3 +119,4 @@ export default function AllAddress() {
     document.getElementById("portal")
   );
 }
+ */

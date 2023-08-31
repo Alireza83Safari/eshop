@@ -13,30 +13,37 @@ export default function Offer() {
   const [count, setCount] = useState(1);
   const [getProducts, setProducts] = useState([]);
   const [currentProductIndex, setCurrentProductIndex] = useState(0);
+  const [productItem, setProductItem] = useState({});
 
-  const [newProduct, setNewProduct] = useState({
-    id: "ae0ed272-feb1-41af-bbc4-d14f03f58992",
-    brandName: "Apple",
-    price: 1299,
-    fileUrl: "uploads/product/01bc03af-9404-4c88-95f5-5dfc6db79634.png",
-  });
-
-  const { datas: productsData } = useFetch("/product",instance);
   useEffect(() => {
-    if (productsData && productsData.data) {
-      setProducts(productsData.data);
-    }
-  }, [productsData]);
+    const fetchBanner = async () => {
+      try {
+        const responst = await instance.get("/product");
+        setProducts(responst?.data?.data);
+      } catch (error) {}
+    };
 
+    fetchBanner();
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentProductIndex((prevIndex) =>
+        prevIndex === getProducts?.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 20000);
+
+    return () => clearInterval(timer);
+  }, [currentProductIndex, getProducts]);
   // Automatically switch to a new product every 10 seconds
-  useEffect(() => {
+  /*   useEffect(() => {
     const timer = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * getProducts.length);
       setNewProduct(getProducts[randomIndex]);
     }, 10000);
 
     return () => clearInterval(timer); // Clear interval on unmount
-  }, [getProducts]);
+  }, [getProducts]); */
 
   // Add product to cart and show toast notification
   const handleAddToCart = (productID) => {
@@ -59,7 +66,7 @@ export default function Offer() {
     setCurrentProductIndex((prevIndex) =>
       prevIndex === 0 ? getProducts.length - 1 : prevIndex - 1
     );
-    setNewProduct(getProducts[currentProductIndex]);
+   // setNewProduct(getProducts[currentProductIndex]);
   };
 
   // Function to navigate to next product
@@ -70,9 +77,17 @@ export default function Offer() {
     setCurrentProductIndex((prevIndex) =>
       prevIndex === getProducts.length - 1 ? 0 : prevIndex + 1
     );
-    setNewProduct(getProducts[currentProductIndex]);
+  //  setNewProduct(getProducts[currentProductIndex]);
   };
   const [hover, setHover] = useState(false);
+
+  useEffect(() => {
+    instance
+      .get(`/productItem/${getProducts[currentProductIndex]?.itemId}`)
+      .then((res) => setProductItem(res?.data));
+    // console.log(datas);
+  }, [currentProductIndex, getProducts]);
+  console.log(getProducts[currentProductIndex]?.id);
   return (
     <section
       className="w-full xl:px-20 md:px-4 lg:mt-52 md:mt-36 mt-20 relative"
@@ -81,7 +96,7 @@ export default function Offer() {
     >
       <div className="grid md:grid-cols-2 relative">
         <button
-          className={`absolute left-2 top-80 z-10 outline-none ${
+          className={`absolute left-2 top-80 z-10 outline-none duration-500 ${
             hover ? "opacity-100" : "opacity-0"
           }`}
           onClick={goToPreviousProduct}
@@ -115,7 +130,7 @@ export default function Offer() {
 
         <div className="md:w-full md:bg-gray-100 flex items-center justify-center lg:h-[32rem]">
           <img
-            src={`http://127.0.0.1:6060/${newProduct?.fileUrl}`}
+            src={`http://127.0.0.1:6060/${getProducts[currentProductIndex]?.fileUrl}`}
             className="object-contain md:p-10 px-10 md:h-full h-[24rem]"
           />
         </div>
@@ -125,15 +140,15 @@ export default function Offer() {
           </p>
           <div className="grid grid-cols-3 py-3">
             <img
-              src={`http://127.0.0.1:6060/${newProduct?.fileUrl}`}
+              src={`http://127.0.0.1:6060/${getProducts[currentProductIndex]?.fileUrl}`}
               className="p-1 lg:h-[10rem] h-[8rem] object-contain"
             />
             <img
-              src={`http://127.0.0.1:6060/${newProduct?.fileUrl}`}
+              src={`http://127.0.0.1:6060/${getProducts[currentProductIndex]?.fileUrl}`}
               className="p-1 lg:h-[10rem] h-[8rem] object-contain"
             />
             <img
-              src={`http://127.0.0.1:6060/${newProduct?.fileUrl}`}
+              src={`http://127.0.0.1:6060/${getProducts[currentProductIndex]?.fileUrl}`}
               className="p-1 lg:h-[10rem] h-[8rem] object-contain"
             />
           </div>
@@ -180,7 +195,7 @@ export default function Offer() {
             <div className="md:block flex justify-center">
               <button
                 className="lg:px-12 md:px-9 px-12 py-3 md:text-base text-sm bg-blue-600 text-white-100 rounded-md"
-                onClick={() => handleAddToCart(newProduct)}
+               // onClick={() => handleAddToCart(newProduct)}
               >
                 Add To Cart
               </button>
@@ -188,7 +203,7 @@ export default function Offer() {
           </div>
         </div>
         <button
-          className={`absolute right-2 top-80 z-10 outline-none ${
+          className={`absolute right-2 top-80 z-10 outline-none duration-500 ${
             hover ? "opacity-100" : "opacity-0"
           }`}
           onClick={() => goToNextProduct()}

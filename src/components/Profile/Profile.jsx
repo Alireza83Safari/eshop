@@ -13,8 +13,8 @@ export default function Profile() {
   const { datas: userInfo } = useFetch("/is_authenticated", adminAxios);
 
   return (
-    <div className="absolute top-16 dark:bg-black-900 dark:text-white-100 bg-white-100 text-sm px-6 py-4 rounded-xl">
-      <div className="mb-3">
+    <div className="absolute top-16 dark:bg-black-900 dark:text-white-100 bg-white-100 text-sm px-6 py-4 rounded-xl z-10">
+      <div className="mb-3 z-10">
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrT3XAWJ1ibDAoQ7sLZuYTk062ZYlr2JDNzPtmr8savg&usqp=CAU&ec=48665698"
           alt="admin image"
