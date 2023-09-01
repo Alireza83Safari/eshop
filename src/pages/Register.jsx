@@ -62,14 +62,11 @@ export default function Register() {
   return (
     <>
       <Header />
-      <div className="flex items-center justify-center my-12">
+      <div className="flex items-center justify-center my-12 mt-32 mb-10">
         <form className="w-96 p-6 rounded-xl shadow-md bg-white-300 dark:bg-black-900">
           <h2 className="text-2xl font-bold mb-6 text-center dark:text-white-200">
             Register
           </h2>
-          <span className="text-red-700 text-center text-xs">
-            {serverErrors?.password}
-          </span>
 
           <div className="mb-4 mt-6">
             <label
@@ -86,12 +83,13 @@ export default function Register() {
               className="p-2 block w-full rounded-md border shadow-sm outline-none"
               onChange={registerInfosHandler}
               value={registerInfos?.username}
+              onFocus={() => {
+                setErrors("");
+                setServerErrors("");
+              }}
             />
             <span className="text-red-700 text-center text-xs">
-              {errors?.username}
-            </span>
-            <span className="text-red-700 text-center text-xs">
-              {serverErrors?.username}
+              {errors?.username} {serverErrors?.username}
             </span>
           </div>
 
@@ -111,9 +109,13 @@ export default function Register() {
               onChange={registerInfosHandler}
               sameValue={sameValue}
               value={registerInfos?.password}
+              onFocus={() => {
+                setErrors("");
+                setServerErrors("");
+              }}
             />
             <span className=" text-red-700 text-center text-xs">
-              {errors?.password}
+              {errors?.password} {serverErrors?.password}
             </span>
           </div>
           <div className="mb-4 mt-6">
@@ -132,9 +134,13 @@ export default function Register() {
               onChange={registerInfosHandler}
               value={registerInfos?.passwordConfirmation}
               sameValue={sameValue}
+              onFocus={() => {
+                setErrors("");
+                setServerErrors("");
+              }}
             />
             <span className=" text-red-700 text-center text-xs">
-              {errors?.passwordConfirmation}
+              {errors?.passwordConfirmation} {serverErrors?.password}
             </span>
           </div>
           <button
@@ -146,7 +152,7 @@ export default function Register() {
             Register
           </button>
 
-          <div className="mt-6 text-center">
+          <div className="mt-6 text-center dark:text-white-200">
             <Link className="text-xs" to="/login">
               Don't Have an Account? <span>Log In</span>
             </Link>

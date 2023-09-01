@@ -41,18 +41,15 @@ export default function Login() {
     <>
       <Header />
 
-      <section className="flex items-center justify-center my-12">
+      <section className="flex items-center justify-center mt-32 mb-10">
         <form className="w-96 p-6 rounded-xl shadow-md bg-white-300 dark:bg-black-900">
           <h2 className="text-2xl font-bold mb-6 text-center dark:text-white-200">
             Login
           </h2>
-          <span className=" text-red-700 text-center text-xs">
+          <span className="text-red-700 text-center text-xs">
             {serverErrors?.message}
           </span>
-          <br />
-          <span className=" text-red-700 text-center text-xs">
-            {serverErrors?.errors?.password}
-          </span>
+
           <div className="mb-4 mt-6">
             <label
               htmlFor="username"
@@ -70,7 +67,7 @@ export default function Login() {
               value={loginInfos?.username}
             />
             <span className=" text-red-700 text-center text-xs">
-              {errors?.username}
+              {errors?.username} {serverErrors?.errors?.username}
             </span>
           </div>
           <div className="mb-4 mt-6">
@@ -89,7 +86,7 @@ export default function Login() {
               value={loginInfos?.password}
             />
             <span className=" text-red-700 text-center text-xs">
-              {errors?.password}
+              {errors?.password} {serverErrors?.errors?.password}
             </span>
           </div>
           <button
@@ -100,7 +97,7 @@ export default function Login() {
           >
             Login
           </button>
-          <div className="mt-6 text-center text-white-200">
+          <div className="mt-6 text-center dark:text-white-200">
             <Link className="text-xs" to="/register">
               Dont Havent an Account? <span>Sign Up</span>
             </Link>
