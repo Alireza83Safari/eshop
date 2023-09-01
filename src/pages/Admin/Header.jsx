@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { faMoon, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import productsContext from "../../Context/productsContext";
+import productsContext from "../../Context/AuthContext";
 import useFetch from "../../hooks/useFetch";
 import Profile from "../../components/Profile";
 import adminAxios from "../../api/adminInterceptors";
@@ -24,7 +24,7 @@ export default function Header() {
     };
   }, []);
 
-  const { datas: userInfo } = useFetch("/is_authenticated",adminAxios);
+  const { datas: userInfo } = useFetch("/is_authenticated", adminAxios);
 
   return (
     <header className="relative">

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
-import ProductsPanelContext from "./ProductsPanelContext";
+import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import adminAxios from "../../../api/adminInterceptors";
 
 export default function DeleteModal() {

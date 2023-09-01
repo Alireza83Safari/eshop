@@ -12,7 +12,7 @@ import {
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import "./Sidebar.css";
-import productsContext from "../../../Context/productsContext";
+import productsContext from "../../../Context/AuthContext";
 import instance from "../../../api/userInterceptors";
 import adminAxios from "../../../api/adminInterceptors";
 

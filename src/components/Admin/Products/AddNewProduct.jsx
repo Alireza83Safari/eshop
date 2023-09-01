@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import ReactDOM from "react-dom";
-import ProductsPanelContext from "./ProductsPanelContext";
+import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import adminAxios from "../../../api/adminInterceptors";
 import useFetch from "../../../hooks/useFetch";
 import { productFormValidation } from "../../../validators/productFormValidation";

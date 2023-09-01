@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import InfosModal from "./InfosModal";
-import ProductsPanelContext from "./ProductsPanelContext";
+import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import Pagination from "../../Paganation";
 import adminAxios from "../../../api/adminInterceptors";
 

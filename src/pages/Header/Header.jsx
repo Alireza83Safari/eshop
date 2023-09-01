@@ -8,7 +8,7 @@ import {
   faSignIn,
   faSun,
 } from "@fortawesome/free-solid-svg-icons";
-import productsContext from "../../Context/productsContext";
+import productsContext from "../../Context/AuthContext";
 import instance from "../../api/userInterceptors";
 import { Link } from "react-router-dom";
 import Spinner from "../../components/Spinner/Spinner";
@@ -63,7 +63,7 @@ export default function Header() {
               className="text-2xl md:mr-5 dark:text-white-100"
               onClick={() => setShowShopSidebar(!showShopSidebar)}
             />
-            <Link to="/shop">
+            <Link to="/">
               <img
                 src={
                   mode

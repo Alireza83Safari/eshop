@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Navigate, Route, useRoutes } from "react-router-dom";
+import { useRoutes } from "react-router-dom";
 import axios from "axios";
-import ProductsContext from "./Context/productsContext";
 import route from "./routes/routes";
 import "./App.css";
+import AuthContext from "./Context/AuthContext";
 
 function App() {
   const routes = useRoutes(route);
@@ -18,7 +18,6 @@ function App() {
         setUserIsLogin(true);
       }
     });
-    //.catch((err) => console.log(err));
   };
 
   const adminLogin = () => {
@@ -58,7 +57,7 @@ function App() {
 
   return (
     <div className="App max-w-[1400px] mx-auto relative w-full min-w-full">
-      <ProductsContext.Provider
+      <AuthContext.Provider
         value={{
           mode,
           setMode,
@@ -69,7 +68,7 @@ function App() {
         }}
       >
         {routes}
-      </ProductsContext.Provider>
+      </AuthContext.Provider>
     </div>
   );
 }

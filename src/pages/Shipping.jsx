@@ -9,7 +9,7 @@ import { faAngleRight, faLocationPin } from "@fortawesome/free-solid-svg-icons";
 import AllAddress from "../components/Address/AllAddress";
 import AddNewAddress from "../components/Address/AddNewAddress";
 import EditAddress from "../components/Address/EditAddress";
-import { AddressContext } from "../components/Address/AddressContext";
+import { AddressContext } from "../Context/AddressContext";
 import instance from "../api/userInterceptors";
 
 export default function Shipping() {

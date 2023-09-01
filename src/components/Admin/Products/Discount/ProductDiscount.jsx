@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { discountValidation } from "../../../../validators/discountValidation";
 import adminAxios from "../../../../api/adminInterceptors";
 import Spinner from "../../../Spinner/Spinner";
-import ProductsPanelContext from "../ProductsPanelContext";
+import ProductsPanelContext from "../../../../Context/ProductsPanelContext";
 import ProductsTable from "./ProductTable";
 
 export default function ProductDiscount({ setShowProductDiscount }) {

@@ -30,9 +30,7 @@ export default function Login() {
       .post("/login", loginInfos)
       .then((res) => {
         if (res.status === 200) {
-          let token = res.data.token;
-          localStorage.setItem("user", JSON.stringify({ token }));
-          navigate("/shop");
+          navigate("/");
         }
       })
       .catch((err) => {

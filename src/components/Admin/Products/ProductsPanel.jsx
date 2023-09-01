@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPercent, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import "react-toastify/dist/ReactToastify.css";
 import Spinner from "../../Spinner/Spinner";
-import ProductsPanelContext from "./ProductsPanelContext";
+import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import adminAxios from "../../../api/adminInterceptors";
 import Discount from "./Discount/Discount";
 

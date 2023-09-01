@@ -3,7 +3,7 @@ import { discountValidation } from "../../../../validators/discountValidation";
 import UserTable from "./UserTable";
 import adminAxios from "../../../../api/adminInterceptors";
 import Spinner from "../../../Spinner/Spinner";
-import ProductsPanelContext from "../ProductsPanelContext";
+import ProductsPanelContext from "../../../../Context/ProductsPanelContext";
 
 export default function UserDiscount({ setShowUserDiscount }) {
   const { setShowDiscount } = useContext(ProductsPanelContext);

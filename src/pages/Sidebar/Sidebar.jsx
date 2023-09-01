@@ -9,7 +9,7 @@ import {
   faSignOut,
 } from "@fortawesome/free-solid-svg-icons";
 import "./Sidebar.css";
-import productsContext from "../../Context/productsContext";
+import productsContext from "../../Context/AuthContext";
 
 export default function Sidebar() {
   const items = [

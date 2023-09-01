@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import ReactDOM from "react-dom";
-import ProductsPanelContext from "../ProductsPanelContext";
+import ProductsPanelContext from "../../../../Context/ProductsPanelContext";
 import SelectDiscount from "./SelectDiscount";
 import UserDiscount from "./UserDiscount";
 import ProductDiscount from "./ProductDiscount";

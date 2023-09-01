@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import ProductsPanelContext from "./ProductsPanelContext";
+import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import adminAxios from "../../../api/adminInterceptors";
 import { productFormValidation } from "../../../validators/productFormValidation";
 import Spinner from "../../Spinner/Spinner";
