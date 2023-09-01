@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
-import instance from "../../api/userInterceptors";
+import userAxios from "../../services/Axios/userInterceptors"
 import Pagination from "../Paganation";
 
 export default function ProfileComments() {
   const [paginatedComments, setPaginatedComments] = useState([]);
-  const { datas: comments } = useFetch("/comment",instance);
+  const { datas: comments } = useFetch("/comment",userAxios);
   const [currentPage, setCurrentPage] = useState(1);
   let pageSize = 6;
   let totalPage = 1;
@@ -18,7 +18,7 @@ export default function ProfileComments() {
 
   const fetchSearchResults = async () => {
     try {
-      const response = await instance.get(
+      const response = await userAxios.get(
         `/comment?page=${currentPage}&limit=${pageSize}`
       );
       setPaginatedComments(response?.data.data);

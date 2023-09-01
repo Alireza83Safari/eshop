@@ -1,58 +1,71 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import { useForm, Controller } from "react-hook-form";
 import useFetch from "../../../hooks/useFetch";
-import adminAxios from "../../../api/adminInterceptors";
+import adminAxios from "../../../services/Axios/adminInterceptors";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { roleVlidation } from "../../../validators/roleValidation";
 
-export default function AddRoles({ showAddRoles, setShowAddRoles }) {
+export default function AddRoles({ setShowAddRoles, fetchData }) {
   const [selectedPermissions, setSelectedPermissions] = useState([]);
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm();
+  const [errors, setErrors] = useState(null);
+  const [serverErrors, setServerErrors] = useState(null);
+  const [roleInfos, setRoleInfos] = useState({
+    code: "",
+    name: "",
+  });
+
   const { datas: permissionsData } = useFetch("/role/permissions", adminAxios);
+
   const permissionsName =
-    permissionsData?.map((permission) => permission.name) || [];
+    permissionsData?.map((permission) => permission?.name) || [];
 
   const handleSelectAll = () => {
-    const allPermissions = permissionsData.flatMap((permission) =>
-      permission.children.map((child) => child.code)
+    const allPermissions = permissionsData?.flatMap((permission) =>
+      permission.children.map((child) => child?.code)
     );
 
-    if (selectedPermissions.length === allPermissions.length) {
+    if (selectedPermissions?.length === allPermissions?.length) {
       setSelectedPermissions([]);
     } else {
       setSelectedPermissions(allPermissions);
     }
   };
 
-  const editRolesHandler = (data) => {
+  const editRolesHandler = () => {
+    roleVlidation(roleInfos, errors, setErrors);
+
     const newRole = {
-      code: data.code,
+      code: roleInfos?.code,
       isSystem: true,
-      name: data.name,
+      name: roleInfos?.name,
       permissions: selectedPermissions,
     };
+    console.log(newRole);
+    adminAxios
+      .post("/role", newRole)
+      .then((res) => {
+        if (res.status === 200) {
+          setShowAddRoles(false);
+          fetchData();
+        } else {
+          alert("GET ERROR");
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
-    adminAxios.post("/role", newRole).then((res) => {
-      if (res.status === 200) {
-        setShowAddRoles(false);
-      } else {
-        alert("GET ERROR");
-      }
+  const setRoleValue = (event) => {
+    setRoleInfos({
+      ...roleInfos,
+      [event.target.name]: event.target.value,
     });
   };
+
   return ReactDOM.createPortal(
-    <div
-      className={` absolute bg-gray-100  z-10 w-full min-h-screen flex items-center justify-center transition duration-400 ${
-        showAddRoles ? "visible" : "invisible"
-      }`}
-    >
-      <div className="bg-white-100 w-11/12 overflow-auto p-3 h-[40rem] rounded-xl relative">
-        <form onSubmit={handleSubmit(editRolesHandler)}>
+    <div className="absolute bg-gray-100  z-10 w-full min-h-screen flex items-center justify-center transition duration-400">
+      <div className="bg-white-100 w-11/12 overflow-auto p-3 h-[40rem] rounded-xl relative p-4">
+        <form onSubmit={(e) => e.preventDefault()}>
           <div className="flex justify-between">
             <h1 className="mb-8 font-black">Add New Role</h1>
             <div className="mr-5">
@@ -76,53 +89,43 @@ export default function AddRoles({ showAddRoles, setShowAddRoles }) {
               <label htmlFor="name" className="font-bold">
                 Permission Name
               </label>
-              <Controller
+              <input
                 name="name"
-                control={control}
-                defaultValue=""
-                rules={{ required: "Name is required" }}
-                render={({ field }) => (
-                  <input
-                    {...field}
-                    type="text"
-                    id="name"
-                    className="w-full border placeholder:text-sm"
-                    placeholder="Name"
-                  />
-                )}
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
+                value={roleInfos?.name}
+                placeholder="Permission Name"
+                onChange={setRoleValue}
+                onFocus={() => {
+                  setErrors("");
+                  setServerErrors("");
+                }}
               />
-              {errors.name && (
-                <p className="text-red-700 text-xs">{errors.name.message}</p>
-              )}
+
+              <p className="text-red-700 text-xs">{errors?.name}</p>
             </div>
             <div className="py-1">
               <label htmlFor="code" className="font-bold">
                 Permission Code
               </label>
-              <Controller
+              <input
                 name="code"
-                control={control}
-                defaultValue=""
-                rules={{ required: "Code is required" }}
-                render={({ field }) => (
-                  <input
-                    {...field}
-                    type="text"
-                    id="code"
-                    className="w-full border placeholder:text-sm"
-                    placeholder="Code"
-                  />
-                )}
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
+                value={roleInfos?.code}
+                placeholder="Permission Code"
+                onChange={setRoleValue}
+                onFocus={() => {
+                  setErrors("");
+                  setServerErrors("");
+                }}
               />
-              {errors.code && (
-                <p className="text-red-700 text-xs">{errors.code.message}</p>
-              )}
+
+              <p className="text-red-700 text-xs">{errors?.code}</p>
             </div>
           </div>
 
           <div className="mt-1 grid grid-cols-2">
             {permissionsName.map((category, index) => (
-              <div key={index} className="border">
+              <div key={index} className="border rounded-lg">
                 <p className="p-2">{category}</p>
                 <ul className="text-xs grid grid-cols-2 gap-2 p-4">
                   {permissionsData.map(
@@ -168,6 +171,7 @@ export default function AddRoles({ showAddRoles, setShowAddRoles }) {
           <button
             type="submit"
             className="bg-blue-600 text-white-100 m-2 px-6 py-1"
+            onClick={editRolesHandler}
           >
             Submit
           </button>

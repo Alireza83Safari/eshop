@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import instance from "../../api/userInterceptors";
+import userAxios from "../../services/Axios/userInterceptors"
 import { addressValidation } from "../../validators/addressValidation";
 import { Spinner } from "flowbite-react";
 
@@ -27,7 +27,7 @@ export default function AddNewAddress({
     addressValidation(addressInfos, errors, setErrors);
     setIsLoadnig(true);
 
-    instance
+    userAxios
       .post("/address", addressInfos)
       .then((res) => {
         if (res.status === 200) {

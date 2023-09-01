@@ -1,5 +1,5 @@
 import { useState } from "react";
-import instance from "../api/userInterceptors";
+import userAxios from "./../services/Axios/userInterceptors"
 const usePost = () => {
   const [postData, setPostData] = useState(null);
   const [postIsloading, setPostLoading] = useState(false);
@@ -11,7 +11,7 @@ const usePost = () => {
     setPostError(null);
 
     try {
-      const response = await instance.post(url, bodyData, {
+      const response = await userAxios.post(url, bodyData, {
         headers: {
           ...headers,
         },

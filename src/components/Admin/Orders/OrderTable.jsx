@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Pagination from "../../Paganation";
-import adminAxios from "../../../api/adminInterceptors";
+import adminAxios from "../../../services/Axios/adminInterceptors"
 
 export default function OrderTable() {
   const [paginatedTransactions, setPaginatedTransactions] = useState([]);

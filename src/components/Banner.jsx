@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import instance from "../api/userInterceptors";
+import userAxios from "./../services/Axios/userInterceptors"
 
 export default function Banner() {
   const [banner, setBanner] = useState([]);
@@ -11,7 +11,7 @@ export default function Banner() {
   useEffect(() => {
     const fetchBanner = async () => {
       try {
-        const responst = await instance.get("/appPic");
+        const responst = await userAxios.get("/appPic");
         setBanner(responst?.data);
       } catch (error) {}
     };

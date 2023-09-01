@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import adminAxios from "../../../api/adminInterceptors";
+import adminAxios from "../../../services/Axios/adminInterceptors"
 
 export default function Transactions() {
   const [sales, setSales] = useState([]);

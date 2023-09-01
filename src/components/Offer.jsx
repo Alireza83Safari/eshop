@@ -6,8 +6,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import useFetch from "../hooks/useFetch";
-import instance from "../api/userInterceptors";
+import userAxios from "./../services/Axios/userInterceptors"
 
 export default function Offer() {
   const [count, setCount] = useState(1);
@@ -18,7 +17,7 @@ export default function Offer() {
   useEffect(() => {
     const fetchBanner = async () => {
       try {
-        const responst = await instance.get("/product");
+        const responst = await userAxios.get("/product");
         setProducts(responst?.data?.data);
       } catch (error) {}
     };
@@ -52,7 +51,7 @@ export default function Offer() {
       quantity: 1,
     };
 
-    instance.post("/orderItem", productData).then((res) => {
+    userAxios.post("/orderItem", productData).then((res) => {
       if (res.status === 200) {
         toast.success(`${productID.name} added to cart!`, {
           position: "bottom-right",
@@ -82,7 +81,7 @@ export default function Offer() {
   const [hover, setHover] = useState(false);
 
   useEffect(() => {
-    instance
+    userAxios
       .get(`/productItem/${getProducts[currentProductIndex]?.itemId}`)
       .then((res) => setProductItem(res?.data));
     // console.log(datas);

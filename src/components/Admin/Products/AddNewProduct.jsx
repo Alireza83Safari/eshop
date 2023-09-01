@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import ReactDOM from "react-dom";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
-import adminAxios from "../../../api/adminInterceptors";
+import adminAxios from "../../../services/Axios/adminInterceptors";
 import useFetch from "../../../hooks/useFetch";
 import { productFormValidation } from "../../../validators/productFormValidation";
 import Spinner from "../../Spinner/Spinner";
@@ -24,6 +24,7 @@ export default function AddNewProduct() {
     shortDescription: "",
   });
   const [errors, setErrors] = useState(null);
+  const [serverErrors, setServerErrors] = useState(null);
   const [isLoading, setLoading] = useState(false);
 
   const addNewProducts = async (data) => {
@@ -43,7 +44,7 @@ export default function AddNewProduct() {
         setErrors("Code Is Taken");
       }
     } catch (error) {
-      console.error("Error deleting the product:", error.message);
+      setServerErrors(error?.response?.data?.errors);
       setLoading(false);
     }
   };
@@ -82,8 +83,15 @@ export default function AddNewProduct() {
                 name="name"
                 onChange={setProductInfos}
                 value={productInfo?.name}
+                onFocus={() => {
+                  setErrors("");
+                  setServerErrors("");
+                }}
               />
-              <p className="text-sm text-red-700">{errors?.name}</p>
+              <p className="text-sm text-red-700">
+                {errors?.name}
+                {serverErrors?.name}
+              </p>
               <div className="flex">
                 <div className="w-1/2 pr-2">
                   <span className="font-medium text-gray-800">Code</span>
@@ -94,6 +102,10 @@ export default function AddNewProduct() {
                     name="code"
                     onChange={setProductInfos}
                     value={productInfo?.code}
+                    onFocus={() => {
+                      setErrors("");
+                      setServerErrors("");
+                    }}
                   />
                   <p className="text-sm text-red-700">{errors?.code}</p>
                 </div>
@@ -106,13 +118,20 @@ export default function AddNewProduct() {
                     className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
                     onChange={setProductInfos}
                     value={productInfo?.brandId}
+                    onFocus={() => {
+                      setErrors("");
+                      setServerErrors("");
+                    }}
                   >
                     <option value="">Select Brand</option>
                     {brands?.data.map((brand) => (
                       <option value={brand.id}>{brand.name}</option>
                     ))}
                   </select>
-                  <p className="text-sm text-red-700">{errors?.brandId}</p>
+                  <p className="text-sm text-red-700">
+                    {errors?.brandId}
+                    {serverErrors?.brandId}
+                  </p>
                 </div>
               </div>
               <div className="">
@@ -124,6 +143,10 @@ export default function AddNewProduct() {
                   className="border py-2 px-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
                   onChange={setProductInfos}
                   value={productInfo?.categoryId}
+                  onFocus={() => {
+                    setErrors("");
+                    setServerErrors("");
+                  }}
                 >
                   <option value="">Select Category</option>
                   {category?.data.map((cate) => (
@@ -132,7 +155,10 @@ export default function AddNewProduct() {
                     </option>
                   ))}
                 </select>
-                <p className="text-sm text-red-700">{errors?.categoryId}</p>
+                <p className="text-sm text-red-700">
+                  {errors?.categoryId}
+                  {serverErrors?.categoryId}
+                </p>
               </div>
               <span className="font-medium text-gray-800">
                 Short Description
@@ -144,8 +170,15 @@ export default function AddNewProduct() {
                 name="shortDescription"
                 onChange={setProductInfos}
                 value={productInfo?.shortDescription}
+                onFocus={() => {
+                  setErrors("");
+                  setServerErrors("");
+                }}
               />
-              <p className="text-sm text-red-700">{errors?.shortDescription}</p>
+              <p className="text-sm text-red-700">
+                {errors?.shortDescription}
+                {serverErrors?.shortDescription}
+              </p>
               <span className="font-medium text-gray-800">Decription</span>
               <input
                 type="text"
@@ -154,8 +187,15 @@ export default function AddNewProduct() {
                 name="description"
                 onChange={setProductInfos}
                 value={productInfo?.description}
+                onFocus={() => {
+                  setErrors("");
+                  setServerErrors("");
+                }}
               />
-              <p className="text-sm text-red-700">{errors?.description}</p>
+              <p className="text-sm text-red-700">
+                {errors?.description}
+                {serverErrors?.description}
+              </p>
             </div>
 
             <div className="flex justify-center mt-8">

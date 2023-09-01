@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import useFetch from "../../../hooks/useFetch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
-import adminAxios from "../../../api/adminInterceptors";
+import adminAxios from "../../../services/Axios/adminInterceptors";
 import EditRole from "./EditRole";
 import AddRoles from "./AddRoles";
 import PermissionInfo from "./PermissionInfo";
@@ -91,17 +91,22 @@ export default function RolesPanel() {
         </table>
       </div>
 
-      <AddRoles showAddRoles={showAddRoles} setShowAddRoles={setShowAddRoles} />
-      <EditRole
-        showEditRoles={showEditRoles}
-        setShowEditRoles={setShowEditRoles}
-        editRoleId={editRoleId}
-      />
-      <PermissionInfo
-        setShowPermissionInfo={setShowPermissionInfo}
-        showPermissionInfo={showPermissionInfo}
-        permissionInfo={permissionInfo}
-      />
+      {showAddRoles && (
+        <AddRoles
+          showAddRoles={showAddRoles}
+          setShowAddRoles={setShowAddRoles}
+          fetchData={fetchData}
+        />
+      )}
+      {showEditRoles && (
+        <EditRole setShowEditRoles={setShowEditRoles} editRoleId={editRoleId} />
+      )}
+      {showPermissionInfo && (
+        <PermissionInfo
+          setShowPermissionInfo={setShowPermissionInfo}
+          permissionInfo={permissionInfo}
+        />
+      )}
     </section>
   );
 }

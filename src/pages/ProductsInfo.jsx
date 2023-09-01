@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import Header from "./Header/Header";
 import Footer from "./Footer";
 import useFetch from "../hooks/useFetch";
-import instance from "../api/userInterceptors";
+import userAxios from "./../services/Axios/userInterceptors"
 import ProductFeature from "../components/ProductInfo/ProductFeature";
 import ProductContent from "../components/ProductInfo/ProductContent";
 import Breadcrumb from "../components/Breadcrumb";
@@ -14,13 +14,13 @@ import Comments from "../components/ProductInfo/Comments";
 export default function ProductsInfo() {
   const { productID } = useParams();
   const [activeTab, setActiveTab] = useState("description");
-  const { datas: productsData } = useFetch("/product", instance);
+  const { datas: productsData } = useFetch("/product", userAxios);
   const findProduct = productsData?.data.find(
     (product) => product.id == productID
   );
   const { datas: productItem } = useFetch(
     `/productItem/${findProduct?.itemId}`,
-    instance
+    userAxios
   );
   return (
     <>

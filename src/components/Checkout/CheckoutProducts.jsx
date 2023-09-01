@@ -2,7 +2,7 @@ import React, { Suspense, lazy } from "react";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Spinner from "../Spinner/Spinner";
-import instance from "../../api/userInterceptors";
+import userAxios from "../../services/Axios/userInterceptors";
 
 const ProductTemplate = lazy(() => import("./ProductTemplate"));
 const CheckoutEmpty = lazy(() => import("./CheckoutEmpty"));
@@ -18,9 +18,7 @@ export default function CheckoutProducts({ orders, fetchData }) {
 
   const removeProductHandler = async (id) => {
     try {
-      const response = await instance.post(
-        `/orderItem/delete/${id}`
-      );
+      const response = await userAxios.post(`/orderItem/delete/${id}`);
       if (response.status === 200) {
         fetchData();
       }
@@ -34,10 +32,7 @@ export default function CheckoutProducts({ orders, fetchData }) {
       orders?.items.find((order) => order.id == id).quantity + 1;
     let productData = { productItemId: itemId, quantity: newQuantity };
     try {
-      const response = await instance.post(
-        "/orderItem",
-        productData
-      );
+      const response = await userAxios.post("/orderItem", productData);
       if (response.status === 200) {
         fetchData();
       }
@@ -51,10 +46,7 @@ export default function CheckoutProducts({ orders, fetchData }) {
       orders?.items.find((order) => order.id == id).quantity - 1;
     let productData = { productItemId: itemId, quantity: newQuantity };
     try {
-      const response = await instance.post(
-        "/orderItem",
-        productData
-      );
+      const response = await userAxios.post("/orderItem", productData);
 
       if (response.status === 200) {
         fetchData();

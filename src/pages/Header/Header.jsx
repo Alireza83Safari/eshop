@@ -8,30 +8,30 @@ import {
   faSignIn,
   faSun,
 } from "@fortawesome/free-solid-svg-icons";
-import productsContext from "../../Context/AuthContext";
-import instance from "../../api/userInterceptors";
+import userAxios from "../../services/Axios/userInterceptors";
 import { Link } from "react-router-dom";
 import Spinner from "../../components/Spinner/Spinner";
+import AuthContext from "../../Context/AuthContext";
 
 const Profile = lazy(() => import("../../components/Profile"));
 
 export default function Header() {
   const { mode, setMode, showShopSidebar, setShowShopSidebar, userIsLogin } =
-    useContext(productsContext);
+    useContext(AuthContext);
   const [orders, setOrders] = useState(0);
   const [userInfos, setUserInfos] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   const ordersData = async () => {
     try {
-      const response = await instance.get("/order");
+      const response = await userAxios.get("/order");
       setOrders(response.data.items.length);
     } catch (error) {}
   };
 
   const fetcUserInfos = async () => {
     try {
-      const response = await instance.get("/is_authenticated");
+      const response = await userAxios.get("/is_authenticated");
       setUserInfos(response?.data);
     } catch (error) {}
   };

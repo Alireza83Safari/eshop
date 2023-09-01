@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
-import adminAxios from "../../../api/adminInterceptors";
+import adminAxios from "../../../services/Axios/adminInterceptors"
 
 export default function DeleteModal() {
   const cancelDeleteHandler = () => {

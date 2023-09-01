@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "./Header/Header";
 import Footer from "./Footer";
-import instance from "../api/userInterceptors";
+import userAxios from "./../services/Axios/userInterceptors"
 import { loginValidation } from "../validators/loginValidation";
 
 export default function Login() {
@@ -26,7 +26,7 @@ export default function Login() {
     event.preventDefault();
     loginValidation(loginInfos, errors, setErrors);
 
-    instance
+    userAxios
       .post("/login", loginInfos)
       .then((res) => {
         if (res.status === 200) {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BarChartComponent from "../Charts/BarChart";
-import adminAxios from "../../../api/adminInterceptors";
+import adminAxios from "../../../services/Axios/adminInterceptors"
 
 const dataTypeMapping = {
   hour: "Hour",

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, lazy, Suspense } from "react";
 import Spinner from "../../components/Spinner/Spinner";
-import adminAxios from "../../api/adminInterceptors";
+import adminAxios from "../../services/Axios/adminInterceptors";
 
 const PiesChart = lazy(() => import("../../components/Admin/Charts/PieChart"));
 const OrderTable = lazy(() =>

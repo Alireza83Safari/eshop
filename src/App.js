@@ -4,7 +4,7 @@ import axios from "axios";
 import route from "./routes/routes";
 import "./App.css";
 import AuthContext from "./Context/AuthContext";
-import instance from "./api/userInterceptors";
+import userAxios from "./services/Axios/userInterceptors";
 
 function App() {
   const routes = useRoutes(route);
@@ -14,7 +14,7 @@ function App() {
   const [showShopSidebar, setShowShopSidebar] = useState(false);
 
   const userLogin = () => {
-    instance.get("/is_authenticated").then((res) => {
+    userAxios.get("/is_authenticated").then((res) => {
       if (res.status === 200) {
         setUserIsLogin(true);
       }

@@ -12,9 +12,8 @@ import {
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import "./Sidebar.css";
-import productsContext from "../../../Context/AuthContext";
-import instance from "../../../api/userInterceptors";
-import adminAxios from "../../../api/adminInterceptors";
+import AuthContext from "../../../Context/AuthContext";
+import adminAxios from "../../../services/Axios/adminInterceptors";
 
 export default function Sidebar() {
   const items = [
@@ -28,9 +27,8 @@ export default function Sidebar() {
 
   const location = useLocation().pathname;
   const pathNames = location.substring(location.lastIndexOf("/") + 1);
-  console.log(pathNames);
   const [activeId, setActiveId] = useState(pathNames || "dashboard");
-  const { mode } = useContext(productsContext);
+  const { mode } = useContext(AuthContext);
 
   useEffect(() => {
     setActiveId(pathNames);

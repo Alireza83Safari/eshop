@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import instance from "../../api/userInterceptors";
+import userAxios from "../../services/Axios/userInterceptors";
 import { ToastContainer, toast } from "react-toastify";
 
 export default function ProductContent({ findProduct, productItem }) {
@@ -12,7 +12,7 @@ export default function ProductContent({ findProduct, productItem }) {
       quantity: 1,
     };
 
-    instance.post("/orderItem", productData).then((res) => {
+    userAxios.post("/orderItem", productData).then((res) => {
       if (res.status === 200) {
         toast.success(`${findProduct.name} added to favorite!`, {
           position: "bottom-right",
@@ -31,7 +31,7 @@ export default function ProductContent({ findProduct, productItem }) {
       productItemId: itemID,
     };
 
-    instance
+    userAxios
       .post("/favoriteProductItem", productData)
       .then((res) => {
         if (res.status === 200) {

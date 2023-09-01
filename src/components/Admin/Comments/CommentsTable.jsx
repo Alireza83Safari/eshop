@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "../../Paganation";
 import { useLocation, useNavigate } from "react-router-dom";
-import adminAxios from "../../../api/adminInterceptors";
+import adminAxios from "../../../services/Axios/adminInterceptors"
 
 export default function CommentsTable({ comments, fetchDatas }) {
   const location = useLocation();

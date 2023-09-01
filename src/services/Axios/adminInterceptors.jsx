@@ -4,7 +4,7 @@ const adminAxios = axios.create({
   baseURL: "/api/v1/admin/",
   withCredentials: true,
 });
-axios.interceptors.request.use(
+adminAxios.interceptors.request.use(
   function (config) {
     return config;
   },

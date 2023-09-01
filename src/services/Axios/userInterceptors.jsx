@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const instance = axios.create({
+const userAxios = axios.create({
   baseURL: "/api/v1/user/",
   withCredentials: true,
 });
-axios.interceptors.request.use(
+userAxios.interceptors.request.use(
   function (config) {
     return config;
   },
@@ -13,7 +13,7 @@ axios.interceptors.request.use(
   }
 );
 
-instance.interceptors.response.use(
+userAxios.interceptors.response.use(
   function (response) {
     return response;
   },
@@ -23,7 +23,6 @@ instance.interceptors.response.use(
       error?.response?.request?.responseURL !==
         "http://localhost:3000/api/v1/user/is_authenticated"
     ) {
- 
       document.location.href = "/login";
     }
     if (error.response.status === 403) {
@@ -33,4 +32,4 @@ instance.interceptors.response.use(
   }
 );
 
-export default instance;
+export default userAxios;

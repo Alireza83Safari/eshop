@@ -1,7 +1,7 @@
 import React from "react";
 import ProgressBar from "../ProgressBar";
 import useFetch from "../../../hooks/useFetch";
-import adminAxios from "../../../api/adminInterceptors";
+import adminAxios from "../../../services/Axios/adminInterceptors"
 
 export default function Departments() {
   const { datas: infos } = useFetch("/report/revenueByCategory", adminAxios);

@@ -8,12 +8,12 @@ import useFetch from "../hooks/useFetch";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import instance from "../api/userInterceptors";
+import userAxios from "./../services/Axios/userInterceptors"
 
 export default function Promotion() {
   const { datas: productsData } = useFetch(
     "/product?onlyDiscount=true",
-    instance
+    userAxios
   );
 
   const handleAddToCart = (productID) => {
@@ -21,7 +21,7 @@ export default function Promotion() {
       productItemId: productID.itemId,
       quantity: 1,
     };
-    instance.post("/orderItem", productData).then((res) => {
+    userAxios.post("/orderItem", productData).then((res) => {
       if (res.status === 200) {
         toast.success(`${productID.name} added to cart!`, {
           position: "bottom-right",

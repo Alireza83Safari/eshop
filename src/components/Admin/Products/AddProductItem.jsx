@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import useFetch from "../../../hooks/useFetch";
 import Spinner from "../../Spinner/Spinner";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
-import adminAxios from "../../../api/adminInterceptors";
+import adminAxios from "../../../services/Axios/adminInterceptors"
 import { itemValidation } from "../../../validators/itemValidation";
 
 export default function AddProductItem({}) {
@@ -13,6 +13,7 @@ export default function AddProductItem({}) {
     setShowProductItem,
     newProductId,
     showProductItem,
+    setShowProductFeature
   } = useContext(ProductsPanelContext);
 
   const [errors, setErrors] = useState();
@@ -48,7 +49,7 @@ export default function AddProductItem({}) {
       setIsLoading(false);
       if (response.status === 200) {
         setShowProductItem(false);
-        setShowFile(true);
+        setShowProductFeature(true)
         fetchProductList();
       }
     } catch (error) {

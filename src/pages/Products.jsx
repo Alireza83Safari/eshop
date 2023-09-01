@@ -5,7 +5,7 @@ import useFetch from "../hooks/useFetch";
 import Header from "./Header/Header";
 import Footer from "./Footer";
 import Pagination from "../components/Paganation";
-import instance from "../api/userInterceptors";
+import userAxios from "./../services/Axios/userInterceptors"
 import { useLocation } from "react-router-dom";
 const ProductsTemplate = lazy(() => import("../components/ProductsTemplate"));
 const FilterProducts = lazy(() => import("../components/FilterProducts"));
@@ -23,11 +23,11 @@ export default function Products() {
   let totalPage = Math.ceil(getProducts?.length / pageSize || 1);
   pageNumber = Array.from(Array(totalPage).keys());
 
-  const { datas: productsData, isLoading } = useFetch("/product",instance);
+  const { datas: productsData, isLoading } = useFetch("/product",userAxios);
 
   const fetchSearchResults = async () => {
     try {
-      const response = await instance.get(
+      const response = await userAxios.get(
         `/product?page=${currentPage}&limit=${pageSize}`
       );
     } catch (error) {
@@ -37,7 +37,7 @@ export default function Products() {
 
   const filterProductHandler = () => {
     let url = location.search;
-    instance
+    userAxios
       .get(`/product${url}`)
       .then((res) => setFilterProduct(res?.data));
   };

@@ -4,13 +4,14 @@ import { faPercent, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import "react-toastify/dist/ReactToastify.css";
 import Spinner from "../../Spinner/Spinner";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
-import adminAxios from "../../../api/adminInterceptors";
+import adminAxios from "../../../services/Axios/adminInterceptors"
 import Discount from "./Discount/Discount";
 
 const Departments = lazy(() => import("./Departments"));
 const PiesChart = lazy(() => import("../Charts/PieChart"));
 const ProductsTable = lazy(() => import("./ProductsTable"));
 const AddNewProduct = lazy(() => import("./AddNewProduct"));
+const AddProductFeature = lazy(() => import("./AddProductFeature"));
 const DeleteModal = lazy(() => import("./DeleteModal"));
 const AddProductItem = lazy(() => import("./AddProductItem"));
 const AddProductFile = lazy(() => import("./AddProductFile"));
@@ -23,6 +24,7 @@ export default function ProductsPanel() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [showProductItem, setShowProductItem] = useState(false);
+  const [showProductFeature, setShowProductFeature] = useState(false);
   const [productEditId, setProductEditId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showFile, setShowFile] = useState(false);
@@ -62,6 +64,7 @@ export default function ProductsPanel() {
         newProductId,
         fetchProductList,
         showDiscount,
+        setShowProductFeature,
         setShowDiscount,
       }}
     >
@@ -127,6 +130,7 @@ export default function ProductsPanel() {
         <Suspense fallback={<Spinner />}>
           {showAddProduct && <AddNewProduct />}
           {showProductItem && <AddProductItem />}
+          {showProductFeature && <AddProductFeature />}
           {showFile && <AddProductFile />}
           <Discount />
           <DeleteModal />

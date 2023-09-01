@@ -3,7 +3,7 @@ import Pagination from "../../Paganation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import EditUser from "./EditUser";
-import adminAxios from "../../../api/adminInterceptors";
+import adminAxios from "../../../services/Axios/adminInterceptors";
 
 export default function UsersTable() {
   const [showEditUser, setShowEditUser] = useState(false);

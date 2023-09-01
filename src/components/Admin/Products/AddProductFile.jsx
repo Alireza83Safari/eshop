@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import Spinner from "../../Spinner/Spinner";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
-import instance from "../../../api/userInterceptors";
+import userAxios from "../../../services/Axios/userInterceptors"
 
 export default function AddProductFile() {
   const {
@@ -21,7 +21,7 @@ export default function AddProductFile() {
     setIsLoading(true);
 
     try {
-      const response = await instance.post(
+      const response = await userAxios.post(
         `/file/uploadImage/${newProductId}/1`,
         formData
       );

@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
-import instance from "../../api/userInterceptors";
+import userAxios from "../../services/Axios/userInterceptors"
 
 export default function ProfileFavorite() {
   const [favoriteProducts, setFavoriteProducts] = useState([]);
 
   const getFavoriteProducts = async () => {
     try {
-      const response = await instance.get(`/profile/favoriteProducts`);
+      const response = await userAxios.get(`/profile/favoriteProducts`);
       setFavoriteProducts(response?.data);
     } catch (error) {
       console.log("Error fetching search results:", error);
@@ -22,7 +22,7 @@ export default function ProfileFavorite() {
 
   const deleteFavorite = async (ID) => {
     try {
-      const response = await instance.post(`/favoriteProductItem/delete/${ID}`);
+      const response = await userAxios.post(`/favoriteProductItem/delete/${ID}`);
       setFavoriteProducts(response?.data);
       if (response.status === 200) {
         getFavoriteProducts();
@@ -41,7 +41,7 @@ export default function ProfileFavorite() {
       quantity: 1,
     };
     try {
-      const response = await instance.post("/orderItem", productData);
+      const response = await userAxios.post("/orderItem", productData);
       setFavoriteProducts(response?.data);
       if (response.status === 200) {
         toast.success(`added to cart!`, {

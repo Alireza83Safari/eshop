@@ -4,15 +4,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 export default function PermissionInfo({
   setShowPermissionInfo,
-  showPermissionInfo,
   permissionInfo,
 }) {
   return ReactDOM.createPortal(
-    <div
-      className={` fixed bg-gray-100 z-10 w-full min-h-screen flex items-center justify-center transition  duration-400 ${
-        showPermissionInfo ? "visible" : "invisible"
-      }`}
-    >
+    <div className="fixed bg-gray-100 z-10 w-full min-h-screen flex items-center justify-center transition duration-400">
       <div className="bg-white-100 w-1/3 overflow-scroll p-3 h-[30rem] relative">
         <button
           className="absolute top-2 right-2 text-red-700"

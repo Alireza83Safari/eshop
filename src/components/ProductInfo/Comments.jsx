@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import CommentsTemplate from "./CommentsTemplate";
 import AddComment from "./AddComment";
-import instance from "../../api/userInterceptors";
+import userAxios from "../../services/Axios/userInterceptors";
 
 export default function Comments() {
   const { productID } = useParams();
@@ -11,7 +11,7 @@ export default function Comments() {
 
   const fetchComments = async () => {
     try {
-      const response = await instance.get(`/comment/product/${productID}`);
+      const response = await userAxios.get(`/comment/product/${productID}`);
 
       if (response.status === 200) {
         setComments(response?.data.data);

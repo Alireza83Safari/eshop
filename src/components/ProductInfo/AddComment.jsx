@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
-import instance from "../../api/userInterceptors";
+import userAxios from "../../services/Axios/userInterceptors";
 
 export default function AddComment({ fetchComments }) {
   const [strengths, setStrengths] = useState([]);
@@ -49,7 +49,7 @@ export default function AddComment({ fetchComments }) {
     };
 
     try {
-      await instance.post("/comment", commentObj);
+      await userAxios.post("/comment", commentObj);
       fetchComments();
       setRate(null);
       setCommentValue("");
@@ -190,9 +190,7 @@ export default function AddComment({ fetchComments }) {
 
       <button
         className={` bg-blue-500 text-white font-semibold py-2 px-4 mt-4 rounded-md focus:outline-none ${
-          isCommentEmpty
-            ? "bg-gray-200 cursor-not-allowed"
-            : "bg-blue-600"
+          isCommentEmpty ? "bg-gray-200 cursor-not-allowed" : "bg-blue-600"
         }`}
         onClick={addCommentHandler}
         disabled={isCommentEmpty}

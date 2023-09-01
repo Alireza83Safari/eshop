@@ -1,10 +1,10 @@
 import React from "react";
 import useFetch from "../hooks/useFetch";
-import instance from "../api/userInterceptors";
+import userAxios from "./../services/Axios/userInterceptors"
 import { Swiper, SwiperSlide } from "swiper/react";
 
 export default function PopularBrand() {
-  const { datas: brand } = useFetch("/brand", instance);
+  const { datas: brand } = useFetch("/brand", userAxios);
 
   return (
     <section className="md:px-5 mt-40 text-black-900 dark:text-white-100">

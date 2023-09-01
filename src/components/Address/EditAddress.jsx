@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import instance from "../../api/userInterceptors";
+import userAxios from "../../services/Axios/userInterceptors"
 import { addressValidation } from "../../validators/addressValidation";
 import { Spinner } from "flowbite-react";
 
@@ -27,7 +27,7 @@ export default function EditAddress({
     const fetchData = async () => {
       setLoading(true);
       try {
-        instance.get(`/address/${editAddressId}`).then((infos) => {
+        userAxios.get(`/address/${editAddressId}`).then((infos) => {
           setAddressInfos({
             ...addressInfos,
             address: infos?.data.address,
@@ -58,7 +58,7 @@ export default function EditAddress({
     addressValidation(addressInfos, errors, setErrors);
 
     try {
-      const res = await instance.post(
+      const res = await userAxios.post(
         `/address/edit/${editAddressId}`,
         addressInfos
       );

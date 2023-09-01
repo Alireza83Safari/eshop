@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import productsContext from "../../Context/AuthContext";
 import useFetch from "../../hooks/useFetch";
 import Profile from "../../components/Profile";
-import adminAxios from "../../api/adminInterceptors";
+import adminAxios from "../../services/Axios/adminInterceptors";
 export default function Header() {
   const [onScrollHeader, setOnScrollHeader] = useState(false);
   const { mode, setMode } = useContext(productsContext);

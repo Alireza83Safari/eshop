@@ -10,7 +10,7 @@ import AllAddress from "../components/Address/AllAddress";
 import AddNewAddress from "../components/Address/AddNewAddress";
 import EditAddress from "../components/Address/EditAddress";
 import { AddressContext } from "../Context/AddressContext";
-import instance from "../api/userInterceptors";
+import userAxios from "./../services/Axios/userInterceptors"
 
 export default function Shipping() {
   const [showAddAddress, setShowAddAddress] = useState(false);
@@ -20,11 +20,11 @@ export default function Shipping() {
   const [error500, setError500] = useState(false);
   const navigate = useNavigate();
   const { datas: userAddress, fetchData: fetchAddress } = useFetch(
-    "/address",instance
+    "/address",userAxios
   );
   const [orders, setOrders] = useState([]);
 
-  const { datas: getOrders } = useFetch("/order",instance);
+  const { datas: getOrders } = useFetch("/order",userAxios);
   useEffect(() => {
     if (getOrders && getOrders.items) {
       setOrders(getOrders.items);

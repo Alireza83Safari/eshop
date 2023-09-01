@@ -2,15 +2,11 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
 import useFetch from "../../../hooks/useFetch";
-import adminAxios from "../../../api/adminInterceptors";
+import adminAxios from "../../../services/Axios/adminInterceptors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 
-export default function EditRole({
-  showEditRoles,
-  setShowEditRoles,
-  editRoleId,
-}) {
+export default function EditRole({ setShowEditRoles, editRoleId }) {
   const [selectedPermissions, setSelectedPermissions] = useState([]);
   const [editRoleData, setEditRoleData] = useState(null);
   const { datas: permissionsData } = useFetch("/role/permissions", adminAxios);
@@ -25,10 +21,10 @@ export default function EditRole({
       console.error("Error deleting the product:", error.message);
     }
   };
-  useEffect(()=>{
-    getEditRolaData()
-  },[editRoleId])
-  
+  useEffect(() => {
+    getEditRolaData();
+  }, [editRoleId]);
+
   const { handleSubmit, register } = useForm();
 
   const permissionsName =
@@ -65,11 +61,7 @@ export default function EditRole({
       .catch((err) => console.log(err));
   };
   return ReactDOM.createPortal(
-    <div
-      className={` absolute bg-gray-100  z-10 w-full min-h-screen flex items-center justify-center transition duration-400 ${
-        showEditRoles ? "visible" : "invisible"
-      }`}
-    >
+    <div className="absolute bg-gray-100  z-10 w-full min-h-screen flex items-center justify-center transition duration-400">
       <div className="bg-white-100 w-11/12 overflow-auto p-3 h-[40rem] rounded-xl">
         <form onSubmit={handleSubmit(handleSubmitNewRole)}>
           <div className="flex justify-between mb-4">

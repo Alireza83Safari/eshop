@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useFetch from "../../../../hooks/useFetch";
-import adminAxios from "../../../../api/adminInterceptors";
+import adminAxios from "../../../../services/Axios/adminInterceptors";
 import { useLocation } from "react-router-dom";
 import Pagination from "../../../Paganation";
 import Spinner from "../../../Spinner/Spinner";
