@@ -23,8 +23,6 @@ export default function Register() {
   });
 
   const registerInfosHandler = (event) => {
-    registerValidation(registerInfos, errors, setErrors);
-
     setRegisterInfos({
       ...registerInfos,
       [event.target.name]: event.target.value,
@@ -36,8 +34,7 @@ export default function Register() {
   }, [registerInfos.password, registerInfos.passwordConfirmation]);
 
   const sendUserData = async (event) => {
-    event.preventDefault();
-
+    registerValidation(registerInfos, errors, setErrors);
     if (registerInfos.password !== registerInfos.passwordConfirmation) {
       setSameValue(false);
       return;
@@ -55,15 +52,15 @@ export default function Register() {
       });
     }
   };
-  const hasErrors = (errorObj) => {
-    return Object.values(errorObj).some((error) => error !== "");
-  };
 
   return (
     <>
       <Header />
       <div className="flex items-center justify-center my-12 mt-32 mb-10">
-        <form className="w-96 p-6 rounded-xl shadow-md bg-white-300 dark:bg-black-900">
+        <form
+          className="w-96 p-6 rounded-xl shadow-md bg-white-300 dark:bg-black-900"
+          onSubmit={(e) => e.preventDefault()}
+        >
           <h2 className="text-2xl font-bold mb-6 text-center dark:text-white-200">
             Register
           </h2>
@@ -146,7 +143,6 @@ export default function Register() {
           <button
             type="click"
             onClick={sendUserData}
-            disabled={hasErrors(errors) || !sameValue}
             className="w-full mt-8 py-2 px-4 bg-blue-600 hover:bg-blue-700 duration-300 text-white-100 rounded-lg disabled:bg-gray-200"
           >
             Register

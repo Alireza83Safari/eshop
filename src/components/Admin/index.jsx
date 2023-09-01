@@ -1,18 +1,21 @@
-import React from "react";
-import { Outlet, useRoutes } from "react-router-dom";
+import React, { useContext } from "react";
+import { Outlet } from "react-router-dom";
 import Sidebar from "../../pages/Admin/Sidebar/Sidebar";
-import route from "../../routes/routes";
 import Header from "../../pages/Admin/Header";
+import AuthContext from "../../Context/AuthContext";
 
 export default function Index() {
-  const routes = useRoutes(route);
+  const { adminIsLogin } = useContext(AuthContext);
 
   return (
     <>
-      <Header />
-
-      <Outlet />
-      <Sidebar />
+      {adminIsLogin && (
+        <>
+          <Header />
+          <Outlet />
+          <Sidebar />
+        </>
+      )}
     </>
   );
 }

@@ -15,14 +15,16 @@ axios.interceptors.request.use(
 
 instance.interceptors.response.use(
   function (response) {
-    //console.log(response);
     return response;
   },
   function (error) {
-    //console.log("response", error.request.responseURL);
-    if (error.response.status === 401) {
+    if (
+      error.response.status === 401 &&
+      error?.response?.request?.responseURL !==
+        "http://localhost:3000/api/v1/user/is_authenticated"
+    ) {
+ 
       document.location.href = "/login";
-      localStorage.removeItem("user");
     }
     if (error.response.status === 403) {
       document.location.href = "";
