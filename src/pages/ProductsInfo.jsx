@@ -1,15 +1,16 @@
-import React, { useState, Suspense, lazy, startTransition } from "react";
+import React, { useState, startTransition } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Header from "./Header/Header";
 import Footer from "./Footer";
 import useFetch from "../hooks/useFetch";
-import userAxios from "./../services/Axios/userInterceptors"
+import userAxios from "./../services/Axios/userInterceptors";
 import ProductFeature from "../components/ProductInfo/ProductFeature";
 import ProductContent from "../components/ProductInfo/ProductContent";
 import Breadcrumb from "../components/Breadcrumb";
 import Description from "../components/ProductInfo/Description";
 import Comments from "../components/ProductInfo/Comments";
+import Specifications from "../components/ProductInfo/Specifications";
 
 export default function ProductsInfo() {
   const { productID } = useParams();
@@ -32,18 +33,18 @@ export default function ProductsInfo() {
               <img
                 src={`http://127.0.0.1:6060/${findProduct?.fileUrl}`}
                 alt=""
-                className="md:w-full w-7/12 object-cover md:py-0 py-5"
+                className="md:w-full w-3/4 object-cover md:py-0 py-5"
               />
             </div>
           </div>
           <div className="lg:col-span-6 md:col-span-7 col-span-12 md:px-0 px-8">
             <Breadcrumb
               links={[
-                { id: 1, title: "Home", to: "products" },
+                { id: 1, title: "Home", to: "" },
                 {
                   id: 2,
                   title: "product Info",
-                  to: "checkout",
+                  to: "",
                 },
               ]}
             />
@@ -59,27 +60,40 @@ export default function ProductsInfo() {
             <ProductFeature />
           </div>
         </div>
-        <div className="px-8 lg:mt-16 md:mt-12 mt-4 text-black-900 dark:text-white-100">
+        <div className="md:px-8 px-2 lg:mt-16 md:mt-10 text-black-900 dark:text-white-100">
           <div className="flex text-sm pb-5">
             <Link
-              className={`mx-2 ${
+              className={` mx-2  ${
                 activeTab === "description" ? "font-bold" : ""
               }`}
               onClick={() => startTransition(() => setActiveTab("description"))}
             >
-              DESCRIPTION
+              Description
             </Link>
             <Link
               className={`mx-2 ${activeTab === "reviews" ? "font-bold" : ""}`}
               onClick={() => startTransition(() => setActiveTab("reviews"))}
             >
-              REVIEWS
+              Reviews
+            </Link>
+            <Link
+              className={`mx-2 ${
+                activeTab === "Specifications" ? "font-bold" : ""
+              }`}
+              onClick={() =>
+                startTransition(() => setActiveTab("Specifications"))
+              }
+            >
+              Specifications
             </Link>
           </div>
           {activeTab === "description" && (
             <Description productItem={productItem} />
           )}
           {activeTab === "reviews" && <Comments />}
+          {activeTab === "Specifications" && (
+            <Specifications productItem={productItem} />
+          )}
         </div>
         <ToastContainer />
       </section>

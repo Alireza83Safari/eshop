@@ -11,7 +11,7 @@ export default function AddComment({ fetchComments }) {
   const [rate, setRate] = useState(null);
   const [weakPoints, setWeakPoints] = useState([]);
   const [weakPointsValue, setWeakPointsValue] = useState("");
-  const [isCommentEmpty, setIsCommentEmpty] = useState(true); // Initialize as true
+  const [isCommentEmpty, setIsCommentEmpty] = useState(true);
 
   const { productID } = useParams();
 
@@ -57,7 +57,7 @@ export default function AddComment({ fetchComments }) {
       setWeakPoints([]);
       setIsCommentEmpty(true);
     } catch (error) {
-      console.error(error);
+
     }
   };
 
@@ -78,14 +78,14 @@ export default function AddComment({ fetchComments }) {
         id="comment"
         cols="30"
         rows="3"
-        className="border rounded-md w-full py-2 px-3 focus:outline-none focus:border-blue-500 dark:bg-black-200"
+        className="border rounded-md w-full py-2 px-3 focus:outline-none focus:border-blue-500 dark:bg-black-200 text-sm"
         placeholder="Write your comment..."
         onChange={(e) => setCommentValue(e.target.value)}
       ></textarea>
 
       <fieldset className="mb-2">
         <legend className="text-sm text-gray-600">Rate this product:</legend>
-        <div className="flex items-center">
+        <div className="flex items-center text-sm">
           {[1, 2, 3, 4, 5].map((rating, index) => (
             <label key={index} className="mr-2">
               <input
@@ -105,7 +105,7 @@ export default function AddComment({ fetchComments }) {
           <div className="mt-4">
             <label className="block text-sm text-gray-600">Strengths:</label>
             <div className="flex items-center bg-white p-2 rounded-lg border bg-white-100 dark:bg-black-200 mr-2">
-              <button className="text-2xl text-primary mr-2">
+              <button className="md:text-2xl text-lg text-primary mr-2 ">
                 <FontAwesomeIcon
                   icon={faPlus}
                   onClick={addNewStrength}
@@ -117,7 +117,7 @@ export default function AddComment({ fetchComments }) {
                 type="text"
                 value={strengthValue}
                 placeholder="Strengths"
-                className="py-1 outline-none w-full dark:bg-black-200"
+                className="md:py-1 text-sm outline-none w-full dark:bg-black-200"
                 onChange={(e) => setStrengthValue(e.target.value)}
               />
             </div>
@@ -125,7 +125,7 @@ export default function AddComment({ fetchComments }) {
 
           <ul className="p-1">
             {strengths.map((strength, index) => (
-              <li className="flex justify-between px-2" key={index}>
+              <li className="flex justify-between px-2 text-sm" key={index}>
                 <div>
                   <FontAwesomeIcon
                     icon={faPlus}
@@ -136,7 +136,7 @@ export default function AddComment({ fetchComments }) {
                 <button onClick={() => deleteStrength(index)}>
                   <FontAwesomeIcon
                     icon={faTrash}
-                    className="mr-2 text-red-700"
+                    className="mr-2 text-red-700 md:text-base text-sm"
                   />
                 </button>
               </li>
@@ -159,7 +159,7 @@ export default function AddComment({ fetchComments }) {
               <input
                 type="text"
                 placeholder="WeakPoints"
-                className="py-1 outline-none w-full dark:bg-black-200"
+                className="md:py-1 text-sm outline-none w-full dark:bg-black-200"
                 value={weakPointsValue}
                 onChange={(e) => setWeakPointsValue(e.target.value)}
               />
@@ -168,7 +168,7 @@ export default function AddComment({ fetchComments }) {
 
           <ul className="p-1">
             {weakPoints.map((weakpoint, index) => (
-              <li className="flex justify-between px-2" key={index}>
+              <li className="flex justify-between px-2 text-sm" key={index}>
                 <div>
                   <FontAwesomeIcon
                     icon={faMinus}
@@ -178,7 +178,7 @@ export default function AddComment({ fetchComments }) {
                 </div>
                 <button
                   onClick={() => deleteWeakPoint(index)}
-                  className="mr-2 text-red-700"
+                  className="mr-2 text-red-700 md:text-base text-sm"
                 >
                   <FontAwesomeIcon icon={faTrash} />
                 </button>
@@ -189,7 +189,7 @@ export default function AddComment({ fetchComments }) {
       </div>
 
       <button
-        className={` bg-blue-500 text-white font-semibold py-2 px-4 mt-4 rounded-md focus:outline-none ${
+        className={` bg-blue-500 text-white font-semibold md:py-2 py-1 md:px-4 px-2 md:text-base text-sm mt-4 rounded-md focus:outline-none ${
           isCommentEmpty ? "bg-gray-200 cursor-not-allowed" : "bg-blue-600"
         }`}
         onClick={addCommentHandler}

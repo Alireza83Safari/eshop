@@ -16,16 +16,14 @@ export default function Comments() {
       if (response.status === 200) {
         setComments(response?.data.data);
       }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+    } catch (error) {}
   };
   useEffect(() => {
     fetchComments();
   }, []);
 
   return (
-    <div className="border p-4 mb-20 bg-white-300 dark:bg-black-900 rounded-xl">
+    <div className="border p-4 mb-20 rounded-xl">
       <>
         {getComments?.length > 0 ? (
           getComments?.map((comment, index) => (
@@ -36,8 +34,10 @@ export default function Comments() {
             Be the first to comment.
           </div>
         )}
-        <div className="mt-20 md:px-12 px-6">
-          <h3 className="text-lg font-bold mb-2">Add Comment and Rating</h3>
+        <div className="mt-20 md:px-12">
+          <h3 className="lg:text-lg sm:text-base text-sm font-bold mb-2">
+            Add Comment and Rating
+          </h3>
           <p className="md:text-sm text-xs text-gray-600 mb-4">
             Please read the rules and regulations before writing your opinion
             about this product.

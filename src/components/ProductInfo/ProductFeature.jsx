@@ -18,8 +18,8 @@ export default function ProductFeature() {
             />
           </div>
           <div>
-            <p className="sm:text-xs my-1">FREE SHIPPING</p>
-            <p className="sm:text-[10px] text-sm text-gray-800">
+            <p className="sm:text-xs text-sm my-1">FREE SHIPPING</p>
+            <p className="sm:text-[10px] text- text-gray-800">
               Free shipping on all
             </p>
           </div>
@@ -38,12 +38,12 @@ export default function ProductFeature() {
             />
           </div>
           <div>
-            <p className="sm:text-xs sm:my-1 mt-2 sm:whitespace-normal whitespace-nowrap">
+            <p className="sm:text-xs text-sm sm:my-1 mt-2 sm:whitespace-normal whitespace-nowrap">
               MONEY BACK <br className="sm:flex hidden" /> GUARANTEE
             </p>
           </div>
         </div>
-        <span className="sm:text-[10px] text-xs absolute top-10 text-gray-800 whitespace-nowrap">
+        <span className="sm:text-[10px] text-xs absolute top-9 text-gray-800 whitespace-nowrap">
           100% money back guarantee.
         </span>
       </div>
@@ -57,7 +57,7 @@ export default function ProductFeature() {
             />
           </div>
           <div>
-            <p className="sm:text-xs my-1">SAFE & SECURE</p>
+            <p className="sm:text-xs text-sm my-1">SAFE & SECURE</p>
             <p className="sm:text-[10px] text-sm text-gray-800">
               Lorem ipsum dolor sitall
             </p>
