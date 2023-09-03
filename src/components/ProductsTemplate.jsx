@@ -22,7 +22,7 @@ export default function ProductsTemplate({ product }) {
   return (
     <section key={product.id} className="p-2">
       <div className="bg-white rounded-lg shadow-lg hover:shadow-2xl overflow-hidden dark:bg-black-800 hover:opacity-70 duration-300">
-        <Link to={`/products/${product.id}`}>
+        <Link to={`/products/${product.name}`}>
           <img
             src={`http://127.0.0.1:6060/${product.fileUrl}`}
             alt="Product"
@@ -30,7 +30,7 @@ export default function ProductsTemplate({ product }) {
           />
         </Link>
         <div className="p-6 ">
-          <Link to={`/shop/products/${product.id}`}>
+          <Link to={`/products/${product.id}`}>
             <div className="flex justify-between">
               <h2 className="font-bold mb-2 xl:text-lg md:text-base text-sm whitespace-nowrap dark:text-white-100">
                 {product.name}

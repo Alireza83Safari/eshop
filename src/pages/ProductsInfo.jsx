@@ -17,7 +17,7 @@ export default function ProductsInfo() {
   const [activeTab, setActiveTab] = useState("description");
   const { datas: productsData } = useFetch("/product", userAxios);
   const findProduct = productsData?.data.find(
-    (product) => product.id == productID
+    (product) => product.name == productID
   );
   const { datas: productItem } = useFetch(
     `/productItem/${findProduct?.itemId}`,
