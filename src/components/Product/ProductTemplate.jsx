@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import usePost from "../hooks/usePost";
+import usePost from "../../hooks/usePost";
 import { toast } from "react-toastify";
 
-export default function ProductsTemplate({ product }) {
+export default function ProductTemplate({ product }) {
   const { doPost } = usePost();
 
   const BasketHandler = (data) => {

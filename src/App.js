@@ -66,6 +66,7 @@ function App() {
           setShowShopSidebar,
           userIsLogin,
           adminIsLogin,
+          userLogin,
         }}
       >
         {routes}

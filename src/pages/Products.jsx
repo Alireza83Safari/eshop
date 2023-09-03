@@ -7,8 +7,13 @@ import Footer from "./Footer";
 import Pagination from "../components/Paganation";
 import userAxios from "./../services/Axios/userInterceptors";
 import { useLocation } from "react-router-dom";
-const ProductsTemplate = lazy(() => import("../components/ProductsTemplate"));
-const FilterProducts = lazy(() => import("../components/FilterProducts"));
+import Sidebar from "./Sidebar/Sidebar";
+const ProductTemplate = lazy(() =>
+  import("../components/Product/ProductTemplate")
+);
+const FilterProducts = lazy(() =>
+  import("../components/Product/FilterProducts")
+);
 
 export default function Products() {
   const location = useLocation();
@@ -66,6 +71,7 @@ export default function Products() {
   return (
     <>
       <Header />
+      <Sidebar />
       {isLoading ? (
         <Spinner />
       ) : (
@@ -90,7 +96,7 @@ export default function Products() {
               <Suspense fallback={<Spinner />}>
                 <>
                   {paginatedProducts?.map((product) => (
-                    <ProductsTemplate product={product} />
+                    <ProductTemplate product={product} />
                   ))}
                 </>
               </Suspense>

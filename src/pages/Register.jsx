@@ -5,6 +5,7 @@ import axios from "axios";
 import { registerValidation } from "../validators/registerValidation";
 import Header from "../pages/Header/Header";
 import Footer from "../pages/Footer";
+import Sidebar from "./Sidebar/Sidebar";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -56,6 +57,7 @@ export default function Register() {
   return (
     <>
       <Header />
+      <Sidebar />
       <div className="flex items-center justify-center my-12 mt-32 mb-10">
         <form
           className="w-96 p-6 rounded-xl shadow-md bg-white-300 dark:bg-black-900"

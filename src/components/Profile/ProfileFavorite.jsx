@@ -66,7 +66,7 @@ export default function ProfileFavorite() {
         <div className="relative grid lg:grid-cols-2 sm:grid-cols-2 col-span-12 mt-5 pb-14">
           {favoriteProducts.map((favorite) => (
             <div className="bg-white rounded-lg shadow-lg hover:shadow-2xl overflow-hidden dark:bg-black-800 hover:opacity-70 duration-300 m-2">
-              <Link to={`/products/${favorite.id}`}>
+              <Link to={`/products/${favorite.name}`}>
                 <img
                   src={`http://127.0.0.1:6060/${favorite.fileUrl}`}
                   alt="Product"

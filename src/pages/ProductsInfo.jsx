@@ -11,6 +11,7 @@ import Breadcrumb from "../components/Breadcrumb";
 import Description from "../components/ProductInfo/Description";
 import Comments from "../components/ProductInfo/Comments";
 import Specifications from "../components/ProductInfo/Specifications";
+import Sidebar from "./Sidebar/Sidebar";
 
 export default function ProductsInfo() {
   const { productID } = useParams();
@@ -26,6 +27,7 @@ export default function ProductsInfo() {
   return (
     <>
       <Header />
+      <Sidebar />
       <section className="md:px-5 xl:px-16 px-2 xl:container mx-auto mt-24">
         <div className="grid grid-cols-12">
           <div className="lg:col-span-4 md:col-span-5 col-span-12">

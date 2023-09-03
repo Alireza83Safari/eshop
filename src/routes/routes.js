@@ -1,16 +1,15 @@
 import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import Index from "../components/Admin";
 import Comments from "../pages/Admin/Comments";
 import Dashboard from "../pages/Admin/Dashboard";
-import ShopIndex from "../components/index";
 import ShopProducts from "../pages/Products";
 import ProductsInfo from "../pages/ProductsInfo";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import PanelProducts from "../pages/Admin/Products";
 import Shipping from "../pages/Shipping";
-import SearchResult from "../components/SearchResult";
+import SearchResult from "../pages/SearchResult";
 import Roles from "../pages/Admin/Roles";
 import Users from "../pages/Admin/Users";
 import Orders from "../pages/Admin/Orders";
@@ -22,10 +21,12 @@ import ProfileOrders from "../components/Profile/ProfileOrders";
 import ProfileComments from "../components/Profile/ProfileComments";
 import PrivateRoute from "../components/Admin/PrivateRoute";
 import AdminLogin from "../pages/Admin/AdminLogin";
-import BrandResult from "../components/BrandResult";
+import BrandResult from "../pages/BrandResult";
+import CategoryResult from "../pages/CategoryResult";
+import Home from "../pages/Home";
 
 const route = [
-  { path: "", element: <ShopIndex /> },
+  { path: "", element: <Home /> },
   { path: "products", element: <ShopProducts /> },
   { path: "products/:productID", element: <ProductsInfo /> },
   { path: "checkout", element: <CheckOut /> },
@@ -34,6 +35,7 @@ const route = [
   { path: "checkout/shipping", element: <Shipping /> },
   { path: "/search/:searchTerm", element: <SearchResult /> },
   { path: "/brand/:brand", element: <BrandResult /> },
+  { path: "/category/:category", element: <CategoryResult /> },
   {
     path: "profile/*",
     element: <ProfilePage />,

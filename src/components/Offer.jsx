@@ -1,56 +1,26 @@
-import {
-  faAngleLeft,
-  faAngleRight,
-  faArrowUp,
-} from "@fortawesome/free-solid-svg-icons";
+import React from "react";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useEffect } from "react";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
-import userAxios from "./../services/Axios/userInterceptors"
+import Timer from "./Timer";
+import useFetch from "../hooks/useFetch";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import userAxios from "../services/Axios/userInterceptors";
 
 export default function Offer() {
-  const [count, setCount] = useState(1);
-  const [getProducts, setProducts] = useState([]);
-  const [currentProductIndex, setCurrentProductIndex] = useState(0);
-  const [productItem, setProductItem] = useState({});
+  const { datas: productsData } = useFetch(
+    "/product?onlyDiscount=true",
+    userAxios
+  );
 
-  useEffect(() => {
-    const fetchBanner = async () => {
-      try {
-        const responst = await userAxios.get("/product");
-        setProducts(responst?.data?.data);
-      } catch (error) {}
-    };
-
-    fetchBanner();
-  }, []);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentProductIndex((prevIndex) =>
-        prevIndex === getProducts?.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 20000);
-
-    return () => clearInterval(timer);
-  }, [currentProductIndex, getProducts]);
-  // Automatically switch to a new product every 10 seconds
-  /*   useEffect(() => {
-    const timer = setInterval(() => {
-      const randomIndex = Math.floor(Math.random() * getProducts.length);
-      setNewProduct(getProducts[randomIndex]);
-    }, 10000);
-
-    return () => clearInterval(timer); // Clear interval on unmount
-  }, [getProducts]); */
-
-  // Add product to cart and show toast notification
   const handleAddToCart = (productID) => {
     let productData = {
       productItemId: productID.itemId,
       quantity: 1,
     };
-
     userAxios.post("/orderItem", productData).then((res) => {
       if (res.status === 200) {
         toast.success(`${productID.name} added to cart!`, {
@@ -60,160 +30,88 @@ export default function Offer() {
     });
   };
 
-  // Function to navigate to previous product
-  const goToPreviousProduct = () => {
-    setCurrentProductIndex((prevIndex) =>
-      prevIndex === 0 ? getProducts.length - 1 : prevIndex - 1
-    );
-   // setNewProduct(getProducts[currentProductIndex]);
-  };
-
-  // Function to navigate to next product
-  const goToNextProduct = () => {
-    if (currentProductIndex === getProducts.length) {
-      setCurrentProductIndex(0);
-    }
-    setCurrentProductIndex((prevIndex) =>
-      prevIndex === getProducts.length - 1 ? 0 : prevIndex + 1
-    );
-  //  setNewProduct(getProducts[currentProductIndex]);
-  };
-  const [hover, setHover] = useState(false);
-
-  useEffect(() => {
-    userAxios
-      .get(`/productItem/${getProducts[currentProductIndex]?.itemId}`)
-      .then((res) => setProductItem(res?.data));
-    // console.log(datas);
-  }, [currentProductIndex, getProducts]);
-  console.log(getProducts[currentProductIndex]?.id);
   return (
-    <section
-      className="w-full xl:px-20 md:px-4 lg:mt-52 md:mt-36 mt-20 relative"
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
-      <div className="grid md:grid-cols-2 relative">
-        <button
-          className={`absolute left-2 top-80 z-10 outline-none duration-500 ${
-            hover ? "opacity-100" : "opacity-0"
-          }`}
-          onClick={goToPreviousProduct}
-        >
-          <FontAwesomeIcon
-            icon={faAngleLeft}
-            className="lg:text-4xl text-2xl"
-          />
-        </button>
-
-        <div className="text-black-900 dark:text-white-100 text-center md:text-start">
-          <h1 className="font-black xl:text-5xl lg:text-4xl md:text-3xl text-2xl">
-            we offer you the
-          </h1>
-          <h1 className="font-black xl:text-5xl lg:text-4xl md:text-3xl text-2xl my-3">
-            best we have
-          </h1>
-        </div>
-        <p className="px-4 text-black-900 dark:text-white-100 lg:text-base text-sm md:text-start text-center">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, vitae
-          placeat? officia, accusamus excepturi sequi nemo illum officiis facere
-          vel.
-        </p>
-        <h2 className="md:my-5 mt-3 text-2xl text-blue-600 font-black md:text-start text-center">
-          20.45$
-        </h2>
-
-        <div className="flex justify-end mr-10 md:my-5 text-black-900 dark:text-white-100">
-          <FontAwesomeIcon icon={faArrowUp} />
-        </div>
-
-        <div className="md:w-full md:bg-gray-100 flex items-center justify-center lg:h-[32rem]">
-          <img
-            src={`http://127.0.0.1:6060/${getProducts[currentProductIndex]?.fileUrl}`}
-            className="object-contain md:p-10 px-10 md:h-full h-[24rem]"
-          />
-        </div>
-        <div className="ml-5">
-          <p className="font-black text-black-900 dark:text-white-100">
-            Choose Your Product
-          </p>
-          <div className="grid grid-cols-3 py-3">
-            <img
-              src={`http://127.0.0.1:6060/${getProducts[currentProductIndex]?.fileUrl}`}
-              className="p-1 lg:h-[10rem] h-[8rem] object-contain"
-            />
-            <img
-              src={`http://127.0.0.1:6060/${getProducts[currentProductIndex]?.fileUrl}`}
-              className="p-1 lg:h-[10rem] h-[8rem] object-contain"
-            />
-            <img
-              src={`http://127.0.0.1:6060/${getProducts[currentProductIndex]?.fileUrl}`}
-              className="p-1 lg:h-[10rem] h-[8rem] object-contain"
-            />
-          </div>
-
-          <div className="text-black-900 dark:text-white-100">
-            <p className="font-black lg:mt-10 md:mt-4 md:block hidden">
-              Select Best Color
-            </p>
-            <div className="flex justify-between my-4">
-              <div className="flex items-center">
-                <p className="font-black lg:mt-10 md:mt-4 text-sm flex md:hidden mr-10 py-5">
-                  Select Best Color
-                </p>
-                <div className="lg:w-12 lg:h-12 md:w-8 md:h-8 w-7 h-7 bg-red-700 lg:mr-4 mr-1 rounded-lg"></div>
-                <div className="lg:w-12 lg:h-12 md:w-8 md:h-8 w-7 h-7 bg-blue-600 lg:mr-4 mr-1 rounded-lg"></div>
-                <div className="lg:w-12 lg:h-12 md:w-8 md:h-8 w-7 h-7 bg-gray-800 lg:mr-4 mr-1 rounded-lg"></div>
-                <div className="lg:w-12 lg:h-12 md:w-8 md:h-8 w-7 h-7 bg-orange-400 lg:mr-4 mr-1 rounded-lg"></div>
-              </div>
-
-              <div className="flex items-center md:mx-10 ml-5">
-                <button
-                  onClick={() => setCount(count - 1)}
-                  className="lg:px-4 lg:py-2 px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 duration-200 focus:outline-none"
-                >
-                  -
-                </button>
-                <span className="px-5">{count}</span>
-                <button
-                  onClick={() => setCount(count + 1)}
-                  className="lg:px-4 lg:py-2 px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 duration-200 focus:outline-none"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-
-            <p className="font-black lg:mt-10 md:mt-4">spaciousness</p>
-            <div className="flex justify-between md:my-4 py-6 lg:text-base md:text-sm text-xs">
-              <p>1.Better quality</p>
-              <p>2.Variety Color</p>
-              <p>3.Best Products</p>
-            </div>
-
-            <div className="md:block flex justify-center">
-              <button
-                className="lg:px-12 md:px-9 px-12 py-3 md:text-base text-sm bg-blue-600 text-white-100 rounded-md"
-               // onClick={() => handleAddToCart(newProduct)}
-              >
-                Add To Cart
-              </button>
-            </div>
-          </div>
-        </div>
-        <button
-          className={`absolute right-2 top-80 z-10 outline-none duration-500 ${
-            hover ? "opacity-100" : "opacity-0"
-          }`}
-          onClick={() => goToNextProduct()}
-        >
-          <FontAwesomeIcon
-            icon={faAngleRight}
-            className="lg:text-4xl text-2xl"
-          />
-        </button>
+    <section className="mt-52 min-h-[30rem]">
+      <div className="flex items-center md:px-5 xl:px-16 px-2">
+        <Timer days={1} />
+        <div className="w-full h-1 bg-blue-600"></div>
       </div>
-      <ToastContainer />
+
+      <div className="xl:px-16 p-2 mt-5">
+        <p className="pb-3 lg:text-xl font-bold text-center text-black-900 dark:text-white-100">
+          Top Discount Products
+        </p>
+
+        <Swiper
+          slidesPerView={
+            window.innerWidth >= 1024
+              ? 4
+              : window.innerWidth >= 640 && window.innerWidth <= 1024
+              ? 3
+              : 2
+          }
+          spaceBetween={30}
+          pagination={{
+            clickable: true,
+          }}
+          className="mySwiper"
+        >
+          {productsData?.data.length > 1 ? (
+            productsData?.data.map((product) => (
+              <SwiperSlide key={product.id}>
+                <div
+                  className="overflow-hidden dark:bg-black-800 relative hover:shadow-lg duration-200"
+                  key={product.id}
+                >
+                  <div className="lg:h-[300px] md:h-[240px] sm:h-[200px] h-[180px] flex justify-center">
+                    <Link
+                      to={`/products/${product.id}`}
+                      style={{ display: "block" }}
+                    >
+                      <img
+                        src={`http://127.0.0.1:6060/${product.fileUrl}`}
+                        alt="Product"
+                        className="relative object-contain lg:h-[260px] md:h-[220px] sm:h-[180px] h-[160px]"
+                      />
+                    </Link>
+                    <button
+                      className="flex items-center justify-center text-blue-600 hover:text-white-100 hover:bg-blue-300 absolute md:w-10 md:h-10 w-7 h-7 rounded-full xl:bottom-32 lg:bottom-24 md:bottom-20 bottom-16 right-6 z-10 border border-blue-600"
+                      onClick={() => handleAddToCart(product)}
+                    >
+                      <FontAwesomeIcon icon={faPlus} className="text-xl" />
+                    </button>
+                  </div>
+
+                  <div className="lg:p-6 p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex">
+                        <p className="font-semibold dark:text-white-100 lg:text-base md:text-xs text-[8px] whitespace-nowrap mr-4 line-through text-gray-200">
+                          $ {product.price}
+                        </p>
+                        <p className="font-semibold dark:text-white-100 lg:text-base md:text-xs text-[8px] whitespace-nowrap">
+                          {product?.price -
+                            (product?.discountValue / 100) * product.price}
+                          $
+                        </p>
+                      </div>
+                      <div className="md:p-2 p-1 lg:text-sm text-xs text-white-100 bg-red-700 rounded-full">
+                        {product?.discountValue}%
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))
+          ) : (
+            <div className="text-center text-red-700 font-black text-2xl mt-10">
+              We do not have any discount products
+            </div>
+          )}
+          {}
+        </Swiper>
+
+        <ToastContainer />
+      </div>
     </section>
   );
 }

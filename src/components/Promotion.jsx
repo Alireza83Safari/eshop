@@ -1,117 +1,152 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { ToastContainer, toast } from "react-toastify";
+import React, { useState, useEffect } from "react";
 import Timer from "./Timer";
+import { ToastContainer, toast } from "react-toastify";
 import useFetch from "../hooks/useFetch";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import userAxios from "./../services/Axios/userInterceptors"
+import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import userAxios from "../services/Axios/userInterceptors";
+import axios from "axios";
 
-export default function Promotion() {
-  const { datas: productsData } = useFetch(
-    "/product?onlyDiscount=true",
-    userAxios
-  );
+export default function Suggestion() {
+  const [currentProductIndex, setCurrentProductIndex] = useState(0);
+  const [suggestionProduct, setSuggestionProduct] = useState({
+    id: "ae0ed272-feb1-41af-bbc4-d14f03f58992",
+    name: "Iphone 13 pro max",
+    code: "1747",
+    brandId: "95231911-ba44-47b1-aac4-47a544546ebd",
+    brandName: "اپل",
+    categoryId: "78a03d81-0a36-47c5-8da6-81741234917f",
+    categoryName: "Electronics",
+    price: 1299,
+    itemId: "7e8e6f2b-24af-4c53-9586-7a452df153fd",
+    fileUrl: "uploads/product/01bc03af-9404-4c88-95f5-5dfc6db79634.png",
+  });
 
-  const handleAddToCart = (productID) => {
+  const [getProducts, setProducts] = useState([]);
+  const { datas: productsData } = useFetch("product", userAxios);
+
+
+  useEffect(() => {
+    if (productsData && productsData.data) {
+      setProducts(productsData.data);
+    }
+  }, [productsData]);
+
+  const addToCart = (data) => {
     let productData = {
-      productItemId: productID.itemId,
+      productItemId: data.itemId,
       quantity: 1,
     };
     userAxios.post("/orderItem", productData).then((res) => {
       if (res.status === 200) {
-        toast.success(`${productID.name} added to cart!`, {
+        toast.success(`${data.name} added to cart!`, {
           position: "bottom-right",
         });
       }
     });
   };
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const randomIndex = Math.floor(Math.random() * getProducts.length);
+
+      setSuggestionProduct(getProducts[randomIndex]);
+    }, 10000);
+
+    return () => clearInterval(timer);
+  }, [getProducts]);
+
+  // Function to navigate to previous product
+  const goToPreviousProduct = () => {
+    setCurrentProductIndex((prevIndex) =>
+      prevIndex === 0 ? getProducts.length - 1 : prevIndex - 1
+    );
+    setSuggestionProduct(getProducts[currentProductIndex]);
+  };
+
+  // Function to navigate to next product
+  const goToNextProduct = () => {
+    if (currentProductIndex === getProducts.length) {
+      setCurrentProductIndex(0);
+    }
+    setCurrentProductIndex((prevIndex) =>
+      prevIndex === getProducts.length - 1 ? 0 : prevIndex + 1
+    );
+    setSuggestionProduct(getProducts[currentProductIndex]);
+  };
+
+  const [hover, setHover] = useState(false);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const randomIndex = Math.floor(Math.random() * getProducts.length);
+
+      setSuggestionProduct(getProducts[randomIndex]);
+    }, 10000);
+
+    return () => clearInterval(timer);
+  }, [getProducts]);
   return (
-    <section className="mt-52 min-h-[30rem]">
-      <div className="flex items-center md:px-5 xl:px-16 px-2">
-        <Timer days={1} />
-        <div className="w-full h-1 bg-blue-600"></div>
+    <section
+      className="w-full px-4 lg:px-20 lg:mt-52 mt-32 relative"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      <button
+        className={`absolute left-8 top-40 z-10 outline-none duration-500 ${
+          hover ? "opacity-100" : "opacity-0"
+        }`}
+        onClick={goToPreviousProduct}
+      >
+        <FontAwesomeIcon icon={faAngleLeft} className="lg:text-4xl text-2xl" />
+      </button>
+      <div className="grid grid-cols-1 md:grid-cols-2">
+        <div className="text-black-900 dark:text-white-100 mx-auto">
+          <h1 className="sm:text-3xl lg:text-5xl md:font-4xl text-2xl font-black md:mb-0 md:text-start text-center mb-10">
+            {suggestionProduct?.name}
+          </h1>
+        </div>
+        <div className="flex justify-center items-center">
+          <Timer days={12} />
+        </div>
       </div>
-
-      <div className="xl:px-16 p-2 mt-5">
-        <p className="pb-3 lg:text-xl font-bold text-center text-black-900 dark:text-white-100">
-          Top Discount Products
-        </p>
-
-        <Swiper
-          slidesPerView={
-            window.innerWidth >= 1024
-              ? 4
-              : window.innerWidth >= 640 && window.innerWidth <= 1024
-              ? 3
-              : 2
-          }
-          spaceBetween={30}
-          pagination={{
-            clickable: true,
-          }}
-          className="mySwiper"
-        >
-          {productsData?.data.length > 1 ? (
-            productsData?.data.map((product) => (
-              <SwiperSlide key={product.id}>
-                <div
-                  className="overflow-hidden dark:bg-black-800 relative hover:shadow-lg duration-200"
-                  key={product.id}
-                >
-                  <div className="lg:h-[300px] md:h-[240px] sm:h-[200px] h-[180px] flex justify-center">
-                    <Link
-                      to={`/products/${product.id}`}
-                      style={{ display: "block" }}
-                    >
-                      <img
-                        src={`http://127.0.0.1:6060/${product.fileUrl}`}
-                        alt="Product"
-                        className="relative object-contain lg:h-[260px] md:h-[220px] sm:h-[180px] h-[160px]"
-                      />
-                    </Link>
-                    <button
-                      className="flex items-center justify-center text-blue-600 hover:text-white-100 hover:bg-blue-300 absolute md:w-10 md:h-10 w-7 h-7 rounded-full xl:bottom-32 lg:bottom-24 md:bottom-20 bottom-16 right-6 z-10 border border-blue-600"
-                      onClick={() => handleAddToCart(product)}
-                    >
-                      <FontAwesomeIcon icon={faPlus} className="text-xl" />
-                    </button>
-                  </div>
-
-                  <div className="lg:p-6 p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex">
-                        <p className="font-semibold dark:text-white-100 lg:text-base md:text-xs text-[8px] whitespace-nowrap mr-4 line-through text-gray-200">
-                          $ {product.price}
-                        </p>
-                        <p className="font-semibold dark:text-white-100 lg:text-base md:text-xs text-[8px] whitespace-nowrap">
-                          {product?.price -
-                            (product?.discountValue / 100) * product.price}
-                          $
-                        </p>
-                      </div>
-                      <div className="md:p-2 p-1 lg:text-sm text-xs text-white-100 bg-red-700 rounded-full">
-                        {product?.discountValue}%
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))
-          ) : (
-            <div className="text-center text-red-700 font-black text-2xl mt-10">
-              We do not have any discount products
-            </div>
-          )}
-          {}
-        </Swiper>
-
-        <ToastContainer />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 text-black-900 dark:text-white-100">
+        <div className="mt-6 md:mt-16 md:block hidden">
+          <h2 className="text-2xl font-bold">Share Now Deal</h2>
+          <p className="mt-4 md:mt-6">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt,
+            maiores?
+          </p>
+          <p className="mt-4 md:mt-12 text-xl text-center font-bold">
+            {suggestionProduct?.price}$
+          </p>
+        </div>
+        <div className="flex justify-center items-center md:w-[20rem] md:h-[20rem] h-[20rem]">
+          <img
+            src={`http://127.0.0.1:6060/${suggestionProduct?.fileUrl}`}
+            alt=""
+            className="w-full h-full object-contain"
+          />
+        </div>
+        <div className="flex justify-center items-center">
+          <button
+            className="text-white-100 rounded-md py-3 px-20 md:px-14 bg-blue-600 md:mt-40 mt-10"
+            onClick={() => addToCart(suggestionProduct)}
+          >
+            Buy Now
+          </button>
+        </div>
       </div>
+      <button
+        className={`absolute right-8 top-40 z-10 outline-none duration-500 ${
+          hover ? "opacity-100" : "opacity-0"
+        }`}
+        onClick={() => goToNextProduct()}
+      >
+        <FontAwesomeIcon icon={faAngleRight} className="lg:text-4xl text-2xl" />
+      </button>
+
+      <ToastContainer />
     </section>
   );
 }

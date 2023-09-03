@@ -1,5 +1,5 @@
 import { useState } from "react";
-import userAxios from "./../services/Axios/userInterceptors"
+import userAxios from "../services/Axios/userInterceptors";
 const usePost = () => {
   const [postData, setPostData] = useState(null);
   const [postIsloading, setPostLoading] = useState(false);

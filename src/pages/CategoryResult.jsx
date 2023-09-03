@@ -1,26 +1,34 @@
 import React, { Suspense, lazy, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import userAxios from "./../services/Axios/userInterceptors";
-import Spinner from "./Spinner/Spinner";
-import Header from "../pages/Header/Header";
-import Footer from "../pages/Footer";
+import userAxios from "../services/Axios/userInterceptors";
+import Spinner from "../components/Spinner/Spinner";
+import Header from "./Header/Header";
+import Footer from "./Footer";
 import { ToastContainer, toast } from "react-toastify";
 import useFetch from "../hooks/useFetch";
-const ProductsTemplate = lazy(() => import("./ProductsTemplate"));
+import Sidebar from "./Sidebar/Sidebar";
+const ProductTemplate = lazy(() =>
+  import("../components/Product/ProductTemplate")
+);
 
-export default function BrandResult() {
-  const { brand } = useParams();
+export default function CategoryResult() {
+  const { category } = useParams();
   const [isLoading, setIsLoading] = useState(false);
-  const [brandResult, setBrandResult] = useState([]);
-  const { datas: brands } = useFetch("/brand", userAxios);
-  const result = brand ? brands?.data.find((id) => id?.name == brand) : null;
+  const [categoryResult, setCategoryResult] = useState([]);
 
-  const fetchSearchResults = async () => {
+  const { datas: categoryData } = useFetch("/category/selectList", userAxios);
+  const result = category
+    ? categoryData?.data.find((cate) => cate?.value == category)
+    : null;
+
+  const fetchCategoryResults = async () => {
     setIsLoading(true);
     try {
-      const response = await userAxios.get(`/product?brandId=${result?.id}`);
+      const response = await userAxios.get(
+        `/product?categoryId=${result?.key}`
+      );
       if (response?.status === 200) {
-        setBrandResult(response?.data?.data);
+        setCategoryResult(response?.data?.data);
         setIsLoading(false);
       }
     } catch (error) {
@@ -29,8 +37,8 @@ export default function BrandResult() {
   };
 
   useEffect(() => {
-    fetchSearchResults();
-  }, [brand, result]);
+    fetchCategoryResults();
+  }, [category, result]);
 
   const BasketHandler = (cartID) => {
     let userBasketHandler = {
@@ -50,15 +58,16 @@ export default function BrandResult() {
   return (
     <>
       <Header />
+      <Sidebar />
       <section className="min-h-screen mt-28">
         {isLoading ? (
           <Spinner />
-        ) : brandResult.length ? (
+        ) : categoryResult.length ? (
           <div className="relative grid grid-cols-3 mt-5 pb-14">
-            {brandResult?.map((product) => (
+            {categoryResult?.map((product) => (
               <div className="relative">
                 <Suspense fallback={<Spinner />}>
-                  <ProductsTemplate
+                  <ProductTemplate
                     product={product}
                     basketHandler={BasketHandler}
                   />

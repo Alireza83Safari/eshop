@@ -1,64 +1,72 @@
-import React, { useState, useEffect } from "react";
-import Timer from "./Timer";
-import { ToastContainer, toast } from "react-toastify";
-import useFetch from "../hooks/useFetch";
-import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleLeft,
+  faAngleRight,
+  faArrowUp,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import userAxios from "./../services/Axios/userInterceptors"
+import React, { useState, useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import userAxios from "../services/Axios/userInterceptors";
+import useFetch from "../hooks/useFetch";
 
 export default function Suggestion() {
-  const [currentProductIndex, setCurrentProductIndex] = useState(0);
-  const [suggestionProduct, setSuggestionProduct] = useState({
-    id: "ae0ed272-feb1-41af-bbc4-d14f03f58992",
-    name: "Iphone 13 pro max",
-    code: "1747",
-    brandId: "95231911-ba44-47b1-aac4-47a544546ebd",
-    brandName: "اپل",
-    categoryId: "78a03d81-0a36-47c5-8da6-81741234917f",
-    categoryName: "Electronics",
-    price: 1299,
-    itemId: "7e8e6f2b-24af-4c53-9586-7a452df153fd",
-    fileUrl: "uploads/product/01bc03af-9404-4c88-95f5-5dfc6db79634.png",
-  });
-
+  const [count, setCount] = useState(1);
   const [getProducts, setProducts] = useState([]);
-  const { datas: productsData } = useFetch("/product",userAxios);
-  useEffect(() => {
-    if (productsData && productsData.data) {
-      setProducts(productsData.data);
-    }
-  }, [productsData]);
+  const [currentProductIndex, setCurrentProductIndex] = useState(0);
+  const [productItem, setProductItem] = useState({});
 
-  const addToCart = (data) => {
+  useEffect(() => {
+    const fetchBanner = async () => {
+      try {
+        const responst = await userAxios.get("/product");
+        setProducts(responst?.data?.data);
+      } catch (error) {}
+    };
+
+    fetchBanner();
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentProductIndex((prevIndex) =>
+        prevIndex === getProducts?.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 20000);
+
+    return () => clearInterval(timer);
+  }, [currentProductIndex, getProducts]);
+  // Automatically switch to a new product every 10 seconds
+  /*   useEffect(() => {
+    const timer = setInterval(() => {
+      const randomIndex = Math.floor(Math.random() * getProducts.length);
+      setNewProduct(getProducts[randomIndex]);
+    }, 10000);
+
+    return () => clearInterval(timer); // Clear interval on unmount
+  }, [getProducts]); */
+
+  // Add product to cart and show toast notification
+  const handleAddToCart = (productID) => {
     let productData = {
-      productItemId: data.itemId,
+      productItemId: productID.itemId,
       quantity: 1,
     };
+
     userAxios.post("/orderItem", productData).then((res) => {
       if (res.status === 200) {
-        toast.success(`${data.name} added to cart!`, {
+        toast.success(`${productID.name} added to cart!`, {
           position: "bottom-right",
         });
       }
     });
   };
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const randomIndex = Math.floor(Math.random() * getProducts.length);
-
-      setSuggestionProduct(getProducts[randomIndex]);
-    }, 10000);
-
-    return () => clearInterval(timer);
-  }, [getProducts]);
-
   // Function to navigate to previous product
   const goToPreviousProduct = () => {
     setCurrentProductIndex((prevIndex) =>
       prevIndex === 0 ? getProducts.length - 1 : prevIndex - 1
     );
-    setSuggestionProduct(getProducts[currentProductIndex]);
+    // setNewProduct(getProducts[currentProductIndex]);
   };
 
   // Function to navigate to next product
@@ -69,80 +77,150 @@ export default function Suggestion() {
     setCurrentProductIndex((prevIndex) =>
       prevIndex === getProducts.length - 1 ? 0 : prevIndex + 1
     );
-    setSuggestionProduct(getProducts[currentProductIndex]);
+    //  setNewProduct(getProducts[currentProductIndex]);
   };
-
   const [hover, setHover] = useState(false);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      const randomIndex = Math.floor(Math.random() * getProducts.length);
+    userAxios
+      .get(`/productItem/${getProducts[currentProductIndex]?.itemId}`)
+      .then((res) => setProductItem(res?.data));
+    // console.log(datas);
+  }, [currentProductIndex, getProducts]);
 
-      setSuggestionProduct(getProducts[randomIndex]);
-    }, 10000);
-
-    return () => clearInterval(timer);
-  }, [getProducts]);
+  const { datas: suggestions } = useFetch("/product/suggestions", userAxios);
+  console.log(suggestions?.data);
   return (
     <section
-      className="w-full px-4 lg:px-20 lg:mt-52 mt-32 relative"
+      className="w-full xl:px-20 md:px-4 lg:mt-52 md:mt-36 mt-20 relative"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      <button
-        className={`absolute left-8 top-40 z-10 outline-none duration-500 ${
-          hover ? "opacity-100" : "opacity-0"
-        }`}
-        onClick={goToPreviousProduct}
-      >
-        <FontAwesomeIcon icon={faAngleLeft} className="lg:text-4xl text-2xl" />
-      </button>
-      <div className="grid grid-cols-1 md:grid-cols-2">
-        <div className="text-black-900 dark:text-white-100 mx-auto">
-          <h1 className="sm:text-3xl lg:text-5xl md:font-4xl text-2xl font-black md:mb-0 md:text-start text-center mb-10">
-            {suggestionProduct?.name}
-          </h1>
-        </div>
-        <div className="flex justify-center items-center">
-          <Timer days={12} />
-        </div>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 text-black-900 dark:text-white-100">
-        <div className="mt-6 md:mt-16 md:block hidden">
-          <h2 className="text-2xl font-bold">Share Now Deal</h2>
-          <p className="mt-4 md:mt-6">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt,
-            maiores?
-          </p>
-          <p className="mt-4 md:mt-12 text-xl text-center font-bold">
-            {suggestionProduct?.price}$
-          </p>
-        </div>
-        <div className="flex justify-center items-center md:w-[20rem] md:h-[20rem] h-[20rem]">
-          <img
-            src={`http://127.0.0.1:6060/${suggestionProduct?.fileUrl}`}
-            alt=""
-            className="w-full h-full object-contain"
-          />
-        </div>
-        <div className="flex justify-center items-center">
+      {suggestions?.data?.map((suggestion) => (
+        <div className="grid md:grid-cols-2 relative">
           <button
-            className="text-white-100 rounded-md py-3 px-20 md:px-14 bg-blue-600 md:mt-40 mt-10"
-            onClick={() => addToCart(suggestionProduct)}
+            className={`absolute left-2 top-80 z-10 outline-none duration-500 ${
+              hover ? "opacity-100" : "opacity-0"
+            }`}
+            onClick={goToPreviousProduct}
           >
-            Buy Now
+            <FontAwesomeIcon
+              icon={faAngleLeft}
+              className="lg:text-4xl text-2xl"
+            />
+          </button>
+
+          <div className="text-black-900 dark:text-white-100 text-center md:text-start">
+            <h1 className="font-black xl:text-5xl lg:text-4xl md:text-3xl text-2xl">
+              we offer you the
+            </h1>
+            <h1 className="font-black xl:text-5xl lg:text-4xl md:text-3xl text-2xl my-3">
+              best we have
+            </h1>
+          </div>
+          <p className="px-4 text-black-900 dark:text-white-100 lg:text-base text-sm md:text-start text-center">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil,
+            vitae placeat? officia, accusamus excepturi sequi nemo illum
+            officiis facere vel.
+          </p>
+          <h2 className="md:my-5 mt-3 text-2xl text-blue-600 font-black md:text-start text-center">
+            20.45$
+          </h2>
+
+          <div className="flex justify-end mr-10 md:my-5 text-black-900 dark:text-white-100">
+            <FontAwesomeIcon icon={faArrowUp} />
+          </div>
+
+          <div className="md:w-full md:bg-gray-100 flex items-center justify-center lg:h-[32rem]">
+            <img
+              src={`http://127.0.0.1:6060/${getProducts[currentProductIndex]?.fileUrl}`}
+              className="object-contain md:p-10 px-10 md:h-full h-[24rem]"
+            />
+          </div>
+          <div className="ml-5">
+            <p className="font-black text-black-900 dark:text-white-100">
+              Choose Your Product
+            </p>
+            <div className="grid grid-cols-3 py-3">
+              <img
+                src={`http://127.0.0.1:6060/${getProducts[currentProductIndex]?.fileUrl}`}
+                className="p-1 lg:h-[10rem] h-[8rem] object-contain"
+              />
+              <img
+                src={`http://127.0.0.1:6060/${getProducts[currentProductIndex]?.fileUrl}`}
+                className="p-1 lg:h-[10rem] h-[8rem] object-contain"
+              />
+              <img
+                src={`http://127.0.0.1:6060/${getProducts[currentProductIndex]?.fileUrl}`}
+                className="p-1 lg:h-[10rem] h-[8rem] object-contain"
+              />
+            </div>
+            <div>
+              <p>{suggestion?.name}</p>
+            </div>
+            <div className="text-black-900 dark:text-white-100">
+              <p className="font-black lg:mt-10 md:mt-4 md:block hidden">
+                Select Best Color
+              </p>
+              <div className="flex justify-between my-4">
+                <div className="flex items-center">
+                  <p className="font-black lg:mt-10 md:mt-4 text-sm flex md:hidden mr-10 py-5">
+                    Select Best Color
+                  </p>
+                  {suggestion?.colors.map((color) => (
+                    <div
+                      className={` lg:w-12 lg:h-12 md:w-8 md:h-8 w-7 h-7 lg:mr-4 mr-1 rounded-lg bg-[${color?.colorHex}] `}
+                    ></div>
+                  ))}
+                </div>
+
+                <div className="flex items-center md:mx-10 ml-5">
+                  <button
+                    onClick={() => setCount(count - 1)}
+                    className="lg:px-4 lg:py-2 px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 duration-200 focus:outline-none"
+                  >
+                    -
+                  </button>
+                  <span className="px-5">{count}</span>
+                  <button
+                    onClick={() => setCount(count + 1)}
+                    className="lg:px-4 lg:py-2 px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 duration-200 focus:outline-none"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <p className="font-black lg:mt-10 md:mt-4">spaciousness</p>
+              <div className="flex justify-between md:my-4 py-6 lg:text-base md:text-sm text-xs">
+                <p>1.Better quality</p>
+                <p>2.Variety Color</p>
+                <p>3.Best Products</p>
+              </div>
+
+              <div className="md:block flex justify-center">
+                <button
+                  className="lg:px-12 md:px-9 px-12 py-3 md:text-base text-sm bg-blue-600 text-white-100 rounded-md"
+                  // onClick={() => handleAddToCart(newProduct)}
+                >
+                  Add To Cart
+                </button>
+              </div>
+            </div>
+          </div>
+          <button
+            className={`absolute right-2 top-80 z-10 outline-none duration-500 ${
+              hover ? "opacity-100" : "opacity-0"
+            }`}
+            onClick={() => goToNextProduct()}
+          >
+            <FontAwesomeIcon
+              icon={faAngleRight}
+              className="lg:text-4xl text-2xl"
+            />
           </button>
         </div>
-      </div>
-      <button
-        className={`absolute right-8 top-40 z-10 outline-none duration-500 ${
-          hover ? "opacity-100" : "opacity-0"
-        }`}
-        onClick={() => goToNextProduct()}
-      >
-        <FontAwesomeIcon icon={faAngleRight} className="lg:text-4xl text-2xl" />
-      </button>
-
+      ))}
       <ToastContainer />
     </section>
   );

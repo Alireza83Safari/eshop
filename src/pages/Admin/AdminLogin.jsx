@@ -41,7 +41,6 @@ export default function AdminLogin() {
   return (
     <>
       <Header />
-
       <section className="flex items-center justify-center mt-32 mb-10">
         <form className="w-96 p-6 rounded-xl shadow-md bg-white-300 dark:bg-black-900">
           <h2 className="text-2xl font-bold mb-6 text-center dark:text-white-200">
@@ -103,7 +102,6 @@ export default function AdminLogin() {
           </button>
         </form>
       </section>
-
       <Footer />
     </>
   );

@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "./Header/Header";
 import Footer from "./Footer";
-import userAxios from "./../services/Axios/userInterceptors"
+import userAxios from "../services/Axios/userInterceptors";
 import { loginValidation } from "../validators/loginValidation";
+import AuthContext from "../Context/AuthContext";
+import Sidebar from "./Sidebar/Sidebar";
 
 export default function Login() {
   const navigate = useNavigate();
   const [errors, setErrors] = useState(null);
   const [serverErrors, setServerErrors] = useState(null);
-
+  const { userLogin } = useContext(AuthContext);
   const [loginInfos, setLoginInfos] = useState({
     username: "",
     password: "",
@@ -22,8 +24,9 @@ export default function Login() {
     });
   };
 
-  const userLogin = (event) => {
+  const userLoginHandler = (event) => {
     event.preventDefault();
+
     loginValidation(loginInfos, errors, setErrors);
 
     userAxios
@@ -31,6 +34,7 @@ export default function Login() {
       .then((res) => {
         if (res.status === 200) {
           navigate("/");
+          userLogin();
         }
       })
       .catch((err) => {
@@ -40,7 +44,7 @@ export default function Login() {
   return (
     <>
       <Header />
-
+      <Sidebar />
       <section className="flex items-center justify-center mt-32 mb-10">
         <form className="w-96 p-6 rounded-xl shadow-md bg-white-300 dark:bg-black-900">
           <h2 className="text-2xl font-bold mb-6 text-center dark:text-white-200">
@@ -93,7 +97,7 @@ export default function Login() {
             type="submit"
             className="w-full mt-8 py-2 px-4 bg-blue-600 hover:bg-blue-700 duration-300 text-white-100 rounded-lg disabled:bg-gray-200"
             disabled={errors?.length}
-            onClick={userLogin}
+            onClick={userLoginHandler}
           >
             Login
           </button>
