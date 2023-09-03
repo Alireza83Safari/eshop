@@ -4,7 +4,7 @@ import { faPercent, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import "react-toastify/dist/ReactToastify.css";
 import Spinner from "../../Spinner/Spinner";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
-import adminAxios from "../../../services/Axios/adminInterceptors"
+import adminAxios from "../../../services/Axios/adminInterceptors";
 import Discount from "./Discount/Discount";
 
 const Departments = lazy(() => import("./Departments"));
@@ -89,13 +89,13 @@ export default function ProductsPanel() {
 
               <div>
                 <button
-                  className="sm:text-xs text-[10px] bg-blue-600 text-white-100 p-2 mr-2 rounded-lg whitespace-nowrap"
+                  className="sm:text-xs text-[10px] bg-blue-600 text-white-100 md:p-2 p-1 md:mr-2 mr-1 rounded-lg whitespace-nowrap"
                   onClick={() => setShowAddProduct(true)}
                 >
                   Add Product <FontAwesomeIcon icon={faPlus} />
                 </button>
                 <button
-                  className="sm:text-xs text-[10px] bg-orange-400 text-white-100 p-2 rounded-lg whitespace-nowrap"
+                  className="sm:text-xs text-[10px] bg-orange-400 text-white-100 md:p-2 p-1 md:mr-2 mr-1 rounded-lg whitespace-nowrap"
                   onClick={() => setShowDiscount(true)}
                 >
                   Add Discount <FontAwesomeIcon icon={faPercent} />

@@ -32,7 +32,6 @@ export default function AddProductFile() {
         setShowFile(false);
       }
     } catch (error) {
-      console.log("Error deleting the product:", error.message);
       setIsLoading(false);
     }
   };

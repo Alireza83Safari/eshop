@@ -34,8 +34,8 @@ export default function AddNewProduct() {
     setLoading(true);
     try {
       const response = await adminAxios.post("/product", productInfo);
-      setNewProductId(response?.data.data);
       if (response.status === 200) {
+        setNewProductId(response?.data.data);
         fetchProductList();
         setShowProductItem(true);
         setShowAddProduct(false);

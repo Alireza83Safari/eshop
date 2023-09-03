@@ -91,7 +91,7 @@ export default function ProductsTable() {
                 </td>
                 <td className="py-3">{product?.categoryName}</td>
                 <td className="py-3">{product?.code}</td>
-                <td className="py-3 md:space-x-2">
+                <td className="py-3 space-x-2">
                   <button onClick={() => editHandler(product?.id)}>
                     <FontAwesomeIcon
                       icon={faEdit}
