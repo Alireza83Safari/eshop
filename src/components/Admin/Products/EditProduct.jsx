@@ -17,9 +17,9 @@ export default function EditProduct() {
     code: "",
     shortDescription: "",
     description: "",
-    topFeatures: null,
+    topFeatures: [" "],
   });
-
+  //console.log(productInfo);
   const [isLoading, setLoading] = useState(false);
   const [formHaveError, setFormHaveError] = useState(null);
   const [errors, setErrors] = useState({
@@ -64,14 +64,23 @@ export default function EditProduct() {
     fetchData();
   }, [showEditModal]);
 
-  const editProductHandler = async (event) => {
-    event.preventDefault();
+  const editProductHandler = async () => {
     setLoading(true);
+    let infos = {
+      brandId: productInfo?.brandId,
+      name: productInfo?.name,
+      categoryId: productInfo?.categoryId,
+      code: productInfo?.code,
+      shortDescription: productInfo?.shortDescription,
+      description: productInfo?.description,
+      topFeatures: Array(productInfo?.topFeatures),
+    };
     try {
       const response = await adminAxios.post(
         `/product/edit/${productEditId}`,
-        productInfo
+        infos
       );
+      console.log(response);
       if (response.status === 200) {
         setShowEditModal(false);
         fetchProductList();
@@ -101,16 +110,17 @@ export default function EditProduct() {
         <span className="mb-5 text-xl font-bold flex justify-center">
           Edit Product
         </span>
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <form
-            className="w-full max-w-sm mx-auto p-4 bg-white rounded-lg"
-            onSubmit={editProductHandler}
-          >
+
+        <form
+          className="w-full max-w-sm mx-auto p-4 bg-white rounded-lg"
+          onSubmit={(e) => e.preventDefault()}
+        >
+          {isLoading ? (
+            <Spinner />
+          ) : (
             <div className="grid grid-cols-1 gap-4 mt-4">
               <div className="grid grid-cols-2 gap-4">
-                <div>
+                <div className="col-span-2">
                   <label
                     htmlFor="name"
                     className="block text-gray-800 font-medium"
@@ -123,6 +133,23 @@ export default function EditProduct() {
                     name="name"
                     className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
                     value={productInfo?.name}
+                    onChange={setProductInfos}
+                  />
+                  <p className="text-sm text-red-700">{errors?.name}</p>
+                </div>
+                <div>
+                  <label
+                    htmlFor="topFeatures"
+                    className="block text-gray-800 font-medium"
+                  >
+                    topFeatures
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Product topFeatures"
+                    name="topFeatures"
+                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                    value={productInfo?.topFeatures}
                     onChange={setProductInfos}
                   />
                   <p className="text-sm text-red-700">{errors?.name}</p>
@@ -237,25 +264,26 @@ export default function EditProduct() {
                 </div>
               </div>
             </div>
-            <div className="flex justify-center mt-8">
-              <button
-                type="click"
-                className="bg-blue-600 disabled:bg-gray-100 text-white-100 w-1/2 py-2 rounded-xl mr-2"
-                onClick={editProductHandler}
-                disabled={formHaveError}
-              >
-                Edit Product
-              </button>
-              <button
-                type="click"
-                className="w-1/2 py-2 rounded-xl border ml-2"
-                onclick={() => setShowEditModal(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
-        )}
+          )}
+
+          <div className="flex justify-center mt-8">
+            <button
+              type="submit"
+              className="bg-blue-600 disabled:bg-gray-100 text-white-100 w-1/2 py-2 rounded-xl mr-2"
+              onClick={editProductHandler}
+              disabled={formHaveError}
+            >
+              Edit Product
+            </button>
+            <button
+              type="submit"
+              className="w-1/2 py-2 rounded-xl border ml-2"
+              onClick={() => setShowEditModal(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
       </div>
     </div>,
     document.getElementById("portal")
