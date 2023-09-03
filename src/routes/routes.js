@@ -22,6 +22,7 @@ import ProfileOrders from "../components/Profile/ProfileOrders";
 import ProfileComments from "../components/Profile/ProfileComments";
 import PrivateRoute from "../components/Admin/PrivateRoute";
 import AdminLogin from "../pages/Admin/AdminLogin";
+import BrandResult from "../components/BrandResult";
 
 const route = [
   { path: "", element: <ShopIndex /> },
@@ -32,6 +33,7 @@ const route = [
   { path: "register", element: <Register /> },
   { path: "checkout/shipping", element: <Shipping /> },
   { path: "/search/:searchTerm", element: <SearchResult /> },
+  { path: "/brand/:brand", element: <BrandResult /> },
   {
     path: "profile/*",
     element: <ProfilePage />,
