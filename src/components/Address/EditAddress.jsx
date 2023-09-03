@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import userAxios from "../../services/Axios/userInterceptors"
+import userAxios from "../../services/Axios/userInterceptors";
 import { addressValidation } from "../../validators/addressValidation";
 import { Spinner } from "flowbite-react";
 
@@ -70,14 +70,13 @@ export default function EditAddress({
       setServerErrors(err?.response?.data);
     }
   };
-  console.log(errors);
   return ReactDOM.createPortal(
     <div
       className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full h-screen flex items-center justify-center transition duration-400 ${
         showEditAddress ? "visible" : "invisible"
       }`}
     >
-      <div className="w-2/4 bg-white-100 p-5 rounded-xl">
+      <div className="md:w-2/4 w-10/12 bg-white-100 p-5 rounded-xl">
         <span className="mb-5 text-xl font-bold flex justify-center">
           Edit Address
         </span>

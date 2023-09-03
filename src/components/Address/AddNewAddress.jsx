@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import userAxios from "../../services/Axios/userInterceptors"
+import userAxios from "../../services/Axios/userInterceptors";
 import { addressValidation } from "../../validators/addressValidation";
 import { Spinner } from "flowbite-react";
 
@@ -56,7 +56,7 @@ export default function AddNewAddress({
         showAddAddress ? "visible" : "invisible"
       }`}
     >
-      <div className="w-2/4 bg-white-100 p-5 rounded-xl">
+      <div className="md:w-2/4 w-10/12 bg-white-100 p-5 rounded-xl">
         <span className="mb-5 text-xl font-bold flex justify-center">
           Add New Address
         </span>

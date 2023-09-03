@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
-import userAxios from "../../services/Axios/userInterceptors"
+import userAxios from "../../services/Axios/userInterceptors";
 
 export default function ProfileFavorite() {
   const [favoriteProducts, setFavoriteProducts] = useState([]);
@@ -11,10 +11,8 @@ export default function ProfileFavorite() {
   const getFavoriteProducts = async () => {
     try {
       const response = await userAxios.get(`/profile/favoriteProducts`);
-      setFavoriteProducts(response?.data);
-    } catch (error) {
-      console.log("Error fetching search results:", error);
-    }
+      setFavoriteProducts(response?.data?.data);
+    } catch (error) {}
   };
   useEffect(() => {
     getFavoriteProducts();
@@ -22,7 +20,9 @@ export default function ProfileFavorite() {
 
   const deleteFavorite = async (ID) => {
     try {
-      const response = await userAxios.post(`/favoriteProductItem/delete/${ID}`);
+      const response = await userAxios.post(
+        `/favoriteProductItem/delete/${ID}`
+      );
       setFavoriteProducts(response?.data);
       if (response.status === 200) {
         getFavoriteProducts();
@@ -30,9 +30,7 @@ export default function ProfileFavorite() {
           position: "bottom-right",
         });
       }
-    } catch (error) {
-      console.log("Error fetching search results:", error);
-    }
+    } catch (error) {}
   };
 
   const handleAddToCart = async (ID) => {
@@ -48,9 +46,7 @@ export default function ProfileFavorite() {
           position: "bottom-right",
         });
       }
-    } catch (error) {
-      console.log("Error fetching search results:", error);
-    }
+    } catch (error) {}
   };
 
   return (
