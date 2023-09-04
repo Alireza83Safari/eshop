@@ -1,13 +1,13 @@
 .spinner {
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 7px;
+  height: 7px;
 }
 
 .spinner div {
   position: absolute;
   width: 50%;
-  height: 150%;
+  height: 110%;
   background: #474bff;
   transform: rotate(calc(var(--rotation) * 1deg))
     translate(0, calc(var(--translation) * 1%));
