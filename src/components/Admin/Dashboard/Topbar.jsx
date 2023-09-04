@@ -1,55 +1,63 @@
-import React, { useState } from "react";
-import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
+import { faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-export default function Topbar() {
-  const [topbarData, setTopbarData] = useState([
-    {
-      title: "Money to withdraw",
-      change: "-10",
-      total: 3213,
-      date: "Feb 1th,2023",
-    },
-    {
-      title: "Total Reveneu",
-      change: "14",
-      total: 756,
-      date: "Feb 25th,2023",
-    },
-    {
-      title: "Total Customer",
-      change: "34",
-      total: 7456,
-      date: "Jul 22th,2023",
-    },
-  ]);
+import adminAxios from "../../../services/Axios/adminInterceptors";
+import useFetch from "../../../hooks/useFetch";
 
+export default function Topbar() {
+  const { datas: totalOrder } = useFetch("/order", adminAxios);
+  const { datas: totalProducts } = useFetch("/product/selectList", adminAxios);
+  const { datas: totalBrand } = useFetch("/brand", adminAxios);
+  const date = new Date();
   return (
     <>
-      {topbarData.map((data, index) => (
-        <div
-          className="relative rounded-lg sm:col-span-1 col-span-3 bg-white-100 dark:bg-black-200 p-6 dark:text-white-100 text-black-900"
-          key={index}
-        >
-          <div className="flex items-center sm:justify-between text-xs 2xl:text-base lg:text-sm">
-            <p className="xl:mr-4 whitespace-nowrap">{data.title}</p>
-            <span
-              className={` " mx-1 text-green-300 flex items-center font-bold sm:right-0 right-8 pr-3 absolute " ${
-                data.change.includes("-") ? "text-red-300" : "text-green-300"
-              }`}
-            >
-              <FontAwesomeIcon
-                icon={data.change.includes("-") ? faCaretDown : faCaretUp}
-                className="xl:mx-1"
-              />
-              {data.change}%
-            </span>
-          </div>
-          <h1 className="font-bold xl:text-4xl text-2xl my-3 text-blue-600 text-center">
-            {data.total.toLocaleString()}$
-          </h1>
-          <p className="text-sm text-gray-500">{data.date} </p>
+      <div className="relative rounded-lg sm:col-span-1 col-span-3 bg-white-100 dark:bg-black-200 p-6 dark:text-white-100 text-black-900">
+        <div className="flex items-center sm:justify-between text-xs 2xl:text-base lg:text-sm">
+          <p className="xl:mr-4 whitespace-nowrap">Total Orders</p>
+          <span className="mx-1 text-green-300 flex items-center font-bold sm:right-0 right-8 pr-3 absolute">
+            <FontAwesomeIcon icon={faCaretUp} className="xl:mx-1" />
+            12%
+          </span>
         </div>
-      ))}
+        <h1 className="font-bold xl:text-4xl text-2xl my-3 text-blue-600 text-center">
+          {totalOrder?.total}
+        </h1>
+        <p className="text-sm text-gray-500">
+          {date.getFullYear()}/{date.getMonth() + 1}/{date.getDate()}
+        </p>
+      </div>
+
+      <div className="relative rounded-lg sm:col-span-1 col-span-3 bg-white-100 dark:bg-black-200 p-6 dark:text-white-100 text-black-900">
+        <div className="flex items-center sm:justify-between text-xs 2xl:text-base lg:text-sm">
+          <p className="xl:mr-4 whitespace-nowrap">Total Products</p>
+          <span className="mx-1 text-green-300 flex items-center font-bold sm:right-0 right-8 pr-3 absolute">
+            <FontAwesomeIcon icon={faCaretUp} className="xl:mx-1" />
+            1%
+          </span>
+        </div>
+        <h1 className="font-bold xl:text-4xl text-2xl my-3 text-blue-600 text-center">
+          {totalProducts?.total}
+        </h1>
+        <p className="text-sm text-gray-500">
+          {date.getFullYear()}/{date.getMonth() + 1}/{date.getDate()}
+        </p>
+      </div>
+
+      <div className="relative rounded-lg sm:col-span-1 col-span-3 bg-white-100 dark:bg-black-200 p-6 dark:text-white-100 text-black-900">
+        <div className="flex items-center sm:justify-between text-xs 2xl:text-base lg:text-sm">
+          <p className="xl:mr-4 whitespace-nowrap">Total Brand</p>
+          <span className="mx-1 text-green-300 flex items-center font-bold sm:right-0 right-8 pr-3 absolute">
+            <FontAwesomeIcon icon={faCaretUp} className="xl:mx-1" />
+            12%
+          </span>
+        </div>
+        <h1 className="font-bold xl:text-4xl text-2xl my-3 text-blue-600 text-center">
+          {totalBrand?.total}
+        </h1>
+        <p className="text-sm text-gray-500">
+          {date.getFullYear()}/{date.getMonth() + 1}/{date.getDate()}
+        </p>
+      </div>
     </>
   );
 }

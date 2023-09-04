@@ -49,7 +49,7 @@ export default function Login() {
     <>
       <Header />
       <Sidebar />
-      <section className="flex items-center justify-center mt-32 mb-10">
+      <section className="flex items-center justify-center mt-32 mb-10 pb-80">
         <form className="w-96 p-6 rounded-xl shadow-md bg-white-300 dark:bg-black-900">
           <div className={` ${isLoading && "opacity-30"}`}>
             <h2 className="text-2xl font-bold mb-6 text-center dark:text-white-200">

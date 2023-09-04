@@ -86,7 +86,7 @@ export default function AddProductItem({}) {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label
-                    htmlFor="quantity"
+                    htmlFor="price"
                     className="block text-gray-800 font-medium"
                   >
                     Price

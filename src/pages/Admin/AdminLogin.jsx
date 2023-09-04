@@ -10,7 +10,7 @@ export default function AdminLogin() {
   const navigate = useNavigate();
   const [errors, setErrors] = useState(null);
   const [serverErrors, setServerErrors] = useState(null);
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const [loginInfos, setLoginInfos] = useState({
     username: "",
     password: "",

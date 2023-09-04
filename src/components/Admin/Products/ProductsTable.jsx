@@ -4,7 +4,7 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import InfosModal from "./InfosModal";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import Pagination from "../../Paganation";
-import adminAxios from "../../../services/Axios/adminInterceptors"
+import adminAxios from "../../../services/Axios/adminInterceptors";
 
 export default function ProductsTable() {
   const [paginatedProducts, setPaginatedProducts] = useState([]);

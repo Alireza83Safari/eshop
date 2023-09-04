@@ -26,7 +26,7 @@ export default function Profile() {
         <p className="text-xs text-gray-500">{userInfo?.role.name} Member</p>
       </div>
 
-      <Link className="flex items-center py-2">
+      <Link className="flex items-center py-2" to="/profile/orders">
         <FontAwesomeIcon icon={faEdit} />
         <p className="pl-2">Edit Profile</p>
       </Link>
@@ -34,7 +34,10 @@ export default function Profile() {
         <FontAwesomeIcon icon={faHeart} />
         <p className="pl-2">Favorite Products</p>
       </Link>
-      <Link className="flex items-center border-b pb-4 py-1" to="/profile">
+      <Link
+        className="flex items-center border-b pb-4 py-1"
+        to="/profile/favorite"
+      >
         <FontAwesomeIcon icon={faUserAstronaut} />
         <p className="pl-2">View Profile</p>
       </Link>

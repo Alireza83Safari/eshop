@@ -61,7 +61,7 @@ export default function Shipping() {
     >
       <Header />
 
-      <section className="min-h-screen lg:grid grid-cols-12 lg:container m-auto lg:px-20 mt-12">
+      <section className="min-h-screen lg:grid grid-cols-12 lg:container m-auto lg:px-20 mt-12 pb-80">
         <div className="lg:col-span-8 px-8">
           {userAddress?.length ? (
             <div className="w-full border border-blue-60 py-3 px-4 rounded-lg bg-white-200">

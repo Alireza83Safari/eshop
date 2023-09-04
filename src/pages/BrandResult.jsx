@@ -54,7 +54,7 @@ export default function BrandResult() {
     <>
       <Header />
       <Sidebar />
-      <section className="min-h-screen mt-28">
+      <section className="min-h-screen mt-28 pb-80">
         {isLoading ? (
           <Spinner />
         ) : brandResult.length ? (

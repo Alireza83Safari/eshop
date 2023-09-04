@@ -132,7 +132,7 @@ export default function ProductsPanel() {
           {showProductItem && <AddProductItem />}
           {showProductFeature && <AddProductFeature />}
           {showFile && <AddProductFile />}
-          <Discount />
+          {showDiscount && <Discount />}
           <DeleteModal />
           <EditProduct />
         </Suspense>

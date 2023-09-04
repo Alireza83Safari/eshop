@@ -10,7 +10,7 @@ import Sidebar from "./Sidebar/Sidebar";
 
 export default function Home() {
   return (
-    <div className="md:my-8 lg:container mx-auto lg:px-0 px-5">
+    <div className="md:my-8 lg:container mx-auto lg:px-0 px-5 pb-80">
       <Header />
       <Sidebar />
       <Banner />

@@ -5,9 +5,9 @@ const DashboardChart = lazy(() =>
   import("../../components/Admin/Dashboard/DashboardChart")
 );
 const Topbar = lazy(() => import("../../components/Admin/Dashboard/Topbar"));
-const MostViewed = lazy(() => import("../../components/Admin/Dashboard/MostViewed"));
+const TopDiscount = lazy(() => import("../../components/Admin/Dashboard/TopDiscount"));
 const Transactions = lazy(() => import("../../components/Admin/Dashboard/Transactions"));
-const MostSale = lazy(() => import("../../components/Admin/Dashboard/MostSale"));
+const TopSale = lazy(() => import("../../components/Admin/Dashboard/TopSale"));
 
 const Dashboard = () => {
   return (
@@ -27,8 +27,8 @@ const Dashboard = () => {
         </div>
         <div className="grid grid-rows-2 md:col-span-4 col-span-12">
           <Suspense fallback={<Spinner />}>
-            <MostViewed />
-            <MostSale />
+            <TopDiscount />
+            <TopSale />
           </Suspense>
         </div>
       </div>

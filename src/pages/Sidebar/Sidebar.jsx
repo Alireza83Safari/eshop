@@ -18,19 +18,13 @@ import AuthContext from "../../Context/AuthContext";
 export default function Sidebar() {
   const { userLogin } = useContext(AuthContext);
   const { datas: category } = useFetch("/category/selectList", userAxios);
-  console.log(category?.data);
-
   const { showShopSidebar, setShowShopSidebar } = useContext(productsContext);
   const [showSubMenu, setShowSubMenu] = useState(false);
 
   const logOutHandler = () => {
-    userAxios
-      .get("/logout")
-      .then((res) => {
-        console.log(res);
-        userLogin();
-      })
-      .catch((err) => console.log(err));
+    userAxios.get("/logout").then((res) => {
+      userLogin();
+    });
   };
 
   const toggleSubMenu = () => {
@@ -121,7 +115,6 @@ export default function Sidebar() {
                 className="mr-3 lg:text-base text-xl"
               />
               <p className="invisible lg:visible" onClick={logOutHandler}>
-                {" "}
                 Log Out
               </p>
             </Link>

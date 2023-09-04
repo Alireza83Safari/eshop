@@ -4,7 +4,7 @@ import Header from "./Header/Header";
 import Footer from "./Footer";
 import useFetch from "../hooks/useFetch";
 import Spinner from "../components/Spinner/Spinner";
-import userAxios from "./../services/Axios/userInterceptors"
+import userAxios from "./../services/Axios/userInterceptors";
 import Sidebar from "./Sidebar/Sidebar";
 
 const CheckoutProducts = lazy(() =>
@@ -19,8 +19,8 @@ export default function Orders() {
   return (
     <>
       <Header />
-    <Sidebar />
-      <section className="bg-white-100  dark:bg-black-200 text-black-900 mb-8 z-10 dark:text-white-100 mt-24">
+      <Sidebar />
+      <section className="bg-white-100  dark:bg-black-200 text-black-900 mb-8 z-10 dark:text-white-100 mt-24 pb-80">
         <div className="flex justify-center mb-5">
           <Breadcrumb
             links={[

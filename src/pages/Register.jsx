@@ -62,7 +62,7 @@ export default function Register() {
     <>
       <Header />
       <Sidebar />
-      <div className="flex items-center justify-center my-12 mt-32 mb-10">
+      <div className="flex items-center justify-center my-12 mt-32 mb-10 pb-80">
         <form
           className="w-96 p-6 rounded-xl shadow-md bg-white-300 dark:bg-black-900"
           onSubmit={(e) => e.preventDefault()}

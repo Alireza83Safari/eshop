@@ -22,9 +22,7 @@ export default function SearchResults() {
         );
 
         setSearchResults(response?.data?.data);
-      } catch (error) {
-        console.log("Error fetching search results:", error);
-      }
+      } catch (error) {}
     };
 
     fetchSearchResults();
@@ -49,7 +47,7 @@ export default function SearchResults() {
     <>
       <Header />
       <Sidebar />
-      <section className="min-h-screen">
+      <section className="min-h-screen  pb-80">
         {searchResults.length ? (
           <div className="relative grid grid-cols-3 mt-5 pb-14">
             {searchResults?.map((product) => (
