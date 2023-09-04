@@ -24,6 +24,7 @@ import AdminLogin from "../pages/Admin/AdminLogin";
 import BrandResult from "../pages/BrandResult";
 import CategoryResult from "../pages/CategoryResult";
 import Home from "../pages/Home";
+import AppPic from "../pages/Admin/AppPic";
 
 const route = [
   { path: "", element: <Home /> },
@@ -105,6 +106,14 @@ const route = [
         element: (
           <PrivateRoute>
             <Users />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "appPic",
+        element: (
+          <PrivateRoute>
+            <AppPic />
           </PrivateRoute>
         ),
       },

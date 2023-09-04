@@ -7,6 +7,7 @@ import {
   faCommentDots,
   faGear,
   faGripHorizontal,
+  faJedi,
   faLayerGroup,
   faSignOut,
   faUsers,
@@ -23,6 +24,7 @@ export default function Sidebar() {
     { icon: faCommentDots, text: "comments", to: "/panel/comments" },
     { icon: faLayerGroup, text: "roles", to: "/panel/roles" },
     { icon: faUsers, text: "users", to: "/panel/users" },
+    { icon: faJedi, text: "appics", to: "/panel/appPic" },
   ];
 
   const location = useLocation().pathname;
