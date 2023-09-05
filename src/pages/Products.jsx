@@ -1,4 +1,4 @@
-import React, { useEffect, useState, lazy, Suspense } from "react";
+import React, { useEffect, useState, lazy, Suspense, useMemo } from "react";
 import { ToastContainer } from "react-toastify";
 import Spinner from "../components/Spinner/Spinner";
 import useFetch from "../hooks/useFetch";
@@ -18,7 +18,6 @@ const FilterProducts = lazy(() =>
 export default function Products() {
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState(1);
-  const [paginatedProducts, setPaginatedProducts] = useState([]);
   const [showFilterInSm, setShowFilterInSm] = useState(false);
   const [getProducts, setProducts] = useState([]);
   const [filterProduct, setFilterProduct] = useState([]);
@@ -59,13 +58,11 @@ export default function Products() {
     );
   }, [filterProduct, productsData]);
 
-  useEffect(() => {
+  const paginatedProducts = useMemo(() => {
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
 
-    setPaginatedProducts(
-      getProducts?.length ? getProducts?.slice(startIndex, endIndex) : []
-    );
+    return getProducts?.length ? getProducts?.slice(startIndex, endIndex) : [];
   }, [currentPage, getProducts]);
 
   return (
@@ -103,13 +100,11 @@ export default function Products() {
             </div>
           </div>
 
-          <div className="flex justify-center">
-            <Pagination
-              pageNumber={pageNumber}
-              setCurrentPage={setCurrentPage}
-              currentPage={currentPage}
-            />
-          </div>
+          <Pagination
+            pageNumber={pageNumber}
+            setCurrentPage={setCurrentPage}
+            currentPage={currentPage}
+          />
           <ToastContainer />
         </section>
       )}

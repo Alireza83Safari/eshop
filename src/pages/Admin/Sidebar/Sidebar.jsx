@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -29,19 +29,24 @@ export default function Sidebar() {
 
   const location = useLocation().pathname;
   const pathNames = location.substring(location.lastIndexOf("/") + 1);
-  const [activeId, setActiveId] = useState(pathNames || "dashboard");
-  const { mode } = useContext(AuthContext);
+  const { mode, adminLogin, userLogin } = useContext(AuthContext);
 
-  useEffect(() => {
-    setActiveId(pathNames);
-  }, [pathNames]);
+  const activeId = useMemo(() => pathNames, [pathNames]);
 
   const logoutHandler = () => {
-    adminAxios.get("/api/v1/admin/logout");
+    adminAxios
+      .get("/logout")
+      .then((res) => {
+        if (res.status === 200) {
+          adminLogin();
+          userLogin();
+        }
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <section className="fixed top-0 left-0 bg-white-100 dark:bg-black-900 h-full xl:w-[10%] lg:w-[12%] sm:w-[6%] w-[9%] font-bold">
-      <div className="xl:text-[.9rem] md:text-xs">
+      <div className="">
         <Link to="dashboard" className="">
           <div className="w-full invisible lg:visible">
             <img
@@ -58,45 +63,42 @@ export default function Sidebar() {
         <div className="lg:mt-6">
           {items.map((item, index) => (
             <Link
-              className="flex py-4 items-center lg:justify-normal justify-center xl:text-sm lg:text-xs text-black-700 relative dark:text-white-100 lg:pl-4"
+              className="flex xl:py-6 py-5 items-center lg:justify-normal justify-center text-black-700 relative dark:text-white-100 lg:pl-4"
               key={index}
               to={item.to}
             >
-              <div>
-                <div
-                  className={` hover-element relative whitespace-nowrap ${
-                    activeId.toLocaleLowerCase() ===
-                    item.text.toLocaleLowerCase()
-                      ? "active"
-                      : ""
-                  }`}
-                >
-                  <FontAwesomeIcon
-                    icon={item.icon}
-                    className="lg:text-base text-xl"
-                  />
-                  <Link className="ml-3 lg:inline hidden" to={item.to}>
-                    {item.text}
-                  </Link>
-                </div>
+              <div
+                className={` hover-element relative whitespace-nowrap 2xl:text-lg xl:text-sm text-xs ${
+                  activeId.toLocaleLowerCase() === item.text.toLocaleLowerCase()
+                    ? "active"
+                    : ""
+                }`}
+              >
+                <FontAwesomeIcon
+                  icon={item.icon}
+                  className="lg:text-base text-xl"
+                />
+                <Link className="ml-3 lg:inline hidden" to={item.to}>
+                  {item.text}
+                </Link>
               </div>
             </Link>
           ))}
         </div>
       </div>
 
-      <div className="lg:pl-7 sm:pl-5 pl-3 xl:text-sm md:text-xs">
-        <p className="text-xs lg:flex hidden text-black-200 pt-6 pb-4 dark:text-white-100">
+      <div className="lg:pl-7 sm:pl-4 pl-2 xl:text-sm md:text-xs">
+        <p className="text-xs lg:flex hidden text-black-200 pb-4 dark:text-white-100">
           Options
         </p>
-        <Link className="flex py-4 text-black-700 hover:text-gray-500 duration-500 dark:text-white-100">
+        <Link className="flex py-5 text-black-700 hover:text-gray-500 duration-500 dark:text-white-100">
           <FontAwesomeIcon
             icon={faGear}
             className="mr-3 lg:text-base text-xl"
           />
           <p className="invisible lg:visible">Setting</p>
         </Link>
-        <Link className="flex py-4 text-black-700 hover:text-gray-500 duration-500 dark:text-white-100">
+        <Link className="flex py-3 text-black-700 hover:text-gray-500 duration-500 dark:text-white-100">
           <FontAwesomeIcon
             icon={faSignOut}
             className="mr-3 lg:text-base text-xl"
