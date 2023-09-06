@@ -110,12 +110,12 @@ export default function Login() {
           <button
             type="submit"
             className={`w-full mt-8 py-2 px-4 bg-blue-600 hover:bg-blue-700 duration-300 text-white-100 rounded-lg disabled:bg-gray-200 ${
-              isLoading && "py-5"
+              isLoading && "py-5 bg-gray-200"
             }`}
             disabled={errors?.length}
             onClick={userLoginHandler}
           >
-            {isLoading ? <Spinner /> : "py-5 bg-gray-200"}
+            {isLoading ? <Spinner /> : "login"}
           </button>
           <div className="mt-6 text-center dark:text-white-200">
             <Link className="text-xs" to="/register">

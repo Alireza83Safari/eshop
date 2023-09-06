@@ -1,11 +1,8 @@
-
-
-@media  (max-width: 1018px) {
+@media (max-width: 1018px) {
   .hover-element {
     color: var(--text);
     text-decoration: none;
     transition: all 0.3s;
-    margin-bottom: 10px;
   }
   .hover-element.active {
     color: #2762eb;
@@ -13,12 +10,11 @@
   }
 }
 
-@media  (min-width: 1019px) {
+@media (min-width: 1019px) {
   .hover-element {
     color: var(--text);
     text-decoration: none;
     transition: all 0.3s;
-    margin-bottom: 10px;
   }
   .hover-element.active {
     color: #2762eb;

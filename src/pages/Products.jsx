@@ -70,7 +70,7 @@ export default function Products() {
       {isLoading ? (
         <Spinner />
       ) : (
-        <section className="relative mx-auto py-4 dark:bg-black-200 xl:container min-h-screen pb-80 mt-24">
+        <section className="relative mx-auto py-4 dark:bg-black-200 xl:container min-h-screen mt-24">
           <div className="grid grid-cols-12 xl:px-20 px-5">
             <div className="col-span-12 flex justify-center">
               <button

@@ -12,10 +12,11 @@ function App() {
   const [adminIsLogin, setAdminIsLogin] = useState(false);
   const [mode, setMode] = useState(false);
   const [showShopSidebar, setShowShopSidebar] = useState(false);
-
+  const [userInfos, setUserInfos] = useState(null);
   const userLogin = () => {
     userAxios.get("/is_authenticated").then((res) => {
       if (res.status === 200) {
+        setUserInfos(res?.data);
         setUserIsLogin(true);
       }
     });
@@ -31,11 +32,11 @@ function App() {
 
   useEffect(() => {
     userLogin();
-  }, [userIsLogin]);
+  }, []);
 
   useEffect(() => {
     adminLogin();
-  }, [adminIsLogin]);
+  }, []);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -67,6 +68,7 @@ function App() {
           userIsLogin,
           adminIsLogin,
           userLogin,
+          userInfos,
         }}
       >
         {routes}

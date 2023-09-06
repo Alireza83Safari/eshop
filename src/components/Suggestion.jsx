@@ -135,7 +135,8 @@ export default function Suggestion() {
                   suggestions?.data[currentProductIndex]?.colors.map(
                     (color) => (
                       <div
-                        className={` lg:w-12 lg:h-12 md:w-8 md:h-8 w-7 h-7 lg:mr-4 mr-1 bg-[${color?.colorHex}] rounded-lg `}
+                        className={` lg:w-12 lg:h-12 md:w-8 md:h-8 w-7 h-7 lg:mr-4 mr-1 rounded-lg border `}
+                        style={{ backgroundColor: `${color?.colorHex}` }}
                       ></div>
                     )
                   )}

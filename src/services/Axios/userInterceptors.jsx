@@ -23,7 +23,7 @@ userAxios.interceptors.response.use(
       error?.response?.request?.responseURL !==
         "http://localhost:3000/api/v1/user/is_authenticated"
     ) {
-      document.location.href = "/login";
+      //document.location.href = "/login";
     }
     if (error.response.status === 403) {
       document.location.href = "";

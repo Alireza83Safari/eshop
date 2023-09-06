@@ -59,7 +59,7 @@ export default function CategoryResult() {
     <>
       <Header />
       <Sidebar />
-      <section className="min-h-screen mt-28 pb-80">
+      <section className="min-h-screen mt-28">
         {isLoading ? (
           <Spinner />
         ) : categoryResult.length ? (

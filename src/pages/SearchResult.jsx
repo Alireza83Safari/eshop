@@ -47,7 +47,7 @@ export default function SearchResults() {
     <>
       <Header />
       <Sidebar />
-      <section className="min-h-screen  pb-80">
+      <section className="min-h-screen">
         {searchResults.length ? (
           <div className="relative grid grid-cols-3 mt-5 pb-14">
             {searchResults?.map((product) => (

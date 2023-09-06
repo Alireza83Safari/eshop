@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { faHeart, faRoute, faShop } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import useFetch from "../../hooks/useFetch";
-import "../../pages/Admin/Sidebar/Sidebar.css";
-import userAxios from "../../services/Axios/userInterceptors";
+import "../../pages/Sidebar/Sidebar.css";
+import AuthContext from "../../Context/AuthContext";
 
 export default function ProfileMenu() {
-  const { datas } = useFetch("/is_authenticated", userAxios);
+  const { userInfos } = useContext(AuthContext);
   const items = [
     { icon: faShop, text: "orders", to: `/profile/orders` },
     { icon: faRoute, text: "address", to: "/profile/address" },
@@ -28,13 +27,13 @@ export default function ProfileMenu() {
           className="lg:w-16 lg:h-16 w-10 h-10 lg:mr-8 mr-2"
         />
         <p className="text-black-700 dark:text-white-100 lg:text-base text-xs">
-          {datas?.username}
+          {userInfos?.username}
         </p>
       </div>
       <div className="">
         {items.map((item, index) => (
           <Link
-            className={`flex items-center lg:justify-normal justify-center text-black-700 dark:text-white-100 relative p-5 hover:bg-gray-100 duration-500 hover-element ${
+            className={`flex items-center lg:justify-normal justify-center text-black-700 dark:text-white-100 relative p-5 py-7 hover:bg-gray-100 duration-500 hover-element ${
               activeId?.toLocaleLowerCase() === item?.text.toLocaleLowerCase()
                 ? "active"
                 : ""

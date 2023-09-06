@@ -6,7 +6,7 @@ export default function Pagination({
   currentPage,
 }) {
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center relative">
       <div className="flex justify-center absolute bottom-2">
         {pageNumber.map((page) => (
           <div

@@ -28,7 +28,7 @@ export default function ProductsInfo() {
     <>
       <Header />
       <Sidebar />
-      <section className="md:px-5 xl:px-16 px-2 xl:container mx-auto mt-24 pb-80">
+      <section className="md:px-5 xl:px-16 px-2 xl:container mx-auto mt-24">
         <div className="grid grid-cols-12">
           <div className="lg:col-span-4 md:col-span-5 col-span-12">
             <div className="md:block flex justify-center h-full w-full md:px-4 lg:py-10 md:py-20">
