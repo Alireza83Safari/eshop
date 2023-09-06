@@ -8,11 +8,9 @@ import Pagination from "../components/Paganation";
 import userAxios from "./../services/Axios/userInterceptors";
 import { useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar/Sidebar";
+import FilterProducts from "../components/Product/FilterProducts";
 const ProductTemplate = lazy(() =>
   import("../components/Product/ProductTemplate")
-);
-const FilterProducts = lazy(() =>
-  import("../components/Product/FilterProducts")
 );
 
 export default function Products() {
@@ -81,21 +79,17 @@ export default function Products() {
               >
                 <img src="/images/filter.svg" alt="" />
               </button>
-              <Suspense fallback={<Spinner />}>
-                <FilterProducts
-                  showFilterInSm={showFilterInSm}
-                  setCurrentPage={setCurrentPage}
-                />
-              </Suspense>
+              <FilterProducts
+                showFilterInSm={showFilterInSm}
+                setCurrentPage={setCurrentPage}
+              />
             </div>
 
             <div className="relative grid lg:grid-cols-3 sm:grid-cols-2 col-span-12 mt-5 pb-14">
               <Suspense fallback={<Spinner />}>
-                <>
-                  {paginatedProducts?.map((product) => (
-                    <ProductTemplate product={product} />
-                  ))}
-                </>
+                {paginatedProducts?.map((product) => (
+                  <ProductTemplate product={product} />
+                ))}
               </Suspense>
             </div>
           </div>
