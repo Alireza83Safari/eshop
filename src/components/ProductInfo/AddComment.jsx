@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 import userAxios from "../../services/Axios/userInterceptors";
+import useFetch from "../../hooks/useFetch";
 
-export default function AddComment({ fetchComments }) {
+function AddComment({ fetchComments, productId }) {
   const [strengths, setStrengths] = useState([]);
   const [strengthValue, setStrengthValue] = useState("");
   const [commentValue, setCommentValue] = useState("");
@@ -13,19 +14,23 @@ export default function AddComment({ fetchComments }) {
   const [weakPointsValue, setWeakPointsValue] = useState("");
   const [isCommentEmpty, setIsCommentEmpty] = useState(true);
 
-  const { productID } = useParams();
+  const addNewStrength = useCallback(
+    (e) => {
+      e.preventDefault();
+      setStrengths([...strengths, strengthValue]);
+      setStrengthValue("");
+    },
+    [strengths, strengthValue]
+  );
 
-  const addNewStrength = (e) => {
-    e.preventDefault();
-    setStrengths([...strengths, strengthValue]);
-    setStrengthValue("");
-  };
-
-  const addNewWeakPoints = (e) => {
-    e.preventDefault();
-    setWeakPoints([...weakPoints, weakPointsValue]);
-    setWeakPointsValue("");
-  };
+  const addNewWeakPoints = useCallback(
+    (e) => {
+      e.preventDefault();
+      setWeakPoints([...weakPoints, weakPointsValue]);
+      setWeakPointsValue("");
+    },
+    [weakPoints, weakPointsValue]
+  );
 
   const deleteWeakPoint = (index) => {
     const updatedWeakPoints = weakPoints.filter((_, i) => i !== index);
@@ -41,7 +46,7 @@ export default function AddComment({ fetchComments }) {
     e.preventDefault();
 
     const commentObj = {
-      productId: productID,
+      productId: productId,
       rate: Number(rate),
       strengthPoints: strengths,
       text: commentValue,
@@ -49,16 +54,17 @@ export default function AddComment({ fetchComments }) {
     };
 
     try {
-      await userAxios.post("/comment", commentObj);
-      fetchComments();
-      setRate(null);
-      setCommentValue("");
-      setStrengths([]);
-      setWeakPoints([]);
-      setIsCommentEmpty(true);
-    } catch (error) {
-
-    }
+      await userAxios.post("/comment", commentObj).then((res) => {
+        if (res.status === 200) {
+          fetchComments();
+          setRate(null);
+          setCommentValue("");
+          setStrengths([]);
+          setWeakPoints([]);
+          setIsCommentEmpty(true);
+        }
+      });
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -200,3 +206,4 @@ export default function AddComment({ fetchComments }) {
     </form>
   );
 }
+export default React.memo(AddComment);

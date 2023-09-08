@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
@@ -62,16 +62,14 @@ export default function ProductContent({ findProduct, productItem }) {
           />
         </div>
         <div className="md:flex grid grid-cols-2 sm:py-4 py-6 sm:text-sm text-xs  my-3">
-          <div className="sm:mr-8">
+          <p className="sm:text-sm text-xs mr-12">Total Review Rate </p>
+          <div className="">
             <FontAwesomeIcon icon={faStar} className="text-green-300" />
             <FontAwesomeIcon icon={faStar} className="text-green-300" />
             <FontAwesomeIcon icon={faStar} className="text-green-300" />
             <FontAwesomeIcon icon={faStar} className="text-green-300" />
             <FontAwesomeIcon icon={faStar} className="text-gray-100" />
           </div>
-          <p className="sm:text-sm text-xs">
-            (<span className="text-green-300 mx-1">1</span>) Review | Add Review
-          </p>
         </div>
         <div className="text-sm">
           <div className="md:flex grid grid-cols-2  my-3">
@@ -90,7 +88,8 @@ export default function ProductContent({ findProduct, productItem }) {
             <div className="mt-2 flex">
               {productItem?.colors?.map((color) => (
                 <div
-                  className={` mx-1 w-10 h-10 rounded-full bg-[${color?.colorHex}] `}
+                  className={` mx-1 w-10 h-10 rounded-lg`}
+                  style={{ backgroundColor: color?.colorHex }}
                 ></div>
               ))}
             </div>

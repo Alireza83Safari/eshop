@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import CommentsTemplate from "./CommentsTemplate";
 import AddComment from "./AddComment";
 import userAxios from "../../services/Axios/userInterceptors";
 
-export default function Comments() {
-  const { productID } = useParams();
+export default function Comments({ productId }) {
   const [getComments, setComments] = useState([]);
 
   const fetchComments = async () => {
     try {
-      const response = await userAxios.get(`/comment/product/${productID}`);
+      const response = await userAxios.get(`/comment/product/${productId}`);
 
       if (response.status === 200) {
         setComments(response?.data.data);
@@ -43,7 +41,7 @@ export default function Comments() {
             about this product.
           </p>
 
-          <AddComment fetchComments={fetchComments} />
+          <AddComment fetchComments={fetchComments} productId={productId} />
         </div>
       </>
 
