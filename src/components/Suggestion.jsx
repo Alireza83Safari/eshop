@@ -1,13 +1,13 @@
-import {
-  faAngleLeft,
-  faAngleRight,
-  faArrowUp,
-} from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import userAxios from "../services/Axios/userInterceptors";
 import useFetch from "../hooks/useFetch";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
 
 export default function Suggestion() {
   const [count, setCount] = useState(1);
@@ -26,9 +26,8 @@ export default function Suggestion() {
   const handleAddToCart = async (product) => {
     let productData = {
       productItemId: product?.productItemId,
-      quantity: 1,
+      quantity: count,
     };
-
     try {
       const response = await userAxios.post("/orderItem", productData);
       if (response.status === 200) {
@@ -54,10 +53,13 @@ export default function Suggestion() {
     );
   };
   const [hover, setHover] = useState(false);
-
+  const { datas } = useFetch(
+    `/productItem/${suggestions?.data[currentProductIndex].productItemId}`,
+    userAxios
+  );
   return (
     <section
-      className="w-full xl:px-20 md:px-4 lg:mt-52 md:mt-36 mt-20 relative"
+      className="w-full xl:px-20 md:px-4 lg:mt-52 md:mt-40 mt-32 relative"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
@@ -83,9 +85,7 @@ export default function Suggestion() {
           </h1>
         </div>
         <p className="px-4 text-black-900 dark:text-white-100 lg:text-base text-sm md:text-start text-center">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, vitae
-          placeat? officia, accusamus excepturi sequi nemo illum officiis facere
-          vel.
+          {datas?.productDescription}
         </p>
         <h2 className="md:my-5 mt-3 text-2xl text-blue-600 font-black md:text-start text-center">
           20.45$
@@ -99,23 +99,37 @@ export default function Suggestion() {
               suggestions?.data &&
               suggestions?.data[currentProductIndex]?.files[0]?.fileUrl
             }`}
-            className="object-contain md:p-10 px-10 md:h-full h-[24rem]"
+            className="object-contain md:p-10 px-10 md:h-full h-[20rem]"
           />
         </div>
         <div className="ml-5">
           <p className="font-black text-black-900 dark:text-white-100">
             Choose Your Product
           </p>
-          <div className="grid grid-cols-3 py-3">
-            {suggestions?.data[currentProductIndex]?.files?.map((data) => (
-              <>
-                <img
-                  src={`http://127.0.0.1:6060/${data?.fileUrl}`}
-                  className="p-1 lg:h-[10rem] h-[8rem] object-contain"
-                />
-              </>
-            ))}
+          <div className="py-3">
+            <Swiper
+              slidesPerView={3}
+              spaceBetween={30}
+              pagination={{
+                clickable: true,
+              }}
+              modules={[Pagination]}
+              className="mySwiper"
+            >
+              {suggestions?.data[currentProductIndex]?.files?.map(
+                (data, index) => (
+                  <SwiperSlide key={index}>
+                    <img
+                      src={`http://127.0.0.1:6060/${data?.fileUrl}`}
+                      className="p-1 lg:h-[10rem] h-[8rem] object-contain"
+                      alt={`Product Image ${index}`}
+                    />
+                  </SwiperSlide>
+                )
+              )}
+            </Swiper>
           </div>
+
           <div>
             <p>
               {suggestions?.data &&
@@ -159,10 +173,8 @@ export default function Suggestion() {
               </div>
             </div>
 
-            <div className="flex justify-between md:my-4 py-6 lg:text-base md:text-sm text-xs">
-              <p>1.Better quality</p>
-              <p>2.Variety Color</p>
-              <p>3.Best Products</p>
+            <div className="md:my-4 py-6 lg:text-base md:text-sm text-xs truncate">
+              {datas?.productShortDescription}
             </div>
 
             <div className="md:block flex justify-center">

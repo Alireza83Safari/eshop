@@ -32,7 +32,7 @@ export default function SearchResults() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [filterProduct, setFilterProduct] = useState([]);
-  const pageSize = 3;
+  const pageSize = 6;
 
   const currentPageIndex = currentPage - 1;
   const changePaginate = (newPage) => {

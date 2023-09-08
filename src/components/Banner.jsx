@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import userAxios from "./../services/Axios/userInterceptors"
+import userAxios from "./../services/Axios/userInterceptors";
 
 export default function Banner() {
   const [banner, setBanner] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(1);
 
   useEffect(() => {
     const fetchBanner = async () => {
@@ -59,9 +57,6 @@ export default function Banner() {
           />
         </div>
       </div>
-      <p className="text-center font-black mt-10 text-black-900 dark:text-white-100">
-        Scroll Down <FontAwesomeIcon icon={faArrowDown} />
-      </p>
     </section>
   );
 }

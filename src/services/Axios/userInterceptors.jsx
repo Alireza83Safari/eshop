@@ -1,9 +1,11 @@
 import axios from "axios";
+import { toast } from "react-toastify"; // Import toast from react-toastify
 
 const userAxios = axios.create({
   baseURL: "/api/v1/user/",
   withCredentials: true,
 });
+
 userAxios.interceptors.request.use(
   function (config) {
     return config;
@@ -23,11 +25,9 @@ userAxios.interceptors.response.use(
       error?.response?.request?.responseURL !==
         "http://localhost:3000/api/v1/user/is_authenticated"
     ) {
-      //document.location.href = "/login";
+      toast.error("Unauthorized. Please log in.");
     }
-    if (error.response.status === 403) {
-      document.location.href = "";
-    }
+
     return Promise.reject(error);
   }
 );

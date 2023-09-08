@@ -59,7 +59,7 @@ export default function ProductsTable() {
     <>
       <table className="min-w-full">
         <thead>
-          <tr className="md:text-sm sm:text-xs text-[10px] text-center border-y">
+          <tr className="md:text-sm sm:text-xs text-[10px] text-center border-y grid grid-cols-7">
             <th className="py-3">NO</th>
             <th className="py-3">PRODUCT</th>
             <th className="py-3">Brand</th>
@@ -77,21 +77,21 @@ export default function ProductsTable() {
             )
             .map((product, index) => (
               <tr
-                className="md:text-sm sm:text-xs text-[10px] text-center"
+                className="md:text-sm sm:text-xs text-[10px] text-center grid grid-cols-7"
                 key={index}
               >
                 <td className="py-3">{index + 1}</td>
-                <td className="py-3">{product?.name}</td>
+                <td className="py-3 truncate">{product?.name}</td>
                 <td className="py-3 flex justify-center">
                   <img
                     src={`http://127.0.0.1:6060/${product?.brandFileUrl} `}
                     alt=""
-                    className="sm:w-8 w-6"
+                    className="sm:w-8 w-6 object-contain"
                   />
                 </td>
-                <td className="py-3">{product?.categoryName}</td>
-                <td className="py-3">{product?.code}</td>
-                <td className="py-3 space-x-2">
+                <td className="py-3 truncate">{product?.categoryName}</td>
+                <td className="py-3 truncate">{product?.code}</td>
+                <td className="py-3 truncate space-x-2">
                   <button onClick={() => editHandler(product?.id)}>
                     <FontAwesomeIcon
                       icon={faEdit}
@@ -109,7 +109,7 @@ export default function ProductsTable() {
                     <FontAwesomeIcon icon={faTrash} />
                   </button>
                 </td>
-                <td className="py-3">
+                <td className="py-3 truncate">
                   <button
                     className="border md:px-2 px-1 md:text-xs text-[9px] rounded-lg"
                     onClick={() => {

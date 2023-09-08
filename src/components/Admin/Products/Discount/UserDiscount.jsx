@@ -20,6 +20,7 @@ export default function UserDiscount({ setShowUserDiscount }) {
     relatedUserId: "",
     type: "",
     value: "",
+    productItemId: null,
   });
   useEffect(() => {
     if (userId?.length > 1) {

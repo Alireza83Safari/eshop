@@ -28,7 +28,7 @@ export default function ProductDiscount({ setShowProductDiscount }) {
       .get(`/productItem/selectList/${productId}`)
       .then((res) => setProductItemId(res?.data?.data));
   };
-
+  console.log(productItemId && productItemId[0].id);
   useEffect(() => {
     if (productId?.length > 1) {
       setShowChooseProduct(false);
@@ -40,11 +40,14 @@ export default function ProductDiscount({ setShowProductDiscount }) {
     const productInfos = {
       expiresIn: infos?.expiresIn,
       quantity: Number(infos?.quantity),
-      productItemId: productItemId && productItemId[0].itemId,
+      productItemId: productItemId && productItemId[0].id,
       type: Number(infos?.type),
       value: Number(infos?.value),
+      code: null,
+      relatedUserId: null,
     };
 
+    console.log(productInfos);
     discountValidation(infos, errors, setErrors);
     setIsLoading(true);
     try {
@@ -224,6 +227,13 @@ export default function ProductDiscount({ setShowProductDiscount }) {
                 type="submit"
                 className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2"
                 onClick={addProductDiscount}
+              >
+                Add Discount
+              </button>
+              <button
+                type="submit"
+                className="w-full py-2 rounded-xl mr-2 border border-blue-600"
+                onClick={() => setShowProductDiscount(false)}
               >
                 Add Discount
               </button>

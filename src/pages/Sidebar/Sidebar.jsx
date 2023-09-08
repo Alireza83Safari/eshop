@@ -32,7 +32,7 @@ export default function Sidebar() {
   };
 
   const categoryHandler = (data) => {
-    document.location.href = `/category/${data?.value}`;
+    document.location.href = `/category/product?categoryId=${data?.key}`;
   };
   return (
     <>
@@ -50,7 +50,7 @@ export default function Sidebar() {
             <div className="mt-12">
               <Link
                 className="flex py-4 items-center text-sm xl:text-base text-black-700 dark:text-white-100 hover-element relative whitespace-nowrap"
-                to=""
+                to="/"
               >
                 <FontAwesomeIcon
                   icon={faHomeAlt}

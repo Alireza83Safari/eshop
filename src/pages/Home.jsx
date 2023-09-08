@@ -7,6 +7,7 @@ import Promotion from "../components/Promotion";
 import Header from "./Header/Header";
 import Footer from "./Footer";
 import Sidebar from "./Sidebar/Sidebar";
+import ProductSlider from "../components/ProductSlider";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <Sidebar />
       <Banner />
       <Suggestion />
+      <ProductSlider />
       <Promotion />
       <Offer />
       <PopularBrand />

@@ -15,7 +15,6 @@ export default function Offer() {
     "/product?onlyDiscount=true",
     userAxios
   );
-
   const handleAddToCart = (productID) => {
     let productData = {
       productItemId: productID.itemId,
@@ -31,87 +30,84 @@ export default function Offer() {
   };
 
   return (
-    <section className="mt-52 min-h-[30rem]">
-      <div className="flex items-center md:px-5 xl:px-16 px-2">
-        <Timer days={1} />
-        <div className="w-full h-1 bg-blue-600"></div>
-      </div>
+    <>
+      {productsData?.data.length < 1 ? null : (
+        <section className="mt-52 mx-4 lg:mx-20">
+          <div className="flex items-center md:px-5 xl:px-10 px-2">
+            <Timer days={1} />
+            <div className="w-full h-1 bg-blue-600"></div>
+          </div>
+          <div className="rounded-xl border mt-5">
+            <p className="p-4 lg:text-xl text-center dark:text-white-100 font-bold border-b py-4 px-5">
+              Top Discount Products
+            </p>
+            <div className="xl:px-10 p-2">
+              <Swiper
+                slidesPerView={
+                  window.innerWidth >= 1024
+                    ? 4
+                    : window.innerWidth >= 640 && window.innerWidth <= 1024
+                    ? 3
+                    : 2
+                }
+                spaceBetween={7}
+                pagination={{
+                  clickable: true,
+                }}
+                className="mySwiper"
+              >
+                {productsData?.data.length > 1 &&
+                  productsData?.data.map((product) => (
+                    <SwiperSlide key={product.id}>
+                      <div
+                        className="dark:bg-black-200 relative duration-200 bg-white-100 mt-4 md:h-[20rem] h-[15rem] shadow-sm hover:shadow-xl"
+                        key={product.id}
+                      >
+                        <div className=" flex justify-center h-5/6">
+                          <div className="w-8 h-8 flex items-center justify-center lg:text-sm text-xs text-white-100 bg-red-700 rounded-full absolute top-0 right-5">
+                            {product?.discountValue}%
+                          </div>
+                          <Link
+                            to={`/products/${product.name}`}
+                            style={{ display: "block" }}
+                          >
+                            <img
+                              src={`http://127.0.0.1:6060/${product.fileUrl}`}
+                              alt="Product"
+                              className="relative object-contain lg:h-[260px] md:h-[220px] sm:h-[180px] h-[160px]"
+                            />
+                          </Link>
+                          <button
+                            className="flex items-center justify-center text-blue-600 hover:text-white-100 hover:bg-blue-300 duration-500 absolute md:w-10 md:h-10 w-7 h-7 rounded-full lg:bottom-24 bottom-16 right-6 z-10 border border-blue-600"
+                            onClick={() => handleAddToCart(product)}
+                          >
+                            <FontAwesomeIcon
+                              icon={faPlus}
+                              className="text-xl"
+                            />
+                          </button>
+                        </div>
 
-      <div className="xl:px-16 p-2 mt-5">
-        <p className="pb-3 lg:text-xl font-bold text-center text-black-900 dark:text-white-100">
-          Top Discount Products
-        </p>
-
-        <Swiper
-          slidesPerView={
-            window.innerWidth >= 1024
-              ? 4
-              : window.innerWidth >= 640 && window.innerWidth <= 1024
-              ? 3
-              : 2
-          }
-          spaceBetween={30}
-          pagination={{
-            clickable: true,
-          }}
-          className="mySwiper"
-        >
-          {productsData?.data.length > 1 ? (
-            productsData?.data.map((product) => (
-              <SwiperSlide key={product.id}>
-                <div
-                  className="overflow-hidden dark:bg-black-800 relative hover:shadow-lg duration-200"
-                  key={product.id}
-                >
-                  <div className="lg:h-[300px] md:h-[240px] sm:h-[200px] h-[180px] flex justify-center">
-                    <Link
-                      to={`/products/${product.id}`}
-                      style={{ display: "block" }}
-                    >
-                      <img
-                        src={`http://127.0.0.1:6060/${product.fileUrl}`}
-                        alt="Product"
-                        className="relative object-contain lg:h-[260px] md:h-[220px] sm:h-[180px] h-[160px]"
-                      />
-                    </Link>
-                    <button
-                      className="flex items-center justify-center text-blue-600 hover:text-white-100 hover:bg-blue-300 absolute md:w-10 md:h-10 w-7 h-7 rounded-full xl:bottom-32 lg:bottom-24 md:bottom-20 bottom-16 right-6 z-10 border border-blue-600"
-                      onClick={() => handleAddToCart(product)}
-                    >
-                      <FontAwesomeIcon icon={faPlus} className="text-xl" />
-                    </button>
-                  </div>
-
-                  <div className="lg:p-6 p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex">
-                        <p className="font-semibold dark:text-white-100 lg:text-base md:text-xs text-[8px] whitespace-nowrap mr-4 line-through text-gray-200">
-                          $ {product.price}
-                        </p>
-                        <p className="font-semibold dark:text-white-100 lg:text-base md:text-xs text-[8px] whitespace-nowrap">
-                          {product?.price -
-                            (product?.discountValue / 100) * product.price}
-                          $
-                        </p>
+                        <div className="flex justify-center h-1/6">
+                          <p className="font-semibold dark:text-white-100 lg:text-base text-sm whitespace-nowrap mr-6 line-through text-gray-200">
+                            $ {product.price}
+                          </p>
+                          <p className="font-semibold dark:text-white-100 lg:text-base text-sm whitespace-nowrap">
+                            {product?.price -
+                              (product?.discountValue / 100) * product.price}
+                            $
+                          </p>
+                        </div>
                       </div>
-                      <div className="md:p-2 p-1 lg:text-sm text-xs text-white-100 bg-red-700 rounded-full">
-                        {product?.discountValue}%
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))
-          ) : (
-            <div className="text-center text-red-700 font-black text-2xl mt-10">
-              We do not have any discount products
+                    </SwiperSlide>
+                  ))}
+                {}
+              </Swiper>
             </div>
-          )}
-          {}
-        </Swiper>
-
-        <ToastContainer />
-      </div>
-    </section>
+            <ToastContainer />
+          </div>
+        </section>
+      )}
+    </>
   );
 }

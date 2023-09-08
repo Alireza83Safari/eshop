@@ -6,6 +6,7 @@ import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import userAxios from "../services/Axios/userInterceptors";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function Suggestion() {
   const [currentProductIndex, setCurrentProductIndex] = useState(0);
@@ -24,7 +25,6 @@ export default function Suggestion() {
 
   const [getProducts, setProducts] = useState([]);
   const { datas: productsData } = useFetch("product", userAxios);
-
 
   useEffect(() => {
     if (productsData && productsData.data) {
@@ -93,7 +93,7 @@ export default function Suggestion() {
       onMouseLeave={() => setHover(false)}
     >
       <button
-        className={`absolute left-8 top-40 z-10 outline-none duration-500 ${
+        className={` absolute left-8 top-40 z-10 outline-none duration-500 ${
           hover ? "opacity-100" : "opacity-0"
         }`}
         onClick={goToPreviousProduct}
@@ -129,12 +129,13 @@ export default function Suggestion() {
           />
         </div>
         <div className="flex justify-center items-center">
-          <button
+          <Link
             className="text-white-100 rounded-md py-3 px-20 md:px-14 bg-blue-600 md:mt-40 mt-10"
-            onClick={() => addToCart(suggestionProduct)}
+           // onClick={() => addToCart(suggestionProduct)}
+            to={`/products/${suggestionProduct?.name}`}
           >
-            Buy Now
-          </button>
+            Show Now
+          </Link>
         </div>
       </div>
       <button

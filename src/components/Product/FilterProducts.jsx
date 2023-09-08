@@ -1,69 +1,40 @@
-import React, { useState, useMemo, useCallback, lazy, Suspense } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useMemo, useCallback } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import userAxios from "../../services/Axios/userInterceptors";
 
-function FilterProducts({ showFilterInSm, setCurrentPage }) {
+function FilterProducts({ setCurrentPage }) {
   const history = useNavigate();
-  const location = useParams();
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+
   const { datas: categoryData } = useFetch("/category/selectList", userAxios);
   const { datas: brandData } = useFetch("/brand", userAxios);
 
-  const handleInputChange = useCallback(
-    (event) => {
-      const { name, value } = event.target;
-      const searchParams = new URLSearchParams(location.search);
+  const handleChange = useCallback(
+    (name, value) => {
+      searchParams.set(name, value);
 
       if (value === "All") {
         searchParams.delete(name);
-      } else {
-        searchParams.set(name, value);
       }
 
-      history({ search: searchParams.toString() });
-
+      history(`?${searchParams.toString()}`);
       setCurrentPage(1);
     },
-    [location, history, setCurrentPage]
+    [searchParams, history, setCurrentPage]
   );
-
-  const handlePrice = useCallback(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const newMinPrice = minPrice !== "" ? parseInt(minPrice) : null;
-    const newMaxPrice = maxPrice !== "" ? parseInt(maxPrice) : null;
-
-    if (newMinPrice !== null) {
-      searchParams.set("minPrice", newMinPrice);
-    } else {
-      searchParams.delete("minPrice");
-    }
-    if (newMaxPrice !== null) {
-      searchParams.set("maxPrice", newMaxPrice);
-    } else {
-      searchParams.delete("maxPrice");
-    }
-
-    history({ search: searchParams.toString() });
-
-    setCurrentPage(1);
-  }, [minPrice, maxPrice, location, history, setCurrentPage]);
 
   const MemoizedFilterProducts = useMemo(
     () => (
-      <section
-        className={`" border rounded-xl py-3 my-3 mx-4 w-full grid grid-cols-2 text-black-900 dark:text-white-100 " ${
-          showFilterInSm ? "" : "hidden"
-        }`}
-      >
+      <section className="border rounded-xl py-3 my-3 mx-4 w-full grid grid-cols-2 text-black-900 dark:text-white-100">
         <div className="text-xs mx-6 py-2 relative">
           <label htmlFor="minPrice" className="font-medium mb-1">
             Min:
           </label>
           <label
             htmlFor="maxPrice"
-            className="font-medium mb-1  absolute right-2"
+            className="font-medium mb-1 absolute right-2"
           >
             Max:
           </label>
@@ -71,8 +42,8 @@ function FilterProducts({ showFilterInSm, setCurrentPage }) {
             <input
               type="number"
               placeholder="min"
-              value={minPrice}
-              onChange={(e) => setMinPrice(e.target.value)}
+              value={searchParams.get("minPrice") || ""}
+              onChange={(e) => handleChange(e.target.name, e.target.value)}
               id="minPrice"
               name="minPrice"
               className="block text-sm border border-gray-300 w-1/2 rounded px-3 py-2 mb-2 mr-2 focus:outline-none focus:border-blue-600"
@@ -80,18 +51,13 @@ function FilterProducts({ showFilterInSm, setCurrentPage }) {
             <input
               type="number"
               placeholder="max"
-              value={maxPrice}
-              onChange={(e) => {
-                setMaxPrice(e.target.value);
-                handlePrice();
-              }}
+              value={searchParams.get("maxPrice" || "")}
+              onChange={(e) => handleChange(e.target.name, e.target.value)}
               id="maxPrice"
               name="maxPrice"
               className="block relative text-sm border border-gray-300 w-1/2 rounded px-3 py-2 mb-2 ml-2 focus:outline-none focus:border-blue-600"
             />
           </div>
-
-          <div className="flex"></div>
         </div>
 
         <div className="text-xs mx-6 py-2">
@@ -101,12 +67,15 @@ function FilterProducts({ showFilterInSm, setCurrentPage }) {
           <select
             id="categoryId"
             name="categoryId"
-            onChange={handleInputChange}
+            onChange={(e) => handleChange(e.target.name, e.target.value)}
+            value={searchParams.get("categoryId") || "All"}
             className="block border border-gray-300 w-full rounded px-3 py-2 mb-2 focus:outline-none focus:border-blue-600"
           >
             <option value="All">All</option>
             {categoryData?.data.map((cate) => (
-              <option value={cate.key}>{cate.value}</option>
+              <option key={cate.key} value={cate.key}>
+                {cate.value}
+              </option>
             ))}
           </select>
         </div>
@@ -119,13 +88,14 @@ function FilterProducts({ showFilterInSm, setCurrentPage }) {
             id="order"
             name="order"
             className="block border border-gray-300 w-full rounded px-3 py-2 mb-2 focus:outline-none focus:border-blue-600"
-            onChange={handleInputChange}
+            onChange={(e) => handleChange(e.target.name, e.target.value)}
+            value={searchParams.get("order") || ""}
           >
             <option value="">None</option>
             <option value="cheap">cheap</option>
             <option value="newest">newest</option>
             <option value="topSell">topSell</option>
-            <option value="expersive">expersive</option>
+            <option value="expensive">expensive</option>
           </select>
         </div>
 
@@ -137,17 +107,20 @@ function FilterProducts({ showFilterInSm, setCurrentPage }) {
             id="brandId"
             name="brandId"
             className="block border border-gray-300 w-full rounded px-3 py-2 mb-2 focus:outline-none focus:border-blue-600"
-            onChange={handleInputChange}
+            onChange={(e) => handleChange(e.target.name, e.target.value)}
+            value={searchParams.get("brandId") || ""}
           >
             <option value="">None</option>
             {brandData?.data.map((brand) => (
-              <option value={brand.id}>{brand.name}</option>
+              <option key={brand.id} value={brand.id}>
+                {brand.name}
+              </option>
             ))}
           </select>
         </div>
       </section>
     ),
-    [showFilterInSm] // Only re-render when showFilterInSm changes
+    [categoryData, brandData, searchParams, history, setCurrentPage]
   );
 
   return MemoizedFilterProducts;

@@ -9,10 +9,9 @@ import {
   faSun,
 } from "@fortawesome/free-solid-svg-icons";
 import userAxios from "../../services/Axios/userInterceptors";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../../components/Spinner/Spinner";
 import AuthContext from "../../Context/AuthContext";
-
 const Profile = lazy(() => import("../../components/Profile"));
 
 export default function Header() {
@@ -21,11 +20,12 @@ export default function Header() {
   const [orders, setOrders] = useState(0);
   const [userInfos, setUserInfos] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
   const ordersData = async () => {
     try {
       const response = await userAxios.get("/order");
-      setOrders(response.data.items.length);
+      setOrders(response?.data?.items.length);
     } catch (error) {}
   };
 
@@ -44,10 +44,13 @@ export default function Header() {
       fetcUserInfos();
     }
   }, [userIsLogin]);
-
+  useEffect(() => {
+    ordersData();
+  }, []);
   const searchInHref = () => {
     if (searchQuery.trim().length) {
-      document.location.href = `/search/${searchQuery}`;
+      //document.location.href = `/search/${searchQuery}`;
+      navigate(`/search/product?searchTerm=${searchQuery}`);
     }
   };
 
@@ -115,9 +118,9 @@ export default function Header() {
                       icon={faCartShopping}
                       className="sm:text-2xl text-xl"
                     />
-                    <span className="absolute -top-3 text-white-100 bg-red-700 rounded-full px-1 sm:text-xs text-[9px]">
+                    <div className="absolute -top-3 -right-2 text-white-100 bg-red-700 rounded-full w-4 h-4 flex justify-center items-center text-[9px]">
                       {orders}
-                    </span>
+                    </div>
                   </Link>
                 ) : (
                   <Link to="/login" className="relative">

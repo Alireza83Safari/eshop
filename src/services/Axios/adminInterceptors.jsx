@@ -22,8 +22,8 @@ adminAxios.interceptors.response.use(
       document.location.href = "/panel/login";
     }
     if (error.response.status === 403) {
-      document.location.href = "/";
     }
+
     return Promise.reject(error);
   }
 );
