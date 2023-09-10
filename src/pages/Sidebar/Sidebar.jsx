@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import userAxios from "../../services/Axios/userInterceptors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,14 +16,19 @@ import productsContext from "../../Context/AuthContext";
 import AuthContext from "../../Context/AuthContext";
 
 export default function Sidebar() {
-  const { userLogin } = useContext(AuthContext);
+  const { userLogin,setUserIsLogin } = useContext(AuthContext);
+  const navigate = useNavigate();
   const { datas: category } = useFetch("/category/selectList", userAxios);
   const { showShopSidebar, setShowShopSidebar } = useContext(productsContext);
   const [showSubMenu, setShowSubMenu] = useState(false);
 
   const logOutHandler = () => {
     userAxios.get("/logout").then((res) => {
-      userLogin();
+      if (res.status === 200) {
+        navigate("/login");
+        userLogin();
+        setUserIsLogin(false)
+      }
     });
   };
 
@@ -42,7 +47,7 @@ export default function Sidebar() {
             <div className="flex justify-center items-center w-full lg:pb-5 pr-4">
               <FontAwesomeIcon
                 icon={faBars}
-                className="xl:text-4xl md:text-2xl absolute top-6"
+                className="xl:text-4xl md:text-2xl absolute top-6 dark:text-white-100"
                 onClick={() => setShowShopSidebar(!showShopSidebar)}
               />
             </div>
@@ -61,7 +66,7 @@ export default function Sidebar() {
 
               <Link
                 className="flex py-4 items-center text-sm xl:text-base text-black-700 dark:text-white-100 hover-element relative whitespace-nowrap"
-                to="/products"
+                to="/product"
               >
                 <FontAwesomeIcon
                   icon={faShop}
@@ -84,7 +89,7 @@ export default function Sidebar() {
                     {category?.data?.map((data) => (
                       <Link
                         className="flex py-2 ml-4 items-center text-sm text-black-700 dark:text-white-100 hover-element relative whitespace-nowrap"
-                        to="products"
+                        to="product"
                         onClick={() => categoryHandler(data)}
                       >
                         <p className="ml-3 lg:visible invisible text-sm">

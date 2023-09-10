@@ -1,19 +1,33 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import userAxios from "../../services/Axios/userInterceptors";
+import Pagination from "../Paganation";
 
 export default function ProfileOrders() {
   const { datas: orders } = useFetch("/profile/orders", userAxios);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 4;
+
+  const totalPage =
+    orders && orders.length > 0 ? Math.ceil(orders.length / pageSize) : 1;
+
+  const pageNumber = Array.from(Array(totalPage).keys());
+
+  const paginatedProducts = useMemo(() => {
+    let endIndex = pageSize * currentPage;
+    let startIndex = endIndex - pageSize;
+    return orders?.slice(startIndex, endIndex);
+  }, [currentPage, totalPage]);
 
   return (
-    <section>
-      {!orders?.length ? (
+    <section className="relative">
+      {!paginatedProducts || paginatedProducts.length === 0 ? (
         <div className="w-full text-center py-24">
           <img src="/images/order-empty.svg" alt="" className="m-auto " />
-          <p className="text-lg font-semibold">You havent orders</p>
+          <p className="text-lg font-semibold">You haven't placed any orders</p>
         </div>
       ) : (
-        orders?.map((data) => (
+        paginatedProducts?.map((data) => (
           <div className="px-8 border-b py-8">
             <div className="md:flex md:justify-between grid grid-cols-2">
               <div className="flex md:mb-0 mb-4 items-center">
@@ -52,6 +66,7 @@ export default function ProfileOrders() {
                 </p>
               </div>
             </div>
+
             <div className="flex overflow-auto py-6">
               {data?.fileUrls?.map((file) => (
                 <img
@@ -64,6 +79,11 @@ export default function ProfileOrders() {
           </div>
         ))
       )}
+      <Pagination
+        currentPage={currentPage}
+        pageNumber={pageNumber}
+        setCurrentPage={setCurrentPage}
+      />
     </section>
   );
 }

@@ -10,6 +10,7 @@ import Spinner from "../components/Spinner/Spinner";
 
 export default function Login() {
   const navigate = useNavigate();
+  const { userLogin } = useContext(AuthContext);
   const [errors, setErrors] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [serverErrors, setServerErrors] = useState(null);
@@ -35,6 +36,7 @@ export default function Login() {
       .then((res) => {
         console.log(res);
         if (res.status === 200) {
+          userLogin();
           navigate("/");
           setLoading(false);
         }

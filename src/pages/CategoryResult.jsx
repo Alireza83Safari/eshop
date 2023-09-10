@@ -98,7 +98,7 @@ export default function CategoryResult() {
     <>
       <Header />
       <Sidebar />
-      <section className="min-h-screen mt-28 relative">
+      <section className="min-h-screen mt-28 relative lg:container mx-auto">
         <div className="col-span-12 flex justify-center">
           <button
             className="text-xl p-2 bg-gray-100 rounded-lg absolute top-0 z-10"

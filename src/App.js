@@ -8,27 +8,31 @@ import userAxios from "./services/Axios/userInterceptors";
 
 function App() {
   const routes = useRoutes(route);
-  const [userIsLogin, setUserIsLogin] = useState(false);
+  const [userIsLogin, setUserIsLogin] = useState(null);
   const [adminIsLogin, setAdminIsLogin] = useState(false);
   const [mode, setMode] = useState(false);
   const [showShopSidebar, setShowShopSidebar] = useState(false);
   const [userInfos, setUserInfos] = useState(null);
+
+  const userLogin = () => {
+    userAxios.get("/is_authenticated").then((res) => {
+      if (res.status === 200) {
+        setUserInfos(res?.data);
+        setUserIsLogin(true);
+      }
+    });
+  };
   useEffect(() => {
-    const userLogin = () => {
-      userAxios.get("/is_authenticated").then((res) => {
-        if (res.status === 200) {
-          setUserInfos(res?.data);
-          setUserIsLogin(true);
-        }
-      });
-    };
     userLogin();
   }, []);
+
   useEffect(() => {
     const adminLogin = () => {
       axios.get("/api/v1/admin/is_authenticated").then((res) => {
         if (res.status === 200) {
           setAdminIsLogin(true);
+        } else {
+          setUserIsLogin(false);
         }
       });
     };
@@ -65,6 +69,8 @@ function App() {
           userIsLogin,
           adminIsLogin,
           userInfos,
+          userLogin,
+          setUserIsLogin,
         }}
       >
         {routes}

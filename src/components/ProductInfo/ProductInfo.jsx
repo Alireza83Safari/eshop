@@ -5,12 +5,12 @@ import Header from "../../pages/Header/Header";
 import Footer from "../../pages/Footer";
 import useFetch from "../../hooks/useFetch";
 import userAxios from "../../services/Axios/userInterceptors";
-import ProductFeature from "../../components/ProductInfo/ProductFeature";
-import ProductContent from "../../components/ProductInfo/ProductContent";
-import Breadcrumb from "../../components/Breadcrumb";
-import Description from "../../components/ProductInfo/Description";
-import Comments from "../../components/ProductInfo/Comments";
-import Specifications from "../../components/ProductInfo/Specifications";
+import ProductFeature from "./ProductFeature";
+import ProductContent from "./ProductContent";
+import Breadcrumb from "../Breadcrumb";
+import Description from "./Description";
+import Comments from "./Comments";
+import Specifications from "./Specifications";
 import Sidebar from "../../pages/Sidebar/Sidebar";
 
 export default function ProductsInfoPanel() {
@@ -92,9 +92,7 @@ export default function ProductsInfoPanel() {
           {activeTab === "description" && (
             <Description productItem={productItem} />
           )}
-          {activeTab === "reviews" && (
-            <Comments productId={findProduct?.id} />
-          )}
+          {activeTab === "reviews" && <Comments productId={findProduct?.id} />}
           {activeTab === "Specifications" && (
             <Specifications productItem={productItem} />
           )}

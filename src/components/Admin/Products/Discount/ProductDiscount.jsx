@@ -28,7 +28,6 @@ export default function ProductDiscount({ setShowProductDiscount }) {
       .get(`/productItem/selectList/${productId}`)
       .then((res) => setProductItemId(res?.data?.data));
   };
-  console.log(productItemId && productItemId[0].id);
   useEffect(() => {
     if (productId?.length > 1) {
       setShowChooseProduct(false);
@@ -47,7 +46,6 @@ export default function ProductDiscount({ setShowProductDiscount }) {
       relatedUserId: null,
     };
 
-    console.log(productInfos);
     discountValidation(infos, errors, setErrors);
     setIsLoading(true);
     try {
@@ -232,10 +230,10 @@ export default function ProductDiscount({ setShowProductDiscount }) {
               </button>
               <button
                 type="submit"
-                className="w-full py-2 rounded-xl mr-2 border border-blue-600"
-                onClick={() => setShowProductDiscount(false)}
+                className="w-full py-2 rounded-xl ml-2 border border-blue-600"
+                onClick={() => setShowDiscount(false)}
               >
-                Add Discount
+                Cancel
               </button>
             </div>
           </form>

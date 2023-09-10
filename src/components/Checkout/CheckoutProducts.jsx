@@ -22,9 +22,7 @@ export default function CheckoutProducts({ orders, fetchData }) {
       if (response.status === 200) {
         fetchData();
       }
-    } catch (error) {
-      console.error("Error deleting the product:", error.message);
-    }
+    } catch (error) {}
   };
 
   const changeIncrementQuantity = async (itemId, id) => {
@@ -36,9 +34,7 @@ export default function CheckoutProducts({ orders, fetchData }) {
       if (response.status === 200) {
         fetchData();
       }
-    } catch (error) {
-      console.log("Error updating quantity:", error.message);
-    }
+    } catch (error) {}
   };
 
   const changeDecrementQuantity = async (itemId, id) => {
@@ -51,9 +47,7 @@ export default function CheckoutProducts({ orders, fetchData }) {
       if (response.status === 200) {
         fetchData();
       }
-    } catch (error) {
-      console.log("Error updating quantity:", error.message);
-    }
+    } catch (error) {}
   };
   return (
     <>

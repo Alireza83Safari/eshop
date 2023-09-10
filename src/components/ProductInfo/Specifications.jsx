@@ -12,7 +12,7 @@ export default function Specifications({ productItem }) {
             <div className="flex text-sm" key={index}>
               <p className=" text-gray-800 mr-12 py-5 w-3/12">{data?.key}</p>
               <p className="border-b border-gray-100  py-5 w-9/12">
-                {data?.value}
+                {data?.value?.length ? data?.value : ""}
               </p>
             </div>
           ))

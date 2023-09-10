@@ -11,10 +11,8 @@ export default function SelectDiscount({
     setDiscountModel(e.target.value);
     if (discountModel.length > 1 && discountModel === "user") {
       setShowUserDiscount(true);
-      setShowDiscount(false);
     } else if (discountModel.length > 1 && discountModel === "product") {
       setShowProductDiscount(true);
-      setShowDiscount(false);
     }
   };
   return (
@@ -54,7 +52,10 @@ export default function SelectDiscount({
           <button
             type="submit"
             className="w-full py-2 rounded-xl border border-blue-600 ml-2"
-            onClick={() => setShowDiscount(false)}
+            onClick={() => {
+              setShowDiscount(false);
+              setShowDiscount(false);
+            }}
           >
             Cancel
           </button>

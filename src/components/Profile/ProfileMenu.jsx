@@ -8,10 +8,11 @@ import AuthContext from "../../Context/AuthContext";
 export default function ProfileMenu() {
   const { userInfos } = useContext(AuthContext);
   const items = [
-    { icon: faShop, text: "orders", to: `/profile/orders` },
-    { icon: faRoute, text: "address", to: "/profile/address" },
-    { icon: faHeart, text: "favorite", to: "/profile/favorite" },
-    { icon: faHeart, text: "comments", to: "/profile/comments" },
+    { icon: faShop, text: "Edit Profile", to: "/profile/edit" },
+    { icon: faShop, text: "Orders", to: "/profile/orders" },
+    { icon: faRoute, text: "Address", to: "/profile/address" },
+    { icon: faHeart, text: "Favorite", to: "/profile/favorite" },
+    { icon: faHeart, text: "Comments", to: "/profile/comments" },
   ];
 
   const [activeId, setActiveId] = useState(null);
@@ -37,7 +38,7 @@ export default function ProfileMenu() {
               activeId?.toLocaleLowerCase() === item?.text.toLocaleLowerCase()
                 ? "active"
                 : ""
-            } ${index === lastLinkIndex ? "" : " border-b"}`} // اضافه کردن کلاس `no-border-b` به آخرین `Link`
+            } ${index === lastLinkIndex ? "" : " border-b"}`}
             onClick={() => setActiveId(item.text)}
             key={index}
             to={item.to}

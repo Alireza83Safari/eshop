@@ -4,6 +4,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import userAxios from "../../services/Axios/userInterceptors";
 import { ToastContainer, toast } from "react-toastify";
+import useFetch from "../../hooks/useFetch";
 
 export default function ProductContent({ findProduct, productItem }) {
   const handleAddToCart = () => {
@@ -48,6 +49,16 @@ export default function ProductContent({ findProduct, productItem }) {
         }
       });
   };
+
+  const { datas: isFavorite, fetchData } = useFetch(
+    `/favoriteProductItem/isFavorite/${findProduct?.itemId}`,
+    userAxios
+  );
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <>
       <div className="text-black-900 dark:text-white-100 pr-4">
@@ -56,7 +67,11 @@ export default function ProductContent({ findProduct, productItem }) {
             {findProduct?.name}
           </h1>
           <img
-            src="/images/heart-red-svgrepo-com.svg"
+            src={`  ${
+              isFavorite?.data
+                ? "/images/heart-red-svgrepo-com.svg"
+                : "/images/heart-svgrepo-com.svg"
+            } `}
             className="w-6 h-6 text-red-700 hover:text-red-300 mr-10 text-2xl"
             onClick={() => addToFavorite(findProduct?.itemId)}
           />

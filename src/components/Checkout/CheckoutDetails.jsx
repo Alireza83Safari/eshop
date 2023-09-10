@@ -13,7 +13,7 @@ export default function CheckoutDetails({ orders }) {
 
   return (
     <>
-      <div className="lg:w-[20rem] lg:block hidden h-[24rem] px-6 py-2 ml-8 border text-sm z-10 rounded-lg">
+      <div className="lg:w-[20rem] lg:block hidden h-[24rem] md:px-6 py-2 ml-8 border text-sm z-10 rounded-lg">
         <p className="py-2 text-xl font-bold text-center">Cart Total</p>
 
         <div className="flex justify-between pt-6 pb-2">
@@ -47,7 +47,7 @@ export default function CheckoutDetails({ orders }) {
           </button>
         </Link>
       </div>
-      <div className="lg:hidden block fixed bottom-16 bg-white-100 w-full px-12">
+      <div className="lg:hidden block fixed bottom-16 bg-white-100 w-full px-6 dark:bg-black-600">
         <div className="flex text-sm justify-between py-2">
           <p>Products Discount :</p>
           <p className="text-green-300 font-black">{totalDiscount}$</p>
@@ -63,12 +63,15 @@ export default function CheckoutDetails({ orders }) {
         </div>
       </div>
 
-      <div className="lg:hidden flex fixed bottom-0 w-full border-t py-3 bg-white-100">
-        <button className="w-1/3 text-white-100 rounded-lg py-2 mx-4 bg-blue-600">
+      <div className="lg:hidden flex fixed bottom-0 w-full border-t py-3 bg-white-100  dark:bg-black-600">
+        <Link
+          to="/checkout/shipping"
+          className="w-1/3 text-white-100 rounded-lg py-2 mx-4 bg-blue-600 flex justify-center"
+        >
           Buy
-        </button>
-        <div className="absolute flex items-center right-0 text-lg">
-          <p className="mr-1-">Total Payment:</p>
+        </Link>
+        <div className="absolute flex items-center right-0">
+          <p className="mr-1">Total Payment:</p>
           <span className="mr-5">{totalPayment}$</span>
         </div>
       </div>

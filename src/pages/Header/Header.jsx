@@ -43,13 +43,10 @@ export default function Header() {
       ordersData();
       fetcUserInfos();
     }
-  }, [userIsLogin]);
-  useEffect(() => {
-    ordersData();
   }, []);
+
   const searchInHref = () => {
     if (searchQuery.trim().length) {
-      //document.location.href = `/search/${searchQuery}`;
       navigate(`/search/product?searchTerm=${searchQuery}`);
     }
   };

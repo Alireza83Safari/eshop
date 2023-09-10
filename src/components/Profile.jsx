@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useContext } from "react";
 import {
   faCircleQuestion,
   faEdit,
@@ -8,12 +8,24 @@ import {
   faUserAstronaut,
   faUserGear,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import userAxios from "../services/Axios/userInterceptors";
+import AuthContext from "../Context/AuthContext";
+
 export default function Profile() {
   const { datas: userInfo } = useFetch("/is_authenticated", userAxios);
-
+  const { setUserIsLogin, userLogin } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const logOutHandler = () => {
+    userAxios.get("/logout").then((res) => {
+      if (res.status === 200) {
+        navigate("/login");
+        userLogin();
+        setUserIsLogin(false);
+      }
+    });
+  };
   return (
     <div className="absolute top-16 dark:bg-black-900 dark:text-white-100 bg-white-100 text-sm px-6 py-4 rounded-xl z-10 border">
       <div className="mb-3">
@@ -52,7 +64,7 @@ export default function Profile() {
         <p className="pl-1">Account Setting</p>
       </Link>
 
-      <Link className="flex py-2">
+      <Link className="flex py-2" onClick={() => logOutHandler()}>
         <FontAwesomeIcon icon={faRightFromBracket} />
         <p className="pl-2">Log Out</p>
       </Link>

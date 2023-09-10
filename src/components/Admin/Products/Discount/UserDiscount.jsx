@@ -239,6 +239,14 @@ export default function UserDiscount({ setShowUserDiscount }) {
               >
                 Add Discount
               </button>
+
+              <button
+                type="submit"
+                className="w-full py-2 rounded-xl ml-2 border border-blue-600"
+                onClick={() => setShowDiscount(false)}
+              >
+                Cancel
+              </button>
             </div>
           </form>
         )}

@@ -37,7 +37,7 @@ export default function ProfileComments() {
         </div>
       ) : (
         paginatedComments?.map((comment) => (
-          <div className="border-b py-10 px-8">
+          <div className="border-b py-10 px-8 dark:text-white-100">
             <div className="lg::flex grid grid-cols-2 justify-between">
               <div className="flex items-center mb-5 md:text-sm text-xs">
                 <p className="mr-2 text-gray-800">product:</p>

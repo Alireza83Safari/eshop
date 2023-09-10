@@ -12,6 +12,8 @@ import { Pagination } from "swiper/modules";
 export default function Suggestion() {
   const [count, setCount] = useState(1);
   const [currentProductIndex, setCurrentProductIndex] = useState(0);
+  const [hover, setHover] = useState(false);
+  const [productInfo, setProductInfo] = useState(null);
   const { datas: suggestions } = useFetch("/product/suggestions", userAxios);
 
   useEffect(() => {
@@ -52,11 +54,18 @@ export default function Suggestion() {
       prevIndex === suggestions?.data?.length - 1 ? 0 : prevIndex + 1
     );
   };
-  const [hover, setHover] = useState(false);
-  const { datas } = useFetch(
-    `/productItem/${suggestions?.data[currentProductIndex].productItemId}`,
-    userAxios
-  );
+
+  useEffect(() => {
+    if (suggestions?.data?.length) {
+      try {
+        userAxios
+          .get(
+            `/productItem/${suggestions?.data[currentProductIndex].productItemId}`
+          )
+          .then((res) => setProductInfo(res?.data));
+      } catch (error) {}
+    }
+  }, [suggestions]);
   return (
     <section
       className="w-full xl:px-20 md:px-4 lg:mt-52 md:mt-40 mt-32 relative"
@@ -65,7 +74,7 @@ export default function Suggestion() {
     >
       <div className="grid md:grid-cols-2 relative">
         <button
-          className={`absolute left-2 top-80 z-10 outline-none duration-500 ${
+          className={`absolute left-2 top-80 z-10 outline-none duration-500 dark:text-white-100 ${
             hover ? "opacity-100" : "opacity-0"
           }`}
           onClick={goToPreviousProduct}
@@ -85,10 +94,10 @@ export default function Suggestion() {
           </h1>
         </div>
         <p className="px-4 text-black-900 dark:text-white-100 lg:text-base text-sm md:text-start text-center">
-          {datas?.productDescription}
+          {productInfo?.productDescription}
         </p>
         <h2 className="md:my-5 mt-3 text-2xl text-blue-600 font-black md:text-start text-center">
-          20.45$
+          {productInfo?.price}$
         </h2>
 
         <div className="flex justify-end mr-10 md:my-5 text-black-900 dark:text-white-100"></div>
@@ -131,7 +140,7 @@ export default function Suggestion() {
           </div>
 
           <div>
-            <p>
+            <p className="dark:text-white-100">
               {suggestions?.data &&
                 suggestions?.data[currentProductIndex]?.name}
             </p>
@@ -174,7 +183,7 @@ export default function Suggestion() {
             </div>
 
             <div className="md:my-4 py-6 lg:text-base md:text-sm text-xs truncate">
-              {datas?.productShortDescription}
+              {productInfo?.productShortDescription}
             </div>
 
             <div className="md:block flex justify-center">
@@ -190,7 +199,7 @@ export default function Suggestion() {
           </div>
         </div>
         <button
-          className={`absolute right-2 top-80 z-10 outline-none duration-500 ${
+          className={`absolute right-2 top-80 z-10 outline-none duration-500 dark:text-white-100 ${
             hover ? "opacity-100" : "opacity-0"
           }`}
           onClick={() => goToNextProduct()}

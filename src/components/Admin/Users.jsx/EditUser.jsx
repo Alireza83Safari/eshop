@@ -10,17 +10,18 @@ export default function EditUser({
   editUserID,
   fetchUsers,
 }) {
+  const [isLoading, setIsLoading] = useState(false);
+
   const [userInfos, setUserInfos] = useState({
     firstName: "",
     lastName: "",
     username: "",
-    mobile: Number,
+    mobile: 0,
     email: "",
     roleId: "",
     isSystem: "",
-    enabled: Boolean,
+    enabled: "",
   });
-  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -37,15 +38,12 @@ export default function EditUser({
             enabled: usetData?.data.enabled,
           });
         });
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     };
     fetchData();
   }, [showEditUser]);
 
-  const { datas: rolesData } = useFetch("/role",adminAxios);
-  
+  const { datas: rolesData } = useFetch("/role", adminAxios);
 
   const editUserHandler = async (userData) => {
     userData.preventDefault();
@@ -235,8 +233,8 @@ export default function EditUser({
                   enabled
                 </label>
                 <select
-                  name="isSystem"
-                  id="isSystem"
+                  name="enabled"
+                  id="enabled"
                   className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
                   onChange={setUserInfosHandler}
                   value={userInfos?.enabled}

@@ -1,4 +1,4 @@
-/* import React, { useContext } from "react";
+import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,9 +12,9 @@ import {
   faUser,
   faMultiply,
 } from "@fortawesome/free-solid-svg-icons";
-import instance from "../../api/userInterceptors";
+import userAxios from "../../services/Axios/userInterceptors";
 import { ToastContainer, toast } from "react-toastify";
-import { AddressContext } from "./AddressContext";
+import AddressContext from "../../Context/AddressContext";
 
 export default function AllAddress() {
   const {
@@ -28,7 +28,7 @@ export default function AllAddress() {
   } = useContext(AddressContext);
 
   const deleteAddressHandler = (id) => {
-    instance.post(`/address/delete/${id}`).then((res) => {
+    userAxios.post(`/address/delete/${id}`).then((res) => {
       fetchAddress();
       toast.success(`delete is successfuly`, {
         position: "bottom-right",
@@ -119,4 +119,3 @@ export default function AllAddress() {
     document.getElementById("portal")
   );
 }
- */
