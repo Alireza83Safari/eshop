@@ -89,8 +89,7 @@ export default function ProductContent({ findProduct, productItem }) {
         <div className="text-sm">
           <div className="md:flex grid grid-cols-2  my-3">
             <p className="py-2 mr-20 sm:text-sm text-xs">
-              Category :
-              <Link to="electronics">{findProduct?.categoryName}</Link>
+              Category :{findProduct?.categoryName}
             </p>
             <p className="py-2 sm:text-sm text-xs">
               Status :

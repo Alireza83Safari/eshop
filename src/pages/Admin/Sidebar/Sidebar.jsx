@@ -45,7 +45,7 @@ export default function Sidebar() {
       .catch((err) => console.log(err));
   };
   return (
-    <section className="fixed top-0 left-0 bg-white-100 dark:bg-black-900 h-full xl:w-[10%] lg:w-[12%] sm:w-[6%] w-[9%] font-bold">
+    <section className="fixed top-0 left-0 bg-white-100 dark:bg-black-900 h-full xl:w-[10%] lg:w-[12%] sm:w-[6%] w-[9%] font-bold overflow-y-scroll">
       <div className="">
         <Link to="dashboard" className="">
           <div className="w-full invisible lg:visible">

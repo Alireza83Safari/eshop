@@ -4,7 +4,7 @@ import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import useFetch from "../../../hooks/useFetch";
 import { productFormValidation } from "../../../validators/productFormValidation";
-import Spinner from "../../Spinner/Spinner";
+import FormSpinner from "../../FormSpinner/FormSpinner";
 
 export default function AddNewProduct() {
   const {
@@ -70,151 +70,149 @@ export default function AddNewProduct() {
           Add New Product
         </span>
 
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <form onSubmit={addNewProducts}>
-            <div className="grid grid-cols-1 gap-2 mt-2">
-              <span className="font-medium text-gray-800">Name</span>
-              <input
-                type="text"
-                placeholder="Product Name"
-                className="border py-2 px-2 rounded-lg outline-none focus:border-blue-600"
-                name="name"
-                onChange={setProductInfos}
-                value={productInfo?.name}
-                onFocus={() => {
-                  setErrors("");
-                  setServerErrors("");
-                }}
-              />
-              <p className="text-sm text-red-700">
-                {errors?.name}
-                {serverErrors?.name}
-              </p>
-              <div className="flex">
-                <div className="w-1/2 pr-2">
-                  <span className="font-medium text-gray-800">Code</span>
-                  <input
-                    type="number"
-                    placeholder="Product Code"
-                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    name="code"
-                    onChange={setProductInfos}
-                    value={productInfo?.code}
-                    onFocus={() => {
-                      setErrors("");
-                      setServerErrors("");
-                    }}
-                  />
-                  <p className="text-sm text-red-700">{errors?.code}</p>
-                </div>
-
-                <div className="w-1/2 pl-2">
-                  <span className="font-medium text-gray-800">Brand</span>
-                  <select
-                    name="brandId"
-                    id=""
-                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    onChange={setProductInfos}
-                    value={productInfo?.brandId}
-                    onFocus={() => {
-                      setErrors("");
-                      setServerErrors("");
-                    }}
-                  >
-                    <option value="">Select Brand</option>
-                    {brands?.data.map((brand) => (
-                      <option value={brand.id}>{brand.name}</option>
-                    ))}
-                  </select>
-                  <p className="text-sm text-red-700">
-                    {errors?.brandId}
-                    {serverErrors?.brandId}
-                  </p>
-                </div>
-              </div>
-              <div className="">
-                <span className="font-medium text-gray-800">Category</span>
-                <select
-                  name="categoryId"
-                  id="categoryId"
-                  placeholder=""
-                  className="border py-2 px-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+        <form onSubmit={addNewProducts}>
+          <div
+            className={` grid grid-cols-1 gap-2 mt-2 ${
+              isLoading && "opacity-20"
+            } `}
+          >
+            <span className="font-medium text-gray-800">Name</span>
+            <input
+              type="text"
+              placeholder="Product Name"
+              className="border py-2 px-2 rounded-lg outline-none focus:border-blue-600"
+              name="name"
+              onChange={setProductInfos}
+              value={productInfo?.name}
+              onFocus={() => {
+                setErrors("");
+                setServerErrors("");
+              }}
+            />
+            <p className="text-sm text-red-700">
+              {errors?.name}
+              {serverErrors?.name}
+            </p>
+            <div className="flex">
+              <div className="w-1/2 pr-2">
+                <span className="font-medium text-gray-800">Code</span>
+                <input
+                  type="number"
+                  placeholder="Product Code"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  name="code"
                   onChange={setProductInfos}
-                  value={productInfo?.categoryId}
+                  value={productInfo?.code}
+                  onFocus={() => {
+                    setErrors("");
+                    setServerErrors("");
+                  }}
+                />
+                <p className="text-sm text-red-700">{errors?.code}</p>
+              </div>
+
+              <div className="w-1/2 pl-2">
+                <span className="font-medium text-gray-800">Brand</span>
+                <select
+                  name="brandId"
+                  id=""
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  onChange={setProductInfos}
+                  value={productInfo?.brandId}
                   onFocus={() => {
                     setErrors("");
                     setServerErrors("");
                   }}
                 >
-                  <option value="">Select Category</option>
-                  {category?.data.map((cate) => (
-                    <option key={cate.id} value={cate.id}>
-                      {cate.name}
-                    </option>
+                  <option value="">Select Brand</option>
+                  {brands?.data.map((brand) => (
+                    <option value={brand.id}>{brand.name}</option>
                   ))}
                 </select>
                 <p className="text-sm text-red-700">
-                  {errors?.categoryId}
-                  {serverErrors?.categoryId}
+                  {errors?.brandId}
+                  {serverErrors?.brandId}
                 </p>
               </div>
-              <span className="font-medium text-gray-800">
-                Short Description
-              </span>
-              <input
-                type="text"
-                placeholder="Product Short Decription"
-                className="border py-2 px-2 rounded-lg outline-none focus:border-blue-600"
-                name="shortDescription"
+            </div>
+            <div className="">
+              <span className="font-medium text-gray-800">Category</span>
+              <select
+                name="categoryId"
+                id="categoryId"
+                placeholder=""
+                className="border py-2 px-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
                 onChange={setProductInfos}
-                value={productInfo?.shortDescription}
+                value={productInfo?.categoryId}
                 onFocus={() => {
                   setErrors("");
                   setServerErrors("");
                 }}
-              />
+              >
+                <option value="">Select Category</option>
+                {category?.data.map((cate) => (
+                  <option key={cate.id} value={cate.id}>
+                    {cate.name}
+                  </option>
+                ))}
+              </select>
               <p className="text-sm text-red-700">
-                {errors?.shortDescription}
-                {serverErrors?.shortDescription}
-              </p>
-              <span className="font-medium text-gray-800">Decription</span>
-              <input
-                type="text"
-                placeholder="Product Description"
-                className="border py-6 px-2 rounded-lg outline-none focus:border-blue-600"
-                name="description"
-                onChange={setProductInfos}
-                value={productInfo?.description}
-                onFocus={() => {
-                  setErrors("");
-                  setServerErrors("");
-                }}
-              />
-              <p className="text-sm text-red-700">
-                {errors?.description}
-                {serverErrors?.description}
+                {errors?.categoryId}
+                {serverErrors?.categoryId}
               </p>
             </div>
+            <span className="font-medium text-gray-800">Short Description</span>
+            <input
+              type="text"
+              placeholder="Product Short Decription"
+              className="border py-2 px-2 rounded-lg outline-none focus:border-blue-600"
+              name="shortDescription"
+              onChange={setProductInfos}
+              value={productInfo?.shortDescription}
+              onFocus={() => {
+                setErrors("");
+                setServerErrors("");
+              }}
+            />
+            <p className="text-sm text-red-700">
+              {errors?.shortDescription}
+              {serverErrors?.shortDescription}
+            </p>
+            <span className="font-medium text-gray-800">Decription</span>
+            <input
+              type="text"
+              placeholder="Product Description"
+              className="border py-6 px-2 rounded-lg outline-none focus:border-blue-600"
+              name="description"
+              onChange={setProductInfos}
+              value={productInfo?.description}
+              onFocus={() => {
+                setErrors("");
+                setServerErrors("");
+              }}
+            />
+            <p className="text-sm text-red-700">
+              {errors?.description}
+              {serverErrors?.description}
+            </p>
+          </div>
 
-            <div className="flex justify-center mt-8">
-              <button
-                type="submit"
-                className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2"
-              >
-                Add Product
-              </button>
-              <button
-                type="submit"
-                className="w-full py-2 rounded-xl border border-blue-600 ml-2"
-                onClick={() => setShowAddProduct(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
-        )}
+          <div className="flex justify-center mt-8">
+            <button
+              type="submit"
+              className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2"
+            >
+              {isLoading ? <FormSpinner /> : "Add Product"}
+            </button>
+            <button
+              type="submit"
+              className="w-full py-2 rounded-xl border border-blue-600 ml-2"
+              onClick={() => setShowAddProduct(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
       </div>
     </div>,
     document.getElementById("portal")

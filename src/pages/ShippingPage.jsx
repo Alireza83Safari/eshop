@@ -32,6 +32,8 @@ export default function ShippingPage() {
           setShowAllAddress,
           fetchAddress,
           userAddress,
+          editAddressId,
+          setShowEditAddress,
         }}
       >
         <section className="min-h-screen lg:grid grid-cols-12 lg:container m-auto lg:px-20 mt-28">

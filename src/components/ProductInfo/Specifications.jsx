@@ -1,11 +1,15 @@
 import React from "react";
+import useFetch from "../../hooks/useFetch";
+import userAxios from "../../services/Axios/userInterceptors";
 
 export default function Specifications({ productItem }) {
+ // const { datas } = useFetch("/", userAxios);
   return (
     <section className="grid grid-cols-12 border p-4 mb-20 rounded-xl md:px-10 px-4">
       <div className="md:col-span-3 col-span-12 md:py-5 py-2 md:text-start text-center">
         Specifications
       </div>
+
       <div className="md:col-span-9 col-span-12 md:mt-12">
         {productItem?.features?.map((feature, index) =>
           feature?.items?.map((data, index) => (

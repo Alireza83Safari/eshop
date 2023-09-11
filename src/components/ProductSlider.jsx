@@ -61,7 +61,7 @@ export default function ProductSlider() {
                     >
                       <div className="flex justify-center relative h-5/6">
                         <Link
-                          to={`/products/${product.name}`}
+                          to={`/product/${product.name}`}
                           style={{ display: "block" }}
                         >
                           <img

@@ -23,3 +23,20 @@
     border-left: 3px solid;
   }
 }
+
+/* custom-scrollbar.css */
+::-webkit-scrollbar {
+  width: 4px; /* Set the width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent; /* Set the background color of the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: transparent; /* Set the color of the scrollbar thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: transparent; /* Set the color of the scrollbar thumb on hover */
+}

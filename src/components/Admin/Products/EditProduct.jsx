@@ -3,8 +3,8 @@ import ReactDOM from "react-dom";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import { productFormValidation } from "../../../validators/productFormValidation";
-import Spinner from "../../Spinner/Spinner";
 import useFetch from "../../../hooks/useFetch";
+import FormSpinner from "../../FormSpinner/FormSpinner";
 
 export default function EditProduct() {
   const { setShowEditModal, showEditModal, productEditId, fetchProductList } =
@@ -19,7 +19,7 @@ export default function EditProduct() {
     description: "",
     topFeatures: [" "],
   });
-  //console.log(productInfo);
+
   const [isLoading, setLoading] = useState(false);
   const [formHaveError, setFormHaveError] = useState(null);
   const [errors, setErrors] = useState({
@@ -80,14 +80,12 @@ export default function EditProduct() {
         `/product/edit/${productEditId}`,
         infos
       );
-      console.log(response);
       if (response.status === 200) {
         setShowEditModal(false);
         fetchProductList();
         setLoading(false);
       }
     } catch (error) {
-      console.error("Error deleting the product:", error);
       setLoading(false);
     }
   };
@@ -115,156 +113,156 @@ export default function EditProduct() {
           className="w-full max-w-sm mx-auto p-4 bg-white rounded-lg"
           onSubmit={(e) => e.preventDefault()}
         >
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            <div className="grid grid-cols-1 gap-4 mt-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="col-span-2">
-                  <label
-                    htmlFor="name"
-                    className="block text-gray-800 font-medium"
-                  >
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Product Name"
-                    name="name"
-                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    value={productInfo?.name}
-                    onChange={setProductInfos}
-                  />
-                  <p className="text-sm text-red-700">{errors?.name}</p>
-                </div>
-                <div>
-                  <label
-                    htmlFor="topFeatures"
-                    className="block text-gray-800 font-medium"
-                  >
-                    topFeatures
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Product topFeatures"
-                    name="topFeatures"
-                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    value={productInfo?.topFeatures}
-                    onChange={setProductInfos}
-                  />
-                  <p className="text-sm text-red-700">{errors?.name}</p>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="categoryId"
-                    className="block text-gray-800 font-medium"
-                  >
-                    Category
-                  </label>
-                  <select
-                    as="select"
-                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    name="categoryId"
-                    value={productInfo?.categoryId}
-                    onChange={setProductInfos}
-                  >
-                    <option value="">Select a Category</option>
-                    {category &&
-                      category?.data.map((cate) => (
-                        <option key={cate.id} value={cate.id}>
-                          {cate.name}
-                        </option>
-                      ))}
-                  </select>
-                  <p className="text-sm text-red-700">{errors?.categoryId}</p>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="brandId"
-                    className="block text-gray-800 font-medium"
-                  >
-                    Brand
-                  </label>
-                  <select
-                    name="brandId"
-                    as="select"
-                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    value={productInfo?.brandId}
-                    onChange={setProductInfos}
-                  >
-                    <option value="">Select a brand</option>
-                    {brands &&
-                      brands?.data.map((brand) => (
-                        <option key={brand.id} value={brand.id}>
-                          {brand.name}
-                        </option>
-                      ))}
-                  </select>
-                  <p className="text-sm text-red-700">{errors?.brandId}</p>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="code"
-                    className="block text-gray-800 font-medium"
-                  >
-                    code
-                  </label>
-                  <input
-                    type="text"
-                    name="code"
-                    placeholder="Product Code"
-                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    value={productInfo?.code}
-                    onChange={setProductInfos}
-                  />
-                  <p className="text-sm text-red-700">{errors?.code}</p>
-                </div>
+          <div
+            className={` grid grid-cols-1 gap-4 mt-4 ${
+              isLoading && "opacity-20"
+            }`}
+          >
+            <div className="grid grid-cols-2 gap-4">
+              <div className="col-span-2">
+                <label
+                  htmlFor="name"
+                  className="block text-gray-800 font-medium"
+                >
+                  Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="Product Name"
+                  name="name"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  value={productInfo?.name}
+                  onChange={setProductInfos}
+                />
+                <p className="text-sm text-red-700">{errors?.name}</p>
+              </div>
+              <div>
+                <label
+                  htmlFor="topFeatures"
+                  className="block text-gray-800 font-medium"
+                >
+                  topFeatures
+                </label>
+                <input
+                  type="text"
+                  placeholder="Product topFeatures"
+                  name="topFeatures"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  value={productInfo?.topFeatures}
+                  onChange={setProductInfos}
+                />
+                <p className="text-sm text-red-700">{errors?.name}</p>
               </div>
 
               <div>
-                <div>
-                  <label
-                    htmlFor="shortDescription"
-                    className="block text-gray-800 font-medium"
-                  >
-                    Short Description
-                  </label>
-                  <input
-                    type="text"
-                    name="shortDescription"
-                    placeholder="Product Short Description"
-                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    value={productInfo?.shortDescription}
-                    onChange={setProductInfos}
-                  />
-                  <p className="text-sm text-red-700">
-                    {errors?.shortDescription}
-                  </p>
-                </div>
+                <label
+                  htmlFor="categoryId"
+                  className="block text-gray-800 font-medium"
+                >
+                  Category
+                </label>
+                <select
+                  as="select"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  name="categoryId"
+                  value={productInfo?.categoryId}
+                  onChange={setProductInfos}
+                >
+                  <option value="">Select a Category</option>
+                  {category &&
+                    category?.data.map((cate) => (
+                      <option key={cate.id} value={cate.id}>
+                        {cate.name}
+                      </option>
+                    ))}
+                </select>
+                <p className="text-sm text-red-700">{errors?.categoryId}</p>
+              </div>
 
-                <div>
-                  <label
-                    htmlFor="description"
-                    className="block text-gray-800 font-medium"
-                  >
-                    Description
-                  </label>
-                  <input
-                    type="text"
-                    name="description"
-                    placeholder="Product Description"
-                    className="border py-4 px-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    value={productInfo?.description}
-                    onChange={setProductInfos}
-                  />
-                  <p className="text-sm text-red-700">{errors?.description}</p>
-                </div>
+              <div>
+                <label
+                  htmlFor="brandId"
+                  className="block text-gray-800 font-medium"
+                >
+                  Brand
+                </label>
+                <select
+                  name="brandId"
+                  as="select"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  value={productInfo?.brandId}
+                  onChange={setProductInfos}
+                >
+                  <option value="">Select a brand</option>
+                  {brands &&
+                    brands?.data.map((brand) => (
+                      <option key={brand.id} value={brand.id}>
+                        {brand.name}
+                      </option>
+                    ))}
+                </select>
+                <p className="text-sm text-red-700">{errors?.brandId}</p>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="code"
+                  className="block text-gray-800 font-medium"
+                >
+                  code
+                </label>
+                <input
+                  type="text"
+                  name="code"
+                  placeholder="Product Code"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  value={productInfo?.code}
+                  onChange={setProductInfos}
+                />
+                <p className="text-sm text-red-700">{errors?.code}</p>
               </div>
             </div>
-          )}
+
+            <div>
+              <div>
+                <label
+                  htmlFor="shortDescription"
+                  className="block text-gray-800 font-medium"
+                >
+                  Short Description
+                </label>
+                <input
+                  type="text"
+                  name="shortDescription"
+                  placeholder="Product Short Description"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  value={productInfo?.shortDescription}
+                  onChange={setProductInfos}
+                />
+                <p className="text-sm text-red-700">
+                  {errors?.shortDescription}
+                </p>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="description"
+                  className="block text-gray-800 font-medium"
+                >
+                  Description
+                </label>
+                <input
+                  type="text"
+                  name="description"
+                  placeholder="Product Description"
+                  className="border py-4 px-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  value={productInfo?.description}
+                  onChange={setProductInfos}
+                />
+                <p className="text-sm text-red-700">{errors?.description}</p>
+              </div>
+            </div>
+          </div>
 
           <div className="flex justify-center mt-8">
             <button
@@ -273,7 +271,7 @@ export default function EditProduct() {
               onClick={editProductHandler}
               disabled={formHaveError}
             >
-              Edit Product
+              {isLoading ? <FormSpinner /> : "Edit Product"}
             </button>
             <button
               type="submit"

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import useFetch from "../../../hooks/useFetch";
-import Spinner from "../../Spinner/Spinner";
+import FormSpinner from "../../FormSpinner/FormSpinner";
 
 export default function AddProductFeature() {
   const { fetchProductList, setShowProductFeature, newProductId, setShowFile } =
@@ -56,46 +56,46 @@ export default function AddProductFeature() {
           Add New Product Feature
         </span>
 
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <form onSubmit={addNewProducts}>
-            <div className="grid grid-cols-2 gap-x-8 gap-y-4 mt-2">
-              {featureKey?.data.map((item) => (
-                <div key={item.id}>
-                  <label>{item.name}: </label>
-                  <input
-                    type="text"
-                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    placeholder={item.name}
-                    value={
-                      values.find((v) => v.productFeatureKeyId === item.id)
-                        ?.value || ""
-                    }
-                    onChange={(e) => handleInputChange(item.id, e.target.value)}
-                  />
-                </div>
-              ))}
-            </div>
+        <form onSubmit={addNewProducts}>
+          <div
+            className={`grid grid-cols-2 gap-x-8 gap-y-4 mt-2 ${
+              isLoading && "opacity-20"
+            }`}
+          >
+            {featureKey?.data.map((item) => (
+              <div key={item.id}>
+                <label>{item.name}: </label>
+                <input
+                  type="text"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  placeholder={item.name}
+                  value={
+                    values.find((v) => v.productFeatureKeyId === item.id)
+                      ?.value || ""
+                  }
+                  onChange={(e) => handleInputChange(item.id, e.target.value)}
+                />
+              </div>
+            ))}
+          </div>
 
-            <div className="flex justify-center mt-8 gap-x-8">
-              <button
-                type="submit"
-                className="w-full py-2 rounded-xl bg-blue-600 text-white-100"
-                onSubmit={addNewProducts}
-              >
-                Add Product Feature
-              </button>
-              <button
-                type="button" 
-                className="w-full py-2 rounded-xl border border-blue-600"
-                onClick={() => setShowProductFeature(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
-        )}
+          <div className="flex justify-center mt-8 gap-x-8">
+            <button
+              type="submit"
+              className="w-full py-2 rounded-xl bg-blue-600 text-white-100"
+              onSubmit={addNewProducts}
+            >
+              {isLoading ? <FormSpinner /> : "Add Product Feature"}
+            </button>
+            <button
+              type="button"
+              className="w-full py-2 rounded-xl border border-blue-600"
+              onClick={() => setShowProductFeature(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
       </div>
     </div>,
     document.getElementById("portal")

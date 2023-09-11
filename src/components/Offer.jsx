@@ -68,7 +68,7 @@ export default function Offer() {
                             {product?.discountValue}%
                           </div>
                           <Link
-                            to={`/products/${product.name}`}
+                            to={`/product/${product.name}`}
                             style={{ display: "block" }}
                           >
                             <img
