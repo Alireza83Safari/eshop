@@ -39,13 +39,15 @@ export default function ProductSlider() {
           </div>
           <div className="xl:px-8 my-5">
             <Swiper
-              slidesPerView={
-                window.innerWidth >= 1024
-                  ? 4
-                  : window.innerWidth >= 640 && window.innerWidth <= 1024
-                  ? 3
-                  : 2
-              }
+              breakpoints={{
+                1: { slidesPerView: 2 },
+                768: {
+                  slidesPerView: 3,
+                },
+                1024: {
+                  slidesPerView: 4,
+                },
+              }}
               pagination={{
                 clickable: true,
               }}

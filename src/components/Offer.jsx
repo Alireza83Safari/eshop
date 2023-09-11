@@ -43,13 +43,15 @@ export default function Offer() {
             </p>
             <div className="xl:px-10 p-2">
               <Swiper
-                slidesPerView={
-                  window.innerWidth >= 1024
-                    ? 4
-                    : window.innerWidth >= 640 && window.innerWidth <= 1024
-                    ? 3
-                    : 2
-                }
+                breakpoints={{
+                  1: { slidesPerView: 2 },
+                  768: {
+                    slidesPerView: 3,
+                  },
+                  1024: {
+                    slidesPerView: 4,
+                  },
+                }}
                 spaceBetween={7}
                 pagination={{
                   clickable: true,

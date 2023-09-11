@@ -14,13 +14,15 @@ export default function PopularBrand() {
         Most Popular Brands
       </p>
       <Swiper
-        slidesPerView={
-          window.innerWidth >= 1024
-            ? 6
-            : window.innerWidth >= 640 && window.innerWidth <= 1024
-            ? 4
-            : 4
-        }
+        breakpoints={{
+          1: { slidesPerView: 4 },
+          768: {
+            slidesPerView: 6,
+          },
+          1024: {
+            slidesPerView: 8,
+          },
+        }}
         spaceBetween={15}
       >
         {brand?.data?.map((brand, index) => (
