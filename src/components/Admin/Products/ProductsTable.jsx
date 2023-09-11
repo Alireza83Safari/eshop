@@ -5,8 +5,10 @@ import InfosModal from "./InfosModal";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import Pagination from "../../Paganation";
 import adminAxios from "../../../services/Axios/adminInterceptors";
+import AuthContext from "../../../Context/AuthContext";
 
 export default function ProductsTable() {
+  const { adminIsLogin } = useContext(AuthContext);
   const [paginatedProducts, setPaginatedProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [showInfoModal, setShowInfoModal] = useState(false);
@@ -20,10 +22,12 @@ export default function ProductsTable() {
     setShowDeleteModal,
     setProductEditId,
     productList,
+    setShowEditItem,
   } = useContext(ProductsPanelContext);
 
   const editHandler = (id) => {
-    setShowEditModal(true);
+    //setShowEditModal(true);
+    setShowEditItem(true);
     setProductEditId(id);
   };
 
@@ -40,7 +44,9 @@ export default function ProductsTable() {
     }
   };
   useEffect(() => {
-    getProductInfo();
+    if (showInfoModal) {
+      getProductInfo();
+    }
   }, [infosId]);
 
   let pageSize = 11;
@@ -52,7 +58,7 @@ export default function ProductsTable() {
     setPaginatedProducts(productList.slice(startIndex, endIndex));
   }, [currentPage, productList]);
 
-  let pageCount = Math.ceil(productList.length / pageSize);
+  let pageCount = Math.ceil(productList?.length / pageSize);
   pageNumber = Array.from(Array(pageCount).keys());
 
   return (

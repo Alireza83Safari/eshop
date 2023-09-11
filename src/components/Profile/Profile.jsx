@@ -9,9 +9,9 @@ import {
   faUserGear,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
-import useFetch from "../hooks/useFetch";
-import userAxios from "../services/Axios/userInterceptors";
-import AuthContext from "../Context/AuthContext";
+import useFetch from "../../hooks/useFetch";
+import userAxios from "../../services/Axios/userInterceptors";
+import AuthContext from "../../Context/AuthContext";
 
 export default function Profile() {
   const { datas: userInfo } = useFetch("/is_authenticated", userAxios);
@@ -38,7 +38,7 @@ export default function Profile() {
         <p className="text-xs text-gray-500">{userInfo?.role.name} Member</p>
       </div>
 
-      <Link className="flex items-center py-2" to="/profile/orders">
+      <Link className="flex items-center py-2" to="/profile/edit">
         <FontAwesomeIcon icon={faEdit} />
         <p className="pl-2">Edit Profile</p>
       </Link>

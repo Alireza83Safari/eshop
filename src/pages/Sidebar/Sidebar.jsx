@@ -16,7 +16,7 @@ import productsContext from "../../Context/AuthContext";
 import AuthContext from "../../Context/AuthContext";
 
 export default function Sidebar() {
-  const { userLogin,setUserIsLogin } = useContext(AuthContext);
+  const { userLogin, setUserIsLogin } = useContext(AuthContext);
   const navigate = useNavigate();
   const { datas: category } = useFetch("/category/selectList", userAxios);
   const { showShopSidebar, setShowShopSidebar } = useContext(productsContext);
@@ -27,7 +27,7 @@ export default function Sidebar() {
       if (res.status === 200) {
         navigate("/login");
         userLogin();
-        setUserIsLogin(false)
+        setUserIsLogin(false);
       }
     });
   };

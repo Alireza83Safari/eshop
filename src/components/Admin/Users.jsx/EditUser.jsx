@@ -40,7 +40,9 @@ export default function EditUser({
         });
       } catch (err) {}
     };
-    fetchData();
+    if (editUserID) {
+      fetchData();
+    }
   }, [showEditUser]);
 
   const { datas: rolesData } = useFetch("/role", adminAxios);

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRoutes } from "react-router-dom";
 import axios from "axios";
 import route from "./routes/routes";
@@ -14,28 +14,28 @@ function App() {
   const [showShopSidebar, setShowShopSidebar] = useState(false);
   const [userInfos, setUserInfos] = useState(null);
 
-  const userLogin = () => {
+  const userLogin = useCallback(() => {
     userAxios.get("/is_authenticated").then((res) => {
       if (res.status === 200) {
         setUserInfos(res?.data);
         setUserIsLogin(true);
       }
     });
-  };
-  useEffect(() => {
-    userLogin();
   }, []);
 
   useEffect(() => {
-    const adminLogin = () => {
-      axios.get("/api/v1/admin/is_authenticated").then((res) => {
-        if (res.status === 200) {
-          setAdminIsLogin(true);
-        } else {
-          setUserIsLogin(false);
-        }
-      });
-    };
+    userLogin();
+  }, []);
+  const adminLogin = () => {
+    axios.get("/api/v1/admin/is_authenticated").then((res) => {
+      if (res.status === 200) {
+        setAdminIsLogin(true);
+      } else {
+        setUserIsLogin(false);
+      }
+    });
+  };
+  useEffect(() => {
     adminLogin();
   }, []);
 
@@ -71,6 +71,8 @@ function App() {
           userInfos,
           userLogin,
           setUserIsLogin,
+          setAdminIsLogin,
+          adminLogin,
         }}
       >
         {routes}

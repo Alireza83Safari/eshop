@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
 import userAxios from "../../services/Axios/userInterceptors";
 import { ToastContainer, toast } from "react-toastify";
-import useFetch from "../../hooks/useFetch";
 
 export default function ProductContent({ findProduct, productItem }) {
   const handleAddToCart = () => {
@@ -50,14 +48,11 @@ export default function ProductContent({ findProduct, productItem }) {
       });
   };
 
-  const { datas: isFavorite, fetchData } = useFetch(
-    `/favoriteProductItem/isFavorite/${findProduct?.itemId}`,
-    userAxios
-  );
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const isFavorite = useMemo(() => {
+    if (findProduct) {
+      userAxios.get(`/favoriteProductItem/isFavorite/${findProduct?.itemId}`);
+    }
+  }, [findProduct]);
 
   return (
     <>

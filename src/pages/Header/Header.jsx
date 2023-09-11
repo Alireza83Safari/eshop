@@ -12,7 +12,7 @@ import userAxios from "../../services/Axios/userInterceptors";
 import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../../components/Spinner/Spinner";
 import AuthContext from "../../Context/AuthContext";
-const Profile = lazy(() => import("../../components/Profile"));
+const Profile = lazy(() => import("../../components/Profile/Profile"));
 
 export default function Header() {
   const { mode, setMode, showShopSidebar, setShowShopSidebar, userIsLogin } =

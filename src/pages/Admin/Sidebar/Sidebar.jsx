@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBox,
@@ -17,6 +17,7 @@ import AuthContext from "../../../Context/AuthContext";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 
 export default function Sidebar() {
+  const navigate = useNavigate();
   const items = [
     { icon: faGripHorizontal, text: "dashboard", to: "dashboard" },
     { icon: faBox, text: "product", to: "product" },
@@ -29,7 +30,8 @@ export default function Sidebar() {
 
   const location = useLocation().pathname;
   const pathNames = location.substring(location.lastIndexOf("/") + 1);
-  const { mode, adminLogin, userLogin } = useContext(AuthContext);
+  const { mode, adminLogin, userLogin, setAdminIsLogin } =
+    useContext(AuthContext);
 
   const activeId = useMemo(() => pathNames, [pathNames]);
 
@@ -38,7 +40,9 @@ export default function Sidebar() {
       .get("/logout")
       .then((res) => {
         if (res.status === 200) {
+          navigate("/panel/login");
           adminLogin();
+          setAdminIsLogin(false);
           userLogin();
         }
       })

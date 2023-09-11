@@ -61,7 +61,9 @@ export default function EditProduct() {
         setLoading(false);
       }
     };
-    fetchData();
+    if (productEditId) {
+      fetchData();
+    }
   }, [showEditModal]);
 
   const editProductHandler = async () => {

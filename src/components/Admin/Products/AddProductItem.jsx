@@ -5,6 +5,7 @@ import Spinner from "../../Spinner/Spinner";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import { itemValidation } from "../../../validators/itemValidation";
+import FormSpinner from "../../FormSpinner/FormSpinner";
 
 export default function AddProductItem({}) {
   const {
@@ -70,142 +71,142 @@ export default function AddProductItem({}) {
         showProductItem ? "visible" : "invisible"
       }`}
     >
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <div className="w-1/3  bg-white-100 p-5 rounded-xl">
-          <span className="mb-5 text-xl font-bold flex justify-center">
-            Add New Product Item
-          </span>
+      <div className="w-1/3  bg-white-100 p-5 rounded-xl">
+        <span className="mb-5 text-xl font-bold flex justify-center">
+          Add New Product Item
+        </span>
 
-          <form
-            onSubmit={addItem}
-            className="w-full max-w-sm mx-auto p-4 bg-white rounded-lg"
+        <form
+          onSubmit={addItem}
+          className="w-full max-w-sm mx-auto p-4 bg-white rounded-lg"
+        >
+          <div
+            className={` grid grid-cols-1 gap-4 mt-4 ${
+              isLoading && "opacity-20"
+            }`}
           >
-            <div className="grid grid-cols-1 gap-4 mt-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="price"
-                    className="block text-gray-800 font-medium"
-                  >
-                    Price
-                  </label>
-                  <input
-                    type="number"
-                    id="price"
-                    name="price"
-                    placeholder="Product Price"
-                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    onChange={setProductItemInfos}
-                    value={productItemInfo?.price}
-                  />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label
+                  htmlFor="price"
+                  className="block text-gray-800 font-medium"
+                >
+                  Price
+                </label>
+                <input
+                  type="number"
+                  id="price"
+                  name="price"
+                  placeholder="Product Price"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  onChange={setProductItemInfos}
+                  value={productItemInfo?.price}
+                />
 
-                  <p className="text-red-700">{errors?.price}</p>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="colorId"
-                    className="block text-gray-800 font-medium"
-                  >
-                    Color
-                  </label>
-                  <select
-                    name="colorId"
-                    id="colorId"
-                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    onChange={setProductItemInfos}
-                    value={productItemInfo?.colorId}
-                  >
-                    <option value="">Select Color</option>
-                    {colors?.data.map((color) => (
-                      <option key={color.id} value={color.id}>
-                        {color.name}
-                      </option>
-                    ))}
-                  </select>
-                  <p className="text-red-700">{errors?.colorId}</p>
-                </div>
+                <p className="text-red-700">{errors?.price}</p>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="quantity"
-                    className="block text-gray-800 font-medium"
-                  >
-                    Quantity
-                  </label>
-                  <input
-                    type="number"
-                    id="quantity"
-                    name="quantity"
-                    placeholder="Product Quantity"
-                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    onChange={setProductItemInfos}
-                    value={productItemInfo?.quantity}
-                  />
-
-                  <p className="text-red-700">{errors?.quantity}</p>
-                </div>
-                <div>
-                  <label
-                    htmlFor="status"
-                    className="block text-gray-800 font-medium"
-                  >
-                    Product Status
-                  </label>
-                  <select
-                    name="status"
-                    id="status"
-                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    onChange={setProductItemInfos}
-                    value={productItemInfo?.status}
-                  >
-                    <option value="">Select a status</option>
-
-                    <option value="0">Publish</option>
-                    <option value="1">InActive</option>
-                  </select>
-                  <p className="text-red-700">{errors?.status}</p>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="isMainItem"
-                    className="block text-gray-800 font-medium"
-                  >
-                    isMainItem
-                  </label>
-                  <select
-                    name="isMainItem"
-                    id="isMainItem"
-                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    onChange={setProductItemInfos}
-                    value={productItemInfo?.isMainItem}
-                  >
-                    <option value="">Select a isMainItem</option>
-
-                    <option value="true">True</option>
-                    <option value="false">False</option>
-                  </select>
-                  <p className="text-red-700">{errors?.isMainItem}</p>
-                </div>
+              <div>
+                <label
+                  htmlFor="colorId"
+                  className="block text-gray-800 font-medium"
+                >
+                  Color
+                </label>
+                <select
+                  name="colorId"
+                  id="colorId"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  onChange={setProductItemInfos}
+                  value={productItemInfo?.colorId}
+                >
+                  <option value="">Select Color</option>
+                  {colors?.data.map((color) => (
+                    <option key={color.id} value={color.id}>
+                      {color.name}
+                    </option>
+                  ))}
+                </select>
+                <p className="text-red-700">{errors?.colorId}</p>
               </div>
             </div>
 
-            <div className="flex justify-center mt-8">
-              <button
-                type="submit"
-                className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2"
-              >
-                Add Product
-              </button>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label
+                  htmlFor="quantity"
+                  className="block text-gray-800 font-medium"
+                >
+                  Quantity
+                </label>
+                <input
+                  type="number"
+                  id="quantity"
+                  name="quantity"
+                  placeholder="Product Quantity"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  onChange={setProductItemInfos}
+                  value={productItemInfo?.quantity}
+                />
+
+                <p className="text-red-700">{errors?.quantity}</p>
+              </div>
+              <div>
+                <label
+                  htmlFor="status"
+                  className="block text-gray-800 font-medium"
+                >
+                  Product Status
+                </label>
+                <select
+                  name="status"
+                  id="status"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  onChange={setProductItemInfos}
+                  value={productItemInfo?.status}
+                >
+                  <option value="">Select a status</option>
+
+                  <option value="0">Publish</option>
+                  <option value="1">InActive</option>
+                </select>
+                <p className="text-red-700">{errors?.status}</p>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="isMainItem"
+                  className="block text-gray-800 font-medium"
+                >
+                  isMainItem
+                </label>
+                <select
+                  name="isMainItem"
+                  id="isMainItem"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  onChange={setProductItemInfos}
+                  value={productItemInfo?.isMainItem}
+                >
+                  <option value="">Select a isMainItem</option>
+
+                  <option value="true">True</option>
+                  <option value="false">False</option>
+                </select>
+                <p className="text-red-700">{errors?.isMainItem}</p>
+              </div>
             </div>
-          </form>
-        </div>
-      )}
+          </div>
+
+          <div className="flex justify-center mt-8">
+            <button
+              type="submit"
+              className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2"
+            >
+              {isLoading ? <FormSpinner /> : "Add Product"}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>,
     document.getElementById("portal")
   );

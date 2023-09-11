@@ -1,4 +1,4 @@
-import React, { useState, startTransition } from "react";
+import React, { useState, startTransition, useMemo, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Header from "../../pages/Header/Header";
@@ -20,10 +20,14 @@ export default function ProductsInfoPanel() {
   const findProduct = productsData?.data.find(
     (product) => product.name == productID
   );
-  const { datas: productItem } = useFetch(
-    `/productItem/${findProduct?.itemId}`,
-    userAxios
-  );
+  const [productItem, setProductItem] = useState(null);
+  useEffect(() => {
+    if (findProduct) {
+      userAxios
+        .get(`/productItem/${findProduct?.itemId}`)
+        .then((res) => setProductItem(res?.data));
+    }
+  }, [findProduct]);
   return (
     <>
       <Header />
