@@ -45,7 +45,7 @@ export default function Product() {
       navigate(`?${searchParams.toString()}`);
     };
     fetchSearchResults();
-  }, [currentPage, categoryId, brandId]);
+  }, [currentPage, categoryId, brandId, filterProduct]);
 
   const [paginatedProducts, setPaginatedProducts] = useState([]);
 
@@ -67,13 +67,11 @@ export default function Product() {
         .then((res) => {
           setIsLoading(false);
           setPaginatedProducts(res?.data?.data);
-          if (url !== `/product?page=${currentPage}&limit=${pageSize}`) {
-            setFilterProduct(res?.data?.total);
-          }
+          setFilterProduct(res?.data?.total); // Always update filterProduct
         })
         .catch((err) => setIsLoading(err));
     }, 1000);
-  }, [location.search]);
+  }, [location.search, categoryId, brandId, order, minPrice, maxPrice]);
 
   return (
     <>
@@ -96,7 +94,7 @@ export default function Product() {
             <Spinner />
           </div>
         ) : (
-          <div className="relative grid lg:grid-cols-3 sm:grid-cols-2 col-span-12 mt-5 pb-14">
+          <div className="relative grid lg:grid-cols-3 sm:grid-cols-2 col-span-12 mt-8 pb-14">
             <Suspense>
               {paginatedProducts?.map((product) => (
                 <ProductTemplate key={product.id} product={product} />
@@ -113,7 +111,7 @@ export default function Product() {
               onClick={() => setCurrentPage(currentPageIndex)}
               className="flex items-center justify-center"
             >
-              <span className="text-xs">Previous</span>
+              <span className="text-xs dark:text-white-100">Previous</span>
             </li>
           )}
           {Array.from({ length: pagesCount }, (_, i) => (
@@ -134,7 +132,7 @@ export default function Product() {
               className="flex items-center justify-center"
               onClick={() => setCurrentPage(currentPageIndex + 2)}
             >
-              <span className="text-xs">Next</span>
+              <span className="text-xs dark:text-white-100">Next</span>
             </li>
           )}
         </ul>
