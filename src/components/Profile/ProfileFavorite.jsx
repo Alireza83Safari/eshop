@@ -2,11 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import userAxios from "../../services/Axios/userInterceptors";
 import useAddToCart from "../../hooks/useAddCart";
 import useFetch from "../../hooks/useFetch";
 import Spinner from "../Spinner/Spinner";
+import useRemove from "../../hooks/useRemove";
 export default function ProfileFavorite() {
   const {
     datas: favoriteProducts,
@@ -14,19 +15,9 @@ export default function ProfileFavorite() {
     isLoading: dataLoading,
   } = useFetch(`/profile/favoriteProducts`, userAxios);
 
+  const { removeHandler, isLoading: removeLoading } = useRemove();
   const deleteFavorite = async (ID) => {
-    try {
-      const response = await userAxios.post(
-        `/favoriteProductItem/delete/${ID}`
-      );
-
-      if (response.status === 200) {
-        fetchData();
-        toast.success(`delete from favorie!`, {
-          position: "bottom-right",
-        });
-      }
-    } catch (error) {}
+    removeHandler("/favoriteProductItem/delete/", ID, fetchData);
   };
 
   const { addToCart, isLoading } = useAddToCart();
@@ -36,20 +27,9 @@ export default function ProfileFavorite() {
 
   return (
     <>
-      {dataLoading ? (
+      {dataLoading | removeLoading ? (
         <Spinner />
-      ) : !favoriteProducts?.data.length ? (
-        <div className="w-full text-center py-24">
-          <img
-            src="https://www.digikala.com/statics/img/svg/favorites-list-empty.svg"
-            alt=""
-            className="m-auto "
-          />
-          <p className="text-lg font-semibold">
-            Your Favorite Product Is Empty
-          </p>
-        </div>
-      ) : (
+      ) : favoriteProducts?.data.length ? (
         <div className="relative grid lg:grid-cols-2 sm:grid-cols-2 col-span-12 mt-5 pb-14">
           {favoriteProducts?.data.map((favorite) => (
             <div className="bg-white rounded-lg shadow-lg hover:shadow-2xl overflow-hidden dark:bg-black-800 hover:opacity-70 duration-300 m-2">
@@ -101,6 +81,17 @@ export default function ProfileFavorite() {
               </div>
             </div>
           ))}
+        </div>
+      ) : (
+        <div className="w-full text-center py-24">
+          <img
+            src="https://www.digikala.com/statics/img/svg/favorites-list-empty.svg"
+            alt=""
+            className="m-auto "
+          />
+          <p className="text-lg font-semibold">
+            Your Favorite Product Is Empty
+          </p>
         </div>
       )}
 

@@ -1,15 +1,23 @@
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import useRemove from "../../hooks/useRemove";
 
 export default function ProductTemplate({
   order,
   handleDecrement,
   handleIncrement,
-  removeProductHandler,
+  fetchData,
 }) {
+  const { isLoading, removeHandler } = useRemove();
+  const removeProductHandler = (id) => {
+    removeHandler("/orderItem/delete/", id, fetchData);
+  };
   return (
-    <div key={order.id} className="flex items-center border-b h-36">
+    <div
+      key={order.id}
+      className={`flex items-center border-b h-36 ${isLoading && "opacity-20"}`}
+    >
       <img
         src={`http://127.0.0.1:6060/${order.fileUrl}`}
         className="w-24 h-24 object-contain md:mx-4"
@@ -42,9 +50,7 @@ export default function ProductTemplate({
           icon={faTrashAlt}
           className="text-red-700"
           onClick={() => {
-            {
-              removeProductHandler(order.productItemId);
-            }
+            removeProductHandler(order?.productItemId);
           }}
         />
       </div>

@@ -3,6 +3,7 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Spinner from "../Spinner/Spinner";
 import userAxios from "../../services/Axios/userInterceptors";
+import useRemove from "../../hooks/useRemove";
 
 const ProductTemplate = lazy(() => import("./ProductTemplate"));
 const CheckoutEmpty = lazy(() => import("./CheckoutEmpty"));
@@ -14,15 +15,6 @@ export default function CheckoutProducts({ orders, fetchData }) {
 
   const handleDecrement = (productId) => {
     changeDecrementQuantity(productId.productItemId, productId.id);
-  };
-
-  const removeProductHandler = async (id) => {
-    try {
-      const response = await userAxios.post(`/orderItem/delete/${id}`);
-      if (response.status === 200) {
-        fetchData();
-      }
-    } catch (error) {}
   };
 
   const changeIncrementQuantity = async (itemId, id) => {
@@ -69,7 +61,7 @@ export default function CheckoutProducts({ orders, fetchData }) {
                   order={order}
                   handleIncrement={handleIncrement}
                   handleDecrement={handleDecrement}
-                  removeProductHandler={removeProductHandler}
+                  fetchData={fetchData}
                 />
               </Suspense>
             ))}
