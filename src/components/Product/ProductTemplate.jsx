@@ -22,7 +22,7 @@ export default function ProductTemplate({ product }) {
   return (
     <section key={product.id} className="p-2">
       <div className="bg-white rounded-lg shadow-lg hover:shadow-2xl overflow-hidden dark:bg-black-800 hover:opacity-70 duration-300 lg:h-[30rem] sm:h-[26rem] h-[22rem] relative">
-        <Link to={`/products/${product.name}`}>
+        <Link to={`/product/${product.name}`}>
           <img
             src={`http://127.0.0.1:6060/${product.fileUrl}`}
             alt="Product"
