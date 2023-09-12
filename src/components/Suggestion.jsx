@@ -1,13 +1,14 @@
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import userAxios from "../services/Axios/userInterceptors";
 import useFetch from "../hooks/useFetch";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
+import useAddToCart from "../hooks/useAddCart";
 
 export default function Suggestion() {
   const [count, setCount] = useState(1);
@@ -25,19 +26,10 @@ export default function Suggestion() {
     return () => clearInterval(timer);
   }, [suggestions]);
 
+  const { addToCart, isLoading } = useAddToCart();
   const handleAddToCart = async (product) => {
-    let productData = {
-      productItemId: product?.productItemId,
-      quantity: count,
-    };
-    try {
-      const response = await userAxios.post("/orderItem", productData);
-      if (response.status === 200) {
-        toast.success(`${product?.name} added to cart!`, {
-          position: "bottom-right",
-        });
-      }
-    } catch (error) {}
+    addToCart(product?.productItemId, count, product);
+    setCount(1);
   };
 
   const goToPreviousProduct = () => {

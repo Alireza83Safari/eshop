@@ -3,26 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import userAxios from "../../services/Axios/userInterceptors";
 import { ToastContainer, toast } from "react-toastify";
+import useAddToCart from "../../hooks/useAddCart";
 
 export default function ProductContent({ findProduct, productItem }) {
+  const { addToCart, isLoading } = useAddToCart();
   const handleAddToCart = () => {
-    const productData = {
-      productItemId: findProduct.itemId,
-      quantity: 1,
-    };
-
-    userAxios.post("/orderItem", productData).then((res) => {
-      if (res.status === 200) {
-        toast.success(`${findProduct.name} added to favorite!`, {
-          position: "bottom-right",
-        });
-      } else if (res.status === 400) {
-        toast.success(`${findProduct.name} Previously added product`, {
-          position: "bottom-right",
-          type: "warning",
-        });
-      }
-    });
+    addToCart(findProduct.itemId, 1, findProduct);
   };
 
   const addToFavorite = (itemID) => {
@@ -127,6 +113,7 @@ export default function ProductContent({ findProduct, productItem }) {
         <button
           className="bg-blue-60 relative bg-blue-600 hover:bg-blue-300 duration-300 text-white-100 px-8 py-2 text-sm rounded-lg mt-3"
           onClick={handleAddToCart}
+          disabled={isLoading}
         >
           Add to cart
         </button>

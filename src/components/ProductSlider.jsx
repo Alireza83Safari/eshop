@@ -2,27 +2,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import useFetch from "../hooks/useFetch";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import userAxios from "../services/Axios/userInterceptors";
+import useAddToCart from "../hooks/useAddCart";
 
 export default function ProductSlider() {
   const { datas: productsData } = useFetch("/product", userAxios);
-  const handleAddToCart = (productID) => {
-    let productData = {
-      productItemId: productID.itemId,
-      quantity: 1,
-    };
-    userAxios.post("/orderItem", productData).then((res) => {
-      if (res.status === 200) {
-        toast.success(`${productID.name} added to cart!`, {
-          position: "bottom-right",
-        });
-      }
-    });
+  const { addToCart, isLoading } = useAddToCart();
+  
+  const handleAddToCart = (product) => {
+    addToCart(product.itemId, 1, product);
   };
 
   return (
@@ -75,6 +68,7 @@ export default function ProductSlider() {
                         <button
                           className="flex items-center justify-center text-blue-600 hover:text-white-100 hover:bg-blue-300 duration-500 absolute md:w-10 md:h-10 w-7 h-7 rounded-full lg:bottom-6 bottom-16 right-6 z-10 border border-blue-600"
                           onClick={() => handleAddToCart(product)}
+                          disabled={isLoading}
                         >
                           <FontAwesomeIcon icon={faPlus} className="text-xl" />
                         </button>

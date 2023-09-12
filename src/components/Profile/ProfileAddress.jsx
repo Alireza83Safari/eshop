@@ -14,16 +14,18 @@ import userAxios from "../../services/Axios/userInterceptors";
 import { ToastContainer, toast } from "react-toastify";
 import EditAddress from "../Address/EditAddress";
 import AddNewAddress from "../Address/AddNewAddress";
+import Spinner from "../Spinner/Spinner";
 
 export default function ProfileAddress() {
   const [showEditAddress, setShowEditAddress] = useState(false);
   const [editAddressId, setEditAddressId] = useState(null);
   const [showAddAddress, setShowAddAddress] = useState(null);
 
-  const { datas: userAddress, fetchData: fetchAddress } = useFetch(
-    "/address",
-    userAxios
-  );
+  const {
+    datas: userAddress,
+    fetchData: fetchAddress,
+    isLoading,
+  } = useFetch("/address", userAxios);
 
   const deleteAddressHandler = (id) => {
     userAxios.post(`/address/delete/${id}`).then((res) => {
@@ -47,12 +49,9 @@ export default function ProfileAddress() {
         </div>
       </div>
 
-      {!userAddress?.length ? (
-        <div className="w-full text-center py-24">
-          <img src="/images/address.svg" className="m-auto " />
-          <p className="text-lg font-semibold">You havent address</p>
-        </div>
-      ) : (
+      {isLoading ? (
+        <Spinner />
+      ) : userAddress?.length ? (
         userAddress?.map((address) => (
           <div className="border-b p-5">
             <div className="flex items-center justify-between mb-3 px-3">
@@ -104,6 +103,11 @@ export default function ProfileAddress() {
             </div>
           </div>
         ))
+      ) : (
+        <div className="w-full text-center py-24">
+          <img src="/images/address.svg" className="m-auto " />
+          <p className="text-lg font-semibold">You havent address</p>
+        </div>
       )}
 
       {showEditAddress && (

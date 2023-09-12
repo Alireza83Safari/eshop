@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Timer from "./Timer";
-import { ToastContainer, toast } from "react-toastify";
 import useFetch from "../hooks/useFetch";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,16 +8,7 @@ import { Link } from "react-router-dom";
 
 export default function Suggestion() {
   const [currentProductIndex, setCurrentProductIndex] = useState(0);
-  const [suggestionProduct, setSuggestionProduct] = useState(null);
-
-  const [getProducts, setProducts] = useState([]);
   const { datas: promotion } = useFetch("product", userAxios);
-
-  useEffect(() => {
-    if (promotion && promotion.data) {
-      setProducts(promotion.data);
-    }
-  }, [promotion]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -29,14 +19,12 @@ export default function Suggestion() {
     return () => clearInterval(timer);
   }, [promotion]);
 
-  // Function to navigate to previous product
   const goToPreviousProduct = () => {
     setCurrentProductIndex((prevIndex) =>
       prevIndex === 0 ? promotion?.data?.length - 1 : prevIndex - 1
     );
   };
 
-  // Function to navigate to next product
   const goToNextProduct = () => {
     if (currentProductIndex === promotion?.data.length) {
       setCurrentProductIndex(0);
@@ -65,8 +53,7 @@ export default function Suggestion() {
       <div className="grid grid-cols-1 md:grid-cols-2">
         <div className="text-black-900 dark:text-white-100 mx-auto">
           <h1 className="sm:text-3xl lg:text-5xl md:font-4xl text-2xl font-black md:mb-0 md:text-start text-center mb-10">
-            {suggestionProduct &&
-              suggestionProduct?.data[currentProductIndex].name}
+            {promotion && promotion?.data[currentProductIndex]?.name}
           </h1>
         </div>
         <div className="flex justify-center items-center">
@@ -112,8 +99,6 @@ export default function Suggestion() {
       >
         <FontAwesomeIcon icon={faAngleRight} className="lg:text-4xl text-2xl" />
       </button>
-
-      <ToastContainer />
     </section>
   );
 }
