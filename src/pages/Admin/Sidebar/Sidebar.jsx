@@ -5,7 +5,6 @@ import {
   faBox,
   faCoins,
   faCommentDots,
-  faGear,
   faGripHorizontal,
   faJedi,
   faLayerGroup,
@@ -36,20 +35,17 @@ export default function Sidebar() {
   const activeId = useMemo(() => pathNames, [pathNames]);
 
   const logoutHandler = () => {
-    adminAxios
-      .get("/logout")
-      .then((res) => {
-        if (res.status === 200) {
-          navigate("/panel/login");
-          adminLogin();
-          setAdminIsLogin(false);
-          userLogin();
-        }
-      })
-      .catch((err) => console.log(err));
+    adminAxios.get("/logout").then((res) => {
+      if (res.status === 200) {
+        navigate("/panel/login");
+        adminLogin();
+        setAdminIsLogin(false);
+        userLogin();
+      }
+    });
   };
   return (
-    <section className="fixed top-0 left-0 bg-white-100 dark:bg-black-900 h-full xl:w-[10%] lg:w-[12%] sm:w-[6%] w-[9%] font-bold overflow-y-scroll">
+    <section className="fixed top-0 left-0 bg-white-100 dark:bg-black-900 h-full xl:w-[10%] lg:w-[12%] sm:w-[6%] w-[9%] font-bold">
       <div className="">
         <Link to="dashboard" className="">
           <div className="w-full invisible lg:visible">
@@ -67,7 +63,7 @@ export default function Sidebar() {
         <div className="lg:mt-6">
           {items.map((item, index) => (
             <Link
-              className="flex xl:py-6 py-5 items-center lg:justify-normal justify-center text-black-700 relative dark:text-white-100 lg:pl-4"
+              className="flex xl:py-5 py-4 items-center lg:justify-normal justify-center text-black-700 relative dark:text-white-100 lg:pl-4"
               key={index}
               to={item.to}
             >
@@ -95,13 +91,6 @@ export default function Sidebar() {
         <p className="text-xs lg:flex hidden text-black-200 pb-4 dark:text-white-100">
           Options
         </p>
-        <Link className="flex py-5 text-black-700 hover:text-gray-500 duration-500 dark:text-white-100">
-          <FontAwesomeIcon
-            icon={faGear}
-            className="mr-3 lg:text-base text-xl"
-          />
-          <p className="invisible lg:visible">Setting</p>
-        </Link>
         <Link className="flex py-3 text-black-700 hover:text-gray-500 duration-500 dark:text-white-100">
           <FontAwesomeIcon
             icon={faSignOut}
