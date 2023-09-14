@@ -35,16 +35,8 @@ export default function BrandResult() {
     });
   };
 
-  const { datas: productsData, isLoading: productLoading } = useFetch(
-    "/product",
-    userAxios
-  );
-  const pagesCount = Math.ceil(
-    filterProduct > 1
-      ? filterProduct / pageSize
-      : !productLoading && productsData?.total / pageSize
-  );
-
+  const pagesCount = Math.ceil(filterProduct / pageSize);
+  /*   console.log(productsData?.data); */
   const searchParams = new URLSearchParams(location.search);
   const categoryId = searchParams.get("categoryId");
   const brandId = searchParams.get("brandId");
@@ -57,7 +49,9 @@ export default function BrandResult() {
       searchParams.set("page", currentPage.toString());
       searchParams.set("limit", pageSize.toString());
 
-      navigate(`?${searchParams.toString()}`);
+      if (pagesCount > 1) {
+        navigate(`?${searchParams.toString()}`);
+      }
     };
     fetchSearchResults();
   }, [currentPage, categoryId, brandId, filterProduct]);
@@ -84,6 +78,7 @@ export default function BrandResult() {
           setIsLoading(false);
           setPaginatedProducts(res?.data?.data);
           setFilterProduct(res?.data?.total);
+          console.log(res?.data?.total);
         })
         .catch((err) => setIsLoading(err));
     }, 1000);
@@ -96,6 +91,7 @@ export default function BrandResult() {
   const showPage = useMemo(() => {
     return arrayPage?.slice(currentPage - 1, endPageIndex);
   }, [arrayPage]);
+
   return (
     <>
       <Header />
@@ -117,16 +113,12 @@ export default function BrandResult() {
         {isLoading ? (
           <Spinner />
         ) : paginatedProducts.length ? (
-          <div className="relative grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 col-span-12 mt-8 pb-14">
-            {paginatedProducts?.map((product) => (
-              <Suspense fallback={<Spinner />}>
-                <ProductTemplate
-                  product={product}
-                  basketHandler={BasketHandler}
-                />
-              </Suspense>
-            ))}
-          </div>
+          <Suspense fallback={<Spinner />}>
+            <ProductTemplate
+              mapData={paginatedProducts}
+              basketHandler={BasketHandler}
+            />
+          </Suspense>
         ) : (
           <div className="flex justify-center items-center mt-32">
             <div>

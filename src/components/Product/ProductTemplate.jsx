@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import userAxios from "../../services/Axios/userInterceptors";
 
-export default function ProductTemplate({ product }) {
+export default function ProductTemplate({ mapData }) {
   const BasketHandler = async (data) => {
     let userBasketHandler = {
       productItemId: data?.itemId,
@@ -20,41 +20,45 @@ export default function ProductTemplate({ product }) {
   };
 
   return (
-    <section key={product.id} className="p-2">
-      <div className="bg-white rounded-lg shadow-lg hover:shadow-2xl overflow-hidden dark:bg-black-800 hover:opacity-70 duration-300 lg:h-[28rem] sm:h-[26rem] h-[22rem] relative">
-        <Link to={`/product/${product.name}`}>
-          <img
-            src={`http://127.0.0.1:6060/${product.fileUrl}`}
-            alt="Product"
-            className="object-contain w-full lg:h-[18rem] sm:h-[14rem] h-[11rem]"
-          />
-        </Link>
-        <div className="p2">
-          <Link to={`/products/${product.id}`}>
-            <div className="flex justify-center">
-              <button className="text-gray-700 mb-4 p-1 text-xs rounded-lg bg-green-400">
-                {product.categoryName}
-              </button>
+    <div className=" grid lg:grid-cols-5 sm:grid-cols-3 grid-cols-2 col-span-12 mt-8 pb-14">
+      {mapData?.map((product) => (
+        <div className="p-4">
+          <div className="bg-white rounded-lg shadow-lg hover:shadow-2xl overflow-hidden dark:bg-black-800 hover:opacity-70 duration-300 lg:h-[29rem] sm:h-[26rem] h-[22rem] relative">
+            <Link to={`/product/${product.name}`}>
+              <img
+                src={`http://127.0.0.1:6060/${product.fileUrl}`}
+                alt="Product"
+                className="object-contain w-full lg:h-[18rem] sm:h-[14rem] h-[11rem]"
+              />
+            </Link>
+            <div className="p2">
+              <Link to={`/products/${product.id}`}>
+                <div className="flex justify-center">
+                  <button className="text-gray-700 mb-4 p-1 text-xs rounded-lg bg-green-400">
+                    {product.categoryName}
+                  </button>
+                </div>
+                <h2 className="font-bold mb-2 text-sm whitespace-pre-line dark:text-white-100 text-center">
+                  {product.name}
+                </h2>
+              </Link>
+              <div className="flex items-center justify-between pt-1 absolute bottom-0 right-0 left-0 p-4 bg-white-100 dark:bg-black-800">
+                <p className="text-gray-900 font-bold dark:text-white-100 md:texs-base text-sm">
+                  $ {product.price}
+                </p>
+                <button
+                  className="md:px-4 sm:px-2 px-1 sm:py-2 py-1 bg-blue-600 text-white-100 rounded-lg hover:bg-blue-900 duration-200 md:texs-base text-xs"
+                  onClick={() => {
+                    BasketHandler(product);
+                  }}
+                >
+                  Add to Cart
+                </button>
+              </div>
             </div>
-            <h2 className="font-bold mb-2 md:text-base text-sm whitespace-pre-line dark:text-white-100 text-center">
-              {product.name}
-            </h2>
-          </Link>
-          <div className="flex items-center justify-between pt-1 absolute bottom-0 right-0 left-0 p-4 bg-white-100 dark:bg-black-800">
-            <p className="text-gray-900 font-bold dark:text-white-100 md:texs-base text-sm">
-              $ {product.price}
-            </p>
-            <button
-              className="md:px-4 sm:px-2 px-1 sm:py-2 py-1 bg-blue-600 text-white-100 rounded-lg hover:bg-blue-900 duration-200 md:texs-base text-xs"
-              onClick={() => {
-                BasketHandler(product);
-              }}
-            >
-              Add to Cart
-            </button>
           </div>
         </div>
-      </div>
-    </section>
+      ))}
+    </div>
   );
 }

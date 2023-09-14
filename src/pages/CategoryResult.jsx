@@ -18,7 +18,7 @@ export default function CategoryResult() {
   const [isLoading, setIsLoading] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
 
-  const pageSize = 1;
+  const pageSize = 8;
   const [currentPage, setCurrentPage] = useState(1);
   const pagesCount = Math.ceil(categoryResult / pageSize);
 
@@ -112,16 +112,14 @@ export default function CategoryResult() {
         {isLoading ? (
           <Spinner />
         ) : paginatedProducts.length ? (
-          <div className="relative grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 col-span-12 mt-8 pb-14">
-            {paginatedProducts?.map((product) => (
-              <Suspense fallback={<Spinner />}>
-                <ProductTemplate
-                  product={product}
-                  basketHandler={BasketHandler}
-                />
-              </Suspense>
-            ))}
-          </div>
+          <>
+            <Suspense fallback={<Spinner />}>
+              <ProductTemplate
+                mapData={paginatedProducts}
+                basketHandler={BasketHandler}
+              />
+            </Suspense>
+          </>
         ) : (
           <div className="flex justify-center items-center mt-32">
             <div>

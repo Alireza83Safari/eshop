@@ -13,7 +13,7 @@ import useAddToCart from "../hooks/useAddCart";
 export default function ProductSlider() {
   const { datas: productsData } = useFetch("/product", userAxios);
   const { addToCart, isLoading } = useAddToCart();
-  
+
   const handleAddToCart = (product) => {
     addToCart(product.itemId, 1, product);
   };
@@ -26,7 +26,7 @@ export default function ProductSlider() {
             <p className="lg:text-xl md:text-lg text-sm p-1">
               All eshop Products
             </p>
-            <Link to="/products" className="p-1 md:text-sm text-xs">
+            <Link to="/product" className="p-1 md:text-sm text-xs">
               show all products >
             </Link>
           </div>

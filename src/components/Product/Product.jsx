@@ -99,13 +99,9 @@ export default function Product() {
             <Spinner />
           </div>
         ) : (
-          <div className="relative grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 col-span-12 mt-8 pb-14">
-            <Suspense>
-              {paginatedProducts?.map((product) => (
-                <ProductTemplate key={product.id} product={product} />
-              ))}
-            </Suspense>
-          </div>
+          <Suspense>
+            <ProductTemplate mapData={paginatedProducts} />
+          </Suspense>
         )}
       </div>
       {pagesCount > 1 && (
