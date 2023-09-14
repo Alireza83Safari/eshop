@@ -8,13 +8,18 @@ import { Link } from "react-router-dom";
 
 export default function Suggestion() {
   const [currentProductIndex, setCurrentProductIndex] = useState(0);
-  const { datas: promotion } = useFetch("product", userAxios);
+  const [isLoading, setLoading] = useState(false);
+  const [productItem, setProductItem] = useState(null);
+  const { datas: promotion, isLoading: promotionLoading } = useFetch(
+    "product",
+    userAxios
+  );
 
   useEffect(() => {
     const timer = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * promotion?.data?.length);
       setCurrentProductIndex(randomIndex);
-    }, 10000);
+    }, 100000);
 
     return () => clearInterval(timer);
   }, [promotion]);
@@ -36,9 +41,27 @@ export default function Suggestion() {
 
   const [hover, setHover] = useState(false);
 
+  useEffect(() => {
+    if (promotion?.data?.length && !promotionLoading) {
+      setLoading(true);
+      try {
+        userAxios
+          .get(`/productItem/${promotion?.data[currentProductIndex].itemId}`)
+          .then((res) => {
+            setProductItem(res?.data);
+            setLoading(false);
+          });
+      } catch (error) {
+        setLoading(false);
+      }
+    }
+  }, [currentProductIndex, promotion?.data]);
+
   return (
     <section
-      className="w-full px-4 lg:px-20 lg:mt-52 mt-32 relative"
+      className={` w-full px-4 lg:px-20 lg:mt-52 mt-32 relative ${
+        isLoading && "opacity-20"
+      }`}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
@@ -64,8 +87,7 @@ export default function Suggestion() {
         <div className="mt-6 md:mt-16 md:block hidden">
           <h2 className="text-2xl font-bold">Share Now Deal</h2>
           <p className="mt-4 md:mt-6">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt,
-            maiores?
+            {productItem && productItem?.productShortDescription}
           </p>
           <p className="mt-4 md:mt-12 text-xl text-center font-bold">
             {promotion && promotion?.data[currentProductIndex]?.price}$

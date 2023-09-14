@@ -12,12 +12,15 @@ export default function AppPicTable({
 }) {
   const { datas: appics, fetchData } = useFetch("/appPic", userAxios);
   const deleteAppic = async (id) => {
+    console.log(id);
     try {
       const response = await adminAxios.post(`/appPic/delete/${id}`);
       if (response.status === 200) {
         fetchData();
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="bg-white-100 dark:bg-black-600 p-3 mt-20 rounded-xl text-black-900 dark:text-white-100">

@@ -59,7 +59,7 @@ function App() {
   }, [mode]);
 
   return (
-    <div className="App max-w-[1400px] mx-auto relative w-full min-w-full">
+    <div className="App max-w-[1400px] sm:mx-auto relative w-full min-w-full">
       <AuthContext.Provider
         value={{
           mode,

@@ -21,6 +21,7 @@ const useAddToCart = () => {
         toast.success(`${product.name} added to cart!`, {
           position: "bottom-right",
         });
+        setIsLoading(false);
       }
     } catch (error) {
       setError(error);

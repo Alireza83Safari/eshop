@@ -104,11 +104,13 @@ export default function UsersTable() {
         </tbody>
       </table>
 
-      <Pagination
-        pageNumber={pageNumber}
-        setCurrentPage={setCurrentPage}
-        currentPage={currentPage}
-      />
+      {pageNumber > 1 && (
+        <Pagination
+          pageNumber={pageNumber}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+        />
+      )}
 
       <EditUser
         showEditUser={showEditUser}

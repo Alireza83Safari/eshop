@@ -26,9 +26,7 @@ export default function CommentsTable({ comments, fetchDatas }) {
       if (response.status === 200) {
         fetchDatas();
       }
-    } catch (error) {
-      console.error("Error deleting the product:", error.message);
-    }
+    } catch (error) {}
   };
 
   const getPaginationComments = async () => {
@@ -79,30 +77,41 @@ export default function CommentsTable({ comments, fetchDatas }) {
               </td>
               <td className="sm:inline hidden">{comment.rate}/5</td>
               <td>
-                {comments?.commentStatus === 0 ? (
-                  <div>
-                    <button
-                      className="text-[10px] font-black p-1 rounded-l-lg bg-green-100 text-green-300"
-                      onClick={() => commentStatusHandler(comment.id, 1)}
-                    >
-                      Accept
-                    </button>
-                    <button
-                      className="text-[10px] font-black p-1 rounded-r-lg  bg-red-300 text-red-100"
-                      onClick={() => commentStatusHandler(comment.id, 2)}
-                    >
-                      Reject
-                    </button>
-                  </div>
-                ) : comment.commentStatus === 1 ? (
-                  <button className="text-[10px] font-black p-1 rounded-lg bg-green-100 text-green-300">
-                    Accepted
-                  </button>
-                ) : (
-                  <button className="text-[10px] font-black p-1 rounded-lg  bg-red-300 text-red-100">
-                    Rejected
-                  </button>
-                )}
+                {(() => {
+                  switch (comment.commentStatus) {
+                    case 0:
+                      return (
+                        <div>
+                          <button
+                            className="text-[10px] font-black p-1 rounded-l-lg bg-green-100 text-green-300"
+                            onClick={() => commentStatusHandler(comment.id, 1)}
+                          >
+                            Accept
+                          </button>
+                          <button
+                            className="text-[10px] font-black p-1 rounded-r-lg bg-red-300 text-red-100"
+                            onClick={() => commentStatusHandler(comment.id, 2)}
+                          >
+                            Reject
+                          </button>
+                        </div>
+                      );
+                    case 1:
+                      return (
+                        <button className="text-[10px] font-black p-1 rounded-lg bg-green-100 text-green-300">
+                          Accepted
+                        </button>
+                      );
+                    case 2:
+                      return (
+                        <button className="text-[10px] font-black p-1 rounded-lg bg-red-300 text-red-100">
+                          Rejected
+                        </button>
+                      );
+                    default:
+                      return null;
+                  }
+                })()}
               </td>
             </tr>
           ))}

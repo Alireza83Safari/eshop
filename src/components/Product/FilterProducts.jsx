@@ -7,7 +7,6 @@ function FilterProducts({ setCurrentPage }) {
   const history = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-
   const { datas: categoryData } = useFetch("/category/selectList", userAxios);
   const { datas: brandData } = useFetch("/brand", userAxios);
 
@@ -27,7 +26,7 @@ function FilterProducts({ setCurrentPage }) {
 
   const MemoizedFilterProducts = useMemo(
     () => (
-      <section className="border rounded-xl py-3 my-3 mx-4 w-full grid grid-cols-2 text-black-900 dark:text-white-100">
+      <section className="border rounded-xl py-3 my-5 mt-6 mx-4 w-full grid grid-cols-2 text-black-900 dark:text-white-100">
         <div className="text-xs mx-6 py-2 relative">
           <label htmlFor="minPrice" className="font-medium mb-1">
             Min:
@@ -46,7 +45,7 @@ function FilterProducts({ setCurrentPage }) {
               onChange={(e) => handleChange(e.target.name, e.target.value)}
               id="minPrice"
               name="minPrice"
-              className="block text-sm border border-gray-300 w-1/2 rounded px-3 py-2 mb-2 mr-2 focus:outline-none focus:border-blue-600"
+              className="block text-sm border border-gray-300 w-1/2 rounded px-3 py-2 mb-2 mr-2 focus:outline-none focus:border-blue-600 dark:bg-black-200"
             />
             <input
               type="number"
@@ -55,7 +54,7 @@ function FilterProducts({ setCurrentPage }) {
               onChange={(e) => handleChange(e.target.name, e.target.value)}
               id="maxPrice"
               name="maxPrice"
-              className="block relative text-sm border border-gray-300 w-1/2 rounded px-3 py-2 mb-2 ml-2 focus:outline-none focus:border-blue-600"
+              className="block relative text-sm border border-gray-300 w-1/2 rounded px-3 py-2 mb-2 ml-2 focus:outline-none focus:border-blue-600  dark:bg-black-200"
             />
           </div>
         </div>
@@ -69,7 +68,7 @@ function FilterProducts({ setCurrentPage }) {
             name="categoryId"
             onChange={(e) => handleChange(e.target.name, e.target.value)}
             value={searchParams.get("categoryId") || "All"}
-            className="block border border-gray-300 w-full rounded px-3 py-2 mb-2 focus:outline-none focus:border-blue-600"
+            className="block border border-gray-300 w-full rounded px-3 py-2 mb-2 focus:outline-none focus:border-blue-600  dark:bg-black-200"
           >
             <option value="All">All</option>
             {categoryData?.data.map((cate) => (
@@ -87,7 +86,7 @@ function FilterProducts({ setCurrentPage }) {
           <select
             id="order"
             name="order"
-            className="block border border-gray-300 w-full rounded px-3 py-2 mb-2 focus:outline-none focus:border-blue-600"
+            className="block border border-gray-300 w-full rounded px-3 py-2 mb-2 focus:outline-none focus:border-blue-600  dark:bg-black-200"
             onChange={(e) => handleChange(e.target.name, e.target.value)}
             value={searchParams.get("order") || ""}
           >
@@ -106,7 +105,7 @@ function FilterProducts({ setCurrentPage }) {
           <select
             id="brandId"
             name="brandId"
-            className="block border border-gray-300 w-full rounded px-3 py-2 mb-2 focus:outline-none focus:border-blue-600"
+            className="block border border-gray-300 w-full rounded px-3 py-2 mb-2 focus:outline-none focus:border-blue-600  dark:bg-black-200"
             onChange={(e) => handleChange(e.target.name, e.target.value)}
             value={searchParams.get("brandId") || ""}
           >

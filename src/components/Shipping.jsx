@@ -36,8 +36,8 @@ export default function Shipping() {
         {userAddress?.length ? (
           <div className="w-full border border-blue-60 py-3 px-4 rounded-lg bg-white-200 dark:bg-black-200 dark:text-white-100">
             <p className="text-xs">Your Delivery Address</p>
-            {userAddress.slice(0, 1).map((address) => (
-              <div className="mt-4">
+            {userAddress.slice(0, 1).map((address, index) => (
+              <div className="mt-4" key={index}>
                 <div className="flex items-center mb-3">
                   <FontAwesomeIcon icon={faLocationPin} className="mr-1" />
                   <p className="text-sm">{address.address}</p>

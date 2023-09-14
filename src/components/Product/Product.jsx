@@ -1,4 +1,4 @@
-import React, { useEffect, useState, lazy, Suspense } from "react";
+import React, { useEffect, useState, lazy, Suspense, useMemo } from "react";
 import Spinner from "../Spinner/Spinner";
 import useFetch from "../../hooks/useFetch";
 import userAxios from "../../services/Axios/userInterceptors";
@@ -9,26 +9,25 @@ const FilterProducts = lazy(() => import("./FilterProducts"));
 export default function Product() {
   const location = useLocation();
   const navigate = useNavigate();
-  const pageSize = 6;
-
-  // State for pagination
+  const pageSize = 12;
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const [filterProduct, setFilterProduct] = useState([]);
-
-  // State for filtering
+  const [filterProduct, setFilterProduct] = useState(0);
+  const maxPage = 3;
+  const [endPageIndex, setEndPageIndex] = useState(null);
   const [showFilter, setShowFilter] = useState(false);
-
   const currentPageIndex = currentPage - 1;
 
-  // Fetch product data
-  const { datas: productsData } = useFetch("/product", userAxios);
+  const { datas: productsData, isLoading: productLoading } = useFetch(
+    "/product",
+    userAxios
+  );
+
   const pagesCount = Math.ceil(
     filterProduct > 1
       ? filterProduct / pageSize
-      : productsData?.data?.length / pageSize
+      : !productLoading && productsData?.total / pageSize
   );
-
   const searchParams = new URLSearchParams(location.search);
   const categoryId = searchParams.get("categoryId");
   const brandId = searchParams.get("brandId");
@@ -37,7 +36,6 @@ export default function Product() {
   const maxPrice = searchParams.get("maxPrice");
 
   useEffect(() => {
-    // Update the URL query parameters when the page or filters change
     const fetchSearchResults = () => {
       searchParams.set("page", currentPage.toString());
       searchParams.set("limit", pageSize.toString());
@@ -50,7 +48,6 @@ export default function Product() {
   const [paginatedProducts, setPaginatedProducts] = useState([]);
 
   useEffect(() => {
-    // Fetch paginated products based on filters and page number
     let url = `/product?page=${currentPage}&limit=${pageSize}`;
     if (categoryId) url += `&categoryId=${categoryId}`;
     if (brandId) url += `&brandId=${brandId}`;
@@ -60,19 +57,27 @@ export default function Product() {
 
     setIsLoading(true);
 
-    // Simulate a delay for loading (remove this in production)
     setTimeout(() => {
       userAxios
         .get(url)
         .then((res) => {
           setIsLoading(false);
           setPaginatedProducts(res?.data?.data);
-          setFilterProduct(res?.data?.total); // Always update filterProduct
+          url != `/product?page=${currentPage}&limit=${pageSize}`
+            ? setFilterProduct(res?.data?.total)
+            : setFilterProduct(0);
         })
         .catch((err) => setIsLoading(err));
     }, 1000);
   }, [location.search, categoryId, brandId, order, minPrice, maxPrice]);
 
+  useEffect(() => {
+    setEndPageIndex(currentPage + maxPage);
+  }, [currentPage]);
+  let arrayPage = Array.from(Array(pagesCount).keys());
+  const showPage = useMemo(() => {
+    return arrayPage?.slice(currentPage - 1, endPageIndex);
+  }, [arrayPage]);
   return (
     <>
       <div className="grid grid-cols-12 xl:px-20 px-5">
@@ -94,7 +99,7 @@ export default function Product() {
             <Spinner />
           </div>
         ) : (
-          <div className="relative grid lg:grid-cols-3 sm:grid-cols-2 col-span-12 mt-8 pb-14">
+          <div className="relative grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 col-span-12 mt-8 pb-14">
             <Suspense>
               {paginatedProducts?.map((product) => (
                 <ProductTemplate key={product.id} product={product} />
@@ -103,40 +108,41 @@ export default function Product() {
           </div>
         )}
       </div>
-      <nav className="flex justify-center">
-        <ul className="flex absolute bottom-0" aria-current="page">
-          {currentPageIndex > 0 && (
-            <li
-              style={{ cursor: "pointer" }}
-              onClick={() => setCurrentPage(currentPageIndex)}
-              className="flex items-center justify-center"
-            >
-              <span className="text-xs dark:text-white-100">Previous</span>
-            </li>
-          )}
-          {Array.from({ length: pagesCount }, (_, i) => (
-            <li
-              className={`flex items-center justify-center rounded-md font-bold w-10 h-10 m-2 p-3 ${
-                currentPage === i + 1
-                  ? "bg-blue-600 text-white-100  mx-3"
-                  : "bg-white-200 text-black-600 mx-3"
-              }`}
-              key={i + 1}
-              onClick={() => setCurrentPage(i + 1)}
-            >
-              <span className="page-link">{i + 1}</span>
-            </li>
-          ))}
-          {currentPageIndex < pagesCount - 1 && (
-            <li
-              className="flex items-center justify-center"
-              onClick={() => setCurrentPage(currentPageIndex + 2)}
-            >
-              <span className="text-xs dark:text-white-100">Next</span>
-            </li>
-          )}
-        </ul>
-      </nav>
+      {pagesCount > 1 && (
+        <nav className="flex justify-center">
+          <ul className="flex absolute bottom-0" aria-current="page">
+            {currentPageIndex > 0 && (
+              <li
+                onClick={() => setCurrentPage(currentPageIndex)}
+                className="flex items-center justify-center"
+              >
+                <span className="text-xs dark:text-white-100">Previous</span>
+              </li>
+            )}
+            {showPage.map((i) => (
+              <li
+                className={`flex items-center justify-center rounded-md font-bold w-10 h-10 m-2 p-3 ${
+                  currentPage === i + 1
+                    ? "bg-blue-600 text-white-100  mx-3"
+                    : "bg-white-200 text-black-600 mx-3"
+                }`}
+                key={i + 1}
+                onClick={() => setCurrentPage(i + 1)}
+              >
+                <span className="page-link">{i + 1}</span>
+              </li>
+            ))}
+            {currentPageIndex < pagesCount - 1 && (
+              <li
+                className="flex items-center justify-center"
+                onClick={() => setCurrentPage(currentPageIndex + 2)}
+              >
+                <span className="text-xs dark:text-white-100">Next</span>
+              </li>
+            )}
+          </ul>
+        </nav>
+      )}
     </>
   );
 }

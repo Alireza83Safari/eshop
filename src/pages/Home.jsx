@@ -10,16 +10,19 @@ import Sidebar from "./Sidebar/Sidebar";
 import ProductSlider from "../components/ProductSlider";
 
 export default function Home() {
+
   return (
-    <div className="md:mt-8 lg:container mx-auto lg:px-0 px-5">
+    <div>
       <Header />
-      <Sidebar />
-      <Banner />
-      <Suggestion />
-      <ProductSlider />
-      <Promotion />
-      <Offer />
-      <PopularBrand />
+      <div className="md:mt-8 lg:container mx-auto lg:px-0 sm:px-5">
+        <Sidebar />
+        <Banner />
+        <Suggestion />
+        <ProductSlider />
+        <Promotion />
+        <Offer />
+        <PopularBrand />
+      </div>
       <Footer />
     </div>
   );

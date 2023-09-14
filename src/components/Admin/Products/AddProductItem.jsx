@@ -24,6 +24,7 @@ export default function AddProductItem({}) {
     quantity: "",
     isMainItem: "",
   });
+  console.log(newProductId);
 
   const [isLoading, setIsLoading] = useState(false);
 

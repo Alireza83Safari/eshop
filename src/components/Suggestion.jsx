@@ -15,19 +15,23 @@ export default function Suggestion() {
   const [currentProductIndex, setCurrentProductIndex] = useState(0);
   const [hover, setHover] = useState(false);
   const [productInfo, setProductInfo] = useState(null);
-  const { datas: suggestions } = useFetch("/product/suggestions", userAxios);
+  const { datas: suggestions, isLoading: suggestionsLoading } = useFetch(
+    "/product/suggestions",
+    userAxios
+  );
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * suggestions?.data?.length);
       setCurrentProductIndex(randomIndex);
-    }, 10000);
+    }, 100000);
 
     return () => clearInterval(timer);
   }, [suggestions]);
 
-  const { addToCart, isLoading } = useAddToCart();
-  const handleAddToCart = async (product) => {
+  const { addToCart } = useAddToCart();
+  const handleAddToCart = (product) => {
     addToCart(product?.productItemId, count, product);
     setCount(1);
   };
@@ -48,23 +52,32 @@ export default function Suggestion() {
   };
 
   useEffect(() => {
-    if (suggestions?.data?.length) {
+    if (suggestions?.data?.length && !suggestionsLoading) {
+      setLoading(true);
       try {
         userAxios
           .get(
             `/productItem/${suggestions?.data[currentProductIndex].productItemId}`
           )
-          .then((res) => setProductInfo(res?.data));
-      } catch (error) {}
+          .then((res) => {
+            setProductInfo(res?.data);
+            setLoading(false);
+          });
+      } catch (error) {
+        setLoading(false);
+      }
     }
-  }, [suggestions]);
+  }, [currentProductIndex, suggestions?.data]);
+
   return (
     <section
       className="w-full xl:px-20 md:px-4 lg:mt-52 md:mt-40 mt-32 relative"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      <div className="grid md:grid-cols-2 relative">
+      <div
+        className={` grid md:grid-cols-2 relative ${isLoading && "opacity-30"}`}
+      >
         <button
           className={`absolute left-2 top-80 z-10 outline-none duration-500 dark:text-white-100 ${
             hover ? "opacity-100" : "opacity-0"
@@ -139,19 +152,20 @@ export default function Suggestion() {
           </div>
           <div className="text-black-900 dark:text-white-100">
             <p className="font-black lg:mt-10 md:mt-4 md:block hidden">
-              Select Best Color
+              Select Color
             </p>
             <div className="flex justify-between my-4">
               <div className="flex items-center">
                 <p className="font-black lg:mt-10 md:mt-4 text-sm flex md:hidden mr-10 py-5">
-                  Select Best Color
+                  Select Color
                 </p>
                 {suggestions?.data &&
                   suggestions?.data[currentProductIndex]?.colors.map(
-                    (color) => (
+                    (color, index) => (
                       <div
                         className={` lg:w-12 lg:h-12 md:w-8 md:h-8 w-7 h-7 lg:mr-4 mr-1 rounded-lg border `}
                         style={{ backgroundColor: `${color?.colorHex}` }}
+                        key={index}
                       ></div>
                     )
                   )}

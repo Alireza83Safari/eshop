@@ -6,6 +6,7 @@ import Spinner from "../../Spinner/Spinner";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import Discount from "./Discount/Discount";
+import EditProductItem from "./EditProductItem";
 
 const Departments = lazy(() => import("./Departments"));
 const PiesChart = lazy(() => import("../Charts/PieChart"));
@@ -20,6 +21,7 @@ const EditProduct = lazy(() => import("./EditProduct"));
 export default function ProductsPanel() {
   const [productDeleteId, setProductDeleteId] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showEditItem, setShowEditItem] = useState(false);
   const [showDiscount, setShowDiscount] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showAddProduct, setShowAddProduct] = useState(false);
@@ -28,7 +30,7 @@ export default function ProductsPanel() {
   const [productEditId, setProductEditId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showFile, setShowFile] = useState(false);
-  const [newProductId, setNewProductId] = useState("");
+  const [newProductId, setNewProductId] = useState(null);
   const [productList, setProductList] = useState([]);
 
   const fetchProductList = () => {
@@ -39,7 +41,7 @@ export default function ProductsPanel() {
   useEffect(() => {
     fetchProductList();
   }, []);
-
+  console.log(newProductId);
   return (
     <ProductsPanelContext.Provider
       value={{
@@ -66,6 +68,8 @@ export default function ProductsPanel() {
         showDiscount,
         setShowProductFeature,
         setShowDiscount,
+        showEditItem,
+        setShowEditItem,
       }}
     >
       <section className="p-6 float-right mt-12 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] min-h-screen">

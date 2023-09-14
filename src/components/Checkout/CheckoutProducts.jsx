@@ -55,13 +55,14 @@ export default function CheckoutProducts({ orders, fetchData }) {
           </Suspense>
         ) : (
           <>
-            {orders?.items?.map((order) => (
+            {orders?.items?.map((order, index) => (
               <Suspense fallback={<Spinner />}>
                 <ProductTemplate
                   order={order}
                   handleIncrement={handleIncrement}
                   handleDecrement={handleDecrement}
                   fetchData={fetchData}
+                  key={index}
                 />
               </Suspense>
             ))}

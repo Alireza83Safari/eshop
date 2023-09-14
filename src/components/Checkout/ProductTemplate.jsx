@@ -8,6 +8,7 @@ export default function ProductTemplate({
   handleDecrement,
   handleIncrement,
   fetchData,
+  key,
 }) {
   const { isLoading, removeHandler } = useRemove();
   const removeProductHandler = (id) => {
@@ -15,7 +16,7 @@ export default function ProductTemplate({
   };
   return (
     <div
-      key={order.id}
+      key={key}
       className={`flex items-center border-b h-36 ${isLoading && "opacity-20"}`}
     >
       <img

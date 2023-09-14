@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useParams } from "react-router-dom";
 import userAxios from "../../services/Axios/userInterceptors";
-import useFetch from "../../hooks/useFetch";
+
 
 function AddComment({ fetchComments, productId }) {
   const [strengths, setStrengths] = useState([]);

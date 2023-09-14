@@ -13,8 +13,8 @@ export default function Breadcrumb({ links }) {
         />
       </div>
       <ul className="flex items-center mr-3">
-        {links.map((link) => (
-          <li className="list-none">
+        {links.map((link,index) => (
+          <li className="list-none" key={index}>
             <Link
               to={`/${link.to}`}
               className="flex items-center text-sm text-gray-800 dark:text-white-100"

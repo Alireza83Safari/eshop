@@ -22,12 +22,10 @@ export default function ProductsTable() {
     setShowDeleteModal,
     setProductEditId,
     productList,
-    setShowEditItem,
   } = useContext(ProductsPanelContext);
 
   const editHandler = (id) => {
-    //setShowEditModal(true);
-    setShowEditItem(true);
+    setShowEditModal(true);
     setProductEditId(id);
   };
 

@@ -32,8 +32,10 @@ export default function AddProductFile() {
       }
     } catch (error) {
       setIsLoading(false);
+      console.log(error);
     }
   };
+  console.log(newProductId);
 
   return (
     <div
@@ -42,7 +44,7 @@ export default function AddProductFile() {
       }`}
     >
       <div className="w-1/3  bg-white-100 p-5 rounded-xl">
-        <form onSubmit={handleSubmit(addFile)}>
+        <form onSubmit={(e) => e.preventDefault()}>
           <div className={` ${isLoading && "opacity-20"} `}>
             <label htmlFor="image" className="block text-gray-800 font-medium">
               Upload Image
@@ -74,6 +76,7 @@ export default function AddProductFile() {
             <button
               type="submit"
               className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2"
+              onClick={handleSubmit(addFile)}
             >
               {isLoading ? <FormSpinner /> : "Add Product File"}
             </button>

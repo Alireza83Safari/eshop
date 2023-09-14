@@ -22,7 +22,6 @@ export default function AddAppPic({
   const [errors, setErrors] = useState(null);
   const [serverErrors, setServerErrors] = useState(null);
   const [isLoading, setLoading] = useState(false);
-
   const addNewProducts = async () => {
     setLoading(true);
     appPicValidation(appicInfo, errors, setErrors);
@@ -38,6 +37,7 @@ export default function AddAppPic({
     } catch (error) {
       setServerErrors(error?.response?.data?.errors);
       setLoading(false);
+      console.log(error);
     }
   };
 
@@ -48,7 +48,7 @@ export default function AddAppPic({
       [name]: name === "priority" ? Number(value) : value,
     });
   };
-
+  console.log(appicInfo);
   return ReactDOM.createPortal(
     <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full h-screen flex items-center justify-center transition duration-400">
       <div className="lg:w-2/5 md:w-3/5 w-4/5 bg-white-100 p-5 rounded-xl">

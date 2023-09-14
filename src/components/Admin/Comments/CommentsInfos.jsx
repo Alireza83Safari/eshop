@@ -10,6 +10,7 @@ export default function CommentsInfos({ comments }) {
   const pendingComments = comments.filter(
     (comment) => comment.commentStatus === 0
   );
+  console.log(comments);
   return (
     <>
       <div className="bg-white-100 dark:bg-black-200 py-4 rounded-xl md:mt-2 mt-6 text-center md:mx-0 mx-1">

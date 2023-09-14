@@ -33,7 +33,9 @@ export default function ProfileEdit() {
 
   return (
     <div className="p-5">
-      <h2 className="text-center pb-10 font-bold">Edit Infos</h2>
+      <h2 className="text-center pb-10 font-bold text-lg dark:text-white-100">
+        Edit Infos
+      </h2>
       <form onSubmit={(e) => e.preventDefault()}>
         <div className="grid grid-cols-2 gap-2 mt-2">
           <div>

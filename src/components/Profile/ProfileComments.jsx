@@ -4,10 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import userAxios from "../../services/Axios/userInterceptors";
 import Pagination from "../Paganation";
+import Spinner from "../Spinner/Spinner";
 
 export default function ProfileComments() {
   const [paginatedComments, setPaginatedComments] = useState([]);
-  const { datas: comments } = useFetch("/comment", userAxios);
+  const { datas: comments, isLoading } = useFetch("/comment", userAxios);
   const [currentPage, setCurrentPage] = useState(1);
   let pageSize = 4;
   let totalPage;
@@ -30,14 +31,16 @@ export default function ProfileComments() {
 
   return (
     <section className="relative pb-16">
-      {paginatedComments.length < 1 ? (
+      {isLoading ? (
+        <Spinner />
+      ) : paginatedComments.length < 1 ? (
         <div className="w-full text-center py-24">
           <img src="/images/order-empty.svg" alt="" className="m-auto " />
           <p className="text-lg font-semibold">You havent comments</p>
         </div>
       ) : (
-        paginatedComments?.map((comment) => (
-          <div className="border-b py-10 px-8 dark:text-white-100">
+        paginatedComments?.map((comment,index) => (
+          <div className="border-b py-10 px-8 dark:text-white-100" key={index}>
             <div className="lg::flex grid grid-cols-2 justify-between">
               <div className="flex items-center mb-5 md:text-sm text-xs">
                 <p className="mr-2 text-gray-800">product:</p>

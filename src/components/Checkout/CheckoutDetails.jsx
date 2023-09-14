@@ -13,7 +13,7 @@ export default function CheckoutDetails({ orders }) {
 
   return (
     <>
-      <div className="lg:w-[20rem] lg:block hidden h-[24rem] md:px-6 py-2 ml-8 border text-sm z-10 rounded-lg">
+      <div className="lg:w-[20rem] lg:block hidden h-[24rem] md:px-6 py-2 ml-8 border text-sm rounded-lg">
         <p className="py-2 text-xl font-bold text-center">Cart Total</p>
 
         <div className="flex justify-between pt-6 pb-2">

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import userAxios from "../../services/Axios/userInterceptors";
@@ -7,6 +7,7 @@ import useAddToCart from "../../hooks/useAddCart";
 
 export default function ProductContent({ findProduct, productItem }) {
   const { addToCart, isLoading } = useAddToCart();
+  const [isFavorite, setIsFavorite] = useState(null);
   const handleAddToCart = () => {
     addToCart(findProduct.itemId, 1, findProduct);
   };
@@ -33,12 +34,13 @@ export default function ProductContent({ findProduct, productItem }) {
         }
       });
   };
-
-  const isFavorite = useMemo(() => {
+  useEffect(() => {
     if (findProduct) {
-      userAxios.get(`/favoriteProductItem/isFavorite/${findProduct?.itemId}`);
+      userAxios
+        .get(`/favoriteProductItem/isFavorite/${findProduct?.itemId}`)
+        .then((res) => setIsFavorite(res.data.data));
     }
-  }, [findProduct]);
+  }, [findProduct?.itemId, isFavorite]);
 
   return (
     <>
@@ -49,12 +51,15 @@ export default function ProductContent({ findProduct, productItem }) {
           </h1>
           <img
             src={`  ${
-              isFavorite?.data
+              isFavorite
                 ? "/images/heart-red-svgrepo-com.svg"
                 : "/images/heart-svgrepo-com.svg"
             } `}
             className="w-6 h-6 text-red-700 hover:text-red-300 mr-10 text-2xl"
-            onClick={() => addToFavorite(findProduct?.itemId)}
+            onClick={() => {
+              addToFavorite(findProduct?.itemId);
+              setIsFavorite(true);
+            }}
           />
         </div>
         <div className="md:flex grid grid-cols-2 sm:py-4 py-6 sm:text-sm text-xs  my-3">
@@ -81,10 +86,11 @@ export default function ProductContent({ findProduct, productItem }) {
           <div className="mb-4 flex items-center sm:text-sm text-xs sm:py-2 py-6 my-3">
             <p>Color:</p>
             <div className="mt-2 flex">
-              {productItem?.colors?.map((color) => (
+              {productItem?.colors?.map((color, index) => (
                 <div
                   className={` mx-1 w-10 h-10 rounded-lg`}
                   style={{ backgroundColor: color?.colorHex }}
+                  key={index}
                 ></div>
               ))}
             </div>

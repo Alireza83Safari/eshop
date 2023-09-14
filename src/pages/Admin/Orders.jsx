@@ -1,7 +1,6 @@
 import React, { useEffect, useState, lazy, Suspense } from "react";
 import Spinner from "../../components/Spinner/Spinner";
 import adminAxios from "../../services/Axios/adminInterceptors";
-
 const PiesChart = lazy(() => import("../../components/Admin/Charts/PieChart"));
 const OrderTable = lazy(() =>
   import("../../components/Admin/Orders/OrderTable")
@@ -41,7 +40,7 @@ export default function Orders() {
   const COLORS = ["red", "#00C49F", "#FFBB28"];
 
   return (
-    <section className="float-right mt-12 md:px-6 px-2 pb-8 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] min-h-screen">
+    <section className="float-right mt-16 md:px-6 px-2 pb-8 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] min-h-screen">
       <div className="mb-4">
         <Suspense fallback={<Spinner />}>
           <OrderInfos tax={totalTax} income={income} netProfit={netProfit} />

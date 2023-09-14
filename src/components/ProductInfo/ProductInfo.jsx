@@ -1,6 +1,6 @@
-import React, { useState, startTransition, useMemo, useEffect } from "react";
+import React, { useState, startTransition, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import Header from "../../pages/Header/Header";
 import Footer from "../../pages/Footer";
 import useFetch from "../../hooks/useFetch";
@@ -28,6 +28,7 @@ export default function ProductsInfoPanel() {
         .then((res) => setProductItem(res?.data));
     }
   }, [findProduct]);
+
   return (
     <>
       <Header />

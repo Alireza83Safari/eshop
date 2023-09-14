@@ -60,8 +60,8 @@ export default function AllAddress() {
           </button>
           <FontAwesomeIcon icon={faAngleRight} className="text-lg" />
         </div>
-        {userAddress?.map((address) => (
-          <div className="border-b p-5">
+        {userAddress?.map((address,index) => (
+          <div className="border-b p-5"key={index}>
             <div className="flex items-center justify-between mb-3 px-3">
               <div className="flex items-center">
                 <FontAwesomeIcon icon={faLocation} className="mr-2" />

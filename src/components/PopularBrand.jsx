@@ -6,7 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 export default function PopularBrand() {
   const { datas: brand } = useFetch("/brand", userAxios);
   const brandHandler = (data) => {
-    document.location.href = `/brand/${data?.name}`;
+    document.location.href = `/brand/product?brandId=${data?.id}`;
   };
   return (
     <section className="md:px-5 md:mt-40 mt-20 text-black-900 dark:text-white-100 ">
