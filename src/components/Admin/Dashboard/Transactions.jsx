@@ -30,7 +30,7 @@ export default function Transactions() {
           </thead>
 
           <tbody>
-            {sales?.slice(0, 7).map((order, index) => (
+            {sales?.slice(0, 6).map((order, index) => (
               <tr
                 className="md:text-sm sm:text-xs text-[10px] text-center"
                 key={index}

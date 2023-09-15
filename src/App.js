@@ -1,6 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRoutes } from "react-router-dom";
-import axios from "axios";
 import route from "./routes/routes";
 import "./App.css";
 import AuthContext from "./Context/AuthContext";
@@ -9,7 +8,6 @@ import userAxios from "./services/Axios/userInterceptors";
 function App() {
   const routes = useRoutes(route);
   const [userIsLogin, setUserIsLogin] = useState(null);
-  const [adminIsLogin, setAdminIsLogin] = useState(false);
   const [mode, setMode] = useState(false);
   const [showShopSidebar, setShowShopSidebar] = useState(false);
   const [userInfos, setUserInfos] = useState(null);
@@ -25,18 +23,6 @@ function App() {
 
   useEffect(() => {
     userLogin();
-  }, []);
-  const adminLogin = () => {
-    axios.get("/api/v1/admin/is_authenticated").then((res) => {
-      if (res.status === 200) {
-        setAdminIsLogin(true);
-      } else {
-        setUserIsLogin(false);
-      }
-    });
-  };
-  useEffect(() => {
-    adminLogin();
   }, []);
 
   useEffect(() => {
@@ -57,6 +43,7 @@ function App() {
       document.documentElement.classList.remove("dark");
     }
   }, [mode]);
+
   return (
     <div className="App max-w-[1400px] sm:mx-auto relative w-full min-w-full">
       <AuthContext.Provider
@@ -66,12 +53,9 @@ function App() {
           showShopSidebar,
           setShowShopSidebar,
           userIsLogin,
-          adminIsLogin,
           userInfos,
           userLogin,
           setUserIsLogin,
-          setAdminIsLogin,
-          adminLogin,
         }}
       >
         {routes}

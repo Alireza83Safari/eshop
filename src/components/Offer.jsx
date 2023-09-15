@@ -75,7 +75,7 @@ export default function Offer() {
                           <button
                             className="flex items-center justify-center text-blue-600 hover:text-white-100 hover:bg-blue-300 duration-500 absolute md:w-10 md:h-10 w-7 h-7 rounded-full lg:bottom-24 bottom-16 right-6 z-10 border border-blue-600"
                             onClick={() => handleAddToCart(product)}
-                            disabled={isLoading} 
+                            disabled={isLoading}
                           >
                             <FontAwesomeIcon
                               icon={faPlus}

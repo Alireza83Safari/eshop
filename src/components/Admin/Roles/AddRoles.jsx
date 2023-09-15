@@ -63,8 +63,8 @@ export default function AddRoles({ setShowAddRoles, fetchData }) {
   };
 
   return ReactDOM.createPortal(
-    <div className="absolute bg-gray-100  z-10 w-full min-h-screen flex items-center justify-center transition duration-400">
-      <div className="bg-white-100 w-11/12 overflow-auto p-3 h-[40rem] rounded-xl relative p-4">
+    <div className="absolute bg-gray-100 z-10 w-full min-h-screen flex items-center justify-center transition duration-400 overflow-auto">
+      <div className="bg-white-100 w-11/12 overflow-auto h-[40rem] rounded-xl relative p-4">
         <form onSubmit={(e) => e.preventDefault()}>
           <div className="flex justify-between">
             <h1 className="mb-8 font-black">Add New Role</h1>

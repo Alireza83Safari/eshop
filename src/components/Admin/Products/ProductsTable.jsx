@@ -5,10 +5,8 @@ import InfosModal from "./InfosModal";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import Pagination from "../../Paganation";
 import adminAxios from "../../../services/Axios/adminInterceptors";
-import AuthContext from "../../../Context/AuthContext";
 
 export default function ProductsTable() {
-  const { adminIsLogin } = useContext(AuthContext);
   const [paginatedProducts, setPaginatedProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [showInfoModal, setShowInfoModal] = useState(false);
@@ -47,7 +45,7 @@ export default function ProductsTable() {
     }
   }, [infosId]);
 
-  let pageSize = 11;
+  let pageSize = 10;
   let pageNumber;
 
   useEffect(() => {

@@ -5,16 +5,20 @@ import Header from "../../pages/Admin/Header";
 import AuthContext from "../../Context/AuthContext";
 
 export default function Index() {
-  const { adminIsLogin } = useContext(AuthContext);
+  const { userInfos } = useContext(AuthContext);
 
   return (
     <>
-      {adminIsLogin && (
+      {userInfos?.role?.name === "admin" || userInfos?.role?.name === "root" ? (
         <>
           <Header />
           <Outlet />
           <Sidebar />
         </>
+      ) : (
+        <div className="flex justify-center items-center dark:text-white-100 text-5xl min-h-screen">
+          You Havent Access here
+        </div>
       )}
     </>
   );

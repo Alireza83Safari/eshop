@@ -45,9 +45,7 @@ export default function UsersTable() {
       if (response.status === 200) {
         fetchUsers();
       }
-    } catch (error) {
-      console.error("Error deleting the product:", error.message);
-    }
+    } catch (error) {}
   };
 
   return (

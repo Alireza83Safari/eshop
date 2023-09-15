@@ -13,6 +13,7 @@ export default function AddProductFile() {
   } = useForm();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [serverError, setServerError] = useState(null);
   const { setShowFile, showFile, newProductId } =
     useContext(ProductsPanelContext);
   const addFile = async (data) => {
@@ -25,18 +26,29 @@ export default function AddProductFile() {
         `/file/uploadImage/${newProductId}/1`,
         formData
       );
+      switch (response.status) {
+        case 200: {
+          reset();
+          setIsLoading(false);
+          setShowFile(false);
+          break;
+        }
+
+        default:
+          break;
+      }
       if (response.status === 200) {
-        reset();
-        setIsLoading(false);
-        setShowFile(false);
       }
     } catch (error) {
+      if (error.response.status === 403) {
+        setServerError("You Havent Access to add image");
+        console.log("sdfg");
+      }
       setIsLoading(false);
       console.log(error);
     }
   };
-  console.log(newProductId);
-
+  console.log(serverError);
   return (
     <div
       className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full h-screen flex items-center justify-center transition duration-400 ${
@@ -69,8 +81,11 @@ export default function AddProductFile() {
               })}
             />
             {errors.image && (
-              <p className="text-red-700">{errors.image.message}</p>
+              <p className="text-red-700">
+                {errors.image.message} {serverError}
+              </p>
             )}
+            <p className="text-red-700">{serverError}</p>
           </div>
           <div className="flex justify-center mt-8">
             <button
@@ -83,6 +98,7 @@ export default function AddProductFile() {
             <button
               type="submit"
               className="w-full py-2 rounded-xl border border-blue-600 ml-2"
+              onClick={() => setShowFile(false)}
             >
               Cancel
             </button>

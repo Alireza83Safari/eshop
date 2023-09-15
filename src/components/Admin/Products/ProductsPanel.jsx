@@ -41,7 +41,6 @@ export default function ProductsPanel() {
   useEffect(() => {
     fetchProductList();
   }, []);
-  console.log(newProductId);
   return (
     <ProductsPanelContext.Provider
       value={{

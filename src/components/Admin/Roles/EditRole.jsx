@@ -18,7 +18,7 @@ export default function EditRole({ setShowEditRoles, editRoleId }) {
       if (response.status === 200) {
       }
     } catch (error) {
-      console.error("Error deleting the product:", error.message);
+      console.error(error);
     }
   };
   useEffect(() => {
