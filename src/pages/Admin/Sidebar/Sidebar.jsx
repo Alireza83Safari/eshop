@@ -3,11 +3,14 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBox,
+  faCarrot,
   faCoins,
   faCommentDots,
   faGripHorizontal,
   faJedi,
   faLayerGroup,
+  faPaintRoller,
+  faPortrait,
   faSignOut,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
@@ -24,6 +27,7 @@ export default function Sidebar() {
     { icon: faCommentDots, text: "comments", to: "/panel/comments" },
     { icon: faLayerGroup, text: "roles", to: "/panel/roles" },
     { icon: faUsers, text: "users", to: "/panel/users" },
+    { icon: faCarrot, text: "category", to: "/panel/category" },
     { icon: faJedi, text: "appPic", to: "/panel/appPic" },
   ];
 

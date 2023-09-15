@@ -6,8 +6,6 @@ import Spinner from "../../Spinner/Spinner";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import Discount from "./Discount/Discount";
-import EditProductItem from "./EditProductItem";
-import AddCategory from "./AddCategory";
 
 const Departments = lazy(() => import("./Departments"));
 const PiesChart = lazy(() => import("../Charts/PieChart"));
@@ -26,7 +24,6 @@ export default function ProductsPanel() {
   const [showDiscount, setShowDiscount] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showAddProduct, setShowAddProduct] = useState(false);
-  const [showAddCategory, setShowAddCategory] = useState(false);
   const [showProductItem, setShowProductItem] = useState(false);
   const [showProductFeature, setShowProductFeature] = useState(false);
   const [productEditId, setProductEditId] = useState(null);
@@ -71,8 +68,6 @@ export default function ProductsPanel() {
         setShowDiscount,
         showEditItem,
         setShowEditItem,
-        showAddCategory,
-        setShowAddCategory,
       }}
     >
       <section className="p-6 float-right mt-12 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] min-h-screen">
@@ -106,12 +101,6 @@ export default function ProductsPanel() {
                   onClick={() => setShowDiscount(true)}
                 >
                   Add Discount <FontAwesomeIcon icon={faPercent} />
-                </button>
-                <button
-                  className="sm:text-xs text-[10px] bg-green-300 text-white-100 md:p-2 p-1 md:mr-2 mr-1 rounded-lg whitespace-nowrap"
-                  onClick={() => setShowAddCategory(true)}
-                >
-                  Add Category
                 </button>
               </div>
             </div>
@@ -148,7 +137,6 @@ export default function ProductsPanel() {
           {showDiscount && <Discount />}
           <DeleteModal />
           <EditProduct />
-          <AddCategory />
         </Suspense>
       </section>
     </ProductsPanelContext.Provider>

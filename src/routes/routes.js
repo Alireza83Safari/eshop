@@ -26,6 +26,7 @@ import CategoryResult from "../pages/CategoryResult";
 import Home from "../pages/Home";
 import AppPic from "../pages/Admin/AppPic";
 import ProfileEdit from "../components/Profile/ProfileEdit";
+import Category from "../pages/Admin/Category";
 
 const route = [
   { path: "", element: <Home /> },
@@ -59,6 +60,14 @@ const route = [
         element: (
           <PrivateRoute>
             <Navigate to="dashboard" />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "category",
+        element: (
+          <PrivateRoute>
+            <Category />
           </PrivateRoute>
         ),
       },
