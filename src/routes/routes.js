@@ -35,7 +35,7 @@ const route = [
   { path: "login", element: <Login /> },
   { path: "register", element: <Register /> },
   { path: "checkout/shipping", element: <Shipping /> },
-  { path: "/search/:searchTerm", element: <SearchResult /> },
+  { path: "search/:searchTerm", element: <SearchResult /> },
   { path: "/brand/:brand", element: <BrandResult /> },
   { path: "/category/:category", element: <CategoryResult /> },
   {

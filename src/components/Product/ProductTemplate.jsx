@@ -22,23 +22,23 @@ export default function ProductTemplate({ mapData }) {
   return (
     <div className=" grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 col-span-12 mt-8 pb-14">
       {mapData?.map((product) => (
-        <div className="p-4">
+        <div className="p-2">
           <div className="bg-white rounded-lg shadow-lg hover:shadow-2xl overflow-hidden dark:bg-black-800 hover:opacity-70 duration-300 lg:h-[29rem] sm:h-[26rem] h-[22rem] relative">
-            <Link to={`/product/${product.name}`}>
+            <Link to={`/product/${product.name?.replace(/ /g, "_")}`}>
               <img
                 src={`http://127.0.0.1:6060/${product.fileUrl}`}
                 alt="Product"
                 className="object-contain w-full lg:h-[18rem] sm:h-[14rem] h-[11rem]"
               />
             </Link>
-            <div className="p2">
-              <Link to={`/products/${product.id}`}>
+            <div className="p-2">
+              <Link to={`/product/${product.name?.replace(/ /g, "_")}`}>
                 <div className="flex justify-center">
                   <button className="text-gray-700 mb-4 mt-3 p-1 text-xs rounded-lg bg-green-400">
                     {product.categoryName}
                   </button>
                 </div>
-                <h2 className="font-bold mb-2 text-sm whitespace-pre-line dark:text-white-100 text-center">
+                <h2 className="font-bold mb-2 text-xs whitespace-pre-line dark:text-white-100 text-center">
                   {product.name}
                 </h2>
               </Link>

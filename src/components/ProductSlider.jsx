@@ -51,12 +51,12 @@ export default function ProductSlider() {
                 productsData?.data.slice(0, 9).map((product) => (
                   <SwiperSlide key={product.id}>
                     <div
-                      className="dark:bg-black-200 relative duration-200 bg-white-100 mt-4 md:h-[20rem] h-[15rem] shadow-sm hover:shadow-xl "
+                      className="dark:bg-black-200 relative duration-200 bg-white-100 mt-4 md:h-[22rem] h-[15rem] shadow-sm hover:shadow-xl "
                       key={product.id}
                     >
-                      <div className="flex justify-center relative h-5/6">
+                      <div className="flex justify-center relative h-4/6">
                         <Link
-                          to={`/product/${product.name}`}
+                          to={`/product/${product?.name?.replace(/ /g, "_")}`}
                           style={{ display: "block" }}
                         >
                           <img
@@ -73,11 +73,17 @@ export default function ProductSlider() {
                           <FontAwesomeIcon icon={faPlus} className="text-xl" />
                         </button>
                       </div>
-
-                      <div className="flex justify-center h-1/6">
-                        <p className="font-semibold dark:text-white-100 lg:text-base text-sm whitespace-nowrap">
-                          $ {product.price}
-                        </p>
+                      <div className="p-2 h-2/6">
+                        <Link
+                          to={`/product/${product.name?.replace(/ /g, "_")}`}
+                        >
+                          <h2 className="font-bold mb-2 text-xs whitespace-pre-line dark:text-white-100 text-center py-2">
+                            {product.name}
+                          </h2>
+                          <p className="text-gray-900 font-bold dark:text-white-100 md:texs-base text-sm text-center py-2">
+                            $ {product.price.toLocaleString()}
+                          </p>
+                        </Link>
                       </div>
                     </div>
                   </SwiperSlide>

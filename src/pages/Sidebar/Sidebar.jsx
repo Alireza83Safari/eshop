@@ -2,12 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import userAxios from "../../services/Axios/userInterceptors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBars,
-  faGear,
-  faSearch,
-  faSignOut,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBars, faSearch, faSignOut } from "@fortawesome/free-solid-svg-icons";
 import "./Sidebar.css";
 import productsContext from "../../Context/AuthContext";
 import AuthContext from "../../Context/AuthContext";
@@ -28,7 +23,6 @@ export default function Sidebar() {
       }
     });
   };
-
   const toggleSubMenu = () => {
     setShowSubMenu(!showSubMenu);
   };
@@ -60,7 +54,7 @@ export default function Sidebar() {
             <div className="flex justify-center items-center">
               <FontAwesomeIcon
                 icon={faBars}
-                className="text-xl absolute top-6 dark:text-white-10"
+                className="text-xl absolute top-6 dark:text-white-100"
                 onClick={() => setShowShopSidebar(!showShopSidebar)}
               />
             </div>
@@ -126,27 +120,14 @@ export default function Sidebar() {
             </div>
           </div>
 
-          <div className="lg:pl-7 sm:pl-5 pl-3 pr-4 xl:text-sm md:text-xs">
-            <p className="text-xs lg:flex hidden text-black-200 pt-6 pb-4 dark:text-white-100">
-              Options
-            </p>
-            <Link className="flex py-4 text-black-700 hover:text-gray-500 duration-500 dark:text-white-100">
-              <FontAwesomeIcon
-                icon={faGear}
-                className="mr-3 lg:text-base text-xl"
-              />
-              <p className="invisible lg:visible">Setting</p>
-            </Link>
-            <Link className="flex py-4 text-black-700 hover:text-gray-500 duration-500 dark:text-white-100">
-              <FontAwesomeIcon
-                icon={faSignOut}
-                className="mr-3 lg:text-base text-xl"
-              />
-              <p className="invisible lg:visible" onClick={logOutHandler}>
-                Log Out
-              </p>
-            </Link>
-          </div>
+          <Link className="flex pb-4 items-center text-sm text-black-700 dark:text-white-100 hover-element relative whitespace-nowrap border-b px-2 hover:bg-gray-50">
+            <FontAwesomeIcon
+              className="mr-2"
+              icon={faSignOut}
+              onClick={logOutHandler}
+            />
+            Log Out
+          </Link>
         </section>
       )}
     </>

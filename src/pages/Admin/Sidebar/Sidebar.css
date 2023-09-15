@@ -24,7 +24,3 @@
   }
 }
 
-/* custom-scrollbar.css */
-::-webkit-scrollbar {
-  width: 0.1px; /* Set the width of the scrollbar */
-}

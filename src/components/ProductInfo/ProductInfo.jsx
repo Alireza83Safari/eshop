@@ -18,7 +18,7 @@ export default function ProductsInfoPanel() {
   const [activeTab, setActiveTab] = useState("description");
   const { datas: productsData } = useFetch("/product", userAxios);
   const findProduct = productsData?.data.find(
-    (product) => product.name == productID
+    (product) => product.name === productID?.replace(/_/g, " ")
   );
   const [productItem, setProductItem] = useState(null);
   useEffect(() => {

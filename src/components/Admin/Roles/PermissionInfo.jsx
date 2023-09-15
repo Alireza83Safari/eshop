@@ -17,7 +17,7 @@ export default function PermissionInfo({
         </button>
 
         {permissionInfo?.map((data, index) => (
-          <div className="flex text-sm">
+          <div className="flex text-sm" key={index}>
             <p className="mr-2">{index + 1} </p>
             <p>{data}</p>
           </div>

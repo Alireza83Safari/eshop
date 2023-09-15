@@ -27,7 +27,9 @@ export default function ProfileOrders() {
       ) : !paginatedProducts || paginatedProducts.length === 0 ? (
         <div className="w-full text-center py-24">
           <img src="/images/order-empty.svg" alt="" className="m-auto " />
-          <p className="text-lg font-semibold">You haven't placed any orders</p>
+          <p className="text-lg font-semibold dark:text-white-100">
+            You haven't placed any orders
+          </p>
         </div>
       ) : (
         paginatedProducts?.map((data, index) => (

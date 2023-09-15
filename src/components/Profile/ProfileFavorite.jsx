@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer } from "react-toastify";
@@ -8,13 +8,15 @@ import useAddToCart from "../../hooks/useAddCart";
 import useFetch from "../../hooks/useFetch";
 import Spinner from "../Spinner/Spinner";
 import useRemove from "../../hooks/useRemove";
+import Pagination from "../getPagination";
 export default function ProfileFavorite() {
   const {
     datas: favoriteProducts,
     fetchData,
     isLoading: dataLoading,
   } = useFetch(`/profile/favoriteProducts`, userAxios);
-
+  const location = useLocation();
+  const navigate = useNavigate();
   const { removeHandler, isLoading: removeLoading } = useRemove();
   const deleteFavorite = async (ID) => {
     removeHandler("/favoriteProductItem/delete/", ID, fetchData);
@@ -25,18 +27,51 @@ export default function ProfileFavorite() {
     addToCart(product?.itemId, 1, product);
   };
 
+  const pageSize = 6;
+  const [currentPage, setCurrentPage] = useState(1);
+  const pagesCount = Math.ceil(
+    favoriteProducts && favoriteProducts?.data?.length / pageSize
+  );
+
+  const searchParams = new URLSearchParams(location.search);
+
+  useEffect(() => {
+    const fetchSearchResults = () => {
+      searchParams.set("page", currentPage.toString());
+      searchParams.set("limit", pageSize.toString());
+
+      navigate(`?${searchParams.toString()}`);
+    };
+    fetchSearchResults();
+  }, [currentPage]);
+
+  const [paginatedProducts, setPaginatedProducts] = useState([]);
+
+  useEffect(() => {
+    let url = `/profile/favoriteProducts?page=${currentPage}&limit=${pageSize}`;
+
+    userAxios
+      .get(url)
+      .then((res) => {
+        setPaginatedProducts(res?.data?.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [location.search]);
+
   return (
     <>
       {dataLoading | removeLoading ? (
         <Spinner />
       ) : favoriteProducts?.data.length ? (
         <div className="relative grid lg:grid-cols-2 sm:grid-cols-2 col-span-12 mt-5 pb-14">
-          {favoriteProducts?.data.map((favorite, index) => (
+          {paginatedProducts?.map((favorite, index) => (
             <div
               className="bg-white rounded-lg shadow-lg hover:shadow-2xl overflow-hidden dark:bg-black-800 hover:opacity-70 duration-300 m-2"
               key={index}
             >
-              <Link to={`/products/${favorite.name}`}>
+              <Link to={`/product/${favorite?.name?.replace(/ /g, "_")}`}>
                 <img
                   src={`http://127.0.0.1:6060/${favorite.fileUrl}`}
                   alt="Product"
@@ -44,7 +79,7 @@ export default function ProfileFavorite() {
                 />
               </Link>
               <div className="p-6 ">
-                <Link to={`/shop/products/${favorite.id}`}>
+                <Link to={`/product/${favorite?.name?.replace(/ /g, "_")}`}>
                   <div className="flex justify-between">
                     <h2 className="font-bold mb-2 xl:text-lg md:text-base text-sm whitespace-nowrap dark:text-white-100">
                       {favorite.name}
@@ -97,6 +132,13 @@ export default function ProfileFavorite() {
           </p>
         </div>
       )}
+
+      <Pagination
+        pagesCount={pagesCount}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+        pageSize={pageSize}
+      />
 
       <ToastContainer />
     </>

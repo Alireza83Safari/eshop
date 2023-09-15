@@ -106,7 +106,8 @@ export default function Suggestion() {
           <Link
             className="text-white-100 rounded-md py-3 px-20 md:px-14 bg-blue-600 md:mt-40 mt-10"
             to={`/product/${
-              promotion && promotion?.data[currentProductIndex]?.name
+              promotion &&
+              promotion?.data[currentProductIndex]?.name?.replace(/ /g, "_")
             }`}
           >
             Show Now

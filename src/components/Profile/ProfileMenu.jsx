@@ -45,12 +45,9 @@ export default function ProfileMenu() {
           >
             <div>
               <FontAwesomeIcon icon={item.icon} />
-              <Link
-                className="ml-3 font-bold lg:text-base text-sm"
-                to={`${item.text}`}
-              >
+              <span className="ml-3 font-bold lg:text-base text-sm">
                 {item.text}
-              </Link>
+              </span>
             </div>
           </Link>
         ))}

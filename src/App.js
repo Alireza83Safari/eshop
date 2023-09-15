@@ -57,7 +57,6 @@ function App() {
       document.documentElement.classList.remove("dark");
     }
   }, [mode]);
-
   return (
     <div className="App max-w-[1400px] sm:mx-auto relative w-full min-w-full">
       <AuthContext.Provider

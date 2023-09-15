@@ -36,7 +36,7 @@ export default function ProfileAddress() {
     });
   };
   return (
-    <div className="bg-white-100 dark:bg-black-800 dark:text-white-100 rounded-xl overflow-auto relative">
+    <div className="bg-white-100 dark:bg-black-800 dark:text-white-100 rounded-xl overflow-auto relative min-h-full">
       <div className="flex justify-between items-center py-5 border-b px-3 w-full sticky top-0 rounded-t-lg">
         <p className="font-bold md:text-lg border-b-2 border-blue-600 pb-2">
           Address

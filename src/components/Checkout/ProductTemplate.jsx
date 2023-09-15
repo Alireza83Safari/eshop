@@ -1,7 +1,8 @@
+import React, { useState } from "react";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import useRemove from "../../hooks/useRemove";
+import { ToastContainer, toast } from "react-toastify";
+import userAxios from "../../services/Axios/userInterceptors";
 
 export default function ProductTemplate({
   order,
@@ -10,9 +11,24 @@ export default function ProductTemplate({
   fetchData,
   key,
 }) {
-  const { isLoading, removeHandler } = useRemove();
-  const removeProductHandler = (id) => {
-    removeHandler("/orderItem/delete/", id, fetchData);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const removeProductHandler = async (id) => {
+    try {
+      const response = await userAxios.post(`/orderItem/delete/${id}`);
+      console.log(response);
+      if (response.status === 200) {
+        toast.success(`deleted!`, {
+          position: "bottom-right",
+        });
+        fetchData();
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <div
@@ -55,6 +71,7 @@ export default function ProductTemplate({
           }}
         />
       </div>
+      <ToastContainer />
     </div>
   );
 }

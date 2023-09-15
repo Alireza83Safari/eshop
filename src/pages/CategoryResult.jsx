@@ -119,7 +119,7 @@ export default function CategoryResult() {
                 src="https://www.digikala.com/statics/img/svg/plp/not-found.svg"
                 alt=""
               />
-              <p className="text-center mt-8 text-lg font-bold">
+              <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
                 Product Not Found
               </p>
             </div>

@@ -36,7 +36,7 @@ export default function ProfileComments() {
       ) : paginatedComments.length < 1 ? (
         <div className="w-full text-center py-24">
           <img src="/images/order-empty.svg" alt="" className="m-auto " />
-          <p className="text-lg font-semibold">You havent comments</p>
+          <p className="text-lg font-semibold dark:text-white-100">You havent comments</p>
         </div>
       ) : (
         paginatedComments?.map((comment,index) => (
