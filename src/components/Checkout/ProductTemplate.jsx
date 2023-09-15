@@ -41,12 +41,30 @@ export default function ProductTemplate({
       />
       <div className="md:ml-4 md:text-sm text-xs">
         <p className="pb-2">{order.productName}</p>
-        <p className="py-1 text-gray-800">${order.price}</p>
+        <div className="flex my-1">
+          <p
+            className={`  dark:text-white-100  text-sm whitespace-nowrap mr-6 ${
+              order.discountValue && "line-through text-gray-200 "
+            }`}
+          >
+            $ {order.price}
+          </p>
+          {order?.discountValue && (
+            <p className=" dark:text-white-100  text-sm whitespace-nowrap">
+              {order?.price - (order?.discountValue / 100) * order.price}$
+            </p>
+          )}
+        </div>
         <p className="py-1m text-gray-800">Color: White</p>
       </div>
 
       <div className="absolute flex items-center right-10 md:text-sm text-xs">
-        <p>${order.price * order.quantity}</p>
+        <p>
+          $
+          {(order?.discountValue
+            ? order?.price - (order?.discountValue / 100) * order.price
+            : order.price) * order.quantity}
+        </p>
 
         <div className="flex items-center md:mx-10 mx-4">
           <button

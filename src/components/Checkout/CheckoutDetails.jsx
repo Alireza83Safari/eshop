@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import userAxios from "../../services/Axios/userInterceptors";
+import FormSpinner from "../FormSpinner/FormSpinner";
 
 export default function CheckoutDetails({ orders }) {
   const totalAmount = orders?.price || 0;
@@ -10,6 +12,21 @@ export default function CheckoutDetails({ orders }) {
     (total, order) => total + order.quantity,
     0
   );
+  const [discountCode, setDiscountCode] = useState(null);
+  const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const discountCodeHandler = async () => {
+    setLoading(true);
+    try {
+      const response = await userAxios.get(
+        `/discount/validate/code/${discountCode}`
+      );
+      setLoading(false);
+    } catch (error) {
+      setError(error?.response?.data?.message);
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -26,15 +43,31 @@ export default function CheckoutDetails({ orders }) {
           <p>{totalAmount.toLocaleString()}$</p>
         </div>
 
-        <div className="flex justify-between pt-6 pb-2">
-          <p>Discount Amount</p>
-          <p className="text-green-300">{totalDiscount}(20%)</p>
+        <div
+          className={` flex items-center justify-between pt-6 pb-2 relative ${
+            isLoading && "opacity-20"
+          }`}
+        >
+          <p className="whitespace-nowrap mr-1">discount code:</p>
+          <input
+            type="text"
+            className="border border-gray-50 py-2 rounded-md outline-none placeholder:text-sm bg-black-200"
+            placeholder="discount code"
+            onChange={(e) => setDiscountCode(e.target.value)}
+            onFocus={() => setError(false)}
+            onBlur={() => setError(false)}
+          />
+          <button
+            className=" absolute -right-4 bg-blue-600 py-2 text-xs text-white-100 border-4 rounded-r-md border-blue-600"
+            onClick={() => {
+              discountCodeHandler();
+              setDiscountCode("");
+            }}
+          >
+            {isLoading ? <FormSpinner /> : "Add"}
+          </button>
         </div>
-
-        <div className="flex justify-between py-4 text-red-700">
-          <p>Taxes</p>
-          <p>{totalTax}$</p>
-        </div>
+        <span className="text-xs text-red-700">{error}</span>
 
         <div className="flex justify-between py-4 font-black">
           <p>Total Payment</p>
@@ -48,10 +81,30 @@ export default function CheckoutDetails({ orders }) {
         </Link>
       </div>
       <div className="lg:hidden block fixed bottom-16 bg-white-100 w-full px-6 dark:bg-black-600">
-        <div className="flex text-sm justify-between py-2">
-          <p>Products Discount :</p>
-          <p className="text-green-300 font-black">{totalDiscount}$</p>
+        <div className="flex items-center text-sm justify-between">
+          <p className="whitespace-nowrap">discount code:</p>
+          <span className="text-xs text-red-700">{error}</span>
+
+          <input
+            type="text"
+            className="border border-gray-50 py-2 rounded-md outline-none"
+            placeholder="discount code"
+            onChange={(e) => setDiscountCode(e.target.value)}
+            onFocus={() => setError(false)}
+            onBlur={() => setError(false)}
+          />
+
+          <button
+            className=" absolute right-3 bg-blue-600 py-2 text-xs text-white-100 border-4 rounded-r-md border-blue-600"
+            onClick={() => {
+              discountCodeHandler();
+              setDiscountCode("");
+            }}
+          >
+            {isLoading ? <FormSpinner /> : "Add"}
+          </button>
         </div>
+
         <div className="flex text-sm justify-between py-2">
           <p>Total Tax :</p>
           <p className="text-red-700 font-black">{totalTax}$</p>
