@@ -7,6 +7,7 @@ import Footer from "./Footer";
 import { ToastContainer, toast } from "react-toastify";
 import Sidebar from "./Sidebar/Sidebar";
 import FilterProducts from "../components/Product/FilterProducts";
+import Pagination from "../components/getPagination";
 const ProductTemplate = lazy(() =>
   import("../components/Product/ProductTemplate")
 );
@@ -18,7 +19,7 @@ export default function CategoryResult() {
   const [isLoading, setIsLoading] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
 
-  const pageSize = 8;
+  const pageSize = 12;
   const [currentPage, setCurrentPage] = useState(1);
   const pagesCount = Math.ceil(categoryResult / pageSize);
 
@@ -85,15 +86,6 @@ export default function CategoryResult() {
     };
     fetchSearchResults();
   }, [currentPage, categoryId, brandId]);
-  const maxPage = 3;
-  const [endPageIndex, setEndPageIndex] = useState(null);
-  useEffect(() => {
-    setEndPageIndex(currentPage + maxPage);
-  }, [currentPage]);
-  let arrayPage = Array.from(Array(pagesCount).keys());
-  const showPage = useMemo(() => {
-    return arrayPage?.slice(currentPage - 1, endPageIndex);
-  }, [arrayPage]);
 
   return (
     <>
@@ -133,55 +125,13 @@ export default function CategoryResult() {
             </div>
           </div>
         )}
-        {pagesCount > 1 && (
-          <nav className="flex justify-center">
-            <ul className="flex absolute bottom-0" aria-current="page">
-              {currentPage > 0 && (
-                <li
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    setCurrentPage(currentPage <= 1 ? 1 : currentPage - 1);
-                  }}
-                  className="flex items-center justify-center"
-                >
-                  <span className="text-xs dark:text-white-100">
-                    {currentPage === 1 ? "" : "Previous"}
-                  </span>
-                </li>
-              )}
-              {showPage?.map((i) => (
-                <li
-                  className={`flex items-center justify-center rounded-md font-bold w-10 h-10 m-2 p-3 ${
-                    currentPage === i + 1
-                      ? "bg-blue-600 text-white-100  mx-3"
-                      : "bg-white-200 text-black-600 mx-3"
-                  }`}
-                  key={i + 1}
-                  onClick={() => {
-                    setCurrentPage(i + 1);
-                  }}
-                >
-                  <span className="page-link">{i + 1}</span>
-                </li>
-              ))}
 
-              {currentPage < pagesCount - 1 && (
-                <li
-                  className="flex items-center justify-center"
-                  onClick={() => {
-                    setCurrentPage(
-                      currentPage + maxPage === pagesCount
-                        ? currentPage
-                        : currentPage + 1
-                    );
-                  }}
-                >
-                  <span className="text-xs dark:text-white-100">Next</span>
-                </li>
-              )}
-            </ul>
-          </nav>
-        )}
+        <Pagination
+          pagesCount={pagesCount}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+          pageSize={pageSize}
+        />
         <ToastContainer />
       </section>
       <Footer />

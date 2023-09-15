@@ -3,6 +3,7 @@ import Spinner from "../Spinner/Spinner";
 import useFetch from "../../hooks/useFetch";
 import userAxios from "../../services/Axios/userInterceptors";
 import { useLocation, useNavigate } from "react-router-dom";
+import GetPagination from "../getPagination";
 const ProductTemplate = lazy(() => import("../Product/ProductTemplate"));
 const FilterProducts = lazy(() => import("./FilterProducts"));
 
@@ -13,10 +14,7 @@ export default function Product() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [filterProduct, setFilterProduct] = useState(0);
-  const maxPage = 3;
-  const [endPageIndex, setEndPageIndex] = useState(null);
   const [showFilter, setShowFilter] = useState(false);
-  const currentPageIndex = currentPage - 1;
 
   const { datas: productsData, isLoading: productLoading } = useFetch(
     "/product",
@@ -28,6 +26,7 @@ export default function Product() {
       ? filterProduct / pageSize
       : !productLoading && productsData?.total / pageSize
   );
+
   const searchParams = new URLSearchParams(location.search);
   const categoryId = searchParams.get("categoryId");
   const brandId = searchParams.get("brandId");
@@ -71,13 +70,6 @@ export default function Product() {
     }, 1000);
   }, [location.search, categoryId, brandId, order, minPrice, maxPrice]);
 
-  useEffect(() => {
-    setEndPageIndex(currentPage + maxPage);
-  }, [currentPage]);
-  let arrayPage = Array.from(Array(pagesCount).keys());
-  const showPage = useMemo(() => {
-    return arrayPage?.slice(currentPage - 1, endPageIndex);
-  }, [arrayPage]);
   return (
     <>
       <div className="grid grid-cols-12 xl:px-20 px-5">
@@ -104,41 +96,13 @@ export default function Product() {
           </Suspense>
         )}
       </div>
-      {pagesCount > 1 && (
-        <nav className="flex justify-center">
-          <ul className="flex absolute bottom-0" aria-current="page">
-            {currentPageIndex > 0 && (
-              <li
-                onClick={() => setCurrentPage(currentPageIndex)}
-                className="flex items-center justify-center"
-              >
-                <span className="text-xs dark:text-white-100">Previous</span>
-              </li>
-            )}
-            {showPage.map((i) => (
-              <li
-                className={`flex items-center justify-center rounded-md font-bold w-10 h-10 m-2 p-3 ${
-                  currentPage === i + 1
-                    ? "bg-blue-600 text-white-100  mx-3"
-                    : "bg-white-200 text-black-600 mx-3"
-                }`}
-                key={i + 1}
-                onClick={() => setCurrentPage(i + 1)}
-              >
-                <span className="page-link">{i + 1}</span>
-              </li>
-            ))}
-            {currentPageIndex < pagesCount - 1 && (
-              <li
-                className="flex items-center justify-center"
-                onClick={() => setCurrentPage(currentPageIndex + 2)}
-              >
-                <span className="text-xs dark:text-white-100">Next</span>
-              </li>
-            )}
-          </ul>
-        </nav>
-      )}
+
+      <GetPagination
+        pagesCount={pagesCount}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+        pageSize={pageSize}
+      />
     </>
   );
 }

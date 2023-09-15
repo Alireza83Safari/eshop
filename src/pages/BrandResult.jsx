@@ -5,9 +5,9 @@ import Spinner from "../components/Spinner/Spinner";
 import Header from "./Header/Header";
 import Footer from "./Footer";
 import { ToastContainer, toast } from "react-toastify";
-import useFetch from "../hooks/useFetch";
 import Sidebar from "./Sidebar/Sidebar";
 import FilterProducts from "../components/Product/FilterProducts";
+import Pagination from "../components/getPagination";
 const ProductTemplate = lazy(() =>
   import("../components/Product/ProductTemplate")
 );
@@ -19,6 +19,7 @@ export default function BrandResult() {
   const pageSize = 12;
   const [currentPage, setCurrentPage] = useState(1);
   const [filterProduct, setFilterProduct] = useState([]);
+  const [showFilter, setShowFilter] = useState(false);
 
   const BasketHandler = (cartID) => {
     let userBasketHandler = {
@@ -36,7 +37,6 @@ export default function BrandResult() {
   };
 
   const pagesCount = Math.ceil(filterProduct / pageSize);
-  /*   console.log(productsData?.data); */
   const searchParams = new URLSearchParams(location.search);
   const categoryId = searchParams.get("categoryId");
   const brandId = searchParams.get("brandId");
@@ -57,10 +57,6 @@ export default function BrandResult() {
   }, [currentPage, categoryId, brandId, filterProduct]);
 
   const [paginatedProducts, setPaginatedProducts] = useState([]);
-  const maxPage = 3;
-  const [endPageIndex, setEndPageIndex] = useState(null);
-  const [showFilter, setShowFilter] = useState(false);
-  const currentPageIndex = currentPage - 1;
   useEffect(() => {
     let url = `/product?page=${currentPage}&limit=${pageSize}`;
     if (categoryId) url += `&categoryId=${categoryId}`;
@@ -78,19 +74,10 @@ export default function BrandResult() {
           setIsLoading(false);
           setPaginatedProducts(res?.data?.data);
           setFilterProduct(res?.data?.total);
-          console.log(res?.data?.total);
         })
         .catch((err) => setIsLoading(err));
     }, 1000);
   }, [location.search, categoryId, brandId, order, minPrice, maxPrice]);
-  useEffect(() => {
-    setEndPageIndex(currentPage + maxPage);
-  }, [currentPage]);
-
-  const arrayPage = Array.from(Array(pagesCount).keys());
-  const showPage = useMemo(() => {
-    return arrayPage?.slice(currentPage - 1, endPageIndex);
-  }, [arrayPage]);
 
   return (
     <>
@@ -132,41 +119,12 @@ export default function BrandResult() {
             </div>
           </div>
         )}
-        {pagesCount > 1 && (
-          <nav className="flex justify-center">
-            <ul className="flex absolute bottom-0" aria-current="page">
-              {currentPageIndex > 0 && (
-                <li
-                  onClick={() => setCurrentPage(currentPageIndex)}
-                  className="flex items-center justify-center"
-                >
-                  <span className="text-xs dark:text-white-100">Previous</span>
-                </li>
-              )}
-              {showPage.map((i) => (
-                <li
-                  className={`flex items-center justify-center rounded-md font-bold w-10 h-10 m-2 p-3 ${
-                    currentPage === i + 1
-                      ? "bg-blue-600 text-white-100  mx-3"
-                      : "bg-white-200 text-black-600 mx-3"
-                  }`}
-                  key={i + 1}
-                  onClick={() => setCurrentPage(i + 1)}
-                >
-                  <span className="page-link">{i + 1}</span>
-                </li>
-              ))}
-              {currentPageIndex < pagesCount - 1 && (
-                <li
-                  className="flex items-center justify-center"
-                  onClick={() => setCurrentPage(currentPageIndex + 2)}
-                >
-                  <span className="text-xs dark:text-white-100">Next</span>
-                </li>
-              )}
-            </ul>
-          </nav>
-        )}
+        <Pagination
+          pagesCount={pagesCount}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+          pageSize={pageSize}
+        />
 
         <ToastContainer />
       </section>
