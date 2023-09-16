@@ -3,14 +3,13 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBox,
+  faBriefcase,
   faCarrot,
   faCoins,
   faCommentDots,
   faGripHorizontal,
   faJedi,
   faLayerGroup,
-  faPaintRoller,
-  faPortrait,
   faSignOut,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
@@ -28,6 +27,7 @@ export default function Sidebar() {
     { icon: faLayerGroup, text: "roles", to: "/panel/roles" },
     { icon: faUsers, text: "users", to: "/panel/users" },
     { icon: faCarrot, text: "category", to: "/panel/category" },
+    { icon: faBriefcase, text: "brand", to: "/panel/brand" },
     { icon: faJedi, text: "appPic", to: "/panel/appPic" },
   ];
 
@@ -49,7 +49,7 @@ export default function Sidebar() {
     });
   };
   return (
-    <section className="fixed top-0 left-0 bg-white-100 dark:bg-black-900 h-full xl:w-[10%] lg:w-[12%] sm:w-[6%] w-[9%] font-bold">
+    <section className=" top-0 left-0 bg-white-100 dark:bg-black-900 h-full xl:w-[10%] lg:w-[12%] sm:w-[6%] w-[9%] font-bold relative custom-scrollbar overflow-auto">
       <div className="">
         <Link to="dashboard" className="">
           <div className="w-full invisible lg:visible">

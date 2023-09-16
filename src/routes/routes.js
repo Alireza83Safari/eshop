@@ -27,6 +27,7 @@ import Home from "../pages/Home";
 import AppPic from "../pages/Admin/AppPic";
 import ProfileEdit from "../components/Profile/ProfileEdit";
 import Category from "../pages/Admin/Category";
+import Brand from "../pages/Admin/Brand";
 
 const route = [
   { path: "", element: <Home /> },
@@ -76,6 +77,14 @@ const route = [
         element: (
           <PrivateRoute>
             <Dashboard />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "brand",
+        element: (
+          <PrivateRoute>
+            <Brand />
           </PrivateRoute>
         ),
       },
