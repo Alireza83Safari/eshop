@@ -3,7 +3,7 @@ import { ToastContainer } from "react-toastify";
 import AddBrandData from "./AddBrandData";
 import AddBrandFile from "./AddBrandFile";
 
-export default function AddBrand({ fetchBrand }) {
+export default function AddBrand({ fetchData }) {
   const [addBrandId, setAddBrandId] = useState(null);
   const [showAddBrand, setShowAddBrand] = useState(true);
   const [showAddBrandFile, setShowAddBrandFile] = useState(false);
@@ -24,7 +24,7 @@ export default function AddBrand({ fetchBrand }) {
             addBrandId={addBrandId}
             setShowAddBrandFile={setShowAddBrandFile}
             setShowAddBrand={setShowAddBrand}
-            fetchBrand={fetchBrand}
+            fetchData={fetchData}
           />
         )}
       </div>

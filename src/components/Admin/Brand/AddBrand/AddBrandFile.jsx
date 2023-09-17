@@ -8,7 +8,7 @@ export default function AddBrandFile({
   addBrandId,
   setShowAddBrandFile,
   setShowAddBrand,
-  fetchBrand,
+  fetchData,
 }) {
   const [isLoading, setLoading] = useState(false);
 
@@ -35,7 +35,7 @@ export default function AddBrandFile({
         setLoading(false);
         toast.success("add brand is successfuly");
         reset();
-        fetchBrand();
+        fetchData();
       }
     } catch (error) {
       switch (error.status) {

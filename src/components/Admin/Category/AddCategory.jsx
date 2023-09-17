@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import FormSpinner from "../../FormSpinner/FormSpinner";
 import { ToastContainer, toast } from "react-toastify";
-export default function AddCategory({ fetchCategory }) {
+export default function AddCategory({ fetchData }) {
   const [newCategory, setNewCategory] = useState({
     code: "",
     name: "",
@@ -22,7 +22,7 @@ export default function AddCategory({ fetchCategory }) {
           code: "",
           name: "",
         });
-        fetchCategory();
+        fetchData();
         setServerErrors("");
       }
     } catch (error) {
@@ -99,7 +99,9 @@ export default function AddCategory({ fetchCategory }) {
           <div className="flex justify-center mt-10">
             <button
               type="submit"
-              className="bg-blue-600 text-white-100 w-full py-2 rounded-xl"
+              className={` bg-blue-600 text-white-100 w-full py-2 rounded-xl ${
+                isLoading && "h-[2.4rem]"
+              }`}
             >
               {isLoading ? <FormSpinner /> : "Add Category"}
             </button>

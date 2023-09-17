@@ -8,7 +8,7 @@ export default function EditUser({
   setShowEditUser,
   showEditUser,
   editUserID,
-  fetchUsers,
+  fetchData,
 }) {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -23,7 +23,7 @@ export default function EditUser({
     enabled: "",
   });
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDatas = async () => {
       try {
         adminAxios.get(`/user/${editUserID}`).then((usetData) => {
           setUserInfos({
@@ -41,7 +41,7 @@ export default function EditUser({
       } catch (err) {}
     };
     if (editUserID) {
-      fetchData();
+      fetchDatas();
     }
   }, [showEditUser]);
 
@@ -56,7 +56,7 @@ export default function EditUser({
         userInfos
       );
       if (response.status === 200) {
-        fetchUsers();
+        fetchData();
         setShowEditUser(false);
         setIsLoading(false);
       }
@@ -79,7 +79,7 @@ export default function EditUser({
         showEditUser ? "visible" : "invisible"
       }`}
     >
-      <div className="w-3/6 bg-white-100 p-2 rounded-xl h-[30rem] overflow-auto ">
+      <div className="w-3/6 bg-white-100 p-2 rounded-xl h-[31rem] overflow-auto ">
         <span className="mb-4 text-xl font-bold flex justify-center">
           Edit User
         </span>

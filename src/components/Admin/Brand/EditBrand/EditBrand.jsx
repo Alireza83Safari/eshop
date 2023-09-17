@@ -7,7 +7,7 @@ export default function EditBrand({
   showEditBrand,
   setShowEditBrand,
   brandEditId,
-  fetchBrand,
+  fetchData,
 }) {
   const [showEditBrandData, setShowEditBrandData] = useState(true);
   const [showEditBrandFile, setShowEditBrandFile] = useState(false);
@@ -22,7 +22,7 @@ export default function EditBrand({
         <EditBrandData
           brandEditId={brandEditId}
           setShowEditBrandData={setShowEditBrandData}
-          fetchBrand={fetchBrand}
+          fetchData={fetchData}
           setShowEditBrandFile={setShowEditBrandFile}
         />
       )}
@@ -31,7 +31,7 @@ export default function EditBrand({
         <EditBrandFile
           brandEditId={brandEditId}
           setShowEditBrandFile={setShowEditBrandFile}
-          fetchBrand={fetchBrand}
+          fetchData={fetchData}
           setShowEditBrand={setShowEditBrand}
         />
       )}

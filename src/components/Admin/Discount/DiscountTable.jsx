@@ -3,19 +3,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "../../getPagination";
 import adminAxios from "../../../services/Axios/adminInterceptors";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import EditDiscount from "./Edit/EditDiscount";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
 import discountContext from "../../../Context/discountContext";
 
 export default function DiscountTable() {
-  const {
-    paginatedProducts,
-    fetchData,
-    paginatedProductsLoading,
-    totalProducts,
-  } = useContext(discountContext);
+  const { paginations, fetchData, paginatedProductsLoading, total } =
+    useContext(discountContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [showEditDiscount, setShowEditDiscount] = useState(false);
   const [editDiscounts, setEditDiscounts] = useState(null);
@@ -26,7 +22,7 @@ export default function DiscountTable() {
     pageSize
   );
 
-  const pagesCount = Math.ceil(totalProducts / pageSize);
+  const pagesCount = Math.ceil(total / pageSize);
 
   const deleteDiscount = async (id) => {
     const response = await adminAxios.post(`/discount/delete/${id}`);
@@ -62,7 +58,7 @@ export default function DiscountTable() {
           <Spinner />
         ) : (
           <tbody>
-            {paginatedProducts?.map((brand, index) => (
+            {paginations?.map((brand, index) => (
               <tr
                 className="md:text-sm sm:text-xs text-[10px] text-center grid grid-cols-5"
                 key={index}

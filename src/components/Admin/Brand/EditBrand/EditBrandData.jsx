@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 export default function EditBrandData({
   setShowEditBrandData,
   brandEditId,
-  fetchBrand,
+  fetchData,
   setShowEditBrandFile,
 }) {
   const [editBrand, setEditBrand] = useState({
@@ -35,7 +35,7 @@ export default function EditBrandData({
           name: "",
         });
         setServerErrors("");
-        fetchBrand();
+        fetchData();
       }
     } catch (error) {
       setServerErrors(error?.response?.data?.errors);
