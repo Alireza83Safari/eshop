@@ -10,6 +10,7 @@ import {
   faGripHorizontal,
   faJedi,
   faLayerGroup,
+  faPercent,
   faSignOut,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
@@ -26,6 +27,7 @@ export default function Sidebar() {
     { icon: faCommentDots, text: "comments", to: "/panel/comments" },
     { icon: faLayerGroup, text: "roles", to: "/panel/roles" },
     { icon: faUsers, text: "users", to: "/panel/users" },
+    { icon: faPercent, text: "discount", to: "/panel/discount" },
     { icon: faCarrot, text: "category", to: "/panel/category" },
     { icon: faBriefcase, text: "brand", to: "/panel/brand" },
     { icon: faJedi, text: "appPic", to: "/panel/appPic" },
@@ -72,7 +74,7 @@ export default function Sidebar() {
               to={item.to}
             >
               <div
-                className={` hover-element relative whitespace-nowrap 2xl:text-lg xl:text-sm text-xs ${
+                className={` hover-element relative whitespace-nowrap 2xl:text-lg text-xs ${
                   activeId.toLocaleLowerCase() === item.text.toLocaleLowerCase()
                     ? "active"
                     : ""

@@ -5,7 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 import Spinner from "../../Spinner/Spinner";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import adminAxios from "../../../services/Axios/adminInterceptors";
-import Discount from "./Discount/Discount";
 
 const Departments = lazy(() => import("./Departments"));
 const PiesChart = lazy(() => import("../Charts/PieChart"));
@@ -21,7 +20,6 @@ export default function ProductsPanel() {
   const [productDeleteId, setProductDeleteId] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showEditItem, setShowEditItem] = useState(false);
-  const [showDiscount, setShowDiscount] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [showProductItem, setShowProductItem] = useState(false);
@@ -63,9 +61,7 @@ export default function ProductsPanel() {
         setShowProductItem,
         newProductId,
         fetchProductList,
-        showDiscount,
         setShowProductFeature,
-        setShowDiscount,
         showEditItem,
         setShowEditItem,
       }}
@@ -95,12 +91,6 @@ export default function ProductsPanel() {
                   onClick={() => setShowAddProduct(true)}
                 >
                   Add Product <FontAwesomeIcon icon={faPlus} />
-                </button>
-                <button
-                  className="sm:text-xs text-[10px] bg-orange-400 text-white-100 md:p-2 p-1 md:mr-2 mr-1 rounded-lg whitespace-nowrap"
-                  onClick={() => setShowDiscount(true)}
-                >
-                  Add Discount <FontAwesomeIcon icon={faPercent} />
                 </button>
               </div>
             </div>
@@ -134,7 +124,6 @@ export default function ProductsPanel() {
           {showProductItem && <AddProductItem />}
           {showProductFeature && <AddProductFeature />}
           {showFile && <AddProductFile />}
-          {showDiscount && <Discount />}
           <DeleteModal />
           <EditProduct />
         </Suspense>

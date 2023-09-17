@@ -28,6 +28,7 @@ import AppPic from "../pages/Admin/AppPic";
 import ProfileEdit from "../components/Profile/ProfileEdit";
 import Category from "../pages/Admin/Category";
 import Brand from "../pages/Admin/Brand";
+import Discount from "../pages/Admin/Discount";
 
 const route = [
   { path: "", element: <Home /> },
@@ -85,6 +86,14 @@ const route = [
         element: (
           <PrivateRoute>
             <Brand />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "discount",
+        element: (
+          <PrivateRoute>
+            <Discount />
           </PrivateRoute>
         ),
       },

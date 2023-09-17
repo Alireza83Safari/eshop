@@ -18,6 +18,7 @@ export default function AddProductFile() {
     useContext(ProductsPanelContext);
   const addFile = async (data) => {
     const formData = new FormData();
+    console.log(formData);
     formData.append("fileUrl", data.image[0]);
     setIsLoading(true);
 
@@ -48,7 +49,7 @@ export default function AddProductFile() {
       console.log(error);
     }
   };
-  console.log(serverError);
+  
   return (
     <div
       className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full h-screen flex items-center justify-center transition duration-400 ${
@@ -71,10 +72,14 @@ export default function AddProductFile() {
                 required: "please add your image",
                 validate: {
                   acceptedFormats: (value) => {
-                    const acceptedFormats = ["image/jpeg", "image/png"];
+                    const acceptedFormats = [
+                      "image/jpeg",
+                      "image/png",
+                      "image/webp",
+                    ];
                     return (
                       acceptedFormats.includes(value[0]?.type) ||
-                      "Only JPG or PNG formats are allowed"
+                      "Only JPG, PNG or WEBP formats are allowed"
                     );
                   },
                 },

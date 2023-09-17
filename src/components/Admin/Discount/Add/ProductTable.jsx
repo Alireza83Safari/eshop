@@ -4,21 +4,29 @@ import adminAxios from "../../../../services/Axios/adminInterceptors";
 import { useLocation } from "react-router-dom";
 import Pagination from "../../../Paganation";
 import Spinner from "../../../Spinner/Spinner";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faX } from "@fortawesome/free-solid-svg-icons";
+import userAxios from "../../../../services/Axios/userInterceptors";
 
-export default function ProductsTable({ setProductId, setProductName }) {
+export default function ProductsTable({
+  setProductId,
+  setProductName,
+  setShowChooseProduct,
+  setEditDiscount,
+}) {
   const { datas: products } = useFetch("product/selectList", adminAxios);
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState(1);
   const [paginatedProducts, setPaginatedProducts] = useState([]);
-  const [pageSize, setPageSize] = useState(8);
+  const pageSize = 8;
   const totalPage = Math.ceil(products?.data.length / pageSize);
   const pageNumber = totalPage > 0 ? Array.from(Array(totalPage).keys()) : [];
   const [isLoading, setIsLoading] = useState(false);
   const getPaginationComments = async () => {
     try {
       setIsLoading(true);
-      const response = await adminAxios.get(
-        `/product/selectList?page=${currentPage}&limit=${pageSize}`
+      const response = await userAxios.get(
+        `/product?page=${currentPage}&limit=${pageSize}`
       );
       setPaginatedProducts(response?.data?.data);
       setIsLoading(false);
@@ -31,8 +39,11 @@ export default function ProductsTable({ setProductId, setProductName }) {
     getPaginationComments();
   }, [currentPage, location.search]);
 
-  const setProductHanddler = (product) => {
-    setProductId(product?.id);
+  const setProductHanddler = async (product) => {
+    console.log(product?.itemId);
+    setProductId
+      ? setProductId(product?.itemId)
+      : setEditDiscount({ productItemId: product.itemId });
     setProductName(product?.name);
   };
 
@@ -43,6 +54,11 @@ export default function ProductsTable({ setProductId, setProductName }) {
           <Spinner />
         ) : (
           <>
+            <FontAwesomeIcon
+              icon={faX}
+              className=" absolute right-2 top-2 text-red-700 text-xl"
+              onClick={() => setShowChooseProduct(false)}
+            />
             <h2 className="text-xl text-center font-bold py-4 border-b">
               Choose Product
             </h2>

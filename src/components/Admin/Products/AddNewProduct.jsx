@@ -5,6 +5,8 @@ import adminAxios from "../../../services/Axios/adminInterceptors";
 import useFetch from "../../../hooks/useFetch";
 import { productFormValidation } from "../../../validators/productFormValidation";
 import FormSpinner from "../../FormSpinner/FormSpinner";
+import Select from "react-select";
+import { CustomSelect } from "../../SelectList";
 
 export default function AddNewProduct() {
   const {
@@ -23,9 +25,23 @@ export default function AddNewProduct() {
     description: "",
     shortDescription: "",
   });
+
+  const [selectedBrand, setSelectedBrand] = useState(null); // State to store selected brand
+  const [selectedCategory, setSelectedCategory] = useState(null); // State to store selected category
   const [errors, setErrors] = useState(null);
   const [serverErrors, setServerErrors] = useState(null);
   const [isLoading, setLoading] = useState(false);
+  console.log(selectedCategory);
+  const customStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      border: state.isFocused ? "1px solid #2762EB" : "1px solid #C7C7D1", // Change the border style
+      borderRadius: "8px", // Add rounded corners
+      padding: "2px 3px 2px 3px",
+      innerHeight: "42px",
+      boxShadow: "none",
+    }),
+  };
 
   const addNewProducts = async (data) => {
     data.preventDefault();
@@ -58,7 +74,6 @@ export default function AddNewProduct() {
 
   const { datas: category } = useFetch("/category", adminAxios);
   const { datas: brands } = useFetch("/brand", adminAxios);
-
   return ReactDOM.createPortal(
     <div
       className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full h-screen flex items-center justify-center transition duration-400 ${
@@ -111,54 +126,51 @@ export default function AddNewProduct() {
                 <p className="text-sm text-red-700">{errors?.code}</p>
               </div>
 
-              <div className="w-1/2 pl-2">
+              <div className="w-1/2">
                 <span className="font-medium text-gray-800">Brand</span>
-                <select
-                  name="brandId"
-                  id=""
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                  onChange={setProductInfos}
-                  value={productInfo?.brandId}
-                  onFocus={() => {
+                <CustomSelect
+                  options={brands?.data.map((brand) => ({
+                    value: brand.id,
+                    label: brand.name,
+                  }))}
+                  value={selectedBrand}
+                  onchange={(selectedOption) => {
+                    setSelectedBrand(selectedOption);
+                    setProductInfo({
+                      ...productInfo,
+                      brandId: selectedOption?.value || "", // Set the selected brand's value
+                    });
                     setErrors("");
                     setServerErrors("");
                   }}
-                >
-                  <option value="">Select Brand</option>
-                  {brands?.data.map((brand) => (
-                    <option value={brand.id}>{brand.name}</option>
-                  ))}
-                </select>
+                />
                 <p className="text-sm text-red-700">
                   {errors?.brandId}
                   {serverErrors?.brandId}
                 </p>
               </div>
             </div>
-            <div className="">
+            <div className="w-full">
               <span className="font-medium text-gray-800">Category</span>
-              <select
-                name="categoryId"
-                id="categoryId"
-                placeholder=""
-                className="border py-2 px-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                onChange={setProductInfos}
-                value={productInfo?.categoryId}
-                onFocus={() => {
+              <CustomSelect
+                options={category?.data.map((category) => ({
+                  value: category.id,
+                  label: category.name,
+                }))}
+                value={selectedCategory}
+                onchange={(selectedOption) => {
+                  setSelectedCategory(selectedOption);
+                  setProductInfo({
+                    ...productInfo,
+                    categoryId: selectedOption?.value || "", // Set the selected brand's value
+                  });
                   setErrors("");
                   setServerErrors("");
                 }}
-              >
-                <option value="">Select Category</option>
-                {category?.data.map((cate) => (
-                  <option key={cate.id} value={cate.id}>
-                    {cate.name}
-                  </option>
-                ))}
-              </select>
+              />
               <p className="text-sm text-red-700">
-                {errors?.categoryId}
-                {serverErrors?.categoryId}
+                {errors?.brandId}
+                {serverErrors?.brandId}
               </p>
             </div>
             <span className="font-medium text-gray-800">Short Description</span>

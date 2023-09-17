@@ -1,16 +1,23 @@
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import useFetch from "../../../../hooks/useFetch";
 import adminAxios from "../../../../services/Axios/adminInterceptors";
 import { useLocation } from "react-router-dom";
 import Pagination from "../../../Paganation";
 import Spinner from "../../../Spinner/Spinner";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faX } from "@fortawesome/free-solid-svg-icons";
 
-export default function UserTable({ setUserId, setUsername }) {
+export default function UserTable({
+  setUserId,
+  setUsername,
+  setShowChooseUser,
+  setEditDiscount,
+}) {
   const { datas: users } = useFetch("/user", adminAxios);
+  const pageSize = 8;
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState(1);
   const [paginatedProducts, setPaginatedProducts] = useState([]);
-  const [pageSize, setPageSize] = useState(8);
   const totalPage = Math.ceil(users?.data.length / pageSize);
   const pageNumber = totalPage > 0 ? Array.from(Array(totalPage).keys()) : [];
   const [isLoading, setIsLoading] = useState(false);
@@ -26,13 +33,14 @@ export default function UserTable({ setUserId, setUsername }) {
       setIsLoading(false);
     }
   };
-
   useEffect(() => {
     getPaginationComments();
   }, [currentPage, location.search]);
 
   const setUserHandler = (user) => {
-    setUserId(user?.id);
+    setUserId
+      ? setUserId(user?.id)
+      : setEditDiscount({ relatedUserId: user.id });
     setUsername(user?.username);
   };
 
@@ -43,6 +51,11 @@ export default function UserTable({ setUserId, setUsername }) {
           <Spinner />
         ) : (
           <>
+            <FontAwesomeIcon
+              icon={faX}
+              className="text-xl text-red-700 absolute right-2 top-2"
+              onClick={() => setShowChooseUser(false)}
+            />
             <h2 className="text-xl text-center font-bold py-4 border-b">
               Choose User
             </h2>
