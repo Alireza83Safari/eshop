@@ -1,108 +1,135 @@
 import React, { useState, useContext } from "react";
-import { useForm } from "react-hook-form";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import userAxios from "../../../services/Axios/userInterceptors";
 import FormSpinner from "../../FormSpinner/FormSpinner";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faX } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 export default function AddProductFile() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
-
   const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState(null);
   const { setShowFile, showFile, newProductId } =
     useContext(ProductsPanelContext);
-  const addFile = async (data) => {
-    const formData = new FormData();
-    console.log(formData);
-    formData.append("fileUrl", data.image[0]);
-    setIsLoading(true);
+  const [imageURLs, setImageURLs] = useState([]);
+  const [showUrl, setShowUrl] = useState([]);
 
+  const addFile = async () => {
+    if (imageURLs.length === 0) {
+      setServerError("Please select at least one file.");
+      return;
+    }
+
+    const formData = new FormData();
+    imageURLs.forEach((img) => formData.append(`fileUrl`, img));
     try {
       const response = await userAxios.post(
         `/file/uploadImage/${newProductId}/1`,
         formData
       );
+
       switch (response.status) {
         case 200: {
-          reset();
           setIsLoading(false);
           setShowFile(false);
+          toast.success("create product successful");
           break;
         }
 
         default:
           break;
       }
-      if (response.status === 200) {
-      }
     } catch (error) {
-      if (error.response.status === 403) {
-        setServerError("You Havent Access to add image");
-        console.log("sdfg");
+      if (error.response && error.response.status === 403) {
+        setServerError("You haven't access to add an image");
+      } else if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setServerError(error.response.data.message);
+      } else {
+        setServerError("An error occurred while uploading the file.");
       }
       setIsLoading(false);
-      console.log(error);
     }
   };
-  
+
+  const handleImageChange = (e) => {
+    const files = e.target.files;
+    if (files) {
+      const formData = new FormData();
+      const newImageURLs = Array.from(files).map((file, index) => {
+        formData.append(`file-${index}`, file);
+        const imageUrl = URL.createObjectURL(file);
+        return imageUrl;
+      });
+      setImageURLs((prevImageURLs) => [...prevImageURLs, ...Array.from(files)]);
+      setShowUrl((prev) => [...prev, ...newImageURLs]);
+    }
+  };
+
+  const deleteImage = (index) => {
+    const newImageURLs = [...imageURLs];
+    newImageURLs.splice(index, 1);
+    setImageURLs(newImageURLs);
+  };
   return (
     <div
       className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full h-screen flex items-center justify-center transition duration-400 ${
         showFile ? "visible" : "invisible"
       }`}
     >
-      <div className="w-1/3  bg-white-100 p-5 rounded-xl">
+      <div className="w-2/3 h-5/6 bg-white-100 rounded-xl relative">
         <form onSubmit={(e) => e.preventDefault()}>
-          <div className={` ${isLoading && "opacity-20"} `}>
-            <label htmlFor="image" className="block text-gray-800 font-medium">
-              Upload Image
-            </label>
-            <input
-              type="file"
-              id="image"
-              name="image"
-              accept="image/*"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-              {...register("image", {
-                required: "please add your image",
-                validate: {
-                  acceptedFormats: (value) => {
-                    const acceptedFormats = [
-                      "image/jpeg",
-                      "image/png",
-                      "image/webp",
-                    ];
-                    return (
-                      acceptedFormats.includes(value[0]?.type) ||
-                      "Only JPG, PNG or WEBP formats are allowed"
-                    );
-                  },
-                },
-              })}
-            />
-            {errors.image && (
-              <p className="text-red-700">
-                {errors.image.message} {serverError}
-              </p>
+          <div>
+            <h2 className="text-center mb-4">Upload images</h2>
+            <span className="text-center text-red-700">{serverError}</span>
+            {showUrl?.length ? (
+              <div className="relative grid grid-cols-4">
+                {showUrl?.map((imageUrl, index) => (
+                  <div key={index} className="w-ful p-2 relative">
+                    <img
+                      src={imageUrl}
+                      className="mb-4 border w-96 h-44 object-contain"
+                    />
+                    <button
+                      className="absolute top-2 right-2 text-red-700 p-1 rounded-full cursor-pointer"
+                      onClick={() => deleteImage(index)}
+                    >
+                      <FontAwesomeIcon icon={faX} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex justify-center items-center">
+                <img
+                  src="/images/empty.jpg"
+                  className=" object-contain h-72 rounded-xl"
+                />
+              </div>
             )}
-            <p className="text-red-700">{serverError}</p>
+            <div className="flex flex-wrap"></div>
+            <form
+              method="post"
+              className="flex justify-center container absolute bottom-24"
+            >
+              <input type="file" onChange={handleImageChange} multiple />
+            </form>
           </div>
-          <div className="flex justify-center mt-8">
+
+          <div className="flex justify-center w-full absolute bottom-4">
             <button
               type="submit"
-              className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2"
-              onClick={handleSubmit(addFile)}
+              className="bg-blue-600 text-white-100 w-11/12 py-2 mx-5 rounded-xl outline-none"
+              onClick={addFile}
             >
-              {isLoading ? <FormSpinner /> : "Add Product File"}
+              {isLoading ? <FormSpinner /> : "Add Product Files"}
             </button>
             <button
               type="submit"
-              className="w-full py-2 rounded-xl border border-blue-600 ml-2"
+              className="w-11/12 py-2 rounded-xl border border-blue-600 mx-5 outline-none"
               onClick={() => setShowFile(false)}
             >
               Cancel
