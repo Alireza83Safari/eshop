@@ -11,7 +11,7 @@ export default function AddDiscount() {
   const [showSelectDiscount, setShowSelectDiscount] = useState(true);
 
   return (
-    <div className="bg-white-100 p-5 rounded-xl mt-5 dark:bg-black-200 dark:text-white-100 h-[27rem]">
+    <div className="bg-white-100 p-5 rounded-xl dark:bg-black-200 dark:text-white-100 h-[27rem] lg:my-5 sm:my-5 lg:mb-0 mb-5 sm:col-span-2 col-span-3">
       {showSelectDiscount && (
         <SelectDiscount
           setShowProductDiscount={setShowProductDiscount}

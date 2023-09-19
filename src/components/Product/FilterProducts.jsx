@@ -2,6 +2,7 @@ import React, { useMemo, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import userAxios from "../../services/Axios/userInterceptors";
+import { CustomSelect } from "../SelectList";
 
 function FilterProducts({ setCurrentPage }) {
   const history = useNavigate();
@@ -27,7 +28,7 @@ function FilterProducts({ setCurrentPage }) {
   const MemoizedFilterProducts = useMemo(
     () => (
       <section className="border rounded-xl py-3 my-5 mt-6 mx-4 w-full grid grid-cols-2 text-black-900 dark:text-white-100">
-        <div className="text-xs mx-6 py-2 relative">
+        <div className="text-xs mx-6 mt-2 relative">
           <label htmlFor="minPrice" className="font-medium mb-1">
             Min:
           </label>
@@ -45,7 +46,7 @@ function FilterProducts({ setCurrentPage }) {
               onChange={(e) => handleChange(e.target.name, e.target.value)}
               id="minPrice"
               name="minPrice"
-              className="block text-sm border border-gray-300 w-1/2 rounded px-3 py-2 mb-2 mr-2 focus:outline-none focus:border-blue-600 dark:bg-black-200"
+              className="block text-sm border border-gray-300 w-1/2 rounded-[8px] px-3 py-2 mr-2 focus:outline-none focus:border-blue-600 dark:bg-black-200"
             />
             <input
               type="number"
@@ -54,7 +55,7 @@ function FilterProducts({ setCurrentPage }) {
               onChange={(e) => handleChange(e.target.name, e.target.value)}
               id="maxPrice"
               name="maxPrice"
-              className="block relative text-sm border border-gray-300 w-1/2 rounded px-3 py-2 mb-2 ml-2 focus:outline-none focus:border-blue-600  dark:bg-black-200"
+              className="block relative text-sm border border-gray-300 w-1/2 rounded-[8px] px-3 py-2 ml-2 focus:outline-none focus:border-blue-600  dark:bg-black-200"
             />
           </div>
         </div>
@@ -63,59 +64,49 @@ function FilterProducts({ setCurrentPage }) {
           <label htmlFor="categoryId" className="font-medium mb-1">
             Category:
           </label>
-          <select
-            id="categoryId"
+
+          <CustomSelect
+            options={categoryData?.data.map((category) => ({
+              value: category.key,
+              label: category.value,
+            }))}
             name="categoryId"
-            onChange={(e) => handleChange(e.target.name, e.target.value)}
-            value={searchParams.get("categoryId") || "All"}
-            className="block border border-gray-300 w-full rounded px-3 py-2 mb-2 focus:outline-none focus:border-blue-600  dark:bg-black-200"
-          >
-            <option value="All">All</option>
-            {categoryData?.data.map((cate) => (
-              <option key={cate.key} value={cate.key}>
-                {cate.value}
-              </option>
-            ))}
-          </select>
+            onchange={(selectedOptions) => {
+              handleChange("categoryId", selectedOptions.value);
+            }}
+          />
         </div>
 
         <div className="text-xs mx-6 py-2">
           <label htmlFor="order" className="font-medium mb-1">
             Sort By Price:
           </label>
-          <select
-            id="order"
+
+          <CustomSelect
+            options={["None", "cheap", "newest", "topSell", "expensive"].map(
+              (item) => ({ value: item, label: item })
+            )}
             name="order"
-            className="block border border-gray-300 w-full rounded px-3 py-2 mb-2 focus:outline-none focus:border-blue-600  dark:bg-black-200"
-            onChange={(e) => handleChange(e.target.name, e.target.value)}
-            value={searchParams.get("order") || ""}
-          >
-            <option value="">None</option>
-            <option value="cheap">cheap</option>
-            <option value="newest">newest</option>
-            <option value="topSell">topSell</option>
-            <option value="expensive">expensive</option>
-          </select>
+            onchange={(selectedOptions) => {
+              handleChange("order", selectedOptions);
+            }}
+          />
         </div>
 
         <div className="text-xs mx-6 py-2">
           <label htmlFor="brandId" className="font-medium mb-1">
             Sort By Brand:
           </label>
-          <select
-            id="brandId"
+          <CustomSelect
+            options={brandData?.data.map((brand) => ({
+              value: brand.id,
+              label: brand.name,
+            }))}
             name="brandId"
-            className="block border border-gray-300 w-full rounded px-3 py-2 mb-2 focus:outline-none focus:border-blue-600  dark:bg-black-200"
-            onChange={(e) => handleChange(e.target.name, e.target.value)}
-            value={searchParams.get("brandId") || ""}
-          >
-            <option value="">None</option>
-            {brandData?.data.map((brand) => (
-              <option key={brand.id} value={brand.id}>
-                {brand.name}
-              </option>
-            ))}
-          </select>
+            onchange={(selectedOptions) => {
+              handleChange("brandId", selectedOptions.value);
+            }}
+          />
         </div>
       </section>
     ),

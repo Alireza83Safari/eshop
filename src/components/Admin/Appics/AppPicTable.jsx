@@ -12,20 +12,17 @@ export default function AppPicTable({
 }) {
   const { datas: appics, fetchData } = useFetch("/appPic", userAxios);
   const deleteAppic = async (id) => {
-    console.log(id);
     try {
       const response = await adminAxios.post(`/appPic/delete/${id}`);
       if (response.status === 200) {
         fetchData();
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   return (
     <div className="bg-white-100 dark:bg-black-600 p-3 mt-20 rounded-xl text-black-900 dark:text-white-100">
       <button
-        className="bg-blue-600 text-white-100 p-2 md:text-sm text-xs rounded-lg my-2 md:ml-12"
+        className="bg-blue-600 text-white-100 py-2 text-xs rounded-lg px-1 md:ml-4"
         onClick={() => setShowAddAppPic(true)}
       >
         Add New Appics <FontAwesomeIcon icon={faPlus} />

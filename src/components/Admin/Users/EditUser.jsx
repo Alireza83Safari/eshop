@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import useFetch from "../../../hooks/useFetch";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import Spinner from "../../Spinner/Spinner";
+import { CustomSelect } from "../../SelectList";
 
 export default function EditUser({
   setShowEditUser,
@@ -45,7 +46,7 @@ export default function EditUser({
     }
   }, [showEditUser]);
 
-  const { datas: rolesData } = useFetch("/role", adminAxios);
+  const { datas: roles } = useFetch("/role", adminAxios);
 
   const editUserHandler = async (userData) => {
     userData.preventDefault();
@@ -61,7 +62,6 @@ export default function EditUser({
         setIsLoading(false);
       }
     } catch (error) {
-      console.error("Error deleting the product:", error.message);
       setIsLoading(false);
     }
   };
@@ -79,7 +79,7 @@ export default function EditUser({
         showEditUser ? "visible" : "invisible"
       }`}
     >
-      <div className="w-3/6 bg-white-100 p-2 rounded-xl h-[31rem] overflow-auto ">
+      <div className="lg:w-[30rem] bg-white-100 p-2 rounded-xl overflow-auto ">
         <span className="mb-4 text-xl font-bold flex justify-center">
           Edit User
         </span>
@@ -88,7 +88,7 @@ export default function EditUser({
         ) : (
           <form
             onSubmit={editUserHandler}
-            className="w-full mx-auto p-4 bg-white rounded-lg"
+            className="w-full mx-auto p-4 bg-white rounded-lg text-sm"
           >
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -189,21 +189,18 @@ export default function EditUser({
                 >
                   role
                 </label>
-                <select
-                  name="roleId"
-                  id="roleId"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                  value={userInfos?.roleId}
-                  onChange={setUserInfosHandler}
-                >
-                  <option value="">Select a Role</option>
-                  {rolesData &&
-                    rolesData.data?.map((role) => (
-                      <option key={role.id} value={role.id}>
-                        {role.name}
-                      </option>
-                    ))}
-                </select>
+                <CustomSelect
+                  options={roles?.data.map((role) => ({
+                    value: role.id,
+                    label: role.name,
+                  }))}
+                  onchange={(selectedOption) => {
+                    setUserInfos({
+                      ...userInfos,
+                      roleId: selectedOption?.value || "",
+                    });
+                  }}
+                />
               </div>
 
               <div>
@@ -213,18 +210,18 @@ export default function EditUser({
                 >
                   isSystem
                 </label>
-                <select
-                  name="isSystem"
-                  id="isSystem"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                  onChange={setUserInfosHandler}
-                  value={userInfos?.isSystem}
-                >
-                  <option value="">Select a isSystem</option>
-
-                  <option value="true">True</option>
-                  <option value="false">False</option>
-                </select>
+                <CustomSelect
+                  options={["true", "false"].map((isMain) => ({
+                    value: isMain,
+                    label: isMain,
+                  }))}
+                  onchange={(selectedOptions) => {
+                    setUserInfos({
+                      ...userInfos,
+                      isMainItem: selectedOptions?.value,
+                    });
+                  }}
+                />
               </div>
 
               <div>
@@ -234,17 +231,18 @@ export default function EditUser({
                 >
                   enabled
                 </label>
-                <select
-                  name="enabled"
-                  id="enabled"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                  onChange={setUserInfosHandler}
-                  value={userInfos?.enabled}
-                >
-                  <option value="">Select a enabled</option>
-                  <option value="true">True</option>
-                  <option value="false">False</option>
-                </select>
+                <CustomSelect
+                  options={["true", "false"].map((status) => ({
+                    value: status,
+                    label: status,
+                  }))}
+                  onchange={(selectedOptions) => {
+                    setUserInfos({
+                      ...userInfos,
+                      enabled: selectedOptions?.value,
+                    });
+                  }}
+                />
               </div>
             </div>
 

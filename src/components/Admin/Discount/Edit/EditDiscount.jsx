@@ -4,11 +4,10 @@ import userAxios from "../../../../services/Axios/userInterceptors";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
 import { toast } from "react-toastify";
 import ReactDOM from "react-dom";
-import ProductsTable from "../Add/ProductTable";
 import useFetch from "../../../../hooks/useFetch";
-import UserTable from "../Add/UserTable";
 import { useChangeToInputDate } from "../../../../hooks/useChangeToInputDate";
 import { useChangeDate } from "../../../../hooks/useChangeDate";
+import { CustomSelect } from "../../../SelectList";
 
 export default function EditDiscount({
   setShowEditDiscount,
@@ -18,13 +17,9 @@ export default function EditDiscount({
 }) {
   const [haveProductItemId, setHaveProductItemId] = useState(null);
   const [haveProductUser, setHaveProductUser] = useState(null);
-  const [showChooseUser, setShowChooseUser] = useState(false);
-  const [showChooseProduct, setShowChooseProduct] = useState(false);
   const [serverErrors, setServerErrors] = useState(null);
   const [isLoading, setLoading] = useState(false);
-  const [productName, setProductName] = useState(null);
   const [inputDateValue, setInputDateValue] = useState(null);
-  const [username, setUsername] = useState(null);
   const [editDiscount, setEditDiscount] = useState({
     code: haveProductItemId ? null : "",
     expiresIn: "",
@@ -37,15 +32,6 @@ export default function EditDiscount({
 
   const { chanageToInputDate } = useChangeToInputDate(editDiscount?.expiresIn);
   const { formattedDate } = useChangeDate(inputDateValue);
-  // find product name with productItemId
-  const { datas } = useFetch("/product", userAxios);
-  useEffect(() => {
-    setProductName(
-      datas?.data.find(
-        (product) => product?.itemId == editDiscount.productItemId
-      )?.name
-    );
-  }, [editDiscount.productItemId]);
 
   // fetch edit product infos
   useEffect(() => {
@@ -84,20 +70,6 @@ export default function EditDiscount({
     });
   };
 
-  // check user choose product
-  useEffect(() => {
-    if (productName) {
-      setShowChooseProduct(false);
-    }
-  }, [productName]);
-
-  // check user choose product
-  useEffect(() => {
-    if (username) {
-      setShowChooseUser(false);
-    }
-  }, [username]);
-
   const editDiscountHandler = async () => {
     setLoading(true);
     try {
@@ -127,6 +99,8 @@ export default function EditDiscount({
       setLoading(false);
     }
   };
+  const { datas: users } = useFetch("/user", adminAxios);
+  const { datas: products } = useFetch("/product", userAxios);
 
   return ReactDOM.createPortal(
     <div
@@ -134,14 +108,14 @@ export default function EditDiscount({
         showEditDiscount ? "visible" : "invisible"
       }`}
     >
-      <div className="w-1/3  bg-white-100 p-5 rounded-xl">
+      <div className="lg:w-[30rem] bg-white-100 p-5 rounded-xl">
         <span className="mb-5 text-xl font-bold flex justify-center">
           Edit Discount
         </span>
         <p className="text-red-700 text-center">{serverErrors?.message}</p>
         <form
           onSubmit={(e) => e.preventDefault()}
-          className="w-full max-w-sm mx-auto p-4 bg-white rounded-lg"
+          className="w-full mx-auto p-4 bg-white rounded-lg"
         >
           <div
             className={` grid grid-cols-2 gap-4 mt-4 ${
@@ -198,16 +172,19 @@ export default function EditDiscount({
                 >
                   Product
                 </label>
-                <button
-                  className="border p-2 w-full rounded-lg outline-none mt-1 text-sm focus:border-blue-600 text-start"
-                  onClick={() => setShowChooseProduct(true)}
-                >
-                  {!editDiscount?.productItemId
-                    ? "click for choose"
-                    : `${
-                        productName ? productName : editDiscount?.productItemId
-                      }`}
-                </button>
+                <CustomSelect
+                  options={products?.data.map((product) => ({
+                    value: product.itemId,
+                    label: product.name,
+                  }))}
+                  onchange={(selectedOptions) => {
+                    setEditDiscount({
+                      ...editDiscount,
+                      productItemId: selectedOptions?.value,
+                    });
+                    //setErrors("");
+                  }}
+                />
 
                 <p className="text-red-700">
                   {serverErrors?.errors?.productItemId}
@@ -243,12 +220,19 @@ export default function EditDiscount({
                 >
                   relatedUserId
                 </label>
-                <button
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 text-start"
-                  onClick={() => setShowChooseUser(true)}
-                >
-                  {!username ? "click for choose" : `${username}`}
-                </button>
+                <CustomSelect
+                  options={users?.data.map((type) => ({
+                    value: type.id,
+                    label: type.username,
+                  }))}
+                  onchange={(selectedOptions) => {
+                    setEditDiscount({
+                      ...editDiscount,
+                      relatedUserId: selectedOptions?.value,
+                    });
+                    //setErrors("");
+                  }}
+                />
 
                 <p className="text-red-700">
                   {serverErrors?.errors?.relatedUserId}
@@ -313,21 +297,6 @@ export default function EditDiscount({
             </button>
           </div>
         </form>
-
-        {showChooseProduct && (
-          <ProductsTable
-            setEditDiscount={setEditDiscount}
-            setProductName={setProductName}
-            setShowChooseProduct={setShowChooseProduct}
-          />
-        )}
-        {showChooseUser && (
-          <UserTable
-            setEditDiscount={setEditDiscount}
-            setUsername={setUsername}
-            showChooseUser={showChooseUser}
-          />
-        )}
       </div>
     </div>,
     document.getElementById("portal")

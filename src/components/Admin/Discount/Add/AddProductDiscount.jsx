@@ -1,11 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { discountValidation } from "../../../../validators/discountValidation";
 import adminAxios from "../../../../services/Axios/adminInterceptors";
-import ProductsTable from "./ProductTable";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
 import { toast } from "react-toastify";
 import { useChangeDate } from "../../../../hooks/useChangeDate";
 import discountContext from "../../../../Context/discountContext";
+import { CustomSelect } from "../../../SelectList";
+import useFetch from "../../../../hooks/useFetch";
+import userAxios from "../../../../services/Axios/userInterceptors";
 
 export default function AddProductDiscount({
   setShowProductDiscount,
@@ -23,15 +25,7 @@ export default function AddProductDiscount({
   const [errors, setErrors] = useState(null);
   const [serverErrors, setServerErrors] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const [productId, setProductId] = useState(null);
-  const [productName, setProductName] = useState(null);
-  const [showChooseProduct, setShowChooseProduct] = useState(false);
-
-  useEffect(() => {
-    if (productId?.length > 1) {
-      setShowChooseProduct(false);
-    }
-  }, [productId]);
+  const { datas: products } = useFetch("/product", userAxios);
 
   const setInfoss = (event) => {
     const { name, value } = event.target;
@@ -48,7 +42,6 @@ export default function AddProductDiscount({
       const response = await adminAxios.post(`/discount`, {
         ...infos,
         expiresIn: formattedDate,
-        productItemId: productId,
         quantity: Number(infos?.quantity),
         type: Number(infos?.type),
         value: Number(infos?.value),
@@ -57,7 +50,6 @@ export default function AddProductDiscount({
       if (response.status === 200) {
         fetchData();
         setShowSelectDiscount(true);
-        setShowChooseProduct(false);
         setShowProductDiscount(false);
         toast.success("create succesfuly");
       }
@@ -76,26 +68,35 @@ export default function AddProductDiscount({
         {serverErrors?.message}
       </p>
       <form
-        className="w-full max-w-sm mx-auto px-4 bg-white rounded-lg relative text-xs"
+        className="w-full mx-auto bg-white rounded-lg relative"
         onSubmit={(e) => e.preventDefault()}
       >
         <div
-          className={` grid grid-cols-2 gap-4 ${isLoading && "opacity-20"} `}
+          className={` grid grid-cols-2 gap-y-4 text-sm ${
+            isLoading && "opacity-20"
+          } `}
         >
           <div className="col-span-2">
             <label
               htmlFor="productItemId"
-              className="block text-gray-800 font-medium"
+              className="block text-gray-800 font-medium text-xs"
             >
               Product
             </label>
 
-            <button
-              className="border p-2 w-full rounded-lg outline-none mt-1 text-sm focus:border-blue-600 text-start"
-              onClick={() => setShowChooseProduct(true)}
-            >
-              {!productId ? "click for choose" : `${productName}`}
-            </button>
+            <CustomSelect
+              options={products?.data.map((product) => ({
+                value: product.itemId,
+                label: product.name,
+              }))}
+              onchange={(selectedOptions) => {
+                setInfos({
+                  ...infos,
+                  productItemId: selectedOptions?.value,
+                });
+                setErrors("");
+              }}
+            />
 
             <p className="text-red-700 text-xs">
               {errors?.productItemId} {serverErrors?.errors?.productItemId}
@@ -103,7 +104,10 @@ export default function AddProductDiscount({
           </div>
 
           <div className="col-span-2">
-            <label htmlFor="value" className="block text-gray-800 font-medium">
+            <label
+              htmlFor="value"
+              className="block text-gray-800 font-medium text-xs"
+            >
               discount value
             </label>
             <input
@@ -111,7 +115,7 @@ export default function AddProductDiscount({
               id="value"
               name="value"
               placeholder="value"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+              className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
               onChange={setInfoss}
               value={infos?.value}
               onFocus={() => {
@@ -129,7 +133,7 @@ export default function AddProductDiscount({
           <div className="col-span-2">
             <label
               htmlFor="quantity"
-              className="block text-gray-800 font-medium"
+              className="block text-gray-800 font-medium text-xs"
             >
               quantity
             </label>
@@ -138,7 +142,7 @@ export default function AddProductDiscount({
               id="quantity"
               name="quantity"
               placeholder="quantity"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+              className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
               onChange={setInfoss}
               value={infos?.quantity}
               onFocus={() => {
@@ -153,35 +157,36 @@ export default function AddProductDiscount({
             </p>
           </div>
 
-          <div>
-            <label htmlFor="type" className="block text-gray-800 font-medium">
+          <div className="mr-2">
+            <label
+              htmlFor="type"
+              className="block text-gray-800 font-medium text-xs"
+            >
               discount type
             </label>
-            <select
-              name="type"
-              id="type"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-              onChange={setInfoss}
-              value={infos?.type}
-              onFocus={() => {
+            <CustomSelect
+              options={[1, 2].map((type) => ({
+                value: type,
+                label: type,
+              }))}
+              onchange={(selectedOptions) => {
+                setInfos({
+                  ...infos,
+                  type: selectedOptions?.value,
+                });
                 setErrors("");
-                setServerErrors("");
               }}
-            >
-              <option value="">Select Type</option>
-              <option value="1">%</option>
-              <option value="2">$</option>
-            </select>
+            />
             <p className="text-red-700 text-xs">
               {errors?.type}
               {serverErrors?.errors?.type}
             </p>
           </div>
 
-          <div>
+          <div className="ml-2">
             <label
               htmlFor="expiresIn"
-              className="block text-gray-800 font-medium"
+              className="block text-gray-800 font-medium text-xs"
             >
               expiresIn
             </label>
@@ -190,7 +195,7 @@ export default function AddProductDiscount({
               id="expiresIn"
               name="expiresIn"
               placeholder="expiresIn"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+              className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
               onChange={setInfoss}
               value={infos?.expiresIn}
               onFocus={() => {
@@ -205,13 +210,7 @@ export default function AddProductDiscount({
             </p>
           </div>
         </div>
-        {showChooseProduct && (
-          <ProductsTable
-            setProductId={setProductId}
-            setProductName={setProductName}
-            setShowChooseProduct={setShowChooseProduct}
-          />
-        )}
+
         <div className="flex justify-center mt-7">
           <button
             type="submit"

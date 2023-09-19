@@ -5,6 +5,7 @@ import FormSpinner from "../../../FormSpinner/FormSpinner";
 import { toast } from "react-toastify";
 import { useChangeDate } from "../../../../hooks/useChangeDate";
 import discountContext from "../../../../Context/discountContext";
+import { CustomSelect } from "../../../SelectList";
 
 export default function AddGlobalDiscount({
   setShowGlobalDiscount,
@@ -62,33 +63,29 @@ export default function AddGlobalDiscount({
         {serverErrors?.message}
       </p>
       <form
-        className="w-full max-w-sm mx-auto px-4 bg-white rounded-lg relative text-sm"
+        className="w-full mx-auto px-4 bg-white rounded-lg relative text-sm"
         onSubmit={(e) => e.preventDefault()}
       >
         <div
-          className={` grid grid-cols-1 gap-3 ${
-            isLoading && "opacity-20"
-          } `}
+          className={` grid grid-cols-1 gap-3 ${isLoading && "opacity-20"} `}
         >
           <div>
             <label htmlFor="type" className="block text-gray-800 font-medium">
               discount type
             </label>
-            <select
-              name="type"
-              id="type"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 text-sm"
-              onChange={setInfoss}
-              value={infos?.type}
-              onFocus={() => {
+            <CustomSelect
+              options={[1, 2].map((type) => ({
+                value: type,
+                label: type,
+              }))}
+              onchange={(selectedOptions) => {
+                setInfos({
+                  ...infos,
+                  type: selectedOptions?.value,
+                });
                 setErrors("");
-                setServerErrors("");
               }}
-            >
-              <option value="">Select Type</option>
-              <option value="1">%</option>
-              <option value="2">$</option>
-            </select>
+            />
             <p className="text-red-700 text-xs">
               {errors?.type}
               {serverErrors?.errors?.type}

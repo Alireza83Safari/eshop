@@ -1,21 +1,20 @@
-import React, { useEffect, useState, lazy, Suspense, useMemo } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import Spinner from "../Spinner/Spinner";
 import useFetch from "../../hooks/useFetch";
 import userAxios from "../../services/Axios/userInterceptors";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import GetPagination from "../getPagination";
+import { usePaginationURL } from "../../hooks/usePaginationURL";
 const ProductTemplate = lazy(() => import("../Product/ProductTemplate"));
 const FilterProducts = lazy(() => import("./FilterProducts"));
 
 export default function Product() {
   const location = useLocation();
-  const navigate = useNavigate();
   const pageSize = 12;
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [filterProduct, setFilterProduct] = useState(0);
   const [showFilter, setShowFilter] = useState(false);
-
   const { datas: productsData, isLoading: productLoading } = useFetch(
     "/product",
     userAxios
@@ -26,23 +25,16 @@ export default function Product() {
       ? filterProduct / pageSize
       : !productLoading && productsData?.total / pageSize
   );
-
   const searchParams = new URLSearchParams(location.search);
   const categoryId = searchParams.get("categoryId");
   const brandId = searchParams.get("brandId");
   const order = searchParams.get("order");
   const minPrice = searchParams.get("minPrice");
   const maxPrice = searchParams.get("maxPrice");
-
-  useEffect(() => {
-    const fetchSearchResults = () => {
-      searchParams.set("page", currentPage.toString());
-      searchParams.set("limit", pageSize.toString());
-
-      navigate(`?${searchParams.toString()}`);
-    };
-    fetchSearchResults();
-  }, [currentPage, categoryId, brandId, filterProduct]);
+  const { isLoading: paginationLoading } = usePaginationURL(
+    currentPage,
+    pageSize
+  );
 
   const [paginatedProducts, setPaginatedProducts] = useState([]);
 
@@ -86,7 +78,7 @@ export default function Product() {
             </Suspense>
           )}
         </div>
-        {isLoading ? (
+        {isLoading || paginationLoading ? (
           <div className="flex justify-center items-center">
             <Spinner />
           </div>

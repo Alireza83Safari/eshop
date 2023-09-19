@@ -24,6 +24,7 @@ export default function EditBrand({
           setShowEditBrandData={setShowEditBrandData}
           fetchData={fetchData}
           setShowEditBrandFile={setShowEditBrandFile}
+          setShowEditBrand={setShowEditBrand}
         />
       )}
 

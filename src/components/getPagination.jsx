@@ -34,9 +34,9 @@ export default function Pagination({
             )}
             {showPage?.map((i) => (
               <li
-                className={`flex items-center justify-center rounded-md font-bold w-10 h-10 m-2 p-3 ${
+                className={`flex items-center justify-center rounded-md font-bold md:w-9 w-8 md:h-9 h-8 m-2 p-3 ${
                   currentPage === i + 1
-                    ? "bg-blue-600 text-white-100  mx-3"
+                    ? "bg-blue-600 text-white-100 mx-3"
                     : "bg-white-200 text-black-600 mx-3"
                 }`}
                 key={i + 1}

@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import ReactDOM from "react-dom";
-import ProductsPanelContext from "../../../Context/ProductsPanelContext";
-import adminAxios from "../../../services/Axios/adminInterceptors";
-import useFetch from "../../../hooks/useFetch";
-import FormSpinner from "../../FormSpinner/FormSpinner";
+import ProductsPanelContext from "../../../../Context/ProductsPanelContext";
+import adminAxios from "../../../../services/Axios/adminInterceptors";
+import useFetch from "../../../../hooks/useFetch";
+import FormSpinner from "../../../FormSpinner/FormSpinner";
 
 export default function AddProductFeature() {
   const { fetchProductList, setShowProductFeature, newProductId, setShowFile } =
@@ -51,14 +51,14 @@ export default function AddProductFeature() {
 
   return ReactDOM.createPortal(
     <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full h-screen flex items-center justify-center transition duration-400">
-      <div className="w-2/5 bg-white-100 p-5 rounded-xl">
+      <div className="lg:w-[33rem] bg-white-100 p-5 rounded-xl">
         <span className="mb-5 text-xl font-bold flex justify-center">
           Add New Product Feature
         </span>
 
         <form onSubmit={addNewProducts}>
           <div
-            className={`grid grid-cols-2 gap-x-8 gap-y-4 mt-2 ${
+            className={`grid grid-cols-2 gap-x-8 gap-y-4 mt-2 text-sm ${
               isLoading && "opacity-20"
             }`}
           >

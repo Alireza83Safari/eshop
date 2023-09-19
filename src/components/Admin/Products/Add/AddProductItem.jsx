@@ -1,11 +1,11 @@
 import React, { useState, useContext } from "react";
 import ReactDOM from "react-dom";
-import useFetch from "../../../hooks/useFetch";
-import Spinner from "../../Spinner/Spinner";
-import ProductsPanelContext from "../../../Context/ProductsPanelContext";
-import adminAxios from "../../../services/Axios/adminInterceptors";
-import { itemValidation } from "../../../validators/itemValidation";
-import FormSpinner from "../../FormSpinner/FormSpinner";
+import useFetch from "../../../../hooks/useFetch";
+import ProductsPanelContext from "../../../../Context/ProductsPanelContext";
+import adminAxios from "../../../../services/Axios/adminInterceptors";
+import { itemValidation } from "../../../../validators/itemValidation";
+import FormSpinner from "../../../FormSpinner/FormSpinner";
+import { CustomSelect } from "../../../SelectList";
 
 export default function AddProductItem({}) {
   const {
@@ -18,33 +18,30 @@ export default function AddProductItem({}) {
 
   const [errors, setErrors] = useState();
   const [productItemInfo, setProductItemInfo] = useState({
-    status: "",
-    price: "",
-    colorId: "",
-    quantity: "",
-    isMainItem: "",
+    status: null,
+    price: null,
+    colorId: null,
+    quantity: null,
+    isMainItem: null,
   });
-  console.log(newProductId);
-
   const [isLoading, setIsLoading] = useState(false);
-
   const { datas: colors } = useFetch("/color", adminAxios);
 
   const addItem = async (event) => {
     event.preventDefault();
 
     itemValidation(productItemInfo, errors, setErrors);
-
     setIsLoading(true);
+
     let productItem = {
-      colorId: productItemInfo?.colorId,
+      colorId: productItemInfo?.colorId[0],
       isMainItem: productItemInfo?.isMainItem === "true" ? true : false,
       price: Number(productItemInfo?.price),
       productId: newProductId,
       quantity: Number(productItemInfo?.quantity),
       status: Number(productItemInfo?.status),
     };
-
+    console.log(productItem);
     try {
       const response = await adminAxios.post(`/productItem`, productItem);
       setIsLoading(false);
@@ -54,7 +51,7 @@ export default function AddProductItem({}) {
         fetchProductList();
       }
     } catch (error) {
-      console.error("Error deleting the product:", error);
+      console.error(error);
       setIsLoading(false);
     }
   };
@@ -65,28 +62,53 @@ export default function AddProductItem({}) {
       [event.target.name]: event.target.value,
     });
   };
-
   return ReactDOM.createPortal(
     <div
       className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full h-screen flex items-center justify-center transition duration-400 ${
         showProductItem ? "visible" : "invisible"
       }`}
     >
-      <div className="w-1/3  bg-white-100 p-5 rounded-xl">
+      <div className="lg:w-[26rem] bg-white-100 lg:py-8 py-5 rounded-xl text-sm">
         <span className="mb-5 text-xl font-bold flex justify-center">
           Add New Product Item
         </span>
 
         <form
           onSubmit={addItem}
-          className="w-full max-w-sm mx-auto p-4 bg-white rounded-lg"
+          className="w-full max-w-sm mx-auto lg:px-2 px-4 bg-white rounded-lg"
         >
           <div
-            className={` grid grid-cols-1 gap-4 mt-4 ${
-              isLoading && "opacity-20"
-            }`}
+            className={` grid grid-cols-1 gap-4 ${isLoading && "opacity-20"}`}
           >
             <div className="grid grid-cols-2 gap-4">
+              <div className="col-span-2">
+                <label
+                  htmlFor="colorId"
+                  className="block text-gray-800 font-medium"
+                >
+                  Color
+                </label>
+                <CustomSelect
+                  options={colors?.data.map((brand) => ({
+                    value: brand.id,
+                    label: brand.name,
+                  }))}
+                  onchange={(selectedOptions) => {
+                    const selectedValues = selectedOptions.map(
+                      (option) => option.value
+                    );
+                    setProductItemInfo({
+                      ...productItemInfo,
+                      colorId: selectedValues,
+                    });
+                    setErrors("");
+                  }}
+                  type="multiple"
+                />
+
+                <p className="text-red-700">{errors?.colorId}</p>
+              </div>
+
               <div>
                 <label
                   htmlFor="price"
@@ -107,32 +129,6 @@ export default function AddProductItem({}) {
                 <p className="text-red-700">{errors?.price}</p>
               </div>
 
-              <div>
-                <label
-                  htmlFor="colorId"
-                  className="block text-gray-800 font-medium"
-                >
-                  Color
-                </label>
-                <select
-                  name="colorId"
-                  id="colorId"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                  onChange={setProductItemInfos}
-                  value={productItemInfo?.colorId}
-                >
-                  <option value="">Select Color</option>
-                  {colors?.data.map((color) => (
-                    <option key={color.id} value={color.id}>
-                      {color.name}
-                    </option>
-                  ))}
-                </select>
-                <p className="text-red-700">{errors?.colorId}</p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
               <div>
                 <label
                   htmlFor="quantity"
@@ -159,18 +155,19 @@ export default function AddProductItem({}) {
                 >
                   Product Status
                 </label>
-                <select
-                  name="status"
-                  id="status"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                  onChange={setProductItemInfos}
-                  value={productItemInfo?.status}
-                >
-                  <option value="">Select a status</option>
-
-                  <option value="0">Publish</option>
-                  <option value="1">InActive</option>
-                </select>
+                <CustomSelect
+                  options={["true", "false"].map((status) => ({
+                    value: status,
+                    label: status,
+                  }))}
+                  onchange={(selectedOptions) => {
+                    setProductItemInfo({
+                      ...productItemInfo,
+                      status: selectedOptions?.value,
+                    });
+                    setErrors("");
+                  }}
+                />
                 <p className="text-red-700">{errors?.status}</p>
               </div>
 
@@ -181,18 +178,19 @@ export default function AddProductItem({}) {
                 >
                   isMainItem
                 </label>
-                <select
-                  name="isMainItem"
-                  id="isMainItem"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                  onChange={setProductItemInfos}
-                  value={productItemInfo?.isMainItem}
-                >
-                  <option value="">Select a isMainItem</option>
-
-                  <option value="true">True</option>
-                  <option value="false">False</option>
-                </select>
+                <CustomSelect
+                  options={["true", "false"].map((isMain) => ({
+                    value: isMain,
+                    label: isMain,
+                  }))}
+                  onchange={(selectedOptions) => {
+                    setProductItemInfo({
+                      ...productItemInfo,
+                      isMainItem: selectedOptions?.value,
+                    });
+                    setErrors("");
+                  }}
+                />
                 <p className="text-red-700">{errors?.isMainItem}</p>
               </div>
             </div>

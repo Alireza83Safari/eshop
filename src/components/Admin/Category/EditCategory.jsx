@@ -66,7 +66,7 @@ export default function EditCategory({
         showEditCategory ? "visible" : "invisible"
       }`}
     >
-      <div className="w-1/3  bg-white-100 p-5 rounded-xl">
+      <div className="w-1/3  bg-white-100  p-5 rounded-xl">
         <span className="mb-5 text-xl font-bold flex justify-center">
           Edit Category
         </span>

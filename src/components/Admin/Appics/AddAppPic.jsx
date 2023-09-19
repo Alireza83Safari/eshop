@@ -37,7 +37,6 @@ export default function AddAppPic({
     } catch (error) {
       setServerErrors(error?.response?.data?.errors);
       setLoading(false);
-      console.log(error);
     }
   };
 
@@ -48,17 +47,16 @@ export default function AddAppPic({
       [name]: name === "priority" ? Number(value) : value,
     });
   };
-  console.log(appicInfo);
   return ReactDOM.createPortal(
     <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full h-screen flex items-center justify-center transition duration-400">
-      <div className="lg:w-2/5 md:w-3/5 w-4/5 bg-white-100 p-5 rounded-xl">
+      <div className="lg:w-[30rem] md:w-2/3 w-11/12 bg-white-100 p-5 rounded-xl">
         <span className="mb-5 text-xl font-bold flex justify-center">
           Add New Appics
         </span>
 
         <form onSubmit={(e) => e.preventDefault()}>
           <div
-            className={` grid grid-cols-1 gap-2 mt-2 ${
+            className={` grid grid-cols-1 gap-2 mt-2 w-full ${
               isLoading && "opacity-30"
             } `}
           >

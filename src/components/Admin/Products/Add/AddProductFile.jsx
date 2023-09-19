@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
-import ProductsPanelContext from "../../../Context/ProductsPanelContext";
-import userAxios from "../../../services/Axios/userInterceptors";
-import FormSpinner from "../../FormSpinner/FormSpinner";
+import ProductsPanelContext from "../../../../Context/ProductsPanelContext";
+import userAxios from "../../../../services/Axios/userInterceptors";
+import FormSpinner from "../../../FormSpinner/FormSpinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
@@ -27,26 +27,15 @@ export default function AddProductFile() {
         `/file/uploadImage/${newProductId}/1`,
         formData
       );
-
-      switch (response.status) {
-        case 200: {
-          setIsLoading(false);
-          setShowFile(false);
-          toast.success("create product successful");
-          break;
-        }
-
-        default:
-          break;
+      if (response.status === 200) {
+        setIsLoading(false);
+        setShowFile(false);
+        toast.success("create product successful");
       }
     } catch (error) {
       if (error.response && error.response.status === 403) {
         setServerError("You haven't access to add an image");
-      } else if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
+      } else if (error?.response.data.message) {
         setServerError(error.response.data.message);
       } else {
         setServerError("An error occurred while uploading the file.");
@@ -80,7 +69,7 @@ export default function AddProductFile() {
         showFile ? "visible" : "invisible"
       }`}
     >
-      <div className="w-2/3 h-5/6 bg-white-100 rounded-xl relative">
+      <div className="lg:w-[32rem] h-5/6 bg-white-100 rounded-xl relative">
         <form onSubmit={(e) => e.preventDefault()}>
           <div>
             <h2 className="text-center mb-4">Upload images</h2>
@@ -122,14 +111,14 @@ export default function AddProductFile() {
           <div className="flex justify-center w-full absolute bottom-4">
             <button
               type="submit"
-              className="bg-blue-600 text-white-100 w-11/12 py-2 mx-5 rounded-xl outline-none"
+              className="bg-blue-600 text-white-100 w-full py-2 md:mx-5 mx-2 rounded-xl outline-none"
               onClick={addFile}
             >
               {isLoading ? <FormSpinner /> : "Add Product Files"}
             </button>
             <button
               type="submit"
-              className="w-11/12 py-2 rounded-xl border border-blue-600 mx-5 outline-none"
+              className="w-11/12 py-2 rounded-xl border border-blue-600 md:mx-5 mx-2 outline-none"
               onClick={() => setShowFile(false)}
             >
               Cancel

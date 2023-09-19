@@ -1,10 +1,50 @@
-import React from "react";
+import React, { Suspense, lazy, useEffect, useState } from "react";
 import userAxios from "../../../services/Axios/userInterceptors";
 import useFetch from "../../../hooks/useFetch";
+import adminAxios from "../../../services/Axios/adminInterceptors";
+import Spinner from "../../Spinner/Spinner";
+const ProductInfo = lazy(() => import("../Products/ProductInfo"));
 
 const TopSale = () => {
   const { datas: product } = useFetch("/product?order=topSell", userAxios);
   var topSell = product?.data && product?.data[0];
+  const [showInfo, setShowInfo] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const [productInfos, setProductInfos] = useState(null);
+  const [productFile, setProductFile] = useState(null);
+
+  const getProductInfo = async () => {
+    setLoading(true);
+    try {
+      const response = await adminAxios.get(
+        `/productItem/product/${topSell?.id}`
+      );
+
+      if (response.status === 200) {
+        setProductInfos(response?.data);
+        setLoading(false);
+      }
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
+  const getProductFile = async () => {
+    setLoading(true);
+    const response = await userAxios.get(`/file/${topSell?.id}/1`);
+    try {
+      setLoading(false);
+      setProductFile(response?.data);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    if (showInfo) {
+      getProductInfo();
+      getProductFile();
+    }
+  }, [showInfo]);
   return (
     <div className="mr-7 mt-3">
       <div className="bg-white-100 dark:bg-black-200 dark:text-white-100 py-7 px-5 ml-3 rounded-xl">
@@ -23,11 +63,25 @@ const TopSale = () => {
           <p className="py-1 lg:py-0">code: {topSell?.code}</p>
         </div>
         <div className="w-full">
-          <button className="bg-blue-600 w-full rounded-lg text-white-300 lg:mt-7 mt-3 md:py-1 py-2 lg:text-base text-xs">
+          <button
+            className="bg-blue-600 w-full rounded-lg text-white-300 lg:mt-7 mt-3 md:py-1 py-2 lg:text-base text-xs"
+            onClick={() => setShowInfo(true)}
+          >
             Show Details
           </button>
         </div>
       </div>
+
+      <Suspense fallback={<Spinner />}>
+        {showInfo && !isLoading && (
+          <ProductInfo
+            setShowInfo={setShowInfo}
+            isLoading={isLoading}
+            productInfos={productInfos}
+            productFile={productFile}
+          />
+        )}
+      </Suspense>
     </div>
   );
 };

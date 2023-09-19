@@ -1,20 +1,21 @@
 import React, { useEffect, useState, lazy, Suspense } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPercent, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import "react-toastify/dist/ReactToastify.css";
 import Spinner from "../../Spinner/Spinner";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import adminAxios from "../../../services/Axios/adminInterceptors";
+import { ToastContainer } from "react-toastify";
 
 const Departments = lazy(() => import("./Departments"));
 const PiesChart = lazy(() => import("../Charts/PieChart"));
 const ProductsTable = lazy(() => import("./ProductsTable"));
-const AddNewProduct = lazy(() => import("./AddNewProduct"));
-const AddProductFeature = lazy(() => import("./AddProductFeature"));
+const AddNewProduct = lazy(() => import("./Add/AddNewProduct"));
+const AddProductFeature = lazy(() => import("./Add/AddProductFeature"));
 const DeleteModal = lazy(() => import("./DeleteModal"));
-const AddProductItem = lazy(() => import("./AddProductItem"));
-const AddProductFile = lazy(() => import("./AddProductFile"));
-const EditProduct = lazy(() => import("./EditProduct"));
+const AddProductItem = lazy(() => import("./Add/AddProductItem"));
+const AddProductFile = lazy(() => import("./Add/AddProductFile"));
+const EditProduct = lazy(() => import("./Edit/EditProduct"));
 
 export default function ProductsPanel() {
   const [productDeleteId, setProductDeleteId] = useState(null);
@@ -127,6 +128,7 @@ export default function ProductsPanel() {
           <DeleteModal />
           <EditProduct />
         </Suspense>
+        <ToastContainer />
       </section>
     </ProductsPanelContext.Provider>
   );

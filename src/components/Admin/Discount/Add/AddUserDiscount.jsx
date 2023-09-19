@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { discountValidation } from "../../../../validators/discountValidation";
 import adminAxios from "../../../../services/Axios/adminInterceptors";
 import Spinner from "../../../Spinner/Spinner";
-import UserTable from "./UserTable";
 import { useChangeDate } from "../../../../hooks/useChangeDate";
 import discountContext from "../../../../Context/discountContext";
-
+import { CustomSelect } from "../../../SelectList";
+import useFetch from "../../../../hooks/useFetch";
 export default function AddUserDiscount({
   setShowUserDiscount,
   setShowSelectDiscount,
@@ -14,9 +14,7 @@ export default function AddUserDiscount({
   const [errors, setErrors] = useState();
   const [serverErrors, setServerErrors] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const [userId, setUserId] = useState(null);
-  const [username, setUsername] = useState(null);
-  const [showChooseUser, setShowChooseUser] = useState(false);
+
   const [infos, setInfos] = useState({
     code: "",
     expiresIn: "",
@@ -26,12 +24,6 @@ export default function AddUserDiscount({
     value: "",
     productItemId: null,
   });
-
-  useEffect(() => {
-    if (userId?.length > 1) {
-      setShowChooseUser(false);
-    }
-  }, [userId]);
 
   const { formattedDate } = useChangeDate(infos?.expiresIn);
 
@@ -51,7 +43,6 @@ export default function AddUserDiscount({
       const response = await adminAxios.post(`/discount`, {
         ...infos,
         expiresIn: formattedDate,
-        relatedUserId: userId,
         quantity: Number(infos?.quantity),
         value: Number(infos?.value),
         type: Number(infos?.type),
@@ -67,6 +58,7 @@ export default function AddUserDiscount({
       setIsLoading(false);
     }
   };
+  const { datas: users } = useFetch("/user", adminAxios);
 
   return (
     <>
@@ -81,29 +73,35 @@ export default function AddUserDiscount({
       ) : (
         <form
           onSubmit={(e) => e.preventDefault()}
-          className="w-full max-w-sm mx-auto bg-white rounded-lg relative text-xs"
+          className="w-full mx-auto bg-white rounded-lg relative text-sm"
         >
           <div className="grid grid-cols-2 gap-4">
             <div className="col-span-2">
               <label
                 htmlFor="relatedUserId"
-                className="block text-gray-800 font-medium"
+                className="block text-gray-800 dark:text-white-100 font-medium"
               >
                 User
               </label>
-
-              <button
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 text-start"
-                onClick={() => setShowChooseUser(true)}
-              >
-                {!username ? "click for choose" : `${username}`}
-              </button>
+              <CustomSelect
+                options={users?.data.map((type) => ({
+                  value: type.id,
+                  label: type.username,
+                }))}
+                onchange={(selectedOptions) => {
+                  setInfos({
+                    ...infos,
+                    relatedUserId: selectedOptions?.value,
+                  });
+                  setErrors("");
+                }}
+              />
             </div>
 
             <div className="col-span-2">
               <label
                 htmlFor="value"
-                className="block text-gray-800 font-medium"
+                className="block text-gray-800 dark:text-white-100 font-medium"
               >
                 discount value
               </label>
@@ -112,7 +110,7 @@ export default function AddUserDiscount({
                 id="value"
                 name="value"
                 placeholder="value"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 onChange={setInfoss}
                 value={infos?.value}
                 onFocus={() => {
@@ -128,24 +126,22 @@ export default function AddUserDiscount({
             </div>
 
             <div>
-              <label htmlFor="type" className="block text-gray-800 font-medium">
+              <label htmlFor="type" className="block text-gray-800 dark:text-white-100 font-medium">
                 discount type
               </label>
-              <select
-                name="type"
-                id="type"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                onChange={setInfoss}
-                value={infos?.type}
-                onFocus={() => {
+              <CustomSelect
+                options={[1, 2].map((type) => ({
+                  value: type,
+                  label: type,
+                }))}
+                onchange={(selectedOptions) => {
+                  setInfos({
+                    ...infos,
+                    type: selectedOptions?.value,
+                  });
                   setErrors("");
-                  setServerErrors("");
                 }}
-              >
-                <option value="">Select Type</option>
-                <option value="1">percent</option>
-                <option value="2">Price</option>
-              </select>
+              />
               <p className="text-red-700 text-xs">
                 {errors?.type} {serverErrors?.errors?.type}
               </p>
@@ -154,7 +150,7 @@ export default function AddUserDiscount({
             <div>
               <label
                 htmlFor="expiresIn"
-                className="block text-gray-800 font-medium"
+                className="block text-gray-800 dark:text-white-100 font-medium"
               >
                 expiresIn
               </label>
@@ -163,7 +159,7 @@ export default function AddUserDiscount({
                 id="expiresIn"
                 name="expiresIn"
                 placeholder="expiresIn"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 onChange={setInfoss}
                 value={infos?.expiresIn}
                 onFocus={() => {
@@ -181,7 +177,7 @@ export default function AddUserDiscount({
             <div>
               <label
                 htmlFor="quantity"
-                className="block text-gray-800 font-medium"
+                className="block text-gray-800 dark:text-white-100 font-medium"
               >
                 quantity
               </label>
@@ -190,7 +186,7 @@ export default function AddUserDiscount({
                 id="quantity"
                 name="quantity"
                 placeholder="quantity"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 onChange={setInfoss}
                 value={infos?.quantity}
                 onFocus={() => {
@@ -206,7 +202,7 @@ export default function AddUserDiscount({
             </div>
 
             <div>
-              <label htmlFor="code" className="block text-gray-800 font-medium">
+              <label htmlFor="code" className="block text-gray-800 dark:text-white-100 font-medium">
                 code
               </label>
               <input
@@ -214,7 +210,7 @@ export default function AddUserDiscount({
                 id="code"
                 name="code"
                 placeholder="code"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 onChange={setInfoss}
                 value={infos?.code}
                 onFocus={() => {
@@ -229,13 +225,7 @@ export default function AddUserDiscount({
               </p>
             </div>
           </div>
-          {showChooseUser && (
-            <UserTable
-              setUserId={setUserId}
-              setUsername={setUsername}
-              setShowChooseUser={setShowChooseUser}
-            />
-          )}
+
           <div className="flex justify-center mt-8">
             <button
               type="submit"

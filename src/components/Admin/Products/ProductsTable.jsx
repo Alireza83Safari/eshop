@@ -1,20 +1,19 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import InfosModal from "./InfosModal";
+import ProductInfo from "./ProductInfo";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import Pagination from "../../getPagination";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
 import { useFetchPagination } from "../../../hooks/useFetchPagination";
+import userAxios from "../../../services/Axios/userInterceptors";
 
 export default function ProductsTable() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [showInfoModal, setShowInfoModal] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
   const [infosId, setInfosId] = useState(null);
-  const [productInfos, setProductInfos] = useState([]);
-  const [isLoading, setLoading] = useState(false);
   const {
     searchQuery,
     setProductDeleteId,
@@ -28,6 +27,20 @@ export default function ProductsTable() {
     setProductEditId(id);
   };
 
+  let pageSize = 11;
+  let url = "/product/selectList";
+  const { isLoading: loading } = usePaginationURL(currentPage, pageSize, url);
+  const {
+    paginations,
+    total,
+    isLoading: paginationLodaing,
+  } = useFetchPagination(url, adminAxios);
+  const pagesCount = Math.ceil(total / pageSize);
+
+  // product info
+  const [isLoading, setLoading] = useState(false);
+  const [productInfos, setProductInfos] = useState(null);
+  const [productFile, setProductFile] = useState(null);
   const getProductInfo = async () => {
     setLoading(true);
     if (infosId) {
@@ -44,22 +57,24 @@ export default function ProductsTable() {
       }
     }
   };
+
+  const getProductFile = async () => {
+    setLoading(true);
+    const response = await userAxios.get(`/file/${infosId}/1`);
+    try {
+      setLoading(false);
+      setProductFile(response?.data);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    if (showInfoModal) {
+    if (showInfo) {
       getProductInfo();
+      getProductFile();
     }
   }, [infosId]);
-
-  let pageSize = 11;
-  let url = "/product/selectList";
-  const { isLoading: loading } = usePaginationURL(currentPage, pageSize, url);
-  const {
-    paginations,
-    total,
-    isLoading: paginationLodaing,
-  } = useFetchPagination(url, adminAxios);
-  const pagesCount = Math.ceil(total / pageSize);
-
   return (
     <>
       <table className="min-w-full">
@@ -122,7 +137,7 @@ export default function ProductsTable() {
                       <button
                         className="border md:px-2 px-1 md:text-xs text-[9px] rounded-lg"
                         onClick={() => {
-                          setShowInfoModal(true);
+                          setShowInfo(true);
                           setInfosId(product?.id);
                         }}
                       >
@@ -135,12 +150,15 @@ export default function ProductsTable() {
           </tbody>
         )}
       </table>
-      <InfosModal
-        showInfoModal={showInfoModal}
-        setShowInfoModal={setShowInfoModal}
-        productInfos={productInfos}
-        isLoading={isLoading}
-      />
+      {showInfo && (
+        <ProductInfo
+          setShowInfo={setShowInfo}
+          isLoading={isLoading}
+          productInfos={productInfos}
+          productFile={productFile}
+        />
+      )}
+
       <Pagination
         pagesCount={pagesCount}
         setCurrentPage={setCurrentPage}
