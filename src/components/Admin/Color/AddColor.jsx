@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import FormSpinner from "../../FormSpinner/FormSpinner";
 import { toast } from "react-toastify";
+import { HexColorPicker } from "react-colorful";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faX } from "@fortawesome/free-solid-svg-icons";
 
 export default function AddColor() {
   const [isLoading, setLoading] = useState(false);
+  const [showColorPicker, setShowColorPicker] = useState(false);
   const [serverErrors, setServerErrors] = useState(false);
   const [newColor, setNewColor] = useState({
     code: "",
@@ -29,8 +33,10 @@ export default function AddColor() {
         setNewColor({
           code: "",
           name: "",
+          colorHex: "",
         });
         setServerErrors("");
+        setShowColorPicker(false);
       }
     } catch (error) {
       setServerErrors(error?.response?.data?.errors);
@@ -90,7 +96,7 @@ export default function AddColor() {
             <p className="text-red-700">{serverErrors?.code}</p>
           </div>
 
-          <div>
+          <div className="relative">
             <label htmlFor="colorHex" className="block font-medium">
               Color Hex
             </label>
@@ -105,7 +111,32 @@ export default function AddColor() {
               onBlur={() => setServerErrors("")}
               onFocus={() => setServerErrors("")}
             />
-
+            <button
+              className=" absolute right-0 mt- top-9"
+              onClick={() => setShowColorPicker(true)}
+            >
+              color picker
+            </button>
+            <div
+              className={`absolute right-0 -top-9  ${
+                showColorPicker ? "visible" : "invisible"
+              }`}
+            >
+              <FontAwesomeIcon
+                icon={faX}
+                className="text-lg"
+                onClick={() => setShowColorPicker(false)}
+              />
+              <HexColorPicker
+                color={newColor.colorHex}
+                onChange={(color) =>
+                  setNewColor({
+                    ...newColor,
+                    colorHex: color,
+                  })
+                }
+              />
+            </div>
             <p className="text-red-700">{serverErrors?.colorHex}</p>
           </div>
         </div>
@@ -113,7 +144,9 @@ export default function AddColor() {
         <div className="flex justify-center mt-10">
           <button
             type="submit"
-            className="bg-blue-600 text-white-100 w-full py-2 rounded-xl outline-none"
+            className={`bg-blue-600 text-white-100 w-full py-2 rounded-xl outline-none ${
+              isLoading && "py-5"
+            }`}
             onClick={addNewColorHandler}
           >
             {isLoading ? <FormSpinner /> : "Add Color"}
