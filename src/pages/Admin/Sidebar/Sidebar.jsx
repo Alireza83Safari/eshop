@@ -6,6 +6,7 @@ import {
   faBriefcase,
   faCarrot,
   faCoins,
+  faColonSign,
   faCommentDots,
   faGripHorizontal,
   faJedi,
@@ -30,6 +31,7 @@ export default function Sidebar() {
     { icon: faPercent, text: "discount", to: "/panel/discount" },
     { icon: faCarrot, text: "category", to: "/panel/category" },
     { icon: faBriefcase, text: "brand", to: "/panel/brand" },
+    { icon: faColonSign, text: "color", to: "/panel/color" },
     { icon: faJedi, text: "appPic", to: "/panel/appPic" },
   ];
 
@@ -51,7 +53,7 @@ export default function Sidebar() {
     });
   };
   return (
-    <section className=" top-0 left-0 bg-white-100 dark:bg-black-900 h-full xl:w-[10%] lg:w-[12%] sm:w-[6%] w-[9%] font-bold relative custom-scrollbar overflow-auto">
+    <section className=" fixed top-0 left-0 bg-white-100 dark:bg-black-900 h-full xl:w-[10%] lg:w-[12%] sm:w-[6%] w-[9%] font-bold  custom-scrollbar overflow-auto">
       <div className="">
         <Link to="dashboard" className="">
           <div className="w-full invisible lg:visible">

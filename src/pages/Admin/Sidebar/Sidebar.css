@@ -23,23 +23,15 @@
     border-left: 3px solid;
   }
 }
+.custom-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 
-/* Sidebar.css */
-/* افزودن استایل به سایدبار برای اسکرول */
+  &::-webkit-scrollbar {
+    width: 0;
+  }
 
-/* استایل اندیکاتور اسکرول */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background-color: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #888;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  &::-webkit-scrollbar-thumb {
+    width: 0;
+  }
 }
