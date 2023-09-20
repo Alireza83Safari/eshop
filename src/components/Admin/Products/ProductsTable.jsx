@@ -17,23 +17,17 @@ export default function ProductsTable() {
   const {
     searchQuery,
     setProductDeleteId,
-    setShowEditModal,
     setShowDeleteModal,
-    setProductEditId,
+    setEditProductID,
+    setShowEditModal,
   } = useContext(ProductsPanelContext);
-
-  const editHandler = (id) => {
-    setShowEditModal(true);
-    setProductEditId(id);
-  };
-
   let pageSize = 11;
   let url = "/product/selectList";
   const { isLoading: loading } = usePaginationURL(currentPage, pageSize, url);
   const {
     paginations,
     total,
-    isLoading: paginationLodaing,
+    isLoading: paginationLoading,
   } = useFetchPagination(url, adminAxios);
   const pagesCount = Math.ceil(total / pageSize);
 
@@ -90,7 +84,7 @@ export default function ProductsTable() {
           </tr>
         </thead>
 
-        {loading || paginationLodaing ? (
+        {loading || paginationLoading ? (
           <Spinner />
         ) : (
           <tbody>
@@ -99,53 +93,56 @@ export default function ProductsTable() {
                 product.name.toLowerCase().includes(searchQuery.toLowerCase())
               )
               .map((product, index) => (
-                <>
-                  <tr
-                    className="md:text-sm sm:text-xs text-[10px] text-center grid grid-cols-7"
-                    key={product.id}
-                  >
-                    <td className="py-3">{index + 1}</td>
-                    <td className="py-3 truncate">{product?.name}</td>
-                    <td className="py-3 flex justify-center">
-                      <img
-                        src={`http://127.0.0.1:6060/${product?.brandFileUrl} `}
-                        alt=""
-                        className="sm:w-8 w-6 object-contain"
+                <tr
+                  className="md:text-sm sm:text-xs text-[10px] text-center grid grid-cols-7"
+                  key={product.id}
+                >
+                  <td className="py-3">{index + 1}</td>
+                  <td className="py-3 truncate">{product?.name}</td>
+                  <td className="py-3 flex justify-center">
+                    <img
+                      src={`http://127.0.0.1:6060/${product?.brandFileUrl} `}
+                      alt=""
+                      className="sm:w-8 w-6 object-contain"
+                    />
+                  </td>
+                  <td className="py-3 truncate">{product?.categoryName}</td>
+                  <td className="py-3 truncate">{product?.code}</td>
+                  <td className="py-3 truncate space-x-2">
+                    <button
+                      onClick={() => {
+                        setEditProductID(product?.id);
+                        setShowEditModal(true);
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        icon={faEdit}
+                        className="text-orange-400"
                       />
-                    </td>
-                    <td className="py-3 truncate">{product?.categoryName}</td>
-                    <td className="py-3 truncate">{product?.code}</td>
-                    <td className="py-3 truncate space-x-2">
-                      <button onClick={() => editHandler(product?.id)}>
-                        <FontAwesomeIcon
-                          icon={faEdit}
-                          className="text-orange-400"
-                        />
-                      </button>
+                    </button>
 
-                      <button
-                        className="py-1 rounded-md text-red-700 text-white"
-                        onClick={() => {
-                          setProductDeleteId(product?.id);
-                          setShowDeleteModal(true);
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
-                      </button>
-                    </td>
-                    <td className="py-3 truncate">
-                      <button
-                        className="border md:px-2 px-1 md:text-xs text-[9px] rounded-lg"
-                        onClick={() => {
-                          setShowInfo(true);
-                          setInfosId(product?.id);
-                        }}
-                      >
-                        Infos
-                      </button>
-                    </td>
-                  </tr>
-                </>
+                    <button
+                      className="py-1 rounded-md text-red-700 text-white"
+                      onClick={() => {
+                        setProductDeleteId(product?.id);
+                        setShowDeleteModal(true);
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                  </td>
+                  <td className="py-3 truncate">
+                    <button
+                      className="border md:px-2 px-1 md:text-xs text-[9px] rounded-lg"
+                      onClick={() => {
+                        setInfosId(product?.id);
+                        setShowInfo(true);
+                      }}
+                    >
+                      Infos
+                    </button>
+                  </td>
+                </tr>
               ))}
           </tbody>
         )}

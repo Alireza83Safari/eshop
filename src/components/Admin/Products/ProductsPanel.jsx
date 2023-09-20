@@ -7,30 +7,22 @@ import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import { ToastContainer } from "react-toastify";
 
+const AddProduct = lazy(() => import("./Add/AddProduct"));
 const Departments = lazy(() => import("./Departments"));
 const PiesChart = lazy(() => import("../Charts/PieChart"));
 const ProductsTable = lazy(() => import("./ProductsTable"));
-const AddNewProduct = lazy(() => import("./Add/AddNewProduct"));
-const AddProductFeature = lazy(() => import("./Add/AddProductFeature"));
 const DeleteModal = lazy(() => import("./DeleteModal"));
-const AddProductItem = lazy(() => import("./Add/AddProductItem"));
-const AddProductFile = lazy(() => import("./Add/AddProductFile"));
 const EditProduct = lazy(() => import("./Edit/EditProduct"));
 
 export default function ProductsPanel() {
   const [productDeleteId, setProductDeleteId] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [showEditItem, setShowEditItem] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showAddProduct, setShowAddProduct] = useState(false);
-  const [showProductItem, setShowProductItem] = useState(false);
-  const [showProductFeature, setShowProductFeature] = useState(false);
-  const [productEditId, setProductEditId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [showFile, setShowFile] = useState(false);
   const [newProductId, setNewProductId] = useState(null);
+  const [editProductID, setEditProductID] = useState(null);
   const [productList, setProductList] = useState([]);
-
+  const [showAddProductModal, setShowAddProductModal] = useState(false);
   const fetchProductList = () => {
     adminAxios.get("/product").then((res) => {
       setProductList(res.data);
@@ -47,24 +39,17 @@ export default function ProductsPanel() {
         setProductDeleteId,
         setShowEditModal,
         showEditModal,
+        setShowEditModal,
         showDeleteModal,
         setShowDeleteModal,
-        setProductEditId,
-        productEditId,
         productDeleteId,
-        setShowFile,
-        showFile,
-        showProductItem,
-        setShowProductItem,
-        showAddProduct,
-        setShowAddProduct,
         setNewProductId,
-        setShowProductItem,
         newProductId,
         fetchProductList,
-        setShowProductFeature,
-        showEditItem,
-        setShowEditItem,
+        showAddProductModal,
+        setShowAddProductModal,
+        setEditProductID,
+        editProductID,
       }}
     >
       <section className="p-6 float-right mt-12 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] min-h-screen">
@@ -89,7 +74,7 @@ export default function ProductsPanel() {
               <div>
                 <button
                   className="sm:text-xs text-[10px] bg-blue-600 text-white-100 md:p-2 p-1 md:mr-2 mr-1 rounded-lg whitespace-nowrap"
-                  onClick={() => setShowAddProduct(true)}
+                  onClick={() => setShowAddProductModal(true)}
                 >
                   Add Product <FontAwesomeIcon icon={faPlus} />
                 </button>
@@ -121,10 +106,7 @@ export default function ProductsPanel() {
           </div>
         </div>
         <Suspense fallback={<Spinner />}>
-          {showAddProduct && <AddNewProduct />}
-          {showProductItem && <AddProductItem />}
-          {showProductFeature && <AddProductFeature />}
-          {showFile && <AddProductFile />}
+          <AddProduct />
           <DeleteModal />
           <EditProduct />
         </Suspense>
