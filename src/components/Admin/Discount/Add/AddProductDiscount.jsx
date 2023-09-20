@@ -25,7 +25,7 @@ export default function AddProductDiscount({
   const [errors, setErrors] = useState(null);
   const [serverErrors, setServerErrors] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const { datas: products } = useFetch("/product", userAxios);
+  const { datas: products } = useFetch("/product/selectList", userAxios);
 
   const setInfoss = (event) => {
     const { name, value } = event.target;

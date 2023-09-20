@@ -1,6 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import adminAxios from "../../../services/Axios/adminInterceptors";
 
-export default function CommentsInfos({ comments }) {
+export default function CommentsInfos() {
+  const [comments, setComments] = useState([]);
+
+  const fetchDatas = async () => {
+    try {
+      const response = await adminAxios.get("/comment");
+      setComments(response?.data.data);
+    } catch (error) {}
+  };
+  useEffect(() => {
+    fetchDatas();
+  }, []);
+
   const acceptedComments = comments.filter(
     (comment) => comment.commentStatus === 1
   );

@@ -23,7 +23,7 @@ export default function ProductsTable() {
     setShowEditModal,
   } = useContext(ProductsPanelContext);
   let pageSize = 11;
-  let url = "/product/selectList";
+  let url = "/product";
   const { isLoading: loading } = usePaginationURL(currentPage, pageSize, url);
   const {
     paginations,
@@ -104,11 +104,11 @@ export default function ProductsTable() {
                     {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
                   </td>
                   <td className="py-3 truncate">{product?.name}</td>
-                  <td className="py-3 flex justify-center">
+                  <td className="py-3 flex justify-center items-center">
                     <img
                       src={`http://127.0.0.1:6060/${product?.brandFileUrl} `}
                       alt=""
-                      className="sm:w-8 w-6 object-contain"
+                      className="sm:w-8 w-6 sm:h-8 h-6 object-contain"
                     />
                   </td>
                   <td className="py-3 truncate">{product?.categoryName}</td>

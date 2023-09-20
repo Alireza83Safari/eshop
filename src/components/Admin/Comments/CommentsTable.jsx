@@ -6,7 +6,7 @@ import { useFetchPagination } from "../../../hooks/useFetchPagination";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
 
-export default function CommentsTable({ comments, fetchDatas }) {
+export default function CommentsTable() {
   const [currentPage, setCurrentPage] = useState(1);
 
   let url = "/comment";
@@ -15,6 +15,7 @@ export default function CommentsTable({ comments, fetchDatas }) {
     isLoading: paginationLodaing,
     paginations,
     total,
+    fetchData,
   } = useFetchPagination(url, adminAxios);
   const pagesCount = Math.ceil(total / pageSize);
   const { isLoading } = usePaginationURL(currentPage, pageSize, url);
@@ -31,7 +32,7 @@ export default function CommentsTable({ comments, fetchDatas }) {
         statusInfo
       );
       if (response.status === 200) {
-        fetchDatas();
+        fetchData();
       }
     } catch (error) {}
   };
@@ -62,7 +63,7 @@ export default function CommentsTable({ comments, fetchDatas }) {
                   <p className="font-bold">{comment.username}</p>
                 </td>
 
-                <td className="text-ellipsis overflow-hidden">
+                <td className="text-ellipsis overflow-hidden truncate">
                   {comment.text}
                 </td>
                 <td className="overflow-auto truncate">
