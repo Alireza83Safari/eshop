@@ -4,14 +4,20 @@ import adminAxios from "../../../services/Axios/adminInterceptors";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import { useFetchPagination } from "../../../hooks/useFetchPagination";
 import Spinner from "../../Spinner/Spinner";
+import useTableRow from "../../../hooks/useTableRow";
 
 export default function OrderTable() {
   const [currentPage, setCurrentPage] = useState(1);
   let url = "/order";
   let pageSize = 7;
-  const {paginations , total,isLoading: paginationLodaing} = useFetchPagination(url, adminAxios);
+  const {
+    paginations,
+    total,
+    isLoading: paginationLodaing,
+  } = useFetchPagination(url, adminAxios);
   const pagesCount = Math.ceil(total / pageSize);
   const { isLoading } = usePaginationURL(currentPage, pageSize);
+  const { rowNumber, limit } = useTableRow();
   return (
     <div className="lg:col-span-8 col-span-12 md:mt-2 text-center md:mx-5 mx-2 mb-2">
       <p className="md:text-base text-sm font-bold border-b py-2 w-full bg-white-100 dark:text-white-100 dark:bg-black-200 rounded-t-xl 2xl:text-xl">
@@ -36,9 +42,12 @@ export default function OrderTable() {
               {paginations?.map((order, index) => (
                 <tr
                   className="md:text-sm sm:text-xs text-[10px] text-center"
-                  key={index}
+                  key={order.id}
                 >
-                  <td className="py-3">{index + 1}</td>
+                  <td className="py-3">
+                    {" "}
+                    {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
+                  </td>
                   <td className="py-3">{order?.username}</td>
                   <td className="py-3">{order?.price}</td>
                   <td className="py-3">{order?.createdAt.slice(0, 10)}</td>

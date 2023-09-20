@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import EditBrand from "./EditBrand/EditBrand";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
+import useTableRow from "../../../hooks/useTableRow";
 
 export default function BrandTable({
   paginations,
@@ -36,7 +37,7 @@ export default function BrandTable({
       setLoading(false);
     }
   };
-
+  const { rowNumber, limit } = useTableRow();
   return (
     <>
       <table className="min-w-full bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-xl h-[37rem] relative">
@@ -57,9 +58,12 @@ export default function BrandTable({
             {paginations?.map((brand, index) => (
               <tr
                 className="md:text-sm sm:text-xs text-[10px] text-center grid grid-cols-6"
-                key={index}
+                key={brand + 1}
               >
-                <td className="py-3">{index + 1}</td>
+                <td className="py-3">
+                  {" "}
+                  {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
+                </td>
                 <td className="py-3 truncate">{brand?.name}</td>
                 <td className="py-3 truncate">{brand?.code}</td>
                 <td className="py-3 flex justify-center">

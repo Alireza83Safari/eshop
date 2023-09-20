@@ -76,26 +76,6 @@ export default function AddColor() {
 
             <p className="text-red-700">{serverErrors?.name}</p>
           </div>
-
-          <div>
-            <label htmlFor="code" className="block font-medium">
-              Code
-            </label>
-            <input
-              type="text"
-              id="code"
-              name="code"
-              placeholder="color code"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
-              onChange={setNewColorHandler}
-              value={newColor?.code}
-              onBlur={() => setServerErrors("")}
-              onFocus={() => setServerErrors("")}
-            />
-
-            <p className="text-red-700">{serverErrors?.code}</p>
-          </div>
-
           <div className="relative">
             <label htmlFor="colorHex" className="block font-medium">
               Color Hex
@@ -112,13 +92,13 @@ export default function AddColor() {
               onFocus={() => setServerErrors("")}
             />
             <button
-              className=" absolute right-0 mt- top-9"
+              className=" absolute right-0 top-9"
               onClick={() => setShowColorPicker(true)}
             >
               color picker
             </button>
             <div
-              className={`absolute right-0 -top-9  ${
+              className={`absolute right-0 top-1  ${
                 showColorPicker ? "visible" : "invisible"
               }`}
             >
@@ -138,6 +118,24 @@ export default function AddColor() {
               />
             </div>
             <p className="text-red-700">{serverErrors?.colorHex}</p>
+          </div>
+          <div>
+            <label htmlFor="code" className="block font-medium">
+              Code
+            </label>
+            <input
+              type="text"
+              id="code"
+              name="code"
+              placeholder="color code"
+              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
+              onChange={setNewColorHandler}
+              value={newColor?.code}
+              onBlur={() => setServerErrors("")}
+              onFocus={() => setServerErrors("")}
+            />
+
+            <p className="text-red-700">{serverErrors?.code}</p>
           </div>
         </div>
 

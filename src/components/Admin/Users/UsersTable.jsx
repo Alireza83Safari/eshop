@@ -7,6 +7,7 @@ import adminAxios from "../../../services/Axios/adminInterceptors";
 import { useFetchPagination } from "../../../hooks/useFetchPagination";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
+import useTableRow from "../../../hooks/useTableRow";
 
 export default function UsersTable() {
   const [showEditUser, setShowEditUser] = useState(false);
@@ -39,6 +40,7 @@ export default function UsersTable() {
     } catch (error) {}
   };
 
+  const { rowNumber, limit } = useTableRow();
   return (
     <>
       <table className="min-w-full">
@@ -60,9 +62,12 @@ export default function UsersTable() {
             {paginations.map((user, index) => (
               <tr
                 className="md:text-sm sm:text-xs text-[10px] text-center overflow-auto"
-                key={index}
+                key={user.id}
               >
-                <td className="py-3 px-2">{index + 1}</td>
+                <td className="py-3 px-2">
+                  {" "}
+                  {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
+                </td>
                 <td className="py-3 px-2 whitespace-nowrap text-ellipsis overflow-hidden">
                   {user?.username}
                 </td>

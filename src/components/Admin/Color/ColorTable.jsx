@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
 import EditColor from "./EditColor";
+import useTableRow from "../../../hooks/useTableRow";
 
 export default function ColorTable({
   paginations,
@@ -36,7 +37,7 @@ export default function ColorTable({
       setLoading(false);
     }
   };
-
+  const { rowNumber, limit } = useTableRow();
   return (
     <>
       <table className="min-w-full bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-xl h-[37rem] relative">
@@ -57,9 +58,12 @@ export default function ColorTable({
             {paginations?.map((color, index) => (
               <tr
                 className="md:text-sm sm:text-xs text-[10px] text-center grid grid-cols-6"
-                key={index}
+                key={color + 1}
               >
-                <td className="py-3">{index + 1}</td>
+                <td className="py-3">
+                  {" "}
+                  {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
+                </td>
                 <td className="py-3 truncate">{color?.name}</td>
                 <td className="py-3 truncate">{color?.code}</td>
                 <td className="py-3 flex justify-center">{color?.colorHex}</td>

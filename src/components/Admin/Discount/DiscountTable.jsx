@@ -8,6 +8,7 @@ import EditDiscount from "./Edit/EditDiscount";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
 import discountContext from "../../../Context/discountContext";
+import useTableRow from "../../../hooks/useTableRow";
 
 export default function DiscountTable() {
   const { paginations, fetchData, paginatedProductsLoading, total } =
@@ -37,7 +38,7 @@ export default function DiscountTable() {
       setLoading(false);
     }
   };
-
+  const { rowNumber, limit } = useTableRow();
   return (
     <>
       <table
@@ -58,23 +59,26 @@ export default function DiscountTable() {
           <Spinner />
         ) : (
           <tbody>
-            {paginations?.map((brand, index) => (
+            {paginations?.map((discount, index) => (
               <tr
                 className="md:text-sm sm:text-xs text-[10px] text-center grid grid-cols-5"
-                key={index}
+                key={discount + 1}
               >
-                <td className="py-3">{index + 1}</td>
-                <td className="py-3 truncate">{brand?.value}%</td>
-                <td className="py-3 truncate">{brand?.quantity}</td>
+                <td className="py-3">
+                  {" "}
+                  {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
+                </td>
+                <td className="py-3 truncate">{discount?.value}%</td>
+                <td className="py-3 truncate">{discount?.quantity}</td>
 
                 <td className="py-3 truncate">
-                  {brand?.createdAt?.slice(0, 10)}
+                  {discount?.createdAt?.slice(0, 10)}
                 </td>
                 <td className="py-3 truncate space-x-2">
                   <button
                     onClick={() => {
                       setShowEditDiscount(true);
-                      setEditDiscounts(brand);
+                      setEditDiscounts(discount);
                     }}
                   >
                     <FontAwesomeIcon
@@ -85,7 +89,7 @@ export default function DiscountTable() {
                   <button
                     className="py-1 rounded-md text-red-700 text-white"
                     onClick={() => {
-                      deleteDiscount(brand?.id);
+                      deleteDiscount(discount?.id);
                     }}
                   >
                     <FontAwesomeIcon icon={faTrash} />

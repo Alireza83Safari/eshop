@@ -9,6 +9,7 @@ import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
 import { useFetchPagination } from "../../../hooks/useFetchPagination";
 import userAxios from "../../../services/Axios/userInterceptors";
+import useTableRow from "../../../hooks/useTableRow";
 
 export default function ProductsTable() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -69,6 +70,8 @@ export default function ProductsTable() {
       getProductFile();
     }
   }, [infosId]);
+
+  const { rowNumber, limit } = useTableRow();
   return (
     <>
       <table className="min-w-full">
@@ -97,7 +100,9 @@ export default function ProductsTable() {
                   className="md:text-sm sm:text-xs text-[10px] text-center grid grid-cols-7"
                   key={product.id}
                 >
-                  <td className="py-3">{index + 1}</td>
+                  <td className="py-3">
+                    {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
+                  </td>
                   <td className="py-3 truncate">{product?.name}</td>
                   <td className="py-3 flex justify-center">
                     <img

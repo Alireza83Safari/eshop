@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import EditCategory from "./EditCategory";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
+import useTableRow from "../../../hooks/useTableRow";
 
 export default function CategoryTable({
   fetchData,
@@ -38,6 +39,7 @@ export default function CategoryTable({
       setLoading(false);
     }
   };
+  const { rowNumber, limit } = useTableRow();
   return (
     <>
       <table className="min-w-full bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-xl h-[37rem] relative">
@@ -57,9 +59,12 @@ export default function CategoryTable({
             {paginations?.map((category, index) => (
               <tr
                 className="md:text-sm sm:text-xs text-[10px] text-center grid grid-cols-5"
-                key={index}
+                key={category.id}
               >
-                <td className="py-3">{index + 1}</td>
+                <td className="py-3">
+                  {" "}
+                  {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
+                </td>
                 <td className="py-3 truncate">{category?.name}</td>
 
                 <td className="py-3 truncate">{category?.code}</td>
@@ -93,11 +98,11 @@ export default function CategoryTable({
           </tbody>
         )}
       </table>
-        <Pagination
-          pageNumber={pageNumber}
-          setCurrentPage={setCurrentPage}
-          currentPage={currentPage}
-        />
+      <Pagination
+        pageNumber={pageNumber}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+      />
 
       <EditCategory
         categoryEditId={categoryEditId}

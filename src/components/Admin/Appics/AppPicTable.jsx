@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
 import EditAppPic from "./Edit/EditAppPic";
+import useTableRow from "../../../hooks/useTableRow";
 
 export default function AppPicTable({ appPicData, fetchData, appPicLoading }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -34,6 +35,7 @@ export default function AppPicTable({ appPicData, fetchData, appPicLoading }) {
       setLoading(false);
     }
   };
+  const { rowNumber, limit } = useTableRow();
   return (
     <>
       <table
@@ -60,7 +62,10 @@ export default function AppPicTable({ appPicData, fetchData, appPicLoading }) {
                 className="md:text-sm sm:text-xs text-[10px] text-center grid grid-cols-6"
                 key={appPic.id}
               >
-                <td className="py-3">{index + 1}</td>
+                <td className="py-3">
+                  {" "}
+                  {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
+                </td>
                 <td className="py-3 truncate">{appPic?.title}%</td>
                 <td className="py-3 truncate flex justify-center">
                   <img

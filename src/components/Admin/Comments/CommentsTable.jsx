@@ -58,14 +58,14 @@ export default function CommentsTable({ comments, fetchDatas }) {
                 className="sm:text-xs text-[10px] 2xl:text-sm grid lg:grid-cols-6 sm:grid-cols-5 grid-cols-4 sm:px-4 sm:py- py-3"
                 key={comment.id}
               >
-                <td className="flex items-center truncate">
+                <td className="truncate">
                   <p className="font-bold">{comment.username}</p>
                 </td>
 
-                <td className=" whitespace-nowrap text-ellipsis overflow-hidden">
+                <td className="text-ellipsis overflow-hidden">
                   {comment.text}
                 </td>
-                <td className=" whitespace-nowrap overflow-auto truncate">
+                <td className="overflow-auto truncate">
                   {comment.productName}
                 </td>
                 <td className="lg:inline hidden">
