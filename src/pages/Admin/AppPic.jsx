@@ -1,54 +1,33 @@
-import React, { useState, lazy, Suspense } from "react";
-
-const AppPicTable = lazy(() =>
-  import("../../components/Admin/Appics/AppPicTable")
-);
-const AddAppPic = lazy(() => import("../../components/Admin/Appics/AddAppPic"));
-const EditAppPic = lazy(() =>
-  import("../../components/Admin/Appics/EditAppPic")
-);
-const AddAppPicFile = lazy(() =>
-  import("../../components/Admin/Appics/AddAppPicFile")
-);
-
+import React from "react";
+import { ToastContainer } from "react-toastify";
+import AppPicTable from "../../components/Admin/Appics/AppPicTable";
+import TotalAppPict from "../../components/Admin/Appics/TotalAppPic";
+import userAxios from "../../services/Axios/userInterceptors";
+import useFetch from "../../hooks/useFetch";
+import AddAppPic from "../../components/Admin/Appics/Add/AddAppPic";
 export default function AppPic() {
-  const [showAddAppPic, setShowAddAppPic] = useState(false);
-  const [showEditAppPic, setShowEditAppPic] = useState(false);
-  const [showFileAppPic, setShowFileAppPic] = useState(false);
-  const [appPicId, setAppPicId] = useState(null);
-  const [editAppPicId, setEditAppPicId] = useState(null);
+  const {
+    datas: appPicData,
+    fetchData,
+    isLoading: appPicLoading,
+  } = useFetch("/appPic", userAxios);
 
   return (
-    <section className="float-right md:px-6 px-2 h-screen pb-8 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%]">
-      <Suspense fallback={<div>Loading...</div>}>
-        <AppPicTable
-          setShowAddAppPic={setShowAddAppPic}
-          setShowEditAppPic={setShowEditAppPic}
-          setEditAppPicId={setEditAppPicId}
-        />
-
-        {showAddAppPic && (
-          <AddAppPic
-            setShowAddAppPic={setShowAddAppPic}
-            setAppPicId={setAppPicId}
-            setShowFileAppPic={setShowFileAppPic}
+    <section className="p-6 float-right lg:mt-16 mt-12 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] min-h-screen">
+      <div className="grid lg:grid-cols-12">
+        <div className="lg:col-span-8 col-span-12 lg:mr-6 lg:order-1 order-2">
+          <AppPicTable
+            appPicData={appPicData}
+            fetchData={fetchData}
+            appPicLoading={appPicLoading}
           />
-        )}
-
-        {showEditAppPic && (
-          <EditAppPic
-            setShowEditAppPic={setShowEditAppPic}
-            editAppPicId={editAppPicId}
-          />
-        )}
-
-        {showFileAppPic && (
-          <AddAppPicFile
-            setShowFileAppPic={setShowFileAppPic}
-            appPicId={appPicId}
-          />
-        )}
-      </Suspense>
+        </div>
+        <div className="lg:col-span-4 col-span-12 lg:gap-x-12 gap-x-6 gap-y-6 lg:order-2 order-1 lg:inline grid grid-cols-3">
+          <TotalAppPict total={appPicData?.length} />
+          <AddAppPic fetchData={fetchData} />
+        </div>
+      </div>
+      <ToastContainer />
     </section>
   );
 }
