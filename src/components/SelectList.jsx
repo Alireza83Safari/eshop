@@ -37,7 +37,7 @@ export function CustomSelect({
           placeholder={placeholder}
           isSearchable={true}
           name={name}
-          defaultValue={defaultValue}
+          value={defaultValue}
           isMulti
         />
       ) : (
