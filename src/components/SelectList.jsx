@@ -16,7 +16,14 @@ const globalCustomStyles = (theme) => ({
   }),
 });
 
-export function CustomSelect({ options, onchange, placeholder, type, name }) {
+export function CustomSelect({
+  options,
+  onchange,
+  placeholder,
+  type,
+  name,
+  defaultValue,
+}) {
   const theme = localStorage.getItem("theme");
   const styles = globalCustomStyles(theme);
 
@@ -30,6 +37,7 @@ export function CustomSelect({ options, onchange, placeholder, type, name }) {
           placeholder={placeholder}
           isSearchable={true}
           name={name}
+          defaultValue={defaultValue}
           isMulti
         />
       ) : (
@@ -39,6 +47,7 @@ export function CustomSelect({ options, onchange, placeholder, type, name }) {
           onChange={onchange}
           placeholder={placeholder}
           isSearchable={true}
+          value={defaultValue}
         />
       )}
     </>
