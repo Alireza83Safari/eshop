@@ -8,7 +8,7 @@ export default function PermissionInfo({
 }) {
   return ReactDOM.createPortal(
     <div className="fixed bg-gray-100 z-10 w-full min-h-screen flex items-center justify-center transition duration-400">
-      <div className="bg-white-100 w-1/3 overflow-scroll p-3 h-[30rem] relative">
+      <div className="bg-white-100 lg:w-1/3 sm:w-2/4 w-5/6 overflow-scroll p-3 h-[30rem] relative">
         <button
           className="absolute top-2 right-2 text-red-700"
           onClick={() => setShowPermissionInfo(false)}

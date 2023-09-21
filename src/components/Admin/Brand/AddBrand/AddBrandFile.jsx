@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
 import userAxios from "../../../../services/Axios/userInterceptors";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
 import { toast } from "react-toastify";
@@ -11,17 +10,11 @@ export default function AddBrandFile({
   fetchData,
 }) {
   const [isLoading, setLoading] = useState(false);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
-
-  const addFile = async (data) => {
+  const [imageURL, setImageURL] = useState([]);
+  const [errors, setErrors] = useState(null);
+  const addFile = async () => {
     const formData = new FormData();
-    formData.append("fileUrl", data.image[0]);
+    formData.append("fileUrl", imageURL[0]);
     setLoading(true);
 
     try {
@@ -34,10 +27,10 @@ export default function AddBrandFile({
         setShowAddBrand(true);
         setLoading(false);
         toast.success("add brand is successfuly");
-        reset();
         fetchData();
       }
     } catch (error) {
+      setErrors(error?.response?.data?.message);
       switch (error.status) {
         case 403:
           {
@@ -54,40 +47,37 @@ export default function AddBrandFile({
       setLoading(false);
     }
   };
+  const handleImageChange = (e) => {
+    const files = e.target.files;
+    if (files) {
+      setImageURL(files);
+    }
+  };
+
   return (
-    <form>
-      <div className={` mt-10 p-5 rounded-xl ${isLoading && "opacity-20  "} `}>
+    <form onSubmit={(e) => e.preventDefault()}>
+      <div className={`p-5 rounded-xl ${isLoading && "opacity-20  "} `}>
         <label htmlFor="image" className="block text-center font-bold text-lg">
           Upload Image
         </label>
-        <input
-          type="file"
-          id="image"
-          name="image"
-          accept="image/*"
-          className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-          {...register("image", {
-            required: "please add your image",
-            validate: {
-              acceptedFormats: (value) => {
-                const acceptedFormats = ["image/jpeg", "image/png"];
-                return (
-                  acceptedFormats.includes(value[0]?.type) ||
-                  "Only JPG or PNG formats are allowed"
-                );
-              },
-            },
-          })}
-        />
-        {errors.image && <p className="text-red-700">{errors.image.message}</p>}
+        <form method="post" className="mt-32">
+          <input
+            type="file"
+            onChange={handleImageChange}
+            onClick={() => setErrors("")}
+          />
+        </form>
+        <p className="text-red-700 text-xs">{errors}</p>
       </div>
-      <div className="flex justify-center mt-36">
+      <div className="flex justify-center mt-20">
         <button
           type="submit"
-          className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2"
-          onClick={handleSubmit(addFile)}
+          className={`bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2 ${
+            isLoading && "py-5"
+          }`}
+          onClick={addFile}
         >
-          {isLoading ? <FormSpinner /> : "Add Product File"}
+          {isLoading ? <FormSpinner /> : "Add Brand File"}
         </button>
       </div>
     </form>
