@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import ReactDOM from "react-dom";
 import useFetch from "../../../hooks/useFetch";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import Spinner from "../../Spinner/Spinner";
 import { CustomSelect } from "../../SelectList";
-import { useContext } from "react";
 import userPanelContext from "../../../Context/userPanelContext";
 
-export default function EditUser() {
-  const { setShowEditUser, showEditUser, editUserID, fetchData } =
-    useContext(userPanelContext);
-
+export default function AddUser() {
+  const { setShowAddUser, fetchData } = useContext(userPanelContext);
   const [isLoading, setIsLoading] = useState(false);
-  const [roleName, setRoleName] = useState(null);
+  const [serverErrors, aetServerErrors] = useState(null);
   const [userInfos, setUserInfos] = useState({
     firstName: "",
     lastName: "",
@@ -23,48 +20,35 @@ export default function EditUser() {
     isSystem: "",
     enabled: "",
   });
-  useEffect(() => {
-    const fetchDatas = async () => {
-      try {
-        adminAxios.get(`/user/${editUserID}`).then((userData) => {
-          let $ = userData?.data;
-          setUserInfos({
-            ...userInfos,
-            firstName: $.firstName,
-            lastName: $.lastName,
-            username: $.username,
-            mobile: Number($.mobile),
-            email: $.email,
-            roleId: $.roleId,
-            isSystem: $.isSystem,
-            enabled: $.enabled,
-          });
-          setRoleName($.roleName);
-        });
-      } catch (err) {}
-    };
-    if (editUserID) {
-      fetchDatas();
-    }
-  }, [showEditUser]);
-
   const { datas: roles } = useFetch("/role", adminAxios);
+  console.log({
+    ...userInfos,
+    isSystem: Boolean(userInfos?.isSystem),
+    enabled: Boolean(userInfos?.enabled),
+  });
+  const editUserHandler = async (e) => {
+    e.preventDefault();
+    console.log(userInfos);
 
-  const editUserHandler = async (userData) => {
-    userData.preventDefault();
     setIsLoading(true);
     try {
-      const response = await adminAxios.post(
-        `/user/edit/${editUserID}`,
-        userInfos
-      );
+      const response = await adminAxios.post(`/user`, {
+        ...userInfos,
+        isSystem: Boolean(userInfos?.isSystem),
+        enabled: Boolean(userInfos?.enabled),
+        mobile: Number(userInfos?.mobile),
+      });
+      console.log(response);
+
       if (response.status === 200) {
         fetchData();
-        setShowEditUser(false);
+        setShowAddUser(false);
         setIsLoading(false);
       }
     } catch (error) {
       setIsLoading(false);
+      aetServerErrors(error?.response?.data);
+      console.log(error);
     }
   };
 
@@ -74,19 +58,23 @@ export default function EditUser() {
       [event.target.name]: event.target.value,
     });
   };
+
   return ReactDOM.createPortal(
     <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-full bg-gray-100 h-screen flex items-center justify-center transition duration-400">
       <div className="lg:w-[30rem] bg-white-100 p-2 rounded-xl overflow-auto ">
         <span className="mb-4 text-xl font-bold flex justify-center">
-          Edit User
+          Add User
         </span>
         {isLoading ? (
           <Spinner />
         ) : (
           <form
-            onSubmit={editUserHandler}
             className="w-full mx-auto p-4 bg-white rounded-lg text-sm"
+            onSubmit={editUserHandler}
           >
+            <p className="text-xs text-red-700 text-center">
+              {serverErrors?.message}
+            </p>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label
@@ -104,6 +92,9 @@ export default function EditUser() {
                   value={userInfos?.firstName}
                   onChange={setUserInfosHandler}
                 />
+                <p className="text-xs text-red-700">
+                  {serverErrors?.errors?.firstName}
+                </p>
               </div>
 
               <div>
@@ -122,6 +113,9 @@ export default function EditUser() {
                   value={userInfos?.lastName}
                   onChange={setUserInfosHandler}
                 />
+                <p className="text-xs text-red-700">
+                  {serverErrors?.errors?.lastName}
+                </p>
               </div>
 
               <div>
@@ -140,6 +134,9 @@ export default function EditUser() {
                   value={userInfos?.username}
                   onChange={setUserInfosHandler}
                 />
+                <p className="text-xs text-red-700">
+                  {serverErrors?.errors?.username}
+                </p>
               </div>
 
               <div>
@@ -158,6 +155,9 @@ export default function EditUser() {
                   value={userInfos?.mobile}
                   onChange={setUserInfosHandler}
                 />
+                <p className="text-xs text-red-700">
+                  {serverErrors?.errors?.mobile}
+                </p>
               </div>
 
               <div className="">
@@ -177,6 +177,9 @@ export default function EditUser() {
                     value={userInfos?.email}
                     onChange={setUserInfosHandler}
                   />
+                  <p className="text-xs text-red-700">
+                    {serverErrors?.errors?.email}
+                  </p>
                 </div>
               </div>
               <div>
@@ -197,16 +200,15 @@ export default function EditUser() {
                       roleId: selectedOption?.value || "",
                     });
                   }}
-                  defaultValue={{
-                    value: userInfos?.roleId,
-                    label: roleName,
-                  }}
                 />
+                <p className="text-xs text-red-700">
+                  {serverErrors?.errors?.role}
+                </p>
               </div>
 
               <div>
                 <label
-                  htmlFor="isSystem"
+                  htmlFor="isMainItem"
                   className="block text-gray-800 font-medium"
                 >
                   isSystem
@@ -219,14 +221,13 @@ export default function EditUser() {
                   onchange={(selectedOptions) => {
                     setUserInfos({
                       ...userInfos,
-                      isSystem: selectedOptions?.value,
+                      isMainItem: selectedOptions?.value,
                     });
                   }}
-                  defaultValue={{
-                    value: userInfos?.isSystem,
-                    label: String(userInfos?.isSystem),
-                  }}
                 />
+                <p className="text-xs text-red-700">
+                  {serverErrors?.errors?.isSystem}
+                </p>
               </div>
 
               <div>
@@ -247,11 +248,10 @@ export default function EditUser() {
                       enabled: selectedOptions?.value,
                     });
                   }}
-                  defaultValue={{
-                    value: userInfos?.enabled,
-                    label: String(userInfos?.enabled),
-                  }}
                 />
+                <p className="text-xs text-red-700">
+                  {serverErrors?.errors?.enabled}
+                </p>
               </div>
             </div>
 
@@ -261,12 +261,12 @@ export default function EditUser() {
                 className="bg-blue-600 text-white-100 w-1/2 py-2 rounded-xl mr-2"
                 onSubmit={editUserHandler}
               >
-                Edit User
+                Add User
               </button>
               <button
                 type="submit"
                 className="w-1/2 py-2 rounded-xl border ml-2"
-                onClick={() => setShowEditUser(false)}
+                onClick={() => setShowAddUser(false)}
               >
                 Cancel
               </button>
