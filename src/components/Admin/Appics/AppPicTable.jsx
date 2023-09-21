@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "../../getPagination";
@@ -6,8 +6,8 @@ import adminAxios from "../../../services/Axios/adminInterceptors";
 import { toast } from "react-toastify";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
-import EditAppPic from "./Edit/EditAppPic";
 import useTableRow from "../../../hooks/useTableRow";
+const EditAppPic = lazy(() => import("./Edit/EditAppPic"));
 
 export default function AppPicTable({ appPicData, fetchData, appPicLoading }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -110,14 +110,16 @@ export default function AppPicTable({ appPicData, fetchData, appPicLoading }) {
         />
       </table>
 
-      {showEditAppPic && (
-        <EditAppPic
-          showEditAppPic={showEditAppPic}
-          editAppPicId={editAppPicId}
-          setShowEditAppPic={setShowEditAppPic}
-          fetchData={fetchData}
-        />
-      )}
+      <Suspense fallback={<Spinner />}>
+        {showEditAppPic && (
+          <EditAppPic
+            showEditAppPic={showEditAppPic}
+            editAppPicId={editAppPicId}
+            setShowEditAppPic={setShowEditAppPic}
+            fetchData={fetchData}
+          />
+        )}
+      </Suspense>
     </>
   );
 }

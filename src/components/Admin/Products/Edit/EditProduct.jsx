@@ -1,8 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, lazy, Suspense } from "react";
 import ProductsPanelContext from "../../../../Context/ProductsPanelContext";
 import ReactDOM from "react-dom";
-import EditProductData from "./EditProductData";
-import EditProductFile from "./EditProductFile";
+
+const EditProductData = lazy(() => import("./EditProductData"));
+const EditProductFile = lazy(() => import("./EditProductFile"));
 
 export default function EditProduct() {
   const { showEditModal } = useContext(ProductsPanelContext);
@@ -16,13 +17,17 @@ export default function EditProduct() {
       }`}
     >
       <div className="lg:w-[30rem] h-[33rem] bg-white-100 dark:bg-black-200  p-5 rounded-xl relative">
-        {showEditProduct && (
-          <EditProductData
-            setShowEditProduct={setShowEditProduct}
-            setShowEditFile={setShowEditFile}
-          />
-        )}
-        {showEditFile && <EditProductFile setShowEditFile={setShowEditFile} />}
+        <Suspense fallback={<div>Loading...</div>}>
+          {showEditProduct && (
+            <EditProductData
+              setShowEditProduct={setShowEditProduct}
+              setShowEditFile={setShowEditFile}
+            />
+          )}
+          {showEditFile && (
+            <EditProductFile setShowEditFile={setShowEditFile} />
+          )}
+        </Suspense>
       </div>
     </section>,
     document.getElementById("portal")

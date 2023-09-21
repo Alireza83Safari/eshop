@@ -80,6 +80,16 @@ export default function EditBrandFile({
         >
           {isLoading ? <FormSpinner /> : "Edit Brand File"}
         </button>
+        <button
+          type="submit"
+          className="border border-blue-600 w-full py-2 rounded-xl mr-2"
+          onClick={() => {
+            setShowEditBrandFile(false);
+            setShowEditBrand(false);
+          }}
+        >
+          Cancel
+        </button>
       </div>
     </form>
   );

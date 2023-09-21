@@ -22,7 +22,8 @@ export default function EditProductData({
     description: "",
     topFeatures: [" "],
   });
-
+  const [categoryName, seCategoryName] = useState(null);
+  const [brandName, setBrandName] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
 
@@ -40,25 +41,28 @@ export default function EditProductData({
       setLoading(true);
       try {
         adminAxios.get(`/product/${editProductID}`).then((infos) => {
+          let $ = infos?.data;
+          seCategoryName($.categoryName);
           setProductInfo({
             ...productInfo,
-            brandId: infos?.data.brandId,
-            name: infos?.data.name,
-            categoryId: infos?.data.categoryId,
-            code: infos?.data.code,
-            shortDescription: infos?.data.shortDescription,
-            description: infos?.data.description,
-            topFeatures: infos?.data.topFeatures,
+            brandId: $.brandId,
+            name: $.name,
+            categoryId: $.categoryId,
+            code: $.code,
+            shortDescription: $.shortDescription,
+            description: $.description,
+            topFeatures: $.topFeatures,
           });
+          setBrandName($.brandName);
+          seCategoryName($.categoryName);
         });
         setLoading(false);
       } catch (err) {
         setLoading(false);
       }
     };
-    if (editProductID) {
-      fetchData();
-    }
+
+    fetchData();
   }, [showEditModal]);
 
   const editProductHandler = async () => {
@@ -80,6 +84,7 @@ export default function EditProductData({
       setServerError(error?.response?.data);
     }
   };
+
   return (
     <>
       <span className="text-xl font-bold flex justify-center dark:text-white-100">
@@ -152,7 +157,10 @@ export default function EditProductData({
                   ...productInfo,
                   categoryId: selectedOptions?.value,
                 });
-                setErrors("");
+              }}
+              defaultValue={{
+                value: productInfo?.categoryId,
+                label: categoryName,
               }}
             />
             <p className="text-sm text-red-700">
@@ -177,7 +185,10 @@ export default function EditProductData({
                   ...productInfo,
                   brandId: selectedOptions?.value,
                 });
-                setErrors("");
+              }}
+              defaultValue={{
+                value: productInfo?.brandId,
+                label: brandName,
               }}
             />
 

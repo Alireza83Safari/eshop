@@ -32,28 +32,29 @@ export default function EditDiscount({
 
   const { chanageToInputDate } = useChangeToInputDate(editDiscount?.expiresIn);
   const { formattedDate } = useChangeDate(inputDateValue);
+  const [productName, setProductName] = useState(null);
+  const [userName, setUserName] = useState(null);
 
   // fetch edit product infos
   useEffect(() => {
     setLoading(true);
     const getEditDiscountData = async () => {
       const response = await adminAxios.get(`/discount/${editDiscounts?.id}`);
+      let $ = response?.data;
       setLoading(false);
-      setHaveProductItemId(response?.data?.productItemId);
-      setHaveProductUser(response?.data?.relatedUserId);
+      setHaveProductItemId($.productItemId);
+      setHaveProductUser($.relatedUserId);
       setEditDiscount({
-        code: response?.data?.code ? response?.data?.code : null,
-        expiresIn: response?.data?.expiresIn,
-        productItemId: response?.data?.productItemId
-          ? response?.data?.productItemId
-          : null,
-        quantity: Number(response?.data?.quantity),
-        relatedUserId: response?.data?.relatedUserId
-          ? response?.data?.relatedUserId
-          : null,
-        type: response?.data?.type,
-        value: response?.data?.value,
+        code: $.code ? $.code : null,
+        expiresIn: $.expiresIn,
+        productItemId: $.productItemId ? $.productItemId : null,
+        quantity: Number($.quantity),
+        relatedUserId: $.relatedUserId ? $.relatedUserId : null,
+        type: $.type,
+        value: $.value,
       });
+      setUserName($.relatedUserUsername);
+      setProductName($.productName);
     };
     if (showEditDiscount) {
       getEditDiscountData();
@@ -69,7 +70,6 @@ export default function EditDiscount({
       [name]: value,
     });
   };
-
   const editDiscountHandler = async () => {
     setLoading(true);
     try {
@@ -77,7 +77,6 @@ export default function EditDiscount({
         `/discount/edit/${editDiscounts?.id}`,
         {
           ...editDiscount,
-          quantity: Number(editDiscount?.quantity),
           type: Number(editDiscount?.type),
           value: Number(editDiscount?.value),
           expiresIn: inputDateValue?.length
@@ -115,7 +114,7 @@ export default function EditDiscount({
         <p className="text-red-700 text-center">{serverErrors?.message}</p>
         <form
           onSubmit={(e) => e.preventDefault()}
-          className="w-full mx-auto p-4 bg-white rounded-lg"
+          className="w-full mx-auto p-4 bg-white rounded-lg text-sm"
         >
           <div
             className={` grid grid-cols-2 gap-4 mt-4 ${
@@ -135,7 +134,7 @@ export default function EditDiscount({
                   id="code"
                   name="code"
                   placeholder="discount code"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
                   onChange={setEditDiscountHandler}
                   value={editDiscount?.code}
                   onFocus={() => setServerErrors("")}
@@ -156,7 +155,7 @@ export default function EditDiscount({
                 id="expiresIn"
                 name="expiresIn"
                 placeholder="discount expiresIn"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
                 onChange={(e) => setInputDateValue(e.target.value)}
                 value={chanageToInputDate || ""}
                 onFocus={() => setServerErrors("")}
@@ -182,7 +181,10 @@ export default function EditDiscount({
                       ...editDiscount,
                       productItemId: selectedOptions?.value,
                     });
-                    //setErrors("");
+                  }}
+                  defaultValue={{
+                    value: editDiscount?.productItemId,
+                    label: productName,
                   }}
                 />
 
@@ -203,7 +205,7 @@ export default function EditDiscount({
                 id="quantity"
                 name="quantity"
                 placeholder="quantity"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
                 onChange={setEditDiscountHandler}
                 value={editDiscount?.quantity}
                 onFocus={() => setServerErrors("")}
@@ -230,7 +232,10 @@ export default function EditDiscount({
                       ...editDiscount,
                       relatedUserId: selectedOptions?.value,
                     });
-                    //setErrors("");
+                  }}
+                  defaultValue={{
+                    value: editDiscount?.relatedUserId,
+                    label: userName,
                   }}
                 />
 
@@ -249,7 +254,7 @@ export default function EditDiscount({
                 id="type"
                 name="type"
                 placeholder="type"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
                 onChange={setEditDiscountHandler}
                 value={editDiscount?.type}
                 onFocus={() => setServerErrors("")}
@@ -270,7 +275,7 @@ export default function EditDiscount({
                 id="value"
                 name="value"
                 placeholder="value"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
                 onChange={setEditDiscountHandler}
                 value={editDiscount?.value}
                 onFocus={() => setServerErrors("")}

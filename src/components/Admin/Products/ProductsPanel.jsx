@@ -105,10 +105,15 @@ export default function ProductsPanel() {
             </div>
           </div>
         </div>
+
         <Suspense fallback={<Spinner />}>
-          <AddProduct />
+          {showAddProductModal && <AddProduct />}
+        </Suspense>
+        <Suspense fallback={<Spinner />}>
           <DeleteModal />
-          <EditProduct />
+        </Suspense>
+        <Suspense fallback={<Spinner />}>
+          {showEditModal && <EditProduct />}
         </Suspense>
         <ToastContainer />
       </section>

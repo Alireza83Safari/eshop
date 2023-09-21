@@ -101,7 +101,6 @@ export default function AddProductFile({ setShowFile }) {
               />
             </div>
           )}
-          <div className="flex flex-wrap"></div>
           <form
             method="post"
             className="flex justify-center container absolute bottom-24"

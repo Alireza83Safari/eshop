@@ -6,18 +6,14 @@ import { useFetchPagination } from "../../../hooks/useFetchPagination";
 import Spinner from "../../Spinner/Spinner";
 import useTableRow from "../../../hooks/useTableRow";
 
-export default function OrderTable() {
+export default function OrderTable({ paginations, paginationLodaing, total }) {
   const [currentPage, setCurrentPage] = useState(1);
-  let url = "/order";
   let pageSize = 7;
-  const {
-    paginations,
-    total,
-    isLoading: paginationLodaing,
-  } = useFetchPagination(url, adminAxios);
   const pagesCount = Math.ceil(total / pageSize);
   const { isLoading } = usePaginationURL(currentPage, pageSize);
+
   const { rowNumber, limit } = useTableRow();
+
   return (
     <div className="lg:col-span-8 col-span-12 md:mt-2 text-center md:mx-5 mx-2 mb-2">
       <p className="md:text-base text-sm font-bold border-b py-2 w-full bg-white-100 dark:text-white-100 dark:bg-black-200 rounded-t-xl 2xl:text-xl">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "../../getPagination";
@@ -6,8 +6,8 @@ import adminAxios from "../../../services/Axios/adminInterceptors";
 import { ToastContainer, toast } from "react-toastify";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
-import EditColor from "./EditColor";
 import useTableRow from "../../../hooks/useTableRow";
+const EditColor = React.lazy(() => import("./EditColor"));
 
 export default function ColorTable({
   paginations,
@@ -103,13 +103,15 @@ export default function ColorTable({
         />
       </table>
 
-      {showEditColor && (
-        <EditColor
-          colorEditId={colorEditId}
-          setShowEditColor={setShowEditColor}
-          fetchData={fetchData}
-        />
-      )}
+      <Suspense fallback={<Spinner />}>
+        {showEditColor && (
+          <EditColor
+            colorEditId={colorEditId}
+            setShowEditColor={setShowEditColor}
+            fetchData={fetchData}
+          />
+        )}
+      </Suspense>
 
       <ToastContainer />
     </>

@@ -1,33 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Pagination from "../../getPagination";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import EditUser from "./EditUser";
 import adminAxios from "../../../services/Axios/adminInterceptors";
-import { useFetchPagination } from "../../../hooks/useFetchPagination";
-import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
 import useTableRow from "../../../hooks/useTableRow";
+import userPanelContext from "../../../Context/userPanelContext";
 
 export default function UsersTable() {
-  const [showEditUser, setShowEditUser] = useState(false);
-  const [editUserID, setEditUserID] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setLoading] = useState(false);
-  let url = "/user";
-  let pageSize = 8;
   const {
     paginations,
-    total,
-    isLoading: paginationLodaing,
     fetchData,
-  } = useFetchPagination(url, adminAxios);
-  const pagesCount = Math.ceil(total / pageSize);
-  const { isLoading: pageLoading } = usePaginationURL(
+    paginationLodaing,
+    pageLoading,
+    setShowEditUser,
+    setEditUserID,
+    pagesCount,
+    setCurrentPage,
     currentPage,
-    pageSize,
-    url
-  );
+  } = useContext(userPanelContext);
+  const [isLoading, setLoading] = useState(false);
 
   const deleteUser = async (ID) => {
     setLoading(true);
@@ -105,13 +97,6 @@ export default function UsersTable() {
         pagesCount={pagesCount}
         setCurrentPage={setCurrentPage}
         currentPage={currentPage}
-      />
-
-      <EditUser
-        showEditUser={showEditUser}
-        setShowEditUser={setShowEditUser}
-        editUserID={editUserID}
-        fetchData={fetchData}
       />
     </>
   );

@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "../../getPagination";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import { ToastContainer, toast } from "react-toastify";
-import EditCategory from "./EditCategory";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
 import useTableRow from "../../../hooks/useTableRow";
+const EditCategory = React.lazy(() => import("./EditCategory"));
 
 export default function CategoryTable({
   fetchData,
@@ -104,12 +104,16 @@ export default function CategoryTable({
         currentPage={currentPage}
       />
 
-      <EditCategory
-        categoryEditId={categoryEditId}
-        showEditCategory={showEditCategory}
-        setShowEditCategory={setShowEditCategory}
-        fetchData={fetchData}
-      />
+      <Suspense fallback={<Spinner />}>
+        {showEditCategory && (
+          <EditCategory
+            categoryEditId={categoryEditId}
+            showEditCategory={showEditCategory}
+            setShowEditCategory={setShowEditCategory}
+            fetchData={fetchData}
+          />
+        )}
+      </Suspense>
 
       <ToastContainer />
     </>

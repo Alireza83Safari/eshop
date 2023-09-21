@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Pagination from "../../getPagination";
-
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import { useFetchPagination } from "../../../hooks/useFetchPagination";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";

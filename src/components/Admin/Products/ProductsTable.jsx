@@ -22,6 +22,7 @@ export default function ProductsTable() {
     setEditProductID,
     setShowEditModal,
   } = useContext(ProductsPanelContext);
+  
   let pageSize = 11;
   let url = "/product";
   const { isLoading: loading } = usePaginationURL(currentPage, pageSize, url);

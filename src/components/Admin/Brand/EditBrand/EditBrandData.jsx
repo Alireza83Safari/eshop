@@ -43,7 +43,10 @@ export default function EditBrandData({
       setLoading(false);
     }
   };
-  const { datas } = useFetch(`/brand/${brandEditId?.id}`, adminAxios);
+  const { datas, isLoading: brandLoading } = useFetch(
+    `/brand/${brandEditId?.id}`,
+    adminAxios
+  );
 
   useEffect(() => {
     setEditBrand({ name: datas?.name, code: datas?.code });
@@ -68,7 +71,7 @@ export default function EditBrandData({
       >
         <div
           className={` grid grid-cols-1 gap-4 mt-4 ${
-            isLoading && "opacity-20"
+            isLoading && brandLoading && "opacity-10"
           }`}
         >
           <div>

@@ -1,14 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, lazy, Suspense } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import Pagination from "../../getPagination";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import { toast } from "react-toastify";
-import EditDiscount from "./Edit/EditDiscount";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";
-import Spinner from "../../Spinner/Spinner";
 import discountContext from "../../../Context/discountContext";
 import useTableRow from "../../../hooks/useTableRow";
+import Pagination from "../../getPagination";
+import Spinner from "../../Spinner/Spinner";
+const EditDiscount = lazy(() => import("./Edit/EditDiscount"));
 
 export default function DiscountTable() {
   const { paginations, fetchData, paginatedProductsLoading, total } =
@@ -107,11 +107,13 @@ export default function DiscountTable() {
         />
       </table>
 
-      <EditDiscount
-        showEditDiscount={showEditDiscount}
-        editDiscounts={editDiscounts}
-        setShowEditDiscount={setShowEditDiscount}
-      />
+      <Suspense fallback={<Spinner />}>
+        <EditDiscount
+          showEditDiscount={showEditDiscount}
+          editDiscounts={editDiscounts}
+          setShowEditDiscount={setShowEditDiscount}
+        />
+      </Suspense>
     </>
   );
 }

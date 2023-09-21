@@ -1,6 +1,7 @@
 import React, { useEffect, useState, lazy, Suspense } from "react";
 import Spinner from "../../components/Spinner/Spinner";
 import adminAxios from "../../services/Axios/adminInterceptors";
+import { useFetchPagination } from "../../hooks/useFetchPagination";
 const PiesChart = lazy(() => import("../../components/Admin/Charts/PieChart"));
 const OrderTable = lazy(() =>
   import("../../components/Admin/Orders/OrderTable")
@@ -15,20 +16,27 @@ export default function Orders() {
   const income = sales?.reduce((total, sale) => total + sale?.price, 0);
   const totalTax = Math.floor(income / 9);
   const netProfit = income - totalTax;
+//
+  let url = "/order";
 
-  const fetchOrders = async () => {
-    try {
-      const response = await adminAxios.get("/order");
-      setSales(response.data.data);
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  const {
+    paginations,
+    total,
+    isLoading: paginationLodaing,
+  } = useFetchPagination(url, adminAxios);
+
+  //
+
   useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await adminAxios.get("/order");
+        setSales(response.data.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
     fetchOrders();
   }, []);
 
@@ -49,7 +57,7 @@ export default function Orders() {
 
       <div className="grid grid-cols-12">
         <Suspense fallback={<Spinner />}>
-          <OrderTable />
+          <OrderTable paginations={paginations} total={total} paginationLodaing={paginationLodaing}/>
         </Suspense>
 
         <div className="relative lg:col-span-4 col-span-12 bg-white-100 dark:bg-black-200 rounded-xl mt-2 md:mx-5 mx-2">

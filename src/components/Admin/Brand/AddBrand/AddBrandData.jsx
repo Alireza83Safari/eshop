@@ -106,7 +106,9 @@ export default function AddBrandData({
         <div className="flex justify-center mt-10">
           <button
             type="submit"
-            className="bg-blue-600 text-white-100 w-full py-2 rounded-xl"
+            className={`bg-blue-600 text-white-100 w-full py-2 rounded-xl ${
+              isLoading && "py-5"
+            }`}
           >
             {isLoading ? <FormSpinner /> : "Add Brand"}
           </button>
