@@ -64,9 +64,6 @@ export default function Sidebar() {
             />
           </div>
         </Link>
-        <p className="text-black-200 lg:pl-4 dark:text-white-100 whitespace-nowrap lg:text-xs lg:pt-6 invisible lg:visible">
-          main menu
-        </p>
 
         <div className="lg:mt-6">
           {items.map((item, index) => (
@@ -95,11 +92,8 @@ export default function Sidebar() {
         </div>
       </div>
 
-      <div className="lg:pl-7 sm:pl-4 pl-2 xl:text-sm md:text-xs">
-        <p className="text-xs lg:flex hidden text-black-200 pb-4 dark:text-white-100">
-          Options
-        </p>
-        <Link className="flex py-3 text-black-700 hover:text-gray-500 duration-500 dark:text-white-100">
+      <div className="ml-4 2xl:text-lg text-xs">
+        <Link className="flex xl:py-5 py-4 text-black-700 hover:text-gray-500 duration-500 dark:text-white-100">
           <FontAwesomeIcon
             icon={faSignOut}
             className="mr-3 lg:text-base text-xl"

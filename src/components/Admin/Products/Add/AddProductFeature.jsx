@@ -8,7 +8,8 @@ export default function AddProductFeature({
   setShowProductFeature,
   setShowFile,
 }) {
-  const { fetchProductList, newProductId } = useContext(ProductsPanelContext);
+  const { fetchProductList, newProductId, setShowAddProductModal } =
+    useContext(ProductsPanelContext);
 
   const [isLoading, setLoading] = useState(false);
 
@@ -90,7 +91,10 @@ export default function AddProductFeature({
           <button
             type="button"
             className="w-full py-2 rounded-xl border border-blue-600 dark:text-white-100"
-            onClick={() => setShowProductFeature(false)}
+            onClick={() => {
+              setShowProductFeature(false);
+              setShowAddProductModal(false);
+            }}
           >
             Cancel
           </button>

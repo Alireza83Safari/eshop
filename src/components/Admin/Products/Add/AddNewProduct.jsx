@@ -5,6 +5,7 @@ import useFetch from "../../../../hooks/useFetch";
 import { productFormValidation } from "../../../../validators/productFormValidation";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
 import { CustomSelect } from "../../../SelectList";
+import Input from "../../Input";
 
 export default function AddNewProduct({
   setShowProductItem,
@@ -23,12 +24,11 @@ export default function AddNewProduct({
   });
 
   const [errors, setErrors] = useState(null);
-  const [serverErrors, setServerErrors] = useState(null);
+  const [serverError, setServerError] = useState(null);
   const [isLoading, setLoading] = useState(false);
-
+  console.log(serverError);
   const addNewProducts = async () => {
     productFormValidation(productInfo, errors, setErrors);
-
     setLoading(true);
     try {
       const response = await adminAxios.post("/product", productInfo);
@@ -43,7 +43,7 @@ export default function AddNewProduct({
         setErrors("Code Is Taken");
       }
     } catch (error) {
-      setServerErrors(error?.response?.data?.errors);
+      setServerError(error?.response?.data);
       setLoading(false);
     }
   };
@@ -70,55 +70,38 @@ export default function AddNewProduct({
           } `}
         >
           <div className="col-span-2">
-            <label
-              className="font-medium text-gray-800 dark:text-white-100"
-              htmlFor="name"
-            >
-              Name
-            </label>
-            <input
-              type="text"
-              placeholder="Product Name"
-              className="block w-full border py-2 px-2 rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
+            <Input
+              labelText="name"
+              placeholder="Product name"
               name="name"
-              onChange={setProductInfos}
               value={productInfo?.name}
-              onFocus={() => {
+              onChange={setProductInfos}
+              Error={errors?.name || serverError?.errors?.name}
+              callback={() => {
                 setErrors("");
-                setServerErrors("");
+                setServerError("");
               }}
             />
-            <p className="text-sm text-red-700">
-              {errors?.name}
-              {serverErrors?.name}
-            </p>
           </div>
 
           <div>
-            <label
-              className="font-medium text-gray-800 dark:text-white-100"
-              htmlFor="code"
-            >
-              Code
-            </label>
-            <input
-              type="text"
-              placeholder="Product Code"
-              className="border p-2 block w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200 "
+            <Input
+              labelText="code"
+              placeholder="Product code"
               name="code"
-              onChange={setProductInfos}
               value={productInfo?.code}
-              onFocus={() => {
+              onChange={setProductInfos}
+              Error={errors?.code || serverError?.errors?.code}
+              callback={() => {
                 setErrors("");
-                setServerErrors("");
+                setServerError("");
               }}
             />
-            <p className="text-sm text-red-700">{errors?.code}</p>
           </div>
 
           <div>
             <label className="font-medium text-gray-800 dark:text-white-100">
-              Code
+              Brand
             </label>
             <CustomSelect
               options={brands?.data.map((brand) => ({
@@ -131,12 +114,12 @@ export default function AddNewProduct({
                   brandId: selectedOption?.value || "",
                 });
                 setErrors("");
-                setServerErrors("");
+                setServerError("");
               }}
             />
             <p className="text-sm text-red-700">
               {errors?.brandId}
-              {serverErrors?.brandId}
+              {serverError?.brandId}
             </p>
           </div>
 
@@ -155,57 +138,46 @@ export default function AddNewProduct({
                   categoryId: selectedOption?.value || "",
                 });
                 setErrors("");
-                setServerErrors("");
+                setServerError("");
               }}
             />
             <p className="text-sm text-red-700">
               {errors?.brandId}
-              {serverErrors?.brandId}
+              {serverError?.brandId}
             </p>
           </div>
 
           <div>
-            <label className="font-medium text-gray-800 dark:text-white-100">
-              Short Description
-            </label>
-            <input
-              type="text"
-              placeholder="Product Short Decription"
-              className="block w-full border py-2 px-2 rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
+            <Input
+              labelText="shortDescription"
+              placeholder="Short Description"
               name="shortDescription"
-              onChange={setProductInfos}
               value={productInfo?.shortDescription}
-              onFocus={() => {
+              onChange={setProductInfos}
+              Error={
+                errors?.shortDescription ||
+                serverError?.errors?.shortDescription
+              }
+              callback={() => {
                 setErrors("");
-                setServerErrors("");
+                setServerError("");
               }}
             />
-            <p className="text-sm text-red-700">
-              {errors?.shortDescription}
-              {serverErrors?.shortDescription}
-            </p>
           </div>
 
           <div className="col-span-2">
-            <label className="font-medium text-gray-800 dark:text-white-100">
-              Decription
-            </label>
-            <input
-              type="text"
-              placeholder="Product Description"
-              className="block w-full border py-6 px-2 rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
+            <Input
+              labelText="description"
+              placeholder="Description"
               name="description"
-              onChange={setProductInfos}
               value={productInfo?.description}
-              onFocus={() => {
+              onChange={setProductInfos}
+              Error={errors?.description || serverError?.errors?.description}
+              callback={() => {
                 setErrors("");
-                setServerErrors("");
+                setServerError("");
               }}
             />
-            <p className="text-sm text-red-700">
-              {errors?.description}
-              {serverErrors?.description}
-            </p>
           </div>
         </div>
 

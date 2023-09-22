@@ -8,6 +8,7 @@ import discountContext from "../../../../Context/discountContext";
 import { CustomSelect } from "../../../SelectList";
 import useFetch from "../../../../hooks/useFetch";
 import userAxios from "../../../../services/Axios/userInterceptors";
+import Input from "../../Input";
 
 export default function AddProductDiscount({
   setShowProductDiscount,
@@ -25,7 +26,7 @@ export default function AddProductDiscount({
   const [errors, setErrors] = useState(null);
   const [serverErrors, setServerErrors] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const { datas: products } = useFetch("/product/selectList", userAxios);
+  const { datas: products } = useFetch("/product", userAxios);
 
   const setInfoss = (event) => {
     const { name, value } = event.target;
@@ -104,57 +105,29 @@ export default function AddProductDiscount({
           </div>
 
           <div className="col-span-2">
-            <label
-              htmlFor="value"
-              className="block text-gray-800 dark:text-white-100 font-medium text-xs"
-            >
-              discount value
-            </label>
-            <input
+            <Input
               type="number"
-              id="value"
-              name="value"
+              labelText="value"
               placeholder="value"
-              className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
-              onChange={setInfoss}
+              name="value"
               value={infos?.value}
-              onFocus={() => {
-                setErrors("");
-                setServerErrors("");
-              }}
+              onChange={setInfoss}
+              Error={errors?.value || serverErrors?.errors?.value}
+              callback={() => setServerErrors("")}
             />
-
-            <p className="text-red-700 text-xs">
-              {errors?.value}
-              {serverErrors?.errors?.value}
-            </p>
           </div>
 
           <div className="col-span-2">
-            <label
-              htmlFor="quantity"
-              className="block text-gray-800 dark:text-white-100 font-medium text-xs"
-            >
-              quantity
-            </label>
-            <input
+            <Input
               type="number"
-              id="quantity"
-              name="quantity"
+              labelText="quantity"
               placeholder="quantity"
-              className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
-              onChange={setInfoss}
+              name="quantity"
               value={infos?.quantity}
-              onFocus={() => {
-                setErrors("");
-                setServerErrors("");
-              }}
+              onChange={setInfoss}
+              Error={errors?.quantity || serverErrors?.errors?.quantity}
+              callback={() => setServerErrors("")}
             />
-
-            <p className="text-red-700 text-xs">
-              {errors?.quantity}
-              {serverErrors?.errors?.quantity}
-            </p>
           </div>
 
           <div className="mr-2">

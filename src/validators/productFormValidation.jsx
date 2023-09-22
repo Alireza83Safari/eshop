@@ -1,21 +1,21 @@
 export const productFormValidation = (productInfo, errors, setErrors) => {
   const newErrors = { ...errors };
-
+  let errorText = "This field cannot be empty.";
   // Validate each field and update errors
   if (productInfo?.name.length == 0) {
-    newErrors.name = "Name cannot be empty";
+    newErrors.name = errorText;
   } else {
     newErrors.name = "";
   }
 
   if (productInfo.categoryId == 0) {
-    newErrors.categoryId = "Category cannot be empty";
+    newErrors.categoryId = errorText;
   } else {
     newErrors.categoryId = "";
   }
 
   if (productInfo.brandId == "") {
-    newErrors.brandId = "Brand cannot be empty";
+    newErrors.brandId = errorText;
   } else {
     newErrors.brandId = "";
   }
@@ -27,13 +27,13 @@ export const productFormValidation = (productInfo, errors, setErrors) => {
   }
 
   if (productInfo.shortDescription.length == 0) {
-    newErrors.shortDescription = "Short Description cannot be empty";
+    newErrors.shortDescription = errorText;
   } else {
     newErrors.shortDescription = "";
   }
 
   if (productInfo.description.length == 0) {
-    newErrors.description = "Description cannot be empty";
+    newErrors.description = errorText;
   } else {
     newErrors.description = "";
   }

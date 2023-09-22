@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import adminAxios from "../../../../services/Axios/adminInterceptors";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
+import Input from "../../Input";
 
 export default function AddBrandData({
   setAddBrandId,
@@ -58,40 +59,29 @@ export default function AddBrandData({
           }`}
         >
           <div>
-            <label htmlFor="name" className="block font-medium">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
+            <Input
+              labelText="name"
               placeholder="Brand name"
-              className="border 2xl:p-3 p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
-              onChange={setNewBrandHandler}
+              name="name"
+              className="2xl:p-3 p-2 mt-1"
               value={newBrand?.name}
-              onFocus={() => setServerErrors("")}
+              onChange={setNewBrandHandler}
+              Error={serverErrors?.name}
+              callback={() => setServerErrors("")}
             />
-
-            <p className="text-red-700">{serverErrors?.name}</p>
           </div>
 
           <div>
-            <label htmlFor="code" className="block font-medium">
-              Code
-            </label>
-            <input
-              type="text"
-              id="code"
-              name="code"
+            <Input
+              labelText="code"
               placeholder="Brand code"
-              className="border 2xl:p-3 p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
-              onChange={setNewBrandHandler}
+              name="code"
+              className="2xl:p-3 p-2 mt-1"
               value={newBrand?.code}
-              onBlur={() => setServerErrors("")}
-              onFocus={() => setServerErrors("")}
+              onChange={setNewBrandHandler}
+              Error={serverErrors?.code}
+              callback={() => setServerErrors("")}
             />
-
-            <p className="text-red-700">{serverErrors?.code}</p>
           </div>
         </div>
 

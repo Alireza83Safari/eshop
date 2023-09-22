@@ -70,7 +70,7 @@ export default function EditProductFile({ setShowEditFile }) {
   };
 
   return (
-    <form onSubmit={(e) => e.preventDefault()} className=" relative h-full">
+    <form onSubmit={(e) => e.preventDefault()}>
       <div>
         <h2 className="text-center mb-4">Upload images</h2>
         <span className="text-center text-red-700">{serverError}</span>
@@ -93,7 +93,7 @@ export default function EditProductFile({ setShowEditFile }) {
         <div className="flex flex-wrap"></div>
         <form
           method="post"
-          className="flex justify-center container absolute bottom-20"
+          className="flex justify-center container absolute bottom-24"
         >
           <input type="file" onChange={handleImageChange} multiple />
         </form>

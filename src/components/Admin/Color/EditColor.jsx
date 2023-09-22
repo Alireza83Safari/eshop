@@ -4,6 +4,7 @@ import FormSpinner from "../../FormSpinner/FormSpinner";
 import useFetch from "../../../hooks/useFetch";
 import { toast } from "react-toastify";
 import ReactDOM from "react-dom";
+import Input from "../Input";
 export default function EditColor({
   colorEditId,
   fetchData,
@@ -75,68 +76,42 @@ export default function EditColor({
             }`}
           >
             <div>
-              <label
-                htmlFor="name"
-                className="block text-gray-800 dark:text-white-100 font-medium"
-              >
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
+              <Input
+                labelText="Color Name"
+                placeholder="name"
                 name="name"
-                placeholder="color name"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
-                onChange={setEditColorHandler}
                 value={editColor?.name}
-                onFocus={() => setServerErrors("")}
+                onChange={setEditColorHandler}
+                className="2xl:p-3 p-2 mt-1"
+                Error={serverErrors?.name}
+                callback={() => setServerErrors("")}
               />
-
-              <p className="text-red-700">{serverErrors?.name}</p>
             </div>
 
             <div>
-              <label
-                htmlFor="code"
-                className="block text-gray-800 dark:text-white-100 font-medium"
-              >
-                Code
-              </label>
-              <input
-                type="text"
-                id="code"
+              <Input
+                labelText="Color Code"
+                placeholder="code"
                 name="code"
-                placeholder="color code"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
-                onChange={setEditColorHandler}
                 value={editColor?.code}
-                onBlur={() => setServerErrors("")}
-                onFocus={() => setServerErrors("")}
+                onChange={setEditColorHandler}
+                className="2xl:p-3 p-2 mt-1"
+                Error={serverErrors?.code}
+                callback={() => setServerErrors("")}
               />
-
-              <p className="text-red-700">{serverErrors?.code}</p>
             </div>
 
             <div>
-              <label
-                htmlFor="colorHex"
-                className="block text-gray-800 dark:text-white-100 font-medium"
-              >
-                colorHex
-              </label>
-              <input
-                type="text"
-                id="colorHex"
+              <Input
+                labelText="Color Hex"
+                placeholder="hex"
                 name="colorHex"
-                placeholder="colorHex"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
-                onChange={setEditColorHandler}
                 value={editColor?.colorHex}
-                onBlur={() => setServerErrors("")}
-                onFocus={() => setServerErrors("")}
+                onChange={setEditColorHandler}
+                className="2xl:p-3 p-2 mt-1"
+                Error={serverErrors?.colorHex}
+                callback={() => setServerErrors("")}
               />
-
-              <p className="text-red-700">{serverErrors?.colorHex}</p>
             </div>
           </div>
 

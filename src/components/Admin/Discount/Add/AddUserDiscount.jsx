@@ -6,6 +6,7 @@ import { useChangeDate } from "../../../../hooks/useChangeDate";
 import discountContext from "../../../../Context/discountContext";
 import { CustomSelect } from "../../../SelectList";
 import useFetch from "../../../../hooks/useFetch";
+import Input from "../../Input";
 export default function AddUserDiscount({
   setShowUserDiscount,
   setShowSelectDiscount,
@@ -99,30 +100,16 @@ export default function AddUserDiscount({
             </div>
 
             <div className="col-span-2">
-              <label
-                htmlFor="value"
-                className="block text-gray-800 dark:text-white-100 font-medium"
-              >
-                discount value
-              </label>
-              <input
+              <Input
                 type="number"
-                id="value"
-                name="value"
+                labelText="value"
                 placeholder="value"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
-                onChange={setInfoss}
+                name="value"
                 value={infos?.value}
-                onFocus={() => {
-                  setErrors("");
-                  setServerErrors("");
-                }}
+                onChange={setInfoss}
+                Error={errors?.value || serverErrors?.errors?.value}
+                callback={() => setServerErrors("")}
               />
-
-              <p className="text-red-700 text-xs">
-                {errors?.value}
-                {serverErrors?.errors?.value}
-              </p>
             </div>
 
             <div>
@@ -162,7 +149,7 @@ export default function AddUserDiscount({
                 id="expiresIn"
                 name="expiresIn"
                 placeholder="expiresIn"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200 text-sm"
                 onChange={setInfoss}
                 value={infos?.expiresIn}
                 onFocus={() => {
@@ -178,57 +165,28 @@ export default function AddUserDiscount({
             </div>
 
             <div>
-              <label
-                htmlFor="quantity"
-                className="block text-gray-800 dark:text-white-100 font-medium"
-              >
-                quantity
-              </label>
-              <input
+              <Input
                 type="number"
-                id="quantity"
-                name="quantity"
+                labelText="quantity"
                 placeholder="quantity"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
-                onChange={setInfoss}
+                name="quantity"
                 value={infos?.quantity}
-                onFocus={() => {
-                  setErrors("");
-                  setServerErrors("");
-                }}
+                onChange={setInfoss}
+                Error={errors?.quantity || serverErrors?.errors?.quantity}
+                callback={() => setServerErrors("")}
               />
-
-              <p className="text-red-700 text-xs">
-                {errors?.quantity}
-                {serverErrors?.errors?.quantity}
-              </p>
             </div>
 
             <div>
-              <label
-                htmlFor="code"
-                className="block text-gray-800 dark:text-white-100 font-medium"
-              >
-                code
-              </label>
-              <input
-                type="text"
-                id="code"
-                name="code"
+              <Input
+                labelText="code"
                 placeholder="code"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
-                onChange={setInfoss}
+                name="code"
                 value={infos?.code}
-                onFocus={() => {
-                  setErrors("");
-                  setServerErrors("");
-                }}
+                onChange={setInfoss}
+                Error={errors?.code || serverErrors?.errors?.code}
+                callback={() => setServerErrors("")}
               />
-
-              <p className="text-red-700 text-xs">
-                {errors?.code}
-                {serverErrors?.errors?.code}
-              </p>
             </div>
           </div>
 

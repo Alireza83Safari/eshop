@@ -5,11 +5,12 @@ import adminAxios from "../../../services/Axios/adminInterceptors";
 import Spinner from "../../Spinner/Spinner";
 import { CustomSelect } from "../../SelectList";
 import userPanelContext from "../../../Context/userPanelContext";
+import Input from "../Input";
 
 export default function AddUser() {
   const { setShowAddUser, fetchData } = useContext(userPanelContext);
   const [isLoading, setIsLoading] = useState(false);
-  const [serverErrors, aetServerErrors] = useState(null);
+  const [serverErrors, setServerErrors] = useState(null);
   const [userInfos, setUserInfos] = useState({
     firstName: "",
     lastName: "",
@@ -41,7 +42,7 @@ export default function AddUser() {
       }
     } catch (error) {
       setIsLoading(false);
-      aetServerErrors(error?.response?.data);
+      setServerErrors(error?.response?.data);
     }
   };
 
@@ -70,111 +71,66 @@ export default function AddUser() {
             </p>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label
-                  htmlFor="firstName"
-                  className="block  dark:text-white-100 text-gray-800 font-medium"
-                >
-                  firstName
-                </label>
-                <input
-                  type="text"
-                  id="firstName"
+                <Input
+                  labelText="firstName"
+                  placeholder="firstNamee"
                   name="firstName"
-                  placeholder="firstName"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
                   value={userInfos?.firstName}
                   onChange={setUserInfosHandler}
+                  Error={serverErrors?.errors?.firstName}
+                  callback={() => setServerErrors("")}
                 />
-                <p className="text-xs text-red-700">
-                  {serverErrors?.errors?.firstName}
-                </p>
               </div>
 
               <div>
-                <label
-                  htmlFor="lastName"
-                  className="block  dark:text-white-100 text-gray-800 font-medium"
-                >
-                  lastName
-                </label>
-                <input
-                  type="text"
-                  id="lastName"
-                  name="lastName"
+                <Input
+                  labelText="lastName"
                   placeholder="lastName"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
+                  name="lastName"
                   value={userInfos?.lastName}
                   onChange={setUserInfosHandler}
+                  Error={serverErrors?.errors?.lastName}
+                  callback={() => setServerErrors("")}
                 />
-                <p className="text-xs text-red-700">
-                  {serverErrors?.errors?.lastName}
-                </p>
               </div>
 
               <div>
-                <label
-                  htmlFor="username"
-                  className="block  dark:text-white-100 text-gray-800 font-medium"
-                >
-                  username
-                </label>
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
+                <Input
+                  labelText="username"
                   placeholder="username"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
+                  name="username"
                   value={userInfos?.username}
                   onChange={setUserInfosHandler}
+                  Error={serverErrors?.errors?.username}
+                  callback={() => setServerErrors("")}
                 />
-                <p className="text-xs text-red-700">
-                  {serverErrors?.errors?.username}
-                </p>
               </div>
 
               <div>
-                <label
-                  htmlFor="mobile"
-                  className="block  dark:text-white-100 text-gray-800 font-medium"
-                >
-                  mobile
-                </label>
-                <input
+                <Input
                   type="number"
-                  id="mobile"
-                  name="mobile"
+                  labelText="mobile"
                   placeholder="mobile"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
+                  name="mobile"
                   value={userInfos?.mobile}
                   onChange={setUserInfosHandler}
+                  Error={serverErrors?.errors?.mobile}
+                  callback={() => setServerErrors("")}
                 />
-                <p className="text-xs text-red-700">
-                  {serverErrors?.errors?.mobile}
-                </p>
               </div>
 
-              <div className="">
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block  dark:text-white-100 text-gray-800 font-medium"
-                  >
-                    email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="user email"
-                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
-                    value={userInfos?.email}
-                    onChange={setUserInfosHandler}
-                  />
-                  <p className="text-xs text-red-700">
-                    {serverErrors?.errors?.email}
-                  </p>
-                </div>
+              <div>
+                <Input
+                  labelText="email"
+                  placeholder="email"
+                  name="email"
+                  value={userInfos?.email}
+                  onChange={setUserInfosHandler}
+                  Error={serverErrors?.errors?.email}
+                  callback={() => setServerErrors("")}
+                />
               </div>
+
               <div>
                 <label
                   htmlFor="colorId"

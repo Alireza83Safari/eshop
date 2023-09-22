@@ -120,7 +120,10 @@ export default function AddProductFile({ setShowFile }) {
           <button
             type="submit"
             className="w-11/12 py-2 rounded-xl border border-blue-600 md:mx-5 mx-2 outline-none"
-            onClick={() => setShowFile(false)}
+            onClick={() => {
+              setShowFile(false);
+              setShowAddProductModal(false);
+            }}
           >
             Cancel
           </button>

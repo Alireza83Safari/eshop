@@ -5,6 +5,7 @@ import adminAxios from "../../../services/Axios/adminInterceptors";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast } from "react-toastify";
+import Input from "../Input";
 
 export default function AddRoles({ setShowAddRoles }) {
   const [selectedPermissions, setSelectedPermissions] = useState([]);
@@ -86,45 +87,32 @@ export default function AddRoles({ setShowAddRoles }) {
           </div>
           <div className="grid grid-cols-2">
             <div className="py-1 m-1">
-              <label htmlFor="name" className="font-bold">
-                Permission Name
-              </label>
-              <input
+              <Input
+                labelText="Role Name"
+                placeholder="Permission name"
                 name="name"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 value={roleInfos?.name}
-                placeholder="Permission Name"
                 onChange={setRoleValue}
-                onFocus={() => {
-                  setErrors({});
-                  setServerErrors({});
+                Error={errors?.name || serverErrors?.name}
+                callback={() => {
+                  setErrors("");
+                  setServerErrors("");
                 }}
               />
-
-              <p className="text-red-700 text-xs">
-                {errors?.name}
-                {serverErrors?.name}
-              </p>
             </div>
             <div className="py-1 m-1">
-              <label htmlFor="code" className="font-bold">
-                Permission Code
-              </label>
-              <input
+              <Input
+                labelText=" Permission code"
+                placeholder="Permission code"
                 name="code"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 value={roleInfos?.code}
-                placeholder="Permission Code"
                 onChange={setRoleValue}
-                onFocus={() => {
-                  setErrors({});
-                  setServerErrors({});
+                Error={errors?.code || serverErrors?.code}
+                callback={() => {
+                  setErrors("");
+                  setServerErrors("");
                 }}
               />
-
-              <p className="text-red-700 text-xs">
-                {errors?.code} {serverErrors?.code}
-              </p>
             </div>
           </div>
 

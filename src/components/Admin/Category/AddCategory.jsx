@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import FormSpinner from "../../FormSpinner/FormSpinner";
 import { ToastContainer, toast } from "react-toastify";
+import Input from "../Input";
 export default function AddCategory({ fetchData }) {
   const [newCategory, setNewCategory] = useState({
     code: "",
@@ -55,39 +56,29 @@ export default function AddCategory({ fetchData }) {
             }`}
           >
             <div className="mt-3">
-              <label htmlFor="name" className="block font-medium">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
+              <Input
+                labelText="name"
                 placeholder="category name"
-                className="border 2xl:p-3 p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
-                onChange={setNewCategoryHandler}
+                name="name"
+                className="2xl:p-3 p-2 mt-1"
                 value={newCategory?.name}
-                onFocus={() => setServerErrors("")}
+                onChange={setNewCategoryHandler}
+                Error={serverErrors?.name}
+                callback={() => setServerErrors("")}
               />
-              <p className="text-red-700">{serverErrors?.name}</p>
             </div>
 
             <div className="mt-3">
-              <label htmlFor="code" className="block font-medium">
-                Code
-              </label>
-              <input
-                type="text"
-                id="code"
-                name="code"
+              <Input
+                labelText="code"
                 placeholder="category code"
-                className="border 2xl:p-3 p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
-                onChange={setNewCategoryHandler}
+                name="code"
+                className="2xl:p-3 p-2 mt-1"
                 value={newCategory?.code}
-                onBlur={() => setServerErrors("")}
-                onFocus={() => setServerErrors("")}
+                onChange={setNewCategoryHandler}
+                Error={serverErrors?.code}
+                callback={() => setServerErrors("")}
               />
-
-              <p className="text-red-700">{serverErrors?.code}</p>
             </div>
           </div>
 

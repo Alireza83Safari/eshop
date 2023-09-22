@@ -5,6 +5,7 @@ import FormSpinner from "../../FormSpinner/FormSpinner";
 import useFetch from "../../../hooks/useFetch";
 import { toast } from "react-toastify";
 import Spinner from "../../Spinner/Spinner";
+import Input from "../Input";
 
 export default function EditCategory({
   showEditCategory,
@@ -66,7 +67,7 @@ export default function EditCategory({
         showEditCategory ? "visible" : "invisible"
       }`}
     >
-      <div className="w-1/3  bg-white-100  p-5 rounded-xl">
+      <div className="lg:w-[27rem] bg-white-100 p-5 rounded-xl min-h-[23rem]">
         <span className="mb-5 text-xl font-bold flex justify-center">
           Edit Category
         </span>
@@ -79,65 +80,43 @@ export default function EditCategory({
             className="w-full mx-auto p-4 bg-white rounded-lg"
           >
             <div
-              className={` grid grid-cols-1 gap-4 mt-4 ${
-                isLoading && "opacity-20"
-              }`}
+              className={` grid grid-cols-1 gap-4 ${isLoading && "opacity-20"}`}
             >
-              <div className="">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-gray-800 font-medium"
-                  >
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    placeholder="category name"
-                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    onChange={setEditCategoryHandler}
-                    value={editCategory?.name}
-                    onFocus={() => setServerErrors("")}
-                  />
-
-                  <p className="text-red-700">{serverErrors?.name}</p>
-                </div>
+              <div className="mt-3">
+                <Input
+                  labelText="name"
+                  placeholder="category name"
+                  name="name"
+                  value={editCategory?.name}
+                  onChange={setEditCategoryHandler}
+                  Error={serverErrors?.name}
+                  callback={() => setServerErrors("")}
+                />
               </div>
 
-              <div className="">
-                <div>
-                  <label
-                    htmlFor="code"
-                    className="block text-gray-800 font-medium"
-                  >
-                    Code
-                  </label>
-                  <input
-                    type="text"
-                    id="code"
-                    name="code"
-                    placeholder="category code"
-                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    onChange={setEditCategoryHandler}
-                    value={editCategory?.code}
-                    onBlur={() => setServerErrors("")}
-                    onFocus={() => setServerErrors("")}
-                  />
-
-                  <p className="text-red-700">{serverErrors?.code}</p>
-                </div>
+              <div className="mt-3">
+                <Input
+                  labelText="code"
+                  placeholder="category code"
+                  name="code"
+                  value={editCategory?.code}
+                  onChange={setEditCategoryHandler}
+                  Error={serverErrors?.code}
+                  callback={() => setServerErrors("")}
+                />
               </div>
             </div>
 
-            <div className="flex justify-center mt-8">
+            <div
+              className="flex justify-center mt-9
+            "
+            >
               <button
                 type="submit"
                 className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2"
                 onClick={editCategoy}
               >
-                {isLoading ? <FormSpinner /> : "Add Category"}
+                {isLoading ? <FormSpinner /> : "Edit Category"}
               </button>
               <button
                 type="submit"

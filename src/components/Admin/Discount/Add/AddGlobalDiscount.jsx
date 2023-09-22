@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useChangeDate } from "../../../../hooks/useChangeDate";
 import discountContext from "../../../../Context/discountContext";
 import { CustomSelect } from "../../../SelectList";
+import Input from "../../Input";
 
 export default function AddGlobalDiscount({
   setShowGlobalDiscount,
@@ -95,27 +96,16 @@ export default function AddGlobalDiscount({
           </div>
 
           <div>
-            <label htmlFor="value" className="block text-gray-800 font-medium">
-              discount value
-            </label>
-            <input
+            <Input
               type="number"
-              id="value"
-              name="value"
+              labelText="value"
               placeholder="value"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
-              onChange={setInfoss}
+              name="value"
               value={infos?.value}
-              onFocus={() => {
-                setErrors("");
-                setServerErrors("");
-              }}
+              onChange={setInfoss}
+              Error={errors?.value || serverErrors?.errors?.value}
+              callback={() => setServerErrors("")}
             />
-
-            <p className="text-red-700 text-xs">
-              {errors?.value}
-              {serverErrors?.errors?.value}
-            </p>
           </div>
 
           <div>
@@ -146,30 +136,16 @@ export default function AddGlobalDiscount({
           </div>
 
           <div>
-            <label
-              htmlFor="quantity"
-              className="block text-gray-800 font-medium"
-            >
-              quantity
-            </label>
-            <input
+            <Input
               type="number"
-              id="quantity"
-              name="quantity"
+              labelText="quantity"
               placeholder="quantity"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
-              onChange={setInfoss}
+              name="quantity"
               value={infos?.quantity}
-              onFocus={() => {
-                setErrors("");
-                setServerErrors("");
-              }}
+              onChange={setInfoss}
+              Error={errors?.quantity || serverErrors?.errors?.quantity}
+              callback={() => setServerErrors("")}
             />
-
-            <p className="text-red-700 text-xs">
-              {errors?.quantity}
-              {serverErrors?.errors?.quantity}
-            </p>
           </div>
         </div>
         <div className="flex justify-center sm:mt-4 mt-5 2xl:mt-10">

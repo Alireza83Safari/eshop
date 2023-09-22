@@ -8,6 +8,7 @@ import useFetch from "../../../../hooks/useFetch";
 import { useChangeToInputDate } from "../../../../hooks/useChangeToInputDate";
 import { useChangeDate } from "../../../../hooks/useChangeDate";
 import { CustomSelect } from "../../../SelectList";
+import Input from "../../Input";
 
 export default function EditDiscount({
   setShowEditDiscount,
@@ -123,24 +124,15 @@ export default function EditDiscount({
           >
             {!haveProductItemId?.length && (
               <div>
-                <label
-                  htmlFor="code"
-                  className="block text-gray-800 font-medium"
-                >
-                  Code
-                </label>
-                <input
-                  type="text"
-                  id="code"
+                <Input
+                  labelText="code"
+                  placeholder="code"
                   name="code"
-                  placeholder="discount code"
-                  className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
-                  onChange={setEditDiscountHandler}
                   value={editDiscount?.code}
-                  onFocus={() => setServerErrors("")}
+                  onChange={setEditDiscountHandler}
+                  Error={serverErrors?.errors?.code}
+                  callback={() => setServerErrors("")}
                 />
-
-                <p className="text-red-700">{serverErrors?.errors?.code}</p>
               </div>
             )}
             <div>
@@ -194,24 +186,16 @@ export default function EditDiscount({
               </div>
             )}
             <div>
-              <label
-                htmlFor="quantity"
-                className="block text-gray-800 font-medium"
-              >
-                quantity
-              </label>
-              <input
+              <Input
                 type="number"
-                id="quantity"
-                name="quantity"
+                labelText="quantity"
                 placeholder="quantity"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
-                onChange={setEditDiscountHandler}
+                name="quantity"
                 value={editDiscount?.quantity}
-                onFocus={() => setServerErrors("")}
+                onChange={setEditDiscountHandler}
+                Error={serverErrors?.errors?.quantity}
+                callback={() => setServerErrors("")}
               />
-
-              <p className="text-red-700">{serverErrors?.errors?.quantity}</p>
             </div>
 
             {!haveProductItemId?.length && haveProductUser && (
@@ -246,42 +230,27 @@ export default function EditDiscount({
             )}
 
             <div>
-              <label htmlFor="type" className="block text-gray-800 font-medium">
-                type
-              </label>
-              <input
-                type="text"
-                id="type"
-                name="type"
+              <Input
+                labelText="type"
                 placeholder="type"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
-                onChange={setEditDiscountHandler}
+                name="type"
                 value={editDiscount?.type}
-                onFocus={() => setServerErrors("")}
+                onChange={setEditDiscountHandler}
+                Error={serverErrors?.errors?.type}
+                callback={() => setServerErrors("")}
               />
-
-              <p className="text-red-700">{serverErrors?.errors?.type}</p>
             </div>
 
             <div>
-              <label
-                htmlFor="value"
-                className="block text-gray-800 font-medium"
-              >
-                value
-              </label>
-              <input
-                type="text"
-                id="value"
-                name="value"
+              <Input
+                labelText="value"
                 placeholder="value"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
-                onChange={setEditDiscountHandler}
+                name="value"
                 value={editDiscount?.value}
-                onFocus={() => setServerErrors("")}
+                onChange={setEditDiscountHandler}
+                Error={serverErrors?.errors?.value}
+                callback={() => setServerErrors("")}
               />
-
-              <p className="text-red-700">{serverErrors?.errors?.value}</p>
             </div>
           </div>
 

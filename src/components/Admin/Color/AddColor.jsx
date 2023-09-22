@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { HexColorPicker } from "react-colorful";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
+import Input from "../Input";
 
 export default function AddColor() {
   const [isLoading, setLoading] = useState(false);
@@ -32,6 +33,11 @@ export default function AddColor() {
         toast.success("color is created");
         setServerErrors("");
         setShowColorPicker(false);
+        setNewColor({
+          code: "",
+          name: "",
+          colorHex: "",
+        });
       }
     } catch (error) {
       setServerErrors(error?.response?.data?.errors);
@@ -55,37 +61,29 @@ export default function AddColor() {
           }`}
         >
           <div className="mt-3">
-            <label htmlFor="name" className="block font-medium">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
+            <Input
+              labelText="Color Name"
+              placeholder="name"
               name="name"
-              placeholder="color name"
-              className="border 2xl:p-3 p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
-              onChange={setNewColorHandler}
               value={newColor?.name}
-              onFocus={() => setServerErrors("")}
+              onChange={setNewColorHandler}
+              className="2xl:p-3 p-2 mt-1"
+              Error={serverErrors?.name}
+              callback={() => setServerErrors("")}
             />
-
-            <p className="text-red-700">{serverErrors?.name}</p>
           </div>
           <div className="relative mt-3">
-            <label htmlFor="colorHex" className="block font-medium">
-              Color Hex
-            </label>
-            <input
-              type="text"
-              id="colorHex"
+            <Input
+              labelText="Color Hex"
+              placeholder="hex"
               name="colorHex"
-              placeholder="colorHex"
-              className="border 2xl:p-3 p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
-              onChange={setNewColorHandler}
               value={newColor?.colorHex}
-              onBlur={() => setServerErrors("")}
-              onFocus={() => setServerErrors("")}
+              onChange={setNewColorHandler}
+              className="2xl:p-3 p-2 mt-1"
+              Error={serverErrors?.colorHex}
+              callback={() => setServerErrors("")}
             />
+
             <button
               className=" absolute right-0 top-9"
               onClick={() => setShowColorPicker(true)}
@@ -112,25 +110,18 @@ export default function AddColor() {
                 }
               />
             </div>
-            <p className="text-red-700">{serverErrors?.colorHex}</p>
           </div>
           <div className="mt-3">
-            <label htmlFor="code" className="block font-medium">
-              Code
-            </label>
-            <input
-              type="text"
-              id="code"
+            <Input
+              labelText="Color Code"
+              placeholder="code"
               name="code"
-              placeholder="color code"
-              className="border 2xl:p-3 p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
-              onChange={setNewColorHandler}
               value={newColor?.code}
-              onBlur={() => setServerErrors("")}
-              onFocus={() => setServerErrors("")}
+              onChange={setNewColorHandler}
+              className="2xl:p-3 p-2 mt-1"
+              Error={serverErrors?.code}
+              callback={() => setServerErrors("")}
             />
-
-            <p className="text-red-700">{serverErrors?.code}</p>
           </div>
         </div>
 

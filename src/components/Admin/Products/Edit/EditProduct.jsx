@@ -16,7 +16,7 @@ export default function EditProduct() {
         showEditModal ? "visible" : "invisible"
       }`}
     >
-      <div className="lg:w-[30rem] h-[33rem] bg-white-100 dark:bg-black-200  p-5 rounded-xl relative">
+      <div className="lg:w-[30rem] min-h-[31rem] bg-white-100 dark:bg-black-200 rounded-xl relative">
         <Suspense fallback={<div>Loading...</div>}>
           {showEditProduct && (
             <EditProductData

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Select from "react-select";
 
 const globalCustomStyles = (theme) => ({
@@ -39,32 +39,23 @@ export function CustomSelect({
   name,
   defaultValue,
 }) {
-  const theme = localStorage.getItem("theme");
-  const styles = globalCustomStyles(theme);
-
+  const theme = useMemo(() => {
+    return localStorage.getItem("theme"); // You need to return the value
+  }, []);
+  const styles = useMemo(() => {
+    return globalCustomStyles(theme); // You need to return the value
+  }, [theme]);
+  const isMulti = type === "multiple";
   return (
-    <>
-      {type === "multiple" ? (
-        <Select
-          options={options}
-          styles={styles}
-          onChange={onchange}
-          placeholder={placeholder}
-          isSearchable={true}
-          name={name}
-          value={defaultValue}
-          isMulti
-        />
-      ) : (
-        <Select
-          options={options}
-          styles={styles}
-          onChange={onchange}
-          placeholder={placeholder}
-          isSearchable={true}
-          value={defaultValue}
-        />
-      )}
-    </>
+    <Select
+      options={options}
+      styles={styles}
+      onChange={onchange}
+      placeholder={placeholder}
+      isSearchable={true}
+      name={name}
+      value={defaultValue}
+      isMulti={isMulti}
+    />
   );
 }

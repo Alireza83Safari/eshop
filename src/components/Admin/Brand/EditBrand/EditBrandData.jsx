@@ -3,6 +3,7 @@ import adminAxios from "../../../../services/Axios/adminInterceptors";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
 import useFetch from "../../../../hooks/useFetch";
 import { toast } from "react-toastify";
+import Input from "../../Input";
 
 export default function EditBrandData({
   setShowEditBrandData,
@@ -60,7 +61,7 @@ export default function EditBrandData({
   };
 
   return (
-    <div className="w-1/3 bg-white-100 py-6 rounded-xl">
+    <>
       <span className="mb-5 text-xl font-bold flex justify-center">
         Edit Brand
       </span>
@@ -70,49 +71,36 @@ export default function EditBrandData({
         className="w-full mx-auto bg-white rounded-lg"
       >
         <div
-          className={` grid grid-cols-1 gap-4 mt-4 ${
+          className={` grid grid-cols-1 gap-6 mt-4 ${
             isLoading && brandLoading && "opacity-10"
           }`}
         >
           <div>
-            <label htmlFor="name" className="block text-gray-800 font-medium">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
+            <Input
+              labelText="name"
               placeholder="brand name"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-              onChange={setEditBrandHandler}
+              name="name"
               value={editBrand?.name}
-              onFocus={() => setServerErrors("")}
+              onChange={setEditBrandHandler}
+              Error={serverErrors?.name}
+              callback={() => setServerErrors("")}
             />
-
-            <p className="text-red-700">{serverErrors?.name}</p>
           </div>
 
           <div>
-            <label htmlFor="code" className="block text-gray-800 font-medium">
-              Code
-            </label>
-            <input
-              type="text"
-              id="code"
-              name="code"
+            <Input
+              labelText="code"
               placeholder="brand code"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-              onChange={setEditBrandHandler}
+              name="code"
               value={editBrand?.code}
-              onBlur={() => setServerErrors("")}
-              onFocus={() => setServerErrors("")}
+              onChange={setEditBrandHandler}
+              Error={serverErrors?.code}
+              callback={() => setServerErrors("")}
             />
-
-            <p className="text-red-700">{serverErrors?.code}</p>
           </div>
         </div>
 
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center mt-10">
           <button
             type="submit"
             className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2"
@@ -131,6 +119,6 @@ export default function EditBrandData({
           </button>
         </div>
       </form>
-    </div>
+    </>
   );
 }

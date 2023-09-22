@@ -24,5 +24,11 @@ export const itemValidation = (productItemInfo, errors, setErrors) => {
   } else {
     newErrors.quantity = "";
   }
+
+  if (productItemInfo.isMainItem.length == 0) {
+    newErrors.isMainItem = "isMainItem cannot be empty";
+  } else {
+    newErrors.isMainItem = "";
+  }
   setErrors(newErrors);
 };

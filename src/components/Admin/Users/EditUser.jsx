@@ -6,11 +6,12 @@ import Spinner from "../../Spinner/Spinner";
 import { CustomSelect } from "../../SelectList";
 import { useContext } from "react";
 import userPanelContext from "../../../Context/userPanelContext";
+import Input from "../Input";
 
 export default function EditUser() {
   const { setShowEditUser, showEditUser, editUserID, fetchData } =
     useContext(userPanelContext);
-
+  const [serverErrors, setServerErrors] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [roleName, setRoleName] = useState(null);
   const [userInfos, setUserInfos] = useState({
@@ -65,6 +66,7 @@ export default function EditUser() {
       }
     } catch (error) {
       setIsLoading(false);
+      setServerErrors(error?.response?.data);
     }
   };
 
@@ -89,95 +91,64 @@ export default function EditUser() {
           >
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label
-                  htmlFor="firstName"
-                  className="block text-gray-800 font-medium"
-                >
-                  firstName
-                </label>
-                <input
-                  type="text"
-                  id="firstName"
+                <Input
+                  labelText="firstName"
+                  placeholder="firstNamee"
                   name="firstName"
-                  placeholder="firstName"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
                   value={userInfos?.firstName}
                   onChange={setUserInfosHandler}
+                  Error={serverErrors?.errors?.firstName}
+                  callback={() => setServerErrors("")}
                 />
               </div>
 
               <div>
-                <label
-                  htmlFor="lastName"
-                  className="block text-gray-800 font-medium"
-                >
-                  lastName
-                </label>
-                <input
-                  type="text"
-                  id="lastName"
-                  name="lastName"
+                <Input
+                  labelText="lastName"
                   placeholder="lastName"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  name="lastName"
                   value={userInfos?.lastName}
                   onChange={setUserInfosHandler}
+                  Error={serverErrors?.errors?.lastName}
+                  callback={() => setServerErrors("")}
                 />
               </div>
 
               <div>
-                <label
-                  htmlFor="username"
-                  className="block text-gray-800 font-medium"
-                >
-                  username
-                </label>
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
+                <Input
+                  labelText="username"
                   placeholder="username"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  name="username"
                   value={userInfos?.username}
                   onChange={setUserInfosHandler}
+                  Error={serverErrors?.errors?.username}
+                  callback={() => setServerErrors("")}
                 />
               </div>
 
               <div>
-                <label
-                  htmlFor="mobile"
-                  className="block text-gray-800 font-medium"
-                >
-                  mobile
-                </label>
-                <input
+                <Input
                   type="number"
-                  id="mobile"
-                  name="mobile"
+                  labelText="mobile"
                   placeholder="mobile"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  name="mobile"
                   value={userInfos?.mobile}
                   onChange={setUserInfosHandler}
+                  Error={serverErrors?.errors?.mobile}
+                  callback={() => setServerErrors("")}
                 />
               </div>
 
-              <div className="">
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-gray-800 font-medium"
-                  >
-                    email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="user email"
-                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
-                    value={userInfos?.email}
-                    onChange={setUserInfosHandler}
-                  />
-                </div>
+              <div>
+                <Input
+                  labelText="email"
+                  placeholder="email"
+                  name="email"
+                  value={userInfos?.email}
+                  onChange={setUserInfosHandler}
+                  Error={serverErrors?.errors?.email}
+                  callback={() => setServerErrors("")}
+                />
               </div>
               <div>
                 <label

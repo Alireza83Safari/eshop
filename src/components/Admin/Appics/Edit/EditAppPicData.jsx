@@ -3,6 +3,7 @@ import adminAxios from "../../../../services/Axios/adminInterceptors";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
 import useFetch from "../../../../hooks/useFetch";
 import Spinner from "../../../Spinner/Spinner";
+import Input from "../../Input";
 
 export default function EditAppPicData({
   editAppPicId,
@@ -80,80 +81,55 @@ export default function EditAppPicData({
             }`}
           >
             <div>
-              <label htmlFor="url" className="block font-medium">
-                url
-              </label>
-              <input
-                type="text"
-                id="url"
-                name="url"
+              <Input
+                labelText="url"
                 placeholder="AppPic url"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
-                onChange={setEditAppPicHandler}
+                name="url"
                 value={editAppPic?.url}
-                onBlur={() => setServerErrors("")}
-                onFocus={() => setServerErrors("")}
+                onChange={setEditAppPicHandler}
+                className="2xl:p-3 p-2 mt-1"
+                Error={serverErrors?.url}
+                callback={() => setServerErrors("")}
               />
-
-              <p className="text-red-700">{serverErrors?.url}</p>
             </div>
 
             <div>
-              <label htmlFor="priority" className="block font-medium">
-                priority
-              </label>
-              <input
-                type="number"
-                id="priority"
-                name="priority"
+              <Input
+                labelText="priority"
                 placeholder="AppPic priority"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
-                onChange={setEditAppPicHandler}
+                name="priority"
                 value={editAppPic?.priority}
-                onBlur={() => setServerErrors("")}
-                onFocus={() => setServerErrors("")}
-              />
-
-              <p className="text-red-700">{serverErrors?.priority}</p>
-            </div>
-
-            <div className="col-span-2">
-              <div>
-                <label htmlFor="title" className="block font-medium">
-                  title
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  name="title"
-                  placeholder="AppPic title"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
-                  onChange={setEditAppPicHandler}
-                  value={editAppPic?.title}
-                  onFocus={() => setServerErrors("")}
-                />
-
-                <p className="text-red-700">{serverErrors?.title}</p>
-              </div>
-            </div>
-
-            <div className="col-span-2">
-              <label htmlFor="description" className="block font-medium">
-                description
-              </label>
-              <input
-                type="text"
-                id="description"
-                name="description"
-                placeholder="AppPic description"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
                 onChange={setEditAppPicHandler}
-                value={editAppPic?.description}
-                onBlur={() => setServerErrors("")}
-                onFocus={() => setServerErrors("")}
+                className="2xl:p-3 p-2 mt-1"
+                Error={serverErrors?.priority}
+                callback={() => setServerErrors("")}
               />
+            </div>
 
-              <p className="text-red-700">{serverErrors?.description}</p>
+            <div className="col-span-2">
+              <Input
+                labelText="title"
+                placeholder="AppPic title"
+                name="title"
+                value={editAppPic?.title}
+                onChange={setEditAppPicHandler}
+                className="2xl:p-3 p-2 mt-1"
+                Error={serverErrors?.title}
+                callback={() => setServerErrors("")}
+              />
+            </div>
+
+            <div className="col-span-2">
+              <Input
+                labelText="description"
+                placeholder="AppPic Description"
+                name="description"
+                value={editAppPic?.description}
+                onChange={setEditAppPicHandler}
+                className="2xl:p-3 p-2 mt-1"
+                Error={serverErrors?.description}
+                callback={() => setServerErrors("")}
+              />
             </div>
           </div>
         )}

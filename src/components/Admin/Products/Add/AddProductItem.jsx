@@ -5,29 +5,30 @@ import adminAxios from "../../../../services/Axios/adminInterceptors";
 import { itemValidation } from "../../../../validators/itemValidation";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
 import { CustomSelect } from "../../../SelectList";
+import Input from "../../Input";
 
 export default function AddProductItem({
   setShowProductFeature,
   setShowProductItem,
 }) {
-  const { fetchProductList, newProductId } = useContext(ProductsPanelContext);
+  const { fetchProductList, newProductId, setShowAddProductModal } =
+    useContext(ProductsPanelContext);
 
-  const [errors, setErrors] = useState();
+  const [errors, setErrors] = useState(null);
+  const [serverError, setServerError] = useState(null);
   const [productItemInfo, setProductItemInfo] = useState({
-    status: null,
-    price: null,
-    colorId: null,
-    quantity: null,
-    isMainItem: null,
+    status: "",
+    price: "",
+    colorId: "",
+    quantity: "",
+    isMainItem: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const { datas: colors } = useFetch("/color", adminAxios);
-
   const addItem = async (event) => {
     event.preventDefault();
 
     itemValidation(productItemInfo, errors, setErrors);
-    setIsLoading(true);
 
     let productItem = {
       colorId: productItemInfo?.colorId[0],
@@ -37,6 +38,7 @@ export default function AddProductItem({
       quantity: Number(productItemInfo?.quantity),
       status: Number(productItemInfo?.status),
     };
+    setIsLoading(true);
     try {
       const response = await adminAxios.post(`/productItem`, productItem);
       setIsLoading(false);
@@ -46,7 +48,7 @@ export default function AddProductItem({
         fetchProductList();
       }
     } catch (error) {
-      console.error(error);
+      setServerError(error?.response?.data);
       setIsLoading(false);
     }
   };
@@ -57,6 +59,7 @@ export default function AddProductItem({
       [event.target.name]: event.target.value,
     });
   };
+
   return (
     <>
       <span className="mb-5 text-xl font-bold flex justify-center">
@@ -93,48 +96,38 @@ export default function AddProductItem({
                 }}
                 type="multiple"
               />
-
               <p className="text-red-700">{errors?.colorId}</p>
             </div>
 
             <div>
-              <label
-                htmlFor="price"
-                className="block text-gray-800 dark:text-white-100 font-medium"
-              >
-                Price
-              </label>
-              <input
+              <Input
                 type="number"
-                id="price"
+                labelText="price"
+                placeholder="Product price"
                 name="price"
-                placeholder="Product Price"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
-                onChange={setProductItemInfos}
                 value={productItemInfo?.price}
+                onChange={setProductItemInfos}
+                Error={errors?.price || serverError?.errors?.price}
+                callback={() => {
+                  setErrors("");
+                  setServerError("");
+                }}
               />
-
-              <p className="text-red-700">{errors?.price}</p>
             </div>
 
             <div>
-              <label
-                htmlFor="quantity"
-                className="block text-gray-800 dark:text-white-100 font-medium"
-              >
-                Quantity
-              </label>
-              <input
-                type="number"
-                id="quantity"
+              <Input
+                labelText="quantity"
+                placeholder="Product quantity"
                 name="quantity"
-                placeholder="Product Quantity"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
-                onChange={setProductItemInfos}
                 value={productItemInfo?.quantity}
+                onChange={setProductItemInfos}
+                Error={errors?.quantity || serverError?.errors?.quantity}
+                callback={() => {
+                  setErrors("");
+                  setServerError("");
+                }}
               />
-
-              <p className="text-red-700">{errors?.quantity}</p>
             </div>
             <div>
               <label
@@ -194,7 +187,10 @@ export default function AddProductItem({
           <button
             type="submit"
             className="w-full py-2 rounded-xl mr-2 border dark:text-white-100"
-            onClick={() => setShowProductItem(false)}
+            onClick={() => {
+              setShowProductItem(false);
+              setShowAddProductModal(false);
+            }}
           >
             Cancel
           </button>
