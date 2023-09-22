@@ -17,7 +17,7 @@ export default function CommentsTable() {
     fetchData,
   } = useFetchPagination(url, adminAxios);
   const pagesCount = Math.ceil(total / pageSize);
-  const { isLoading } = usePaginationURL(currentPage, pageSize, url);
+  const { isLoading } = usePaginationURL(currentPage, pageSize);
 
   const commentStatusHandler = async (productId, statusCode) => {
     const statusInfo = {
@@ -40,38 +40,34 @@ export default function CommentsTable() {
     <>
       <table className="min-w-full">
         <thead>
-          <tr className="sm:text-xs text-[12px] 2xl:text-lg grid lg:grid-cols-6 sm:grid-cols-5 grid-cols-4 border-b sm:py-2 py-3">
+          <tr className="sm:text-xs text-[12px] 2xl:text-lg grid lg:grid-cols-6 grid-cols-5 border-y py-2">
             <th>User</th>
             <th>Comment</th>
             <th>Product</th>
             <th className="lg:inline hidden">Date</th>
-            <th className="sm:inline hidden">rate</th>
+            <th className="">rate</th>
             <th>Status</th>
           </tr>
         </thead>
         {paginationLodaing || isLoading ? (
           <Spinner />
-        ) : (
+        ) : paginations?.length >= 1 ? (
           <tbody>
             {paginations?.map((comment) => (
               <tr
-                className="sm:text-xs text-[10px] 2xl:text-sm grid lg:grid-cols-6 sm:grid-cols-5 grid-cols-4 sm:px-4 sm:py- py-3"
+                className="sm:text-xs text-[10px] 2xl:text-sm grid lg:grid-cols-6 grid-cols-5 sm:px-4 sm:py- py-3 text-center"
                 key={comment.id}
               >
-                <td className="truncate">
-                  <p className="font-bold">{comment.username}</p>
-                </td>
+                <td className="truncate font-bold">{comment.username}</td>
 
                 <td className="text-ellipsis overflow-hidden truncate">
                   {comment.text}
                 </td>
-                <td className="overflow-auto truncate">
-                  {comment.productName}
-                </td>
+                <td className="truncate">{comment.productName}</td>
                 <td className="lg:inline hidden">
                   {comment.createdAt.slice(0, 10)}
                 </td>
-                <td className="sm:inline hidden">{comment.rate}/5</td>
+                <td className="">{comment.rate}/5</td>
                 <td>
                   {(() => {
                     switch (comment.commentStatus) {
@@ -116,6 +112,15 @@ export default function CommentsTable() {
               </tr>
             ))}
           </tbody>
+        ) : (
+          <div className="flex justify-center items-center mt-32">
+            <div>
+              <img src="/images/not-found-product.svg" alt="" />
+              <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
+                Comment Not Found
+              </p>
+            </div>
+          </div>
         )}
       </table>
       <Pagination

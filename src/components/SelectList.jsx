@@ -7,12 +7,27 @@ const globalCustomStyles = (theme) => ({
     border: state.isFocused ? "1px solid #2762EB" : "1px solid #C7C7D1",
     borderRadius: "8px",
     padding: "2px px 2px 3px",
+    backgroundColor: theme === "dark" ? "#2E2C3A" : "#FFFFFF",
     boxShadow: "none",
-    backgroundColor: theme === "dark" ? "2E2C3A" : "FFFFFF",
+    color: theme === "dark" ? "#FFFFFF" : "#2E2C3A",
   }),
   placeholder: (provided) => ({
     ...provided,
     fontSize: "14px",
+    color: theme === "dark" ? "#FFFFFF" : "#2E2C3A",
+  }),
+  option: (provided) => ({
+    ...provided,
+    backgroundColor: theme === "dark" ? "#2E2C3A" : "#FFFFFF",
+    color: theme === "dark" ? "#FFFFFF" : "#2E2C3A",
+  }),
+  multiValueLabel: (provided) => ({
+    ...provided,
+    color: theme === "dark" ? "#FFFFFF" : "#2E2C3A",
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    color: theme === "dark" ? "#FFFFFF" : "#2E2C3A",
   }),
 });
 

@@ -4,6 +4,7 @@ import route from "./routes/routes";
 import "./App.css";
 import AuthContext from "./Context/AuthContext";
 import userAxios from "./services/Axios/userInterceptors";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const routes = useRoutes(route);

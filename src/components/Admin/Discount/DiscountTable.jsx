@@ -42,17 +42,17 @@ export default function DiscountTable() {
   return (
     <>
       <table
-        className={`min-w-full bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-xl md:h-[37rem] h-[34rem] relative ${
+        className={`min-w-full bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-xl 2xl:h-[50rem] md:h-[37rem] h-[34rem] relative ${
           isLoading && "opacity-20"
         }`}
       >
         <thead>
-          <tr className="md:text-sm sm:text-xs text-[10px] text-center border-b grid grid-cols-5">
-            <th className="py-3">NO</th>
-            <th className="py-3">discount</th>
-            <th className="py-3">quantity</th>
-            <th className="py-3">CreatedAt</th>
-            <th className="py-3">Actions</th>
+          <tr className="md:text-sm sm:text-xs text-[10px] text-center border-b grid sm:grid-cols-5 grid-cols-4">
+            <th className="2xl:py-4 py-3 sm:inline hidden">NO</th>
+            <th className="2xl:py-4 py-3">discount</th>
+            <th className="2xl:py-4 py-3">quantity</th>
+            <th className="2xl:py-4 py-3">CreatedAt</th>
+            <th className="2xl:py-4 py-3">Actions</th>
           </tr>
         </thead>
         {paginatedProductsLoading || paginationLoading || isLoading ? (
@@ -61,20 +61,19 @@ export default function DiscountTable() {
           <tbody>
             {paginations?.map((discount, index) => (
               <tr
-                className="md:text-sm sm:text-xs text-[10px] text-center grid grid-cols-5"
+                className="2xl:text-lg md:text-sm sm:text-xs text-[10px] text-center grid sm:grid-cols-5 grid-cols-4"
                 key={discount + 1}
               >
-                <td className="py-3">
-                  {" "}
+                <td className="2xl:py-4 py-3 sm:inline hidden">
                   {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
                 </td>
-                <td className="py-3 truncate">{discount?.value}%</td>
-                <td className="py-3 truncate">{discount?.quantity}</td>
+                <td className="2xl:py-4 py-3 truncate">{discount?.value}%</td>
+                <td className="2xl:py-4 py-3 truncate">{discount?.quantity}</td>
 
-                <td className="py-3 truncate">
+                <td className="2xl:py-4 py-3 truncate">
                   {discount?.createdAt?.slice(0, 10)}
                 </td>
-                <td className="py-3 truncate space-x-2">
+                <td className="2xl:py-4 py-3 truncate space-x-2">
                   <button
                     onClick={() => {
                       setShowEditDiscount(true);

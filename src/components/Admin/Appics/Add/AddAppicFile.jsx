@@ -59,7 +59,9 @@ export default function AddAppPicFile({
           Upload Image
         </label>
         <p className="text-xs text-red-700">{serverErrors}</p>
-        <input type="file" onChange={imageHandler} className="mt-28" />
+        <div className=" flex justify-center">
+          <input type="file" onChange={imageHandler} className="mt-28" />
+        </div>
       </div>
       <div className="flex justify-center mt-36">
         <button

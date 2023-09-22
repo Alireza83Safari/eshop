@@ -7,6 +7,7 @@ export const useFetchPagination = (url, customAxios) => {
   const [paginations, setPaginations] = useState([]);
   const [total, setTotal] = useState(null);
   const searchParams = new URLSearchParams(location.search);
+  const searchTerm = searchParams.get("searchTerm");
   const categoryId = searchParams.get("categoryId");
   const brandId = searchParams.get("brandId");
   const order = searchParams.get("order");
@@ -15,6 +16,7 @@ export const useFetchPagination = (url, customAxios) => {
 
   const fetchData = () => {
     let URL = `${url}${location.search}`;
+    if (searchTerm) URL += `&searchTerm=${searchTerm}`;
     if (categoryId) URL += `&categoryId=${categoryId}`;
     if (brandId) URL += `&brandId=${brandId}`;
     if (order) URL += `&order=${order}`;
@@ -22,16 +24,14 @@ export const useFetchPagination = (url, customAxios) => {
     if (maxPrice) URL += `&maxPrice=${maxPrice}`;
 
     setLoading(true);
-    setTimeout(() => {
-      customAxios
-        .get(URL)
-        .then((res) => {
-          setLoading(false);
-          setPaginations(res?.data?.data);
-          setTotal(res?.data?.total);
-        })
-        .catch((err) => setLoading(err));
-    }, 1000);
+    customAxios
+      .get(URL)
+      .then((res) => {
+        setLoading(false);
+        setPaginations(res?.data?.data);
+        setTotal(res?.data?.total);
+      })
+      .catch((err) => setLoading(err));
   };
 
   useEffect(() => {

@@ -47,20 +47,20 @@ export default function AddAppPicData({
 
   return (
     <div>
-      <span className="my-2 text-xl font-bold flex justify-center">
+      <span className="my-1 font-bold flex justify-center 2xl:text-2xl sm:text-xl text-[16px]">
         Add New AppPic
       </span>
 
       <form
         onSubmit={addNewAppPicHandler}
-        className="w-full mx-auto p-4 bg-white rounded-lg"
+        className="w-full mx-auto sm:p-4 p-1 bg-white rounded-lg sm:text-base text-sm"
       >
         <div
-          className={` grid grid-cols-2 gap-4 mt-4 ${
+          className={` grid grid-cols-2 gap-4 2xl:gap-y-7 mt-4 2xl:mt-5 ${
             isLoading && "opacity-20"
           }`}
         >
-          <div>
+          <div className="sm:col-span-1 col-span-2">
             <label htmlFor="url" className="block font-medium">
               url
             </label>
@@ -69,7 +69,7 @@ export default function AddAppPicData({
               id="url"
               name="url"
               placeholder="AppPic url"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
+              className="border 2xl:p-3 p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
               onChange={setNewAppPicHandler}
               value={newAppPic?.url}
               onBlur={() => setServerErrors("")}
@@ -79,7 +79,7 @@ export default function AddAppPicData({
             <p className="text-red-700 text-xs">{serverErrors?.url}</p>
           </div>
 
-          <div>
+          <div className="sm:col-span-1 col-span-2">
             <label htmlFor="priority" className="block font-medium">
               priority
             </label>
@@ -88,7 +88,7 @@ export default function AddAppPicData({
               id="priority"
               name="priority"
               placeholder="AppPic priority"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
+              className="border 2xl:p-3 p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
               onChange={setNewAppPicHandler}
               value={newAppPic?.priority}
               onBlur={() => setServerErrors("")}
@@ -108,7 +108,7 @@ export default function AddAppPicData({
                 id="title"
                 name="title"
                 placeholder="AppPic title"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
+                className="border 2xl:p-3 p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
                 onChange={setNewAppPicHandler}
                 value={newAppPic?.title}
                 onFocus={() => setServerErrors("")}
@@ -127,7 +127,7 @@ export default function AddAppPicData({
               id="description"
               name="description"
               placeholder="AppPic description"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
+              className="border 2xl:p-3 p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
               onChange={setNewAppPicHandler}
               value={newAppPic?.description}
               onBlur={() => setServerErrors("")}
@@ -138,10 +138,10 @@ export default function AddAppPicData({
           </div>
         </div>
 
-        <div className="flex justify-center mt-10">
+        <div className="flex justify-center sm:mt-10 mt-5">
           <button
             type="submit"
-            className={`bg-blue-600 text-white-100 w-full py-2 rounded-xl ${
+            className={`bg-blue-600 text-white-100 w-full  2xl:p-3 p-2  rounded-xl ${
               isLoading && "py-5"
             }`}
           >

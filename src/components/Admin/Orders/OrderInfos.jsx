@@ -1,11 +1,11 @@
 const OrderInfos = ({ tax, income, netProfit }) => {
   const DataSection = ({ label, value, color }) => (
-    <div className="bg-white-100 dark:bg-black-200 md:py-4 py-2 rounded-xl mt-6 text-center col-span-1 md:mx-5 mx-2">
-      <span className="font-bold text-[10px] md:text-xs xl:text-lg">
+    <div className="bg-white-100 dark:bg-black-200 2xl:py-6 md:py-4 py-2 rounded-xl mt-6 text-center col-span-1 md:mx-5 mx-2">
+      <span className="font-bold text-[10px] md:text-xs xl:text-lg 2xl:text-xl">
         {label}
       </span>
       <h1
-        className={` lg:text-3xl md:text-2xl font-bold md:my-6 my-3 2xl:text-4xl ${color} `}
+        className={`  lg:text-3xl md:text-2xl font-bold md:my-6 my-3 2xl:text-5xl ${color} `}
       >
         {value} $
       </h1>

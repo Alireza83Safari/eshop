@@ -37,13 +37,13 @@ export default function UsersTable() {
     <>
       <table className="min-w-full">
         <thead>
-          <tr className="md:text-sm sm:text-xs text-[10px] text-center border-b">
-            <th className="py-3">NO</th>
-            <th className="py-3">userName</th>
-            <th className="py-3">email</th>
-            <th className="py-3">Join</th>
-            <th className="py-3">Phone</th>
-            <th className="py-3">actions</th>
+          <tr className="md:text-sm sm:text-xs text-[10px] text-center border-y">
+            <th className="2xl:py-4 py-3">NO</th>
+            <th className="2xl:py-4 py-3">userName</th>
+            <th className="2xl:py-4 py-3 col-span-2">email</th>
+            <th className="2xl:py-4 py-3">Join</th>
+            <th className="2xl:py-4 py-3">Phone</th>
+            <th className="2xl:py-4 py-3">actions</th>
           </tr>
         </thead>
 
@@ -51,45 +51,57 @@ export default function UsersTable() {
           <Spinner />
         ) : (
           <tbody>
-            {paginations.map((user, index) => (
-              <tr
-                className="md:text-sm sm:text-xs text-[10px] text-center overflow-auto"
-                key={user.id}
-              >
-                <td className="py-3 px-2">
-                  {" "}
-                  {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
-                </td>
-                <td className="py-3 px-2 whitespace-nowrap text-ellipsis overflow-hidden">
-                  {user?.username}
-                </td>
-                <td className="py-3 px-2 whitespace-nowrap text-ellipsis overflow-hidden">
-                  {user?.email}
-                </td>
-                <td className="py-3 px-2">{user?.createdAt.slice(0, 10)}</td>
-                <td className="py-3 px-2">{user?.mobile}</td>
-                <td className="py-3 px-2 md:space-x-2">
-                  <button>
-                    <FontAwesomeIcon
-                      icon={faEdit}
-                      className="text-orange-400"
+            {paginations?.length >= 1 ? (
+              paginations.map((user, index) => (
+                <tr
+                  className="2xl:text-base md:text-sm sm:text-xs text-[10px] text-center overflow-auto"
+                  key={user.id}
+                >
+                  <td className="2xl:py-4 py-3 px-1">
+                    {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
+                  </td>
+                  <td className="2xl:py-4 py-3 px-1 whitespace-nowrap text-ellipsis overflow-hidden">
+                    {user?.username}
+                  </td>
+                  <td className="2xl:py-4 py-3 px-1 whitespace-nowrap text-ellipsis overflow-hidden col-span-2">
+                    {user?.email}
+                  </td>
+                  <td className="2xl:py-4 py-3 px-1 whitespace-nowrap text-ellipsis">
+                    {user?.createdAt.slice(0, 10)}
+                  </td>
+                  <td className="2xl:py-4 py-3 px-1">{user?.mobile}</td>
+                  <td className="2xl:py-4 py-3 px-1 md:space-x-2">
+                    <button>
+                      <FontAwesomeIcon
+                        icon={faEdit}
+                        className="text-orange-400"
+                        onClick={() => {
+                          setShowEditUser(true);
+                          setEditUserID(user?.id);
+                        }}
+                      />
+                    </button>
+                    <button
+                      className="px-1 py-1 rounded-md text-red-700 text-white"
                       onClick={() => {
-                        setShowEditUser(true);
-                        setEditUserID(user?.id);
+                        deleteUser(user?.id);
                       }}
-                    />
-                  </button>
-                  <button
-                    className="px-2 py-1 rounded-md text-red-700 text-white"
-                    onClick={() => {
-                      deleteUser(user?.id);
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faTrash} />
-                  </button>
-                </td>
-              </tr>
-            ))}
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <div className="flex justify-center items-center mt-32">
+                <div>
+                  <img src="/images/not-found-product.svg" alt="" />
+                  <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
+                    user Not Found
+                  </p>
+                </div>
+              </div>
+            )}
           </tbody>
         )}
       </table>

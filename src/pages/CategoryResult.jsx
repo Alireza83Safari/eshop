@@ -115,10 +115,7 @@ export default function CategoryResult() {
         ) : (
           <div className="flex justify-center items-center mt-32">
             <div>
-              <img
-                src="https://www.digikala.com/statics/img/svg/plp/not-found.svg"
-                alt=""
-              />
+              <img src="/images/not-found-product.svg" alt="" />
               <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
                 Product Not Found
               </p>

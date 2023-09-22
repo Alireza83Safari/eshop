@@ -1,18 +1,7 @@
-import React, { useEffect, useState } from "react";
-import adminAxios from "../../../services/Axios/adminInterceptors";
+import React from "react";
 import { Link } from "react-router-dom";
 
-export default function Transactions() {
-  const [sales, setSales] = useState([]);
-
-  const productSales = () => {
-    adminAxios.get("/order").then((res) => setSales(res.data.data));
-  };
-
-  useEffect(() => {
-    productSales();
-  }, []);
-
+export default function Transactions({ orders }) {
   return (
     <div className="md:ml-7 ml-3 md:mr-4 mr-7 mt-3 md:mb-0 mb-6 text-center ">
       <div className="sm:px-6 h-[25rem] overflow-auto bg-white-100 dark:text-white-100 dark:bg-black-200 rounded-xl relative">
@@ -31,7 +20,7 @@ export default function Transactions() {
           </thead>
 
           <tbody>
-            {sales?.slice(0, 6).map((order, index) => (
+            {orders?.data?.slice(0, 6).map((order, index) => (
               <tr
                 className="md:text-sm sm:text-xs text-[10px] text-center"
                 key={index}

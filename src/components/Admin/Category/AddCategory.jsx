@@ -17,7 +17,7 @@ export default function AddCategory({ fetchData }) {
       const response = await adminAxios.post("/category", newCategory);
       if (response.status === 200) {
         setLoading(false);
-        toast.success("add ctaedory is successfuly");
+        toast.success("add category is successfuly");
         setNewCategory({
           code: "",
           name: "",
@@ -40,66 +40,61 @@ export default function AddCategory({ fetchData }) {
 
   return (
     <>
-      <div className="bg-white-100 p-5 rounded-xl dark:bg-black-200 dark:text-white-100 row-span-2 min-w-full">
-        <span className="my-3 text-xl font-bold flex justify-center">
+      <div className="bg-white-100 sm:p-5 p-2 rounded-xl dark:bg-black-200 2xl:h-[33rem] dark:text-white-100 row-span-2 min-w-full mt-6 lg:mb-0 mb-5">
+        <span className="my-3 font-bold flex justify-center 2xl:text-2xl sm:text-xl text-[16px]">
           Add New Category
         </span>
 
         <form
           onSubmit={addCategoryHandler}
-          className="w-full mx-auto p-4 bg-white rounded-lg"
+          className="min-w-full mx-auto sm:p-4 p-1 rounded-lg"
         >
           <div
-            className={` grid grid-cols-1 gap-4 mt-4 ${
+            className={` grid grid-cols-1 sm:gap-4 sm:mt-4 sm:text-base text-sm 2xl:gap-y-7 mt-4 2xl:mt-5 ${
               isLoading && "opacity-20"
             }`}
           >
-            <div>
-              <div>
-                <label htmlFor="name" className="block font-medium">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  placeholder="category name"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
-                  onChange={setNewCategoryHandler}
-                  value={newCategory?.name}
-                  onFocus={() => setServerErrors("")}
-                />
-
-                <p className="text-red-700">{serverErrors?.name}</p>
-              </div>
+            <div className="mt-3">
+              <label htmlFor="name" className="block font-medium">
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="category name"
+                className="border 2xl:p-3 p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
+                onChange={setNewCategoryHandler}
+                value={newCategory?.name}
+                onFocus={() => setServerErrors("")}
+              />
+              <p className="text-red-700">{serverErrors?.name}</p>
             </div>
 
             <div className="mt-3">
-              <div>
-                <label htmlFor="code" className="block font-medium">
-                  Code
-                </label>
-                <input
-                  type="text"
-                  id="code"
-                  name="code"
-                  placeholder="category code"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
-                  onChange={setNewCategoryHandler}
-                  value={newCategory?.code}
-                  onBlur={() => setServerErrors("")}
-                  onFocus={() => setServerErrors("")}
-                />
+              <label htmlFor="code" className="block font-medium">
+                Code
+              </label>
+              <input
+                type="text"
+                id="code"
+                name="code"
+                placeholder="category code"
+                className="border 2xl:p-3 p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
+                onChange={setNewCategoryHandler}
+                value={newCategory?.code}
+                onBlur={() => setServerErrors("")}
+                onFocus={() => setServerErrors("")}
+              />
 
-                <p className="text-red-700">{serverErrors?.code}</p>
-              </div>
+              <p className="text-red-700">{serverErrors?.code}</p>
             </div>
           </div>
 
-          <div className="flex justify-center mt-10">
+          <div className="flex justify-center 2xl:mt-16 sm:mt-10 mt-7 sm:mb-0 mb-4 sm:text-base text-sm">
             <button
               type="submit"
-              className={` bg-blue-600 text-white-100 w-full py-2 rounded-xl ${
+              className={` bg-blue-600 text-white-100 w-full 2xl:p-3 p-2 rounded-xl ${
                 isLoading && "h-[2.4rem]"
               }`}
             >

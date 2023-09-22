@@ -67,7 +67,7 @@ export default function EditBrandData({
 
       <form
         onSubmit={editBrandHandler}
-        className="w-full max-w-sm mx-auto bg-white rounded-lg"
+        className="w-full mx-auto bg-white rounded-lg"
       >
         <div
           className={` grid grid-cols-1 gap-4 mt-4 ${

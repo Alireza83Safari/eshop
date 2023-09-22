@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import SelectDiscount from "../SelectDiscount";
-import AddProductDiscount from "./AddProductDiscount";
-import AddUserDiscount from "./AddUserDiscount";
-import AddGlobalDiscount from "./AddGlobalDiscount";
+import React, { useState, lazy, Suspense } from "react";
+import Spinner from "../../../Spinner/Spinner";
+const SelectDiscount = lazy(() => import("../SelectDiscount"));
+const AddProductDiscount = lazy(() => import("./AddProductDiscount"));
+const AddUserDiscount = lazy(() => import("./AddUserDiscount"));
+const AddGlobalDiscount = lazy(() => import("./AddGlobalDiscount"));
 
 export default function AddDiscount() {
   const [showProductDiscount, setShowProductDiscount] = useState(false);
@@ -11,34 +12,41 @@ export default function AddDiscount() {
   const [showSelectDiscount, setShowSelectDiscount] = useState(true);
 
   return (
-    <div className="bg-white-100 p-5 rounded-xl dark:bg-black-200 dark:text-white-100 h-[27rem] lg:my-5 sm:my-5 lg:mb-0 mb-5 sm:col-span-2 col-span-3">
-      {showSelectDiscount && (
-        <SelectDiscount
-          setShowProductDiscount={setShowProductDiscount}
-          setShowUserDiscount={setShowUserDiscount}
-          setShowSelectDiscount={setShowSelectDiscount}
-          setShowGlobalDiscount={setShowGlobalDiscount}
-        />
-      )}
-
-      {showProductDiscount && (
-        <AddProductDiscount
-          setShowProductDiscount={setShowProductDiscount}
-          setShowSelectDiscount={setShowSelectDiscount}
-        />
-      )}
-      {showUserDiscount && (
-        <AddUserDiscount
-          setShowSelectDiscount={setShowSelectDiscount}
-          setShowUserDiscount={setShowUserDiscount}
-        />
-      )}
-      {showGlobalDiscount && (
-        <AddGlobalDiscount
-          setShowSelectDiscount={setShowSelectDiscount}
-          setShowGlobalDiscount={setShowGlobalDiscount}
-        />
-      )}
+    <div className="bg-white-100 md:py-5 py-2 px-4 rounded-xl dark:bg-black-200 2xl:h-[33.9rem] dark:text-white-100 min-w-full mb-5">
+      <Suspense fallback={<Spinner />}>
+        {showSelectDiscount && (
+          <SelectDiscount
+            setShowProductDiscount={setShowProductDiscount}
+            setShowUserDiscount={setShowUserDiscount}
+            setShowSelectDiscount={setShowSelectDiscount}
+            setShowGlobalDiscount={setShowGlobalDiscount}
+          />
+        )}
+      </Suspense>
+      <Suspense fallback={<Spinner />}>
+        {showProductDiscount && (
+          <AddProductDiscount
+            setShowProductDiscount={setShowProductDiscount}
+            setShowSelectDiscount={setShowSelectDiscount}
+          />
+        )}
+      </Suspense>
+      <Suspense fallback={<Spinner />}>
+        {showUserDiscount && (
+          <AddUserDiscount
+            setShowSelectDiscount={setShowSelectDiscount}
+            setShowUserDiscount={setShowUserDiscount}
+          />
+        )}
+      </Suspense>
+      <Suspense fallback={<Spinner />}>
+        {showGlobalDiscount && (
+          <AddGlobalDiscount
+            setShowSelectDiscount={setShowSelectDiscount}
+            setShowGlobalDiscount={setShowGlobalDiscount}
+          />
+        )}
+      </Suspense>
     </div>
   );
 }

@@ -76,7 +76,7 @@ export default function EditCategory({
         ) : (
           <form
             onSubmit={(e) => e.preventDefault()}
-            className="w-full max-w-sm mx-auto p-4 bg-white rounded-lg"
+            className="w-full mx-auto p-4 bg-white rounded-lg"
           >
             <div
               className={` grid grid-cols-1 gap-4 mt-4 ${

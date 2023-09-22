@@ -7,7 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
 import useTableRow from "../../../hooks/useTableRow";
-const EditCategory = React.lazy(() => import("./EditCategory"));
+const EditCategory = lazy(() => import("./EditCategory"));
 
 export default function CategoryTable({
   fetchData,
@@ -20,11 +20,11 @@ export default function CategoryTable({
   const [categoryEditId, setCategoryEditId] = useState(null);
   const [isLoading, setLoading] = useState(false);
 
-  let pageSize = 10;
+  let pageSize = 9;
 
   const { isLoading: pageLoading } = usePaginationURL(currentPage, pageSize);
 
-  const pageNumber = Math.ceil(total / pageSize);
+  const pagesCount = Math.ceil(total / pageSize);
 
   const deleteCategory = async (id) => {
     const response = await adminAxios.post(`/category/delete/${id}`);
@@ -42,14 +42,14 @@ export default function CategoryTable({
   const { rowNumber, limit } = useTableRow();
   return (
     <>
-      <table className="min-w-full bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-xl h-[37rem] relative">
+      <table className="min-w-full dark:text-white-100 2xl:h-[46.2rem] md:h-[34rem] h-[31rem] relative overflow-auto">
         <thead>
-          <tr className="md:text-sm sm:text-xs text-[10px] text-center border-b grid grid-cols-5">
-            <th className="py-3">NO</th>
-            <th className="py-3">Category</th>
-            <th className="py-3">Code</th>
-            <th className="py-3">CreateAt</th>
-            <th className="py-3">Actions</th>
+          <tr className="md:text-sm sm:text-xs text-[10px] text-center border-y grid sm:grid-cols-5 grid-cols-4">
+            <th className="2xl:py-4 py-3 sm:inline hidden">NO</th>
+            <th className="2xl:py-4 py-3">Category</th>
+            <th className="2xl:py-4 py-3">Code</th>
+            <th className="2xl:py-4 py-3">CreateAt</th>
+            <th className="2xl:py-4 py-3">Actions</th>
           </tr>
         </thead>
         {paginationLodaing || isLoading || pageLoading ? (
@@ -58,20 +58,19 @@ export default function CategoryTable({
           <tbody>
             {paginations?.map((category, index) => (
               <tr
-                className="md:text-sm sm:text-xs text-[10px] text-center grid grid-cols-5"
+                className="2xl:text-lg md:text-sm sm:text-xs text-[10px] text-center grid sm:grid-cols-5 grid-cols-4"
                 key={category.id}
               >
-                <td className="py-3">
-                  {" "}
+                <td className="2xl:py-4 py-3 sm:inline hidden">
                   {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
                 </td>
-                <td className="py-3 truncate">{category?.name}</td>
+                <td className="2xl:py-4 py-3 truncate">{category?.name}</td>
 
-                <td className="py-3 truncate">{category?.code}</td>
-                <td className="py-3 truncate">
+                <td className="2xl:py-4 py-3 truncate">{category?.code}</td>
+                <td className="2xl:py-4 py-3 truncate">
                   {category?.createdAt?.slice(0, 10)}
                 </td>
-                <td className="py-3 truncate space-x-2">
+                <td className="2xl:py-4 py-3 truncate space-x-2">
                   <button
                     onClick={() => {
                       setShowEditCategory(true);
@@ -97,12 +96,12 @@ export default function CategoryTable({
             ))}
           </tbody>
         )}
+        <Pagination
+          pagesCount={pagesCount}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+        />
       </table>
-      <Pagination
-        pageNumber={pageNumber}
-        setCurrentPage={setCurrentPage}
-        currentPage={currentPage}
-      />
 
       <Suspense fallback={<Spinner />}>
         {showEditCategory && (
@@ -114,7 +113,6 @@ export default function CategoryTable({
           />
         )}
       </Suspense>
-
       <ToastContainer />
     </>
   );

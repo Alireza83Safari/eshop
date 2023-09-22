@@ -60,22 +60,25 @@ export default function EditColor({
 
   return ReactDOM.createPortal(
     <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full h-screen flex items-center justify-center transition duration-400">
-      <div className="w-1/3  bg-white-100  p-5 rounded-xl">
-        <span className="mb-5 text-xl font-bold flex justify-center">
+      <div className="md:w-1/3 sm:w-2/3 w-5/6 bg-white-100 dark:bg-black-200 p-5 rounded-xl">
+        <span className="mb-5 text-xl font-bold flex justify-center dark:text-white-100">
           Edit Color
         </span>
 
         <form
           onSubmit={(e) => e.preventDefault()}
-          className="w-full max-w-sm mx-auto bg-white rounded-lg"
+          className="w-full mx-auto bg-white rounded-lg"
         >
           <div
-            className={` grid grid-cols-1 gap-4 mt-4 ${
+            className={` grid grid-cols-1 gap-4 mt-4 dark:text-white-100 ${
               isLoading && "opacity-20"
             }`}
           >
             <div>
-              <label htmlFor="name" className="block text-gray-800 font-medium">
+              <label
+                htmlFor="name"
+                className="block text-gray-800 dark:text-white-100 font-medium"
+              >
                 Name
               </label>
               <input
@@ -83,7 +86,7 @@ export default function EditColor({
                 id="name"
                 name="name"
                 placeholder="color name"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
                 onChange={setEditColorHandler}
                 value={editColor?.name}
                 onFocus={() => setServerErrors("")}
@@ -93,7 +96,10 @@ export default function EditColor({
             </div>
 
             <div>
-              <label htmlFor="code" className="block text-gray-800 font-medium">
+              <label
+                htmlFor="code"
+                className="block text-gray-800 dark:text-white-100 font-medium"
+              >
                 Code
               </label>
               <input
@@ -101,7 +107,7 @@ export default function EditColor({
                 id="code"
                 name="code"
                 placeholder="color code"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
                 onChange={setEditColorHandler}
                 value={editColor?.code}
                 onBlur={() => setServerErrors("")}
@@ -114,7 +120,7 @@ export default function EditColor({
             <div>
               <label
                 htmlFor="colorHex"
-                className="block text-gray-800 font-medium"
+                className="block text-gray-800 dark:text-white-100 font-medium"
               >
                 colorHex
               </label>
@@ -123,7 +129,7 @@ export default function EditColor({
                 id="colorHex"
                 name="colorHex"
                 placeholder="colorHex"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
                 onChange={setEditColorHandler}
                 value={editColor?.colorHex}
                 onBlur={() => setServerErrors("")}
@@ -144,7 +150,7 @@ export default function EditColor({
             </button>
             <button
               type="submit"
-              className=" w-full py-2 rounded-xl border border-blue-600 ml-2"
+              className=" w-full py-2 rounded-xl border border-blue-600 ml-2 dark:text-white-100"
               onClick={() => setShowEditColor(false)}
             >
               Cancel

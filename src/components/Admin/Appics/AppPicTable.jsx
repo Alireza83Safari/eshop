@@ -39,13 +39,13 @@ export default function AppPicTable({ appPicData, fetchData, appPicLoading }) {
   return (
     <>
       <table
-        className={`min-w-full bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-xl md:h-[37rem] h-[34rem] relative ${
+        className={`min-w-full bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-xl 2xl:h-[46.2rem] md:h-[37.2rem] h-[34rem] relative ${
           isLoading && "opacity-20"
         }`}
       >
         <thead>
-          <tr className="md:text-sm sm:text-xs text-[10px] text-center border-b grid grid-cols-6">
-            <th className="py-3">NO</th>
+          <tr className="md:text-sm sm:text-xs text-[10px] text-center border-b grid sm:grid-cols-6 grid-cols-5">
+            <th className="py-3 sm:inline hidden">NO</th>
             <th className="py-3">Title</th>
             <th className="py-3">Image</th>
             <th className="py-3">priority</th>
@@ -59,11 +59,10 @@ export default function AppPicTable({ appPicData, fetchData, appPicLoading }) {
           <tbody>
             {appPicData?.map((appPic, index) => (
               <tr
-                className="md:text-sm sm:text-xs text-[10px] text-center grid grid-cols-6"
+                className="md:text-sm sm:text-xs text-[10px] text-center grid sm:grid-cols-6 grid-cols-5"
                 key={appPic.id}
               >
-                <td className="py-3">
-                  {" "}
+                <td className="py-3 sm:inline hidden">
                   {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
                 </td>
                 <td className="py-3 truncate">{appPic?.title}%</td>

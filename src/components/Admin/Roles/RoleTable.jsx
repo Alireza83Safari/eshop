@@ -34,7 +34,7 @@ export default function RoleTable({
       .catch(() => setLoading(false));
   };
   return (
-    <div className="h-[37rem]">
+    <div className="2xl:h-[40rem] h-[37rem]">
       {isLoading && roleLoading ? (
         <Spinner />
       ) : (
@@ -53,14 +53,14 @@ export default function RoleTable({
           <tbody>
             {rolesData?.data.map((role, index) => (
               <tr
-                className="md:text-sm sm:text-xs text-[10px] text-center"
-                key={index}
+                className="2xl:text-base md:text-sm sm:text-xs text-[10px] text-center"
+                key={role.id}
               >
-                <td className="py-2">{index + 1}</td>
-                <td className="py-2">{role.name}</td>
-                <td className="py-2">{role.createdAt.slice(0, 10)}</td>
-                <td className="py-2">{role?.code}</td>
-                <td className="py-2">
+                <td className="2xl:py-3 py-2">{index + 1}</td>
+                <td className="2xl:py-3 py-2">{role.name}</td>
+                <td className="2xl:py-3 py-2">{role.createdAt.slice(0, 10)}</td>
+                <td className="2xl:py-3 py-2">{role?.code}</td>
+                <td className="2xl:py-3 py-2">
                   <button
                     className="border rounded-lg px-2 py-1 text-xs"
                     onClick={() => {
@@ -71,7 +71,7 @@ export default function RoleTable({
                     permission
                   </button>
                 </td>
-                <td className="py-2 md:space-x-2">
+                <td className="2xl:py-3 py-2 md:space-x-2">
                   <button>
                     <FontAwesomeIcon
                       icon={faEdit}

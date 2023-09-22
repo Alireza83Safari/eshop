@@ -5,7 +5,7 @@ import userAxios from "../../services/Axios/userInterceptors";
 import { CustomSelect } from "../SelectList";
 
 function FilterProducts({ setCurrentPage }) {
-  const history = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const { datas: categoryData } = useFetch("/category/selectList", userAxios);
@@ -19,10 +19,10 @@ function FilterProducts({ setCurrentPage }) {
         searchParams.delete(name);
       }
 
-      history(`?${searchParams.toString()}`);
+      navigate(`?${searchParams.toString()}`);
       setCurrentPage(1);
     },
-    [searchParams, history, setCurrentPage]
+    [searchParams, navigate, setCurrentPage]
   );
 
   const MemoizedFilterProducts = useMemo(
@@ -110,7 +110,7 @@ function FilterProducts({ setCurrentPage }) {
         </div>
       </section>
     ),
-    [categoryData, brandData, searchParams, history, setCurrentPage]
+    [categoryData, brandData, searchParams, navigate, setCurrentPage]
   );
 
   return MemoizedFilterProducts;

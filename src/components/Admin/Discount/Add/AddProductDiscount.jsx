@@ -61,7 +61,7 @@ export default function AddProductDiscount({
 
   return (
     <>
-      <span className="mb-5 text-xl font-bold flex justify-center">
+      <span className="my-3 font-bold flex justify-center sm:text-xl text-[16px]">
         Add Product Discount
       </span>
       <p className="text-red-700 text-xs text-center">
@@ -72,14 +72,14 @@ export default function AddProductDiscount({
         onSubmit={(e) => e.preventDefault()}
       >
         <div
-          className={` grid grid-cols-2 gap-y-4 text-sm ${
+          className={` grid grid-cols-2 gap-y-4 2xl:gap-y-10 text-sm ${
             isLoading && "opacity-20"
           } `}
         >
           <div className="col-span-2">
             <label
               htmlFor="productItemId"
-              className="block text-gray-800 font-medium text-xs"
+              className="block text-gray-800 dark:text-white-100 font-medium text-xs"
             >
               Product
             </label>
@@ -106,7 +106,7 @@ export default function AddProductDiscount({
           <div className="col-span-2">
             <label
               htmlFor="value"
-              className="block text-gray-800 font-medium text-xs"
+              className="block text-gray-800 dark:text-white-100 font-medium text-xs"
             >
               discount value
             </label>
@@ -115,7 +115,7 @@ export default function AddProductDiscount({
               id="value"
               name="value"
               placeholder="value"
-              className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
+              className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
               onChange={setInfoss}
               value={infos?.value}
               onFocus={() => {
@@ -133,7 +133,7 @@ export default function AddProductDiscount({
           <div className="col-span-2">
             <label
               htmlFor="quantity"
-              className="block text-gray-800 font-medium text-xs"
+              className="block text-gray-800 dark:text-white-100 font-medium text-xs"
             >
               quantity
             </label>
@@ -142,7 +142,7 @@ export default function AddProductDiscount({
               id="quantity"
               name="quantity"
               placeholder="quantity"
-              className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
+              className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
               onChange={setInfoss}
               value={infos?.quantity}
               onFocus={() => {
@@ -160,7 +160,7 @@ export default function AddProductDiscount({
           <div className="mr-2">
             <label
               htmlFor="type"
-              className="block text-gray-800 font-medium text-xs"
+              className="block text-gray-800 dark:text-white-100 font-medium text-xs"
             >
               discount type
             </label>
@@ -186,7 +186,7 @@ export default function AddProductDiscount({
           <div className="ml-2">
             <label
               htmlFor="expiresIn"
-              className="block text-gray-800 font-medium text-xs"
+              className="block text-gray-800 dark:text-white-100 font-medium text-xs"
             >
               expiresIn
             </label>
@@ -195,7 +195,7 @@ export default function AddProductDiscount({
               id="expiresIn"
               name="expiresIn"
               placeholder="expiresIn"
-              className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
+              className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
               onChange={setInfoss}
               value={infos?.expiresIn}
               onFocus={() => {
@@ -211,17 +211,17 @@ export default function AddProductDiscount({
           </div>
         </div>
 
-        <div className="flex justify-center mt-7">
+        <div className="flex justify-center mt-7 2xl:mt-12">
           <button
             type="submit"
-            className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2"
+            className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2 sm:text-base text-sm"
             onClick={addProductDiscount}
           >
             {isLoading ? <FormSpinner /> : "Add Discount"}
           </button>
           <button
             type="submit"
-            className="w-full py-2 rounded-xl ml-2 border border-blue-600"
+            className="w-full py-2 rounded-xl ml-2 border border-blue-600 sm:text-base text-sm"
             onClick={() => {
               setShowProductDiscount(false);
               setShowSelectDiscount(true);

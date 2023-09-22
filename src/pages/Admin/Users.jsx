@@ -5,6 +5,9 @@ import { usePaginationURL } from "../../hooks/usePaginationURL";
 import adminAxios from "../../services/Axios/adminInterceptors";
 import { useFetchPagination } from "../../hooks/useFetchPagination";
 import UserPanelContext from "../../Context/userPanelContext";
+import { useSearch } from "../../hooks/useSearch";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 const UsersTable = lazy(() =>
   import("../../components/Admin/Users/UsersTable")
 );
@@ -30,6 +33,9 @@ export default function Users() {
     pageSize,
     url
   );
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const { setSearchValue } = useSearch(searchQuery);
   return (
     <UserPanelContext.Provider
       value={{
@@ -46,19 +52,34 @@ export default function Users() {
         editUserID,
       }}
     >
-      <section className="float-right mt-16 pt-4 px-4 md:pb-16 bg-white-200 dark:text-white-100 min-h-screen dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%]">
-        <button
-          onClick={() => setShowAddUser(true)}
-          className="bg-blue-600 text-white-100 px-2 py-1 rounded-lg"
-        >
-          Add New User
-        </button>
+      <section className="float-right mt-12 pt-7 px-4 md:pb-16 bg-white-200 dark:text-white-100 min-h-screen dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%]">
         <div className="mt-2 text-center">
-          <p className="text-md 2xl:text-xl font-bold border-b py-2 w-full bg-white-100 rounded-t-xl dark:bg-black-200">
-            Users
-          </p>
-          <div className="relative lg:px-3 overflow-y-auto bg-white-100 rounded-b-xl dark:bg-black-200">
-            <div className="h-[30rem]">
+          <div className="flex justify-between bg-white-100 dark:bg-black-200 rounded-t-xl py-3">
+            <div className="flex rounded-md relative md:w-auto md:ml-4">
+              <input
+                type="text"
+                id="searchInput"
+                name="searchTerm"
+                placeholder="search user"
+                className="py-1 sm:py-2 pl-7 w-32 outline-none rounded-lg dark:bg-black-200  text-xs sm:placeholder:text-[12px] placeholder:text-[10px] dark:text-white-100"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <FontAwesomeIcon
+                icon={faSearch}
+                className="absolute text-sm left-2 sm:top-2 top-1 text-black-800 dark:text-white-100"
+                onClick={setSearchValue}
+              />
+            </div>
+            <button
+              onClick={() => setShowAddUser(true)}
+              className="bg-blue-600 text-white-100 md:w-[8rem] w-[6rem] rounded-lg mr-4 md:text-sm text-xs"
+            >
+              Add New User
+            </button>
+          </div>
+          <div className="relative lg:px-3 px-2 overflow-y-auto bg-white-100 rounded-b-xl dark:bg-black-200">
+            <div className="2xl:h-[40rem] h-[30rem]">
               <Suspense fallback={<Spinner />}>
                 <UsersTable />
               </Suspense>

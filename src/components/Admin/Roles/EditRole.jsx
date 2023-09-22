@@ -76,7 +76,7 @@ export default function EditRole({ setShowEditRoles, editRoleId }) {
 
   return ReactDOM.createPortal(
     <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full h-screen flex items-center justify-center transition duration-400">
-      <div className="bg-white-100 w-11/12 overflow-auto p-3 h-[45rem] rounded-xl">
+      <div className="bg-white-100 dark:bg-black-200 dark:text-white-100 w-11/12 overflow-auto p-3 h-[45rem] rounded-xl">
         <form onSubmit={handleSubmitNewRole}>
           <div className="flex justify-between mb-4">
             <div>
@@ -103,7 +103,7 @@ export default function EditRole({ setShowEditRoles, editRoleId }) {
                 id="name"
                 name="name"
                 placeholder="Role Name"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
                 defaultValue={editRoleData?.name}
               />
               <p className="text-red-700 text-xs">{serverErrors?.name}</p>
@@ -119,7 +119,7 @@ export default function EditRole({ setShowEditRoles, editRoleId }) {
                 id="code"
                 name="code"
                 placeholder="Role Code"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
                 defaultValue={editRoleData?.code}
               />
               <p className="text-red-700 text-xs">{serverErrors?.code}</p>

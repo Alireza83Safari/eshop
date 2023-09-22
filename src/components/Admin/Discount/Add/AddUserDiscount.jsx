@@ -62,7 +62,7 @@ export default function AddUserDiscount({
 
   return (
     <>
-      <span className="mb-5 text-xl font-bold flex justify-center">
+      <span className="my-3 font-bold flex justify-center sm:text-xl text-[16px]">
         Add User Discount
       </span>
       <p className="text-red-700 text-xs text-center">
@@ -73,9 +73,9 @@ export default function AddUserDiscount({
       ) : (
         <form
           onSubmit={(e) => e.preventDefault()}
-          className="w-full mx-auto bg-white rounded-lg relative text-sm"
+          className="w-full mx-auto rounded-lg relative text-sm"
         >
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4 sm:mt-4 2xl:gap-y-7 sm:text-base text-sm">
             <div className="col-span-2">
               <label
                 htmlFor="relatedUserId"
@@ -126,7 +126,10 @@ export default function AddUserDiscount({
             </div>
 
             <div>
-              <label htmlFor="type" className="block text-gray-800 dark:text-white-100 font-medium">
+              <label
+                htmlFor="type"
+                className="block text-gray-800 dark:text-white-100 font-medium"
+              >
                 discount type
               </label>
               <CustomSelect
@@ -202,7 +205,10 @@ export default function AddUserDiscount({
             </div>
 
             <div>
-              <label htmlFor="code" className="block text-gray-800 dark:text-white-100 font-medium">
+              <label
+                htmlFor="code"
+                className="block text-gray-800 dark:text-white-100 font-medium"
+              >
                 code
               </label>
               <input
@@ -226,10 +232,10 @@ export default function AddUserDiscount({
             </div>
           </div>
 
-          <div className="flex justify-center mt-8">
+          <div className="flex justify-center sm:mt-8 mt-6 2xl:mt-10">
             <button
               type="submit"
-              className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2"
+              className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2 sm:text-base text-sm"
               onClick={addUserDiscount}
             >
               Add Discount
@@ -237,7 +243,7 @@ export default function AddUserDiscount({
 
             <button
               type="submit"
-              className="w-full py-2 rounded-xl ml-2 border border-blue-600"
+              className="w-full py-2 rounded-xl ml-2 border border-blue-600 sm:text-base text-sm"
               onClick={() => {
                 setShowUserDiscount(false);
                 setShowSelectDiscount(true);

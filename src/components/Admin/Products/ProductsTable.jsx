@@ -7,7 +7,6 @@ import adminAxios from "../../../services/Axios/adminInterceptors";
 import Pagination from "../../getPagination";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
-import { useFetchPagination } from "../../../hooks/useFetchPagination";
 import userAxios from "../../../services/Axios/userInterceptors";
 import useTableRow from "../../../hooks/useTableRow";
 
@@ -16,21 +15,17 @@ export default function ProductsTable() {
   const [showInfo, setShowInfo] = useState(false);
   const [infosId, setInfosId] = useState(null);
   const {
-    searchQuery,
     setProductDeleteId,
     setShowDeleteModal,
     setEditProductID,
     setShowEditModal,
-  } = useContext(ProductsPanelContext);
-  
-  let pageSize = 11;
-  let url = "/product";
-  const { isLoading: loading } = usePaginationURL(currentPage, pageSize, url);
-  const {
     paginations,
     total,
-    isLoading: paginationLoading,
-  } = useFetchPagination(url, adminAxios);
+    paginationLoading,
+  } = useContext(ProductsPanelContext);
+
+  let pageSize = 12;
+  const { isLoading: loading } = usePaginationURL(currentPage, pageSize);
   const pagesCount = Math.ceil(total / pageSize);
 
   // product info
@@ -90,67 +85,72 @@ export default function ProductsTable() {
 
         {loading || paginationLoading ? (
           <Spinner />
-        ) : (
+        ) : paginations?.length >= 1 ? (
           <tbody>
-            {paginations
-              .filter((product) =>
-                product.name.toLowerCase().includes(searchQuery.toLowerCase())
-              )
-              .map((product, index) => (
-                <tr
-                  className="md:text-sm sm:text-xs text-[10px] text-center grid grid-cols-7"
-                  key={product.id}
-                >
-                  <td className="py-3">
-                    {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
-                  </td>
-                  <td className="py-3 truncate">{product?.name}</td>
-                  <td className="py-3 flex justify-center items-center">
-                    <img
-                      src={`http://127.0.0.1:6060/${product?.brandFileUrl} `}
-                      alt=""
-                      className="sm:w-8 w-6 sm:h-8 h-6 object-contain"
+            {paginations?.map((product, index) => (
+              <tr
+                className="md:text-sm sm:text-xs text-[10px] text-center grid grid-cols-7"
+                key={product.id}
+              >
+                <td className="py-3">
+                  {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
+                </td>
+                <td className="py-3 truncate">{product?.name}</td>
+                <td className="py-3 flex justify-center items-center">
+                  <img
+                    src={`http://127.0.0.1:6060/${product?.brandFileUrl} `}
+                    alt=""
+                    className="sm:w-8 w-6 sm:h-8 h-6 object-contain"
+                  />
+                </td>
+                <td className="py-3 truncate">{product?.categoryName}</td>
+                <td className="py-3 truncate">{product?.code}</td>
+                <td className="py-3 truncate space-x-2">
+                  <button
+                    onClick={() => {
+                      setEditProductID(product?.id);
+                      setShowEditModal(true);
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faEdit}
+                      className="text-orange-400"
                     />
-                  </td>
-                  <td className="py-3 truncate">{product?.categoryName}</td>
-                  <td className="py-3 truncate">{product?.code}</td>
-                  <td className="py-3 truncate space-x-2">
-                    <button
-                      onClick={() => {
-                        setEditProductID(product?.id);
-                        setShowEditModal(true);
-                      }}
-                    >
-                      <FontAwesomeIcon
-                        icon={faEdit}
-                        className="text-orange-400"
-                      />
-                    </button>
+                  </button>
 
-                    <button
-                      className="py-1 rounded-md text-red-700 text-white"
-                      onClick={() => {
-                        setProductDeleteId(product?.id);
-                        setShowDeleteModal(true);
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faTrash} />
-                    </button>
-                  </td>
-                  <td className="py-3 truncate">
-                    <button
-                      className="border md:px-2 px-1 md:text-xs text-[9px] rounded-lg"
-                      onClick={() => {
-                        setInfosId(product?.id);
-                        setShowInfo(true);
-                      }}
-                    >
-                      Infos
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                  <button
+                    className="py-1 rounded-md text-red-700 text-white"
+                    onClick={() => {
+                      setProductDeleteId(product?.id);
+                      setShowDeleteModal(true);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </td>
+                <td className="py-3 truncate">
+                  <button
+                    className="border md:px-2 px-1 md:text-xs text-[9px] rounded-lg"
+                    onClick={() => {
+                      setInfosId(product?.id);
+                      setShowInfo(true);
+                    }}
+                  >
+                    Infos
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
+        ) : (
+          <div className="flex justify-center items-center mt-32">
+            <div>
+              <img src="/images/not-found-product.svg" alt="" />
+              <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
+                Product Not Found
+              </p>
+            </div>
+          </div>
         )}
       </table>
       {showInfo && (

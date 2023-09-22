@@ -18,7 +18,7 @@ export default function ProductInfo({
 }) {
   return ReactDOM.createPortal(
     <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full h-screen flex items-center justify-center transition duration-400">
-      <div className="lg:w-8/12 w-11/12 sm:h-[29rem] bg-white-100 rounded-xl sm:p-8 px-3 py-2 relative">
+      <div className="lg:w-8/12 w-11/12 sm:h-[29rem] dark:bg-black-200 dark:text-white-100 bg-white-100 rounded-xl sm:p-8 px-3 py-2 relative">
         <FontAwesomeIcon
           icon={faX}
           className="text-red-700 absolute right-2 top-2 text-xl"

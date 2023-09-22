@@ -107,8 +107,8 @@ export default function EditDiscount({
         showEditDiscount ? "visible" : "invisible"
       }`}
     >
-      <div className="lg:w-[30rem] bg-white-100 p-5 rounded-xl">
-        <span className="mb-5 text-xl font-bold flex justify-center">
+      <div className="lg:w-[30rem] bg-white-100 sm:p-5 rounded-xl">
+        <span className="sm:mb-5 text-xl font-bold flex justify-center">
           Edit Discount
         </span>
         <p className="text-red-700 text-center">{serverErrors?.message}</p>

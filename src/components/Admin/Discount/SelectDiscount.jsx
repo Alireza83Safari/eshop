@@ -21,35 +21,35 @@ export default function SelectDiscount({
   };
   return (
     <>
-      <span className="mb-5 text-xl font-bold flex justify-center">
+      <span className="my-3 font-bold flex justify-center  2xl:text-2xl sm:text-xl text-[16px]">
         Add Discount
       </span>
 
-      <div className="grid grid-cols-1 gap-10 mt-8">
+      <div className="grid grid-cols-1 gap-10 sm:mt-8 mt-4">
         <button
-          className="border p-2 w-full rounded-lg outline-none focus:border-green-500 focus:text-white-100 focus:bg-green-300 mt-2 duration-200"
+          className="border 2xl:py-4 py-2 w-full rounded-lg outline-none focus:border-green-500 focus:text-white-100 focus:bg-green-300 mt-2 duration-200 sm:text-base text-sm"
           onClick={() => setBtnValue("user")}
         >
           User
         </button>
         <button
-          className="border p-2 w-full rounded-lg outline-none focus:border-green-500 focus:text-white-100 focus:bg-green-300 mt-2 duration-200"
+          className="border 2xl:py-4 py-2 w-full rounded-lg outline-none focus:border-green-500 focus:text-white-100 focus:bg-green-300 sm:mt-2 duration-200 sm:text-base text-sm"
           onClick={() => setBtnValue("product")}
         >
           Product
         </button>
         <button
-          className="border p-2 w-full rounded-lg outline-none focus:border-green-500 focus:text-white-100 focus:bg-green-300 mt-2 duration-200"
+          className="border 2xl:py-4 py-2 w-full rounded-lg outline-none focus:border-green-500 focus:text-white-100 focus:bg-green-300 sm:mt-2 duration-200 sm:text-base text-sm"
           onClick={() => setBtnValue("Global")}
         >
           Global
         </button>
       </div>
 
-      <div className="flex justify-center mt-12">
+      <div className="flex justify-center lg:mt-12 mt-7">
         <button
           type="submit"
-          className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2 disabled:bg-gray-200"
+          className="bg-blue-600 text-white-100 w-full 2xl:py-4 py-2 rounded-xl disabled:bg-gray-200 sm:text-base text-sm"
           onClick={getButtonValueHandler}
           disabled={btnValue?.length == ""}
         >

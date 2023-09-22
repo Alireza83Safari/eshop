@@ -1,11 +1,12 @@
-import React, { useEffect, useState, lazy, Suspense } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import { useFetchPagination } from "../../../hooks/useFetchPagination";
+import { useSearch } from "../../../hooks/useSearch";
 import Spinner from "../../Spinner/Spinner";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import adminAxios from "../../../services/Axios/adminInterceptors";
-import { ToastContainer } from "react-toastify";
 
 const AddProduct = lazy(() => import("./Add/AddProduct"));
 const Departments = lazy(() => import("./Departments"));
@@ -18,24 +19,25 @@ export default function ProductsPanel() {
   const [productDeleteId, setProductDeleteId] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(null);
   const [newProductId, setNewProductId] = useState(null);
   const [editProductID, setEditProductID] = useState(null);
-  const [productList, setProductList] = useState([]);
   const [showAddProductModal, setShowAddProductModal] = useState(false);
-  const fetchProductList = () => {
-    adminAxios.get("/product").then((res) => {
-      setProductList(res.data);
-    });
-  };
-  useEffect(() => {
-    fetchProductList();
-  }, []);
+
+  let url = "product";
+  const {
+    paginations,
+    total,
+    isLoading: paginationLoading,
+    fetchData: fetchProductList,
+  } = useFetchPagination(url, adminAxios);
+
+  const { setSearchValue } = useSearch(searchQuery);
+
   return (
     <ProductsPanelContext.Provider
       value={{
         searchQuery,
-        productList,
         setProductDeleteId,
         setShowEditModal,
         showEditModal,
@@ -50,9 +52,12 @@ export default function ProductsPanel() {
         setShowAddProductModal,
         setEditProductID,
         editProductID,
+        paginations,
+        total,
+        paginationLoading,
       }}
     >
-      <section className="p-6 float-right mt-12 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] min-h-screen">
+      <section className="sm:p-6 p-3 float-right mt-12 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] min-h-screen">
         <div className="grid grid-cols-10">
           <div className="lg:col-span-7 col-span-10 mt-5 lg:px-6 px-1 overflow-x-auto relative bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-xl">
             <div className="py-4 flex justify-between px-4 w-full">
@@ -60,14 +65,16 @@ export default function ProductsPanel() {
                 <input
                   type="text"
                   id="searchInput"
-                  placeholder="Search for data user ..."
-                  className="py-1 sm:py-2 pl-7 outline-none rounded-lg text-black-900 text-xs sm:w-48 w-28 sm:placeholder:text-[12px] placeholder:text-[10px]"
+                  name="searchTerm"
+                  placeholder="Search product ..."
+                  className="py-1 sm:py-2 pl-7 w-32 outline-none rounded-lg dark:bg-black-200  text-xs sm:placeholder:text-[12px] placeholder:text-[10px] dark:text-white-100"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
                 <FontAwesomeIcon
                   icon={faSearch}
-                  className="absolute text-sm left-2 sm:top-2 top-1 text-black-800"
+                  className="absolute text-sm left-2 sm:top-2 top-1 text-black-800 dark:text-white-100"
+                  onClick={setSearchValue}
                 />
               </div>
 
@@ -81,7 +88,7 @@ export default function ProductsPanel() {
               </div>
             </div>
 
-            <div className="sm:h-[38rem] h-[35rem]">
+            <div className="sm:h-[46.5rem] h-[41rem]">
               <Suspense fallback={<Spinner />}>
                 <ProductsTable />
               </Suspense>
@@ -98,7 +105,7 @@ export default function ProductsPanel() {
               </Suspense>
             </div>
 
-            <div className="dark:bg-black-200 bg-white-100 rounded-xl h-[21rem]">
+            <div className="dark:bg-black-200 bg-white-100 rounded-xl h-[22rem]">
               <Suspense fallback={<Spinner />}>
                 <Departments />
               </Suspense>

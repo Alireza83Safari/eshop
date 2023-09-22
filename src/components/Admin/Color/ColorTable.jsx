@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { useState, Suspense } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "../../getPagination";
@@ -20,7 +20,7 @@ export default function ColorTable({
   const [colorEditId, setColorEditId] = useState(null);
   const [isLoading, setLoading] = useState(false);
 
-  let pageSize = 9;
+  let pageSize = 10;
   const pagesCount = Math.ceil(total / pageSize);
   const { isLoading: pageLoading } = usePaginationURL(currentPage, pageSize);
 
@@ -40,59 +40,69 @@ export default function ColorTable({
   const { rowNumber, limit } = useTableRow();
   return (
     <>
-      <table className="min-w-full bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-xl h-[37rem] relative">
+      <table className="min-w-full dark:text-white-100 rounded-xl 2xl:h-[46.2rem] md:h-[38rem] h-[34rem] relative">
         <thead>
-          <tr className="md:text-sm sm:text-xs text-[10px] text-center border-b grid grid-cols-6">
-            <th className="py-3">NO</th>
-            <th className="py-3">Color</th>
-            <th className="py-3">Code</th>
-            <th className="py-3">colorHex</th>
-            <th className="py-3">CreatedAt</th>
-            <th className="py-3">Actions</th>
+          <tr className="md:text-sm sm:text-xs text-[10px] text-center border-b grid sm:grid-cols-6 grid-cols-5">
+            <th className="2xl:py-4 py-3 sm:inline hidden">NO</th>
+            <th className="2xl:py-4 py-3">Color</th>
+            <th className="2xl:py-4 py-3">Code</th>
+            <th className="2xl:py-4 py-3">colorHex</th>
+            <th className="2xl:py-4 py-3">CreatedAt</th>
+            <th className="2xl:py-4 py-3">Actions</th>
           </tr>
         </thead>
         {pageLoading || isLoading || paginationLodaing ? (
           <Spinner />
         ) : (
           <tbody>
-            {paginations?.map((color, index) => (
-              <tr
-                className="md:text-sm sm:text-xs text-[10px] text-center grid grid-cols-6"
-                key={color + 1}
-              >
-                <td className="py-3">
-                  {" "}
-                  {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
-                </td>
-                <td className="py-3 truncate">{color?.name}</td>
-                <td className="py-3 truncate">{color?.code}</td>
-                <td className="py-3 flex justify-center">{color?.colorHex}</td>
-                <td className="py-3 truncate">
-                  {color?.createdAt?.slice(0, 10)}
-                </td>
-                <td className="py-3 truncate space-x-2">
-                  <button
-                    onClick={() => {
-                      setShowEditColor(true);
-                      setColorEditId(color);
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      icon={faEdit}
-                      className="text-orange-400"
-                    />
-                  </button>
-                  <button
-                    className="py-1 rounded-md text-red-700 text-white"
-                    onClick={() => {
-                      deleteColor(color?.id);
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faTrash} />
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {paginations?.length >= 1 ? (
+              paginations?.map((color, index) => (
+                <tr
+                  className="2xl:text-lg md:text-sm sm:text-xs text-[10px] text-center grid sm:grid-cols-6 grid-cols-5"
+                  key={color + 1}
+                >
+                  <td className="2xl:py-4 py-3 sm:inline hidden">
+                    {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
+                  </td>
+                  <td className="2xl:py-4 py-3 truncate">{color?.name}</td>
+                  <td className="2xl:py-4 py-3 truncate">{color?.code}</td>
+                  <td className="2xl:py-4 py-3">{color?.colorHex}</td>
+                  <td className="2xl:py-4 py-3 truncate">
+                    {color?.createdAt?.slice(0, 10)}
+                  </td>
+                  <td className="2xl:py-4 py-3 truncate space-x-2">
+                    <button
+                      onClick={() => {
+                        setShowEditColor(true);
+                        setColorEditId(color);
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        icon={faEdit}
+                        className="text-orange-400"
+                      />
+                    </button>
+                    <button
+                      className="py-1 rounded-md text-red-700 text-white"
+                      onClick={() => {
+                        deleteColor(color?.id);
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <div className="flex justify-center items-center mt-32">
+                <div>
+                  <img src="/images/not-found-product.svg" alt="" />
+                  <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
+                    Color Not Found
+                  </p>
+                </div>
+              </div>
+            )}
           </tbody>
         )}
 
@@ -112,8 +122,6 @@ export default function ColorTable({
           />
         )}
       </Suspense>
-
-      <ToastContainer />
     </>
   );
 }

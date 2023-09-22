@@ -57,22 +57,27 @@ export default function AddBrandFile({
   return (
     <form onSubmit={(e) => e.preventDefault()}>
       <div className={`p-5 rounded-xl ${isLoading && "opacity-20  "} `}>
-        <label htmlFor="image" className="block text-center font-bold text-lg">
+        <label
+          htmlFor="image"
+          className="block text-center font-bold text-lg 2xl:text-xl"
+        >
           Upload Image
         </label>
         <form method="post" className="mt-32">
-          <input
-            type="file"
-            onChange={handleImageChange}
-            onClick={() => setErrors("")}
-          />
+          <div className="flex justify-center">
+            <input
+              type="file"
+              onChange={handleImageChange}
+              onClick={() => setErrors("")}
+            />
+          </div>
         </form>
         <p className="text-red-700 text-xs">{errors}</p>
       </div>
       <div className="flex justify-center mt-20">
         <button
           type="submit"
-          className={`bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2 ${
+          className={`bg-blue-600 text-white-100 w-full 2xl:p-3 py-2 rounded-xl mr-2 2xl:mt-28 ${
             isLoading && "py-5"
           }`}
           onClick={addFile}

@@ -30,11 +30,6 @@ export default function AddColor() {
       if (response.status == 200) {
         setLoading(false);
         toast.success("color is created");
-        setNewColor({
-          code: "",
-          name: "",
-          colorHex: "",
-        });
         setServerErrors("");
         setShowColorPicker(false);
       }
@@ -45,21 +40,21 @@ export default function AddColor() {
   };
 
   return (
-    <div className="bg-white-100 rounded-xl dark:bg-black-200 dark:text-white-100">
-      <span className="my-3 text-xl font-bold flex justify-center">
+    <div className="bg-white-100 p-2 rounded-xl dark:bg-black-200 dark:text-white-100 min-w-full 2xl:h-[33rem]">
+      <span className="my-3 font-bold flex justify-center 2xl:text-2xl sm:text-xl text-[16px]">
         Add New Color
       </span>
 
       <form
         onSubmit={(e) => e.preventDefault()}
-        className="w-full mx-auto p-4 bg-white rounded-lg"
+        className="min-w-full mx-auto sm:p-4 p-1 rounded-lg"
       >
         <div
-          className={` grid grid-cols-1 gap-4 mt-4 ${
+          className={` grid grid-cols-1 sm:gap-4 sm:mt-4 sm:text-base text-sm ${
             isLoading && "opacity-20"
           }`}
         >
-          <div>
+          <div className="mt-3">
             <label htmlFor="name" className="block font-medium">
               Name
             </label>
@@ -68,7 +63,7 @@ export default function AddColor() {
               id="name"
               name="name"
               placeholder="color name"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
+              className="border 2xl:p-3 p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
               onChange={setNewColorHandler}
               value={newColor?.name}
               onFocus={() => setServerErrors("")}
@@ -76,7 +71,7 @@ export default function AddColor() {
 
             <p className="text-red-700">{serverErrors?.name}</p>
           </div>
-          <div className="relative">
+          <div className="relative mt-3">
             <label htmlFor="colorHex" className="block font-medium">
               Color Hex
             </label>
@@ -85,7 +80,7 @@ export default function AddColor() {
               id="colorHex"
               name="colorHex"
               placeholder="colorHex"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
+              className="border 2xl:p-3 p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
               onChange={setNewColorHandler}
               value={newColor?.colorHex}
               onBlur={() => setServerErrors("")}
@@ -119,7 +114,7 @@ export default function AddColor() {
             </div>
             <p className="text-red-700">{serverErrors?.colorHex}</p>
           </div>
-          <div>
+          <div className="mt-3">
             <label htmlFor="code" className="block font-medium">
               Code
             </label>
@@ -128,7 +123,7 @@ export default function AddColor() {
               id="code"
               name="code"
               placeholder="color code"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
+              className="border 2xl:p-3 p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
               onChange={setNewColorHandler}
               value={newColor?.code}
               onBlur={() => setServerErrors("")}
@@ -139,10 +134,10 @@ export default function AddColor() {
           </div>
         </div>
 
-        <div className="flex justify-center mt-10">
+        <div className="flex justify-center sm:mt-10 mt-7 sm:mb-0 mb-4 sm:text-base text-sm">
           <button
             type="submit"
-            className={`bg-blue-600 text-white-100 w-full py-2 rounded-xl outline-none ${
+            className={`bg-blue-600 text-white-100 w-full 2xl:p-3 p-2 rounded-xl outline-none ${
               isLoading && "py-5"
             }`}
             onClick={addNewColorHandler}

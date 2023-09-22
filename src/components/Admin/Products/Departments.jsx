@@ -8,7 +8,7 @@ export default function Departments() {
   return (
     <div className="mt-4 p-4 dark:bg-black-200 dark:text-white-100 bg-white-100 rounded-xl min-h-full">
       <div className="mb-4">Revenue By Departments</div>
-      {infos?.slice(0, 3)?.map((info) => (
+      {infos?.slice(0, 4)?.map((info) => (
         <div className="py-3" key={info.id}>
           <div className="flex justify-between text-xs mb-4">
             <p>{info?.categoryName}</p>

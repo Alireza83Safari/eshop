@@ -21,14 +21,9 @@ export default function AddUser() {
     enabled: "",
   });
   const { datas: roles } = useFetch("/role", adminAxios);
-  console.log({
-    ...userInfos,
-    isSystem: Boolean(userInfos?.isSystem),
-    enabled: Boolean(userInfos?.enabled),
-  });
+
   const editUserHandler = async (e) => {
     e.preventDefault();
-    console.log(userInfos);
 
     setIsLoading(true);
     try {
@@ -38,7 +33,6 @@ export default function AddUser() {
         enabled: Boolean(userInfos?.enabled),
         mobile: Number(userInfos?.mobile),
       });
-      console.log(response);
 
       if (response.status === 200) {
         fetchData();
@@ -48,7 +42,6 @@ export default function AddUser() {
     } catch (error) {
       setIsLoading(false);
       aetServerErrors(error?.response?.data);
-      console.log(error);
     }
   };
 
@@ -61,7 +54,7 @@ export default function AddUser() {
 
   return ReactDOM.createPortal(
     <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-full bg-gray-100 h-screen flex items-center justify-center transition duration-400">
-      <div className="lg:w-[30rem] bg-white-100 p-2 rounded-xl overflow-auto ">
+      <div className="lg:w-[30rem] bg-white-100 dark:bg-black-200 p-2 rounded-xl overflow-auto dark:text-white-100">
         <span className="mb-4 text-xl font-bold flex justify-center">
           Add User
         </span>
@@ -69,7 +62,7 @@ export default function AddUser() {
           <Spinner />
         ) : (
           <form
-            className="w-full mx-auto p-4 bg-white rounded-lg text-sm"
+            className="w-full mx-auto p-4 bg-white rounded-lg text-sm  dark:text-white-100"
             onSubmit={editUserHandler}
           >
             <p className="text-xs text-red-700 text-center">
@@ -79,7 +72,7 @@ export default function AddUser() {
               <div>
                 <label
                   htmlFor="firstName"
-                  className="block text-gray-800 font-medium"
+                  className="block  dark:text-white-100 text-gray-800 font-medium"
                 >
                   firstName
                 </label>
@@ -88,7 +81,7 @@ export default function AddUser() {
                   id="firstName"
                   name="firstName"
                   placeholder="firstName"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
                   value={userInfos?.firstName}
                   onChange={setUserInfosHandler}
                 />
@@ -100,7 +93,7 @@ export default function AddUser() {
               <div>
                 <label
                   htmlFor="lastName"
-                  className="block text-gray-800 font-medium"
+                  className="block  dark:text-white-100 text-gray-800 font-medium"
                 >
                   lastName
                 </label>
@@ -109,7 +102,7 @@ export default function AddUser() {
                   id="lastName"
                   name="lastName"
                   placeholder="lastName"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
                   value={userInfos?.lastName}
                   onChange={setUserInfosHandler}
                 />
@@ -121,7 +114,7 @@ export default function AddUser() {
               <div>
                 <label
                   htmlFor="username"
-                  className="block text-gray-800 font-medium"
+                  className="block  dark:text-white-100 text-gray-800 font-medium"
                 >
                   username
                 </label>
@@ -130,7 +123,7 @@ export default function AddUser() {
                   id="username"
                   name="username"
                   placeholder="username"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
                   value={userInfos?.username}
                   onChange={setUserInfosHandler}
                 />
@@ -142,7 +135,7 @@ export default function AddUser() {
               <div>
                 <label
                   htmlFor="mobile"
-                  className="block text-gray-800 font-medium"
+                  className="block  dark:text-white-100 text-gray-800 font-medium"
                 >
                   mobile
                 </label>
@@ -151,7 +144,7 @@ export default function AddUser() {
                   id="mobile"
                   name="mobile"
                   placeholder="mobile"
-                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                  className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
                   value={userInfos?.mobile}
                   onChange={setUserInfosHandler}
                 />
@@ -164,7 +157,7 @@ export default function AddUser() {
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-gray-800 font-medium"
+                    className="block  dark:text-white-100 text-gray-800 font-medium"
                   >
                     email
                   </label>
@@ -173,7 +166,7 @@ export default function AddUser() {
                     id="email"
                     name="email"
                     placeholder="user email"
-                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+                    className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
                     value={userInfos?.email}
                     onChange={setUserInfosHandler}
                   />
@@ -185,7 +178,7 @@ export default function AddUser() {
               <div>
                 <label
                   htmlFor="colorId"
-                  className="block text-gray-800 font-medium"
+                  className="block  dark:text-white-100 text-gray-800 font-medium"
                 >
                   role
                 </label>
@@ -209,7 +202,7 @@ export default function AddUser() {
               <div>
                 <label
                   htmlFor="isMainItem"
-                  className="block text-gray-800 font-medium"
+                  className="block  dark:text-white-100 text-gray-800 font-medium"
                 >
                   isSystem
                 </label>
@@ -233,7 +226,7 @@ export default function AddUser() {
               <div>
                 <label
                   htmlFor="isMainItem"
-                  className="block text-gray-800 font-medium"
+                  className="block  dark:text-white-100 text-gray-800 font-medium"
                 >
                   enabled
                 </label>

@@ -56,18 +56,20 @@ export default function AddGlobalDiscount({
   };
   return (
     <>
-      <span className="mb-5 text-xl font-bold flex justify-center">
+      <span className="my-3 font-bold flex justify-center sm:text-xl text-[16px]">
         Add Global Discount
       </span>
       <p className="text-red-700 text-xs text-center">
         {serverErrors?.message}
       </p>
       <form
-        className="w-full mx-auto px-4 bg-white rounded-lg relative text-sm"
+        className="w-full mx-auto bg-white rounded-lg relative"
         onSubmit={(e) => e.preventDefault()}
       >
         <div
-          className={` grid grid-cols-1 gap-3 ${isLoading && "opacity-20"} `}
+          className={` grid grid-cols-1 gap-3 text-sm 2xl:gap-y-8 ${
+            isLoading && "opacity-20"
+          } `}
         >
           <div>
             <label htmlFor="type" className="block text-gray-800 font-medium">
@@ -101,7 +103,7 @@ export default function AddGlobalDiscount({
               id="value"
               name="value"
               placeholder="value"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
               onChange={setInfoss}
               value={infos?.value}
               onFocus={() => {
@@ -128,7 +130,7 @@ export default function AddGlobalDiscount({
               id="expiresIn"
               name="expiresIn"
               placeholder="expiresIn"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
               onChange={setInfoss}
               value={infos?.expiresIn}
               onFocus={() => {
@@ -155,7 +157,7 @@ export default function AddGlobalDiscount({
               id="quantity"
               name="quantity"
               placeholder="quantity"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
               onChange={setInfoss}
               value={infos?.quantity}
               onFocus={() => {
@@ -170,17 +172,17 @@ export default function AddGlobalDiscount({
             </p>
           </div>
         </div>
-        <div className="flex justify-center mt-4">
+        <div className="flex justify-center sm:mt-4 mt-5 2xl:mt-10">
           <button
             type="submit"
-            className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2"
+            className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2 sm:text-base text-sm"
             onClick={addProductDiscount}
           >
             {isLoading ? <FormSpinner /> : "Add Discount"}
           </button>
           <button
             type="submit"
-            className="w-full py-2 rounded-xl ml-2 border border-blue-600"
+            className="w-full py-2 rounded-xl ml-2 border border-blue-600 sm:text-base text-sm"
             onClick={() => {
               setShowGlobalDiscount(false);
               setShowSelectDiscount(true);

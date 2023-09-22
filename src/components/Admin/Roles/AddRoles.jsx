@@ -64,7 +64,7 @@ export default function AddRoles({ setShowAddRoles }) {
 
   return ReactDOM.createPortal(
     <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full h-screen flex items-center justify-center transition duration-400">
-      <div className="bg-white-100 w-11/12 overflow-auto h-[45rem] rounded-xl relative p-4">
+      <div className="bg-white-100 dark:bg-black-200 dark:text-white-100 w-11/12 overflow-auto h-[45rem] rounded-xl relative p-4">
         <form onSubmit={editRolesHandler}>
           <div className="flex justify-between">
             <h1 className="mb-8 font-black">Add New Role</h1>
@@ -91,7 +91,7 @@ export default function AddRoles({ setShowAddRoles }) {
               </label>
               <input
                 name="name"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 value={roleInfos?.name}
                 placeholder="Permission Name"
                 onChange={setRoleValue}
@@ -112,7 +112,7 @@ export default function AddRoles({ setShowAddRoles }) {
               </label>
               <input
                 name="code"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 value={roleInfos?.code}
                 placeholder="Permission Code"
                 onChange={setRoleValue}
