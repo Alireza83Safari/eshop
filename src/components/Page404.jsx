@@ -7,13 +7,12 @@ export default function Page404() {
   return (
     <>
       <Header />
-      <div className="relative flex justify-center">
-        <img
-          src="https://s3-cdn.cmlabs.co/page/2023/01/24/panduan-dan-cara-mengatasi-error-404-dengan-efektif-205111.png"
-          alt=""
-        />
-        <Link to="/" className="absolute top-96 bg-red-300 px-4 py-2 rounded-lg text-white-100 font-bold">
-          Navigate to Home
+      <div className=" flex justify-center mt-16">
+        <Link to="/">
+          <img
+            src="https://s3-cdn.cmlabs.co/page/2023/01/24/panduan-dan-cara-mengatasi-error-404-dengan-efektif-205111.png"
+            alt=""
+          />
         </Link>
       </div>
       <Footer />

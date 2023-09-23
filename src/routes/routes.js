@@ -30,7 +30,7 @@ import Category from "../pages/Admin/Category";
 import Brand from "../pages/Admin/Brand";
 import Discount from "../pages/Admin/Discount";
 import Color from "../pages/Admin/Color";
-
+import Page404 from "../components/Page404";
 const route = [
   { path: "", element: <Home /> },
   { path: "product", element: <Product /> },
@@ -42,6 +42,7 @@ const route = [
   { path: "search/:searchTerm", element: <SearchResult /> },
   { path: "/brand/:brand", element: <BrandResult /> },
   { path: "/category/:category", element: <CategoryResult /> },
+  { path: "*", element: <Page404 /> },
   {
     path: "profile/*",
     element: <Profile />,
@@ -58,6 +59,7 @@ const route = [
     path: "/panel/*",
     element: <Index />,
     children: [
+      { path: "*", element: <Page404 /> },
       {
         path: "",
         element: (
@@ -89,7 +91,8 @@ const route = [
             <Brand />
           </PrivateRoute>
         ),
-      },  {
+      },
+      {
         path: "color",
         element: (
           <PrivateRoute>
