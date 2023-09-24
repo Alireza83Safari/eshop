@@ -36,7 +36,6 @@ export default function EditProductData({
   };
   const { datas: brands } = useFetch("/brand", adminAxios);
   const { datas: category } = useFetch("/category", adminAxios);
-
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -46,14 +45,9 @@ export default function EditProductData({
           seCategoryName($.categoryName);
           setProductInfo({
             ...productInfo,
-            brandId: $.brandId,
-            name: $.name,
-            categoryId: $.categoryId,
-            code: $.code,
-            shortDescription: $.shortDescription,
-            description: $.description,
-            topFeatures: $.topFeatures,
+            ...infos.data,
           });
+
           setBrandName($.brandName);
           seCategoryName($.categoryName);
         });
@@ -87,7 +81,7 @@ export default function EditProductData({
   };
 
   return (
-    <div className=" px-5">
+    <div className="px-5 py-3">
       <span className="text-xl font-bold flex justify-center dark:text-white-100">
         Edit Product
       </span>

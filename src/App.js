@@ -48,20 +48,20 @@ function App() {
 
   return (
     <div className="App max-w-[1400px] sm:mx-auto relative w-full min-w-full">
-      <AuthContext.Provider
-        value={{
-          showShopSidebar,
-          setShowShopSidebar,
-          userIsLogin,
-          userInfos,
-          userLogin,
-          setUserIsLogin,
-        }}
-      >
-        <ThemeContext.Provider value={{ mode, setMode }}>
+      <ThemeContext.Provider value={{ mode, setMode }}>
+        <AuthContext.Provider
+          value={{
+            showShopSidebar,
+            setShowShopSidebar,
+            userIsLogin,
+            userInfos,
+            userLogin,
+            setUserIsLogin,
+          }}
+        >
           {routes}
-        </ThemeContext.Provider>
-      </AuthContext.Provider>
+        </AuthContext.Provider>
+      </ThemeContext.Provider>
     </div>
   );
 }

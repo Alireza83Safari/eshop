@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { faMoon } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import productsContext from "../../Context/AuthContext";
 import Profile from "../../components/Profile/Profile";
 import { useLocation } from "react-router-dom";
+import AuthContext from "../../Context/AuthContext";
 
-export default function Header() {
+export default function Header({ mode, setMode }) {
   const [onScrollHeader, setOnScrollHeader] = useState(false);
-  const { mode, setMode, userInfos } = useContext(productsContext);
+  const { userInfos } = useContext(AuthContext);
+
   const [showProfile, setShowProfile] = useState(false);
   const location = useLocation();
   useEffect(() => {

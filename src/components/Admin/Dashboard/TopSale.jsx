@@ -7,7 +7,7 @@ const ProductInfo = lazy(() => import("../Products/ProductInfo"));
 
 const TopSale = () => {
   const { datas: product } = useFetch("/product?order=topSell", userAxios);
-  var topSell = product?.data && product?.data[0];
+  const topSell = product?.data && product?.data[0];
   const [showInfo, setShowInfo] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [productInfos, setProductInfos] = useState(null);

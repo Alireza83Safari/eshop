@@ -74,12 +74,14 @@ export default function AddProductFile({ setShowFile }) {
     <>
       <form onSubmit={(e) => e.preventDefault()}>
         <div>
-          <h2 className="text-center mb-4">Upload images</h2>
+          <h2 className="text-center mb-4 dark:text-white-100">
+            Upload images
+          </h2>
           <span className="text-center text-red-700">{serverError}</span>
           {showUrl?.length ? (
             <div className="relative grid grid-cols-4">
               {showUrl?.map((imageUrl, index) => (
-                <div key={index} className="w-ful p-2 relative">
+                <div key={imageUrl} className="w-ful p-2 relative">
                   <img
                     src={imageUrl}
                     className="mb-4 border w-96 h-44 object-contain"
@@ -103,7 +105,7 @@ export default function AddProductFile({ setShowFile }) {
           )}
           <form
             method="post"
-            className="flex justify-center container absolute bottom-24"
+            className="flex justify-center container absolute bottom-24 dark:text-white-100"
           >
             <input type="file" onChange={handleImageChange} multiple />
           </form>
@@ -119,7 +121,7 @@ export default function AddProductFile({ setShowFile }) {
           </button>
           <button
             type="submit"
-            className="w-11/12 py-2 rounded-xl border border-blue-600 md:mx-5 mx-2 outline-none"
+            className="w-11/12 py-2 rounded-xl border border-blue-600 md:mx-5 mx-2 outline-none dark:text-white-100"
             onClick={() => {
               setShowFile(false);
               setShowAddProductModal(false);

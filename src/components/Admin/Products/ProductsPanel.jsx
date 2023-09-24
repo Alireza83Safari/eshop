@@ -67,7 +67,7 @@ export default function ProductsPanel() {
                   id="searchInput"
                   name="searchTerm"
                   placeholder="Search product ..."
-                  className="py-1 sm:py-2 pl-7 w-32 outline-none rounded-lg dark:bg-black-200  text-xs sm:placeholder:text-[12px] placeholder:text-[10px] dark:text-white-100"
+                  className="py-1 sm:py-2 pl-7 w-32 outline-none rounded-lg dark:bg-black-200 text-xs sm:placeholder:text-[12px] placeholder:text-[10px] dark:text-white-100"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -88,7 +88,7 @@ export default function ProductsPanel() {
               </div>
             </div>
 
-            <div className="sm:h-[46.5rem] h-[41rem]">
+            <div className="lg:h-[46.5rem] sm:h-[44rem] h-[39rem]">
               <Suspense fallback={<Spinner />}>
                 <ProductsTable />
               </Suspense>

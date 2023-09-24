@@ -34,8 +34,8 @@ const Dashboard = () => {
         </div>
         <div className="grid grid-rows-2 md:col-span-4 col-span-12">
           <Suspense fallback={<Spinner />}>
-            <TopDiscount />
             <TopSale />
+            <TopDiscount />
           </Suspense>
         </div>
       </div>

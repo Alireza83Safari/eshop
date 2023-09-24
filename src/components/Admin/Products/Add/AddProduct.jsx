@@ -1,6 +1,7 @@
 import React, { useContext, useState, lazy, Suspense } from "react";
 import ProductsPanelContext from "../../../../Context/ProductsPanelContext";
 import ReactDOM from "react-dom";
+import Spinner from "../../../Spinner/Spinner";
 
 const AddNewProduct = lazy(() => import("./AddNewProduct"));
 const AddProductItem = lazy(() => import("./AddProductItem"));
@@ -20,8 +21,8 @@ export default function AddProduct() {
         showAddProductModal ? "visible" : "invisible"
       }`}
     >
-      <div className="lg:w-[30rem] bg-white-100 dark:bg-black-200  p-5 rounded-xl relative">
-        <Suspense fallback={<div>Loading...</div>}>
+      <div className="lg:w-[30rem] min-h-[27rem] bg-white-100 dark:bg-black-200  p-5 rounded-xl relative">
+        <Suspense fallback={<Spinner />}>
           {showAddProduct && (
             <AddNewProduct
               setShowAddProduct={setShowAddProduct}

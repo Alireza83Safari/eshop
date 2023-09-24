@@ -54,7 +54,7 @@ export default function DashboardChart() {
             </div>
           </div>
         </div>
-        <div className="flex justify-center px-2 w- bg-white-100 dark:bg-black-200 container">
+        <div className="flex justify-center px-2 bg-white-100 dark:bg-black-200 container">
           <BarChartComponent datas={chartData} />
         </div>
       </div>

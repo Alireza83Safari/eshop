@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Transactions({ orders }) {
   return (
-    <div className="md:ml-7 ml-3 md:mr-4 mr-7 mt-3 md:mb-0 mb-6 text-center ">
+    <div className="md:ml-7 ml-3 md:mr-4 mr-7 mt-4 md:mb-0 mb-6 text-center">
       <div className="sm:px-6 h-[25rem] overflow-auto bg-white-100 dark:text-white-100 dark:bg-black-200 rounded-xl relative">
         <p className="2xl:text-lg pt-2 font-bold  rounded-t-xl w-full bg-white-100 dark:text-white-100 dark:bg-black-200">
           Orders

@@ -9,7 +9,7 @@ export default function CommentsTable() {
   const [currentPage, setCurrentPage] = useState(1);
 
   let url = "/comment";
-  let pageSize = 10;
+  let pageSize = 11;
   const {
     isLoading: paginationLodaing,
     paginations,
@@ -38,15 +38,15 @@ export default function CommentsTable() {
 
   return (
     <>
-      <table className="min-w-full">
+      <table className="min-w-full overflow-x-auto">
         <thead>
-          <tr className="sm:text-xs text-[12px] 2xl:text-lg grid lg:grid-cols-6 grid-cols-5 border-y py-2">
-            <th>User</th>
-            <th>Comment</th>
-            <th>Product</th>
-            <th className="lg:inline hidden">Date</th>
-            <th className="">rate</th>
-            <th>Status</th>
+          <tr className="sm:text-xs text-[12px] 2xl:text-lg border-y">
+            <th className="py-2">User</th>
+            <th className="py-2">Comment</th>
+            <th className="py-2">Product</th>
+            <th className="py-2">Date</th>
+            <th className="py-2">rate</th>
+            <th className="py-2">Status</th>
           </tr>
         </thead>
         {paginationLodaing || isLoading ? (
@@ -55,20 +55,24 @@ export default function CommentsTable() {
           <tbody>
             {paginations?.map((comment) => (
               <tr
-                className="sm:text-xs text-[10px] 2xl:text-sm grid lg:grid-cols-6 grid-cols-5 sm:px-4 sm:py- py-3 text-center"
+                className="sm:text-xs text-[10px] 2xl:text-sm sm:px-4 text-center"
                 key={comment.id}
               >
-                <td className="truncate font-bold">{comment.username}</td>
-
-                <td className="text-ellipsis overflow-hidden truncate">
-                  {comment.text}
+                <td className="truncate font-bold  py-3 px-2">
+                  {comment.username}
                 </td>
-                <td className="truncate">{comment.productName}</td>
-                <td className="lg:inline hidden">
+
+                <td className="truncate  py-3 px-2">{comment.text}</td>
+                <td className="truncate  py-3 px-2">
+                  {comment.productName}
+                </td>
+                <td className="truncate  py-3 px-2 ">
                   {comment.createdAt.slice(0, 10)}
                 </td>
-                <td className="">{comment.rate}/5</td>
-                <td>
+                <td className="truncate  py-3 px-2">
+                  {comment.rate}/5
+                </td>
+                <td className="truncate  py-3 px-2 ">
                   {(() => {
                     switch (comment.commentStatus) {
                       case 0:

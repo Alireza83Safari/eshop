@@ -62,7 +62,7 @@ export default function AddProductItem({
 
   return (
     <>
-      <span className="mb-5 text-xl font-bold flex justify-center">
+      <span className="mb-5 text-xl font-bold flex justify-center dark:text-white-100">
         Add New Product Item
       </span>
 
@@ -70,123 +70,124 @@ export default function AddProductItem({
         onSubmit={addItem}
         className="w-full mx-auto lg:px-2 px-4 bg-white rounded-lg"
       >
-        <div className={` grid grid-cols-1 gap-4 ${isLoading && "opacity-20"}`}>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="col-span-2">
-              <label
-                htmlFor="colorId"
-                className="block text-gray-800 dark:text-white-100 font-medium"
-              >
-                Color
-              </label>
-              <CustomSelect
-                options={colors?.data.map((brand) => ({
-                  value: brand.id,
-                  label: brand.name,
-                }))}
-                onchange={(selectedOptions) => {
-                  const selectedValues = selectedOptions.map(
-                    (option) => option.value
-                  );
-                  setProductItemInfo({
-                    ...productItemInfo,
-                    colorId: selectedValues,
-                  });
-                  setErrors("");
-                }}
-                type="multiple"
-              />
-              <p className="text-red-700">{errors?.colorId}</p>
-            </div>
-
-            <div>
-              <Input
-                type="number"
-                labelText="price"
-                placeholder="Product price"
-                name="price"
-                value={productItemInfo?.price}
-                onChange={setProductItemInfos}
-                Error={errors?.price || serverError?.errors?.price}
-                callback={() => {
-                  setErrors("");
-                  setServerError("");
-                }}
-              />
-            </div>
-
-            <div>
-              <Input
-                labelText="quantity"
-                placeholder="Product quantity"
-                name="quantity"
-                value={productItemInfo?.quantity}
-                onChange={setProductItemInfos}
-                Error={errors?.quantity || serverError?.errors?.quantity}
-                callback={() => {
-                  setErrors("");
-                  setServerError("");
-                }}
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="status"
-                className="block text-gray-800 dark:text-white-100 font-medium"
-              >
-                Product Status
-              </label>
-              <CustomSelect
-                options={["true", "false"].map((status) => ({
-                  value: status,
-                  label: status,
-                }))}
-                onchange={(selectedOptions) => {
-                  setProductItemInfo({
-                    ...productItemInfo,
-                    status: selectedOptions?.value,
-                  });
-                  setErrors("");
-                }}
-              />
-              <p className="text-red-700">{errors?.status}</p>
-            </div>
-
-            <div>
-              <label
-                htmlFor="isMainItem"
-                className="block text-gray-800 dark:text-white-100 font-medium"
-              >
-                isMainItem
-              </label>
-              <CustomSelect
-                options={["true", "false"].map((isMain) => ({
-                  value: isMain,
-                  label: isMain,
-                }))}
-                onchange={(selectedOptions) => {
-                  setProductItemInfo({
-                    ...productItemInfo,
-                    isMainItem: selectedOptions?.value,
-                  });
-                  setErrors("");
-                }}
-              />
-              <p className="text-red-700">{errors?.isMainItem}</p>
-            </div>
+        <div
+          className={` grid grid-cols-1 gap-y-7 gap-x-3 ${
+            isLoading && "opacity-20"
+          }`}
+        >
+          <div>
+            <Input
+              type="number"
+              labelText="price"
+              placeholder="Product price"
+              name="price"
+              value={productItemInfo?.price}
+              onChange={setProductItemInfos}
+              Error={errors?.price || serverError?.errors?.price}
+              callback={() => {
+                setErrors("");
+                setServerError("");
+              }}
+            />
+          </div>
+          <div>
+            <Input
+              type="number"
+              labelText="quantity"
+              placeholder="Product quantity"
+              name="quantity"
+              className=""
+              value={productItemInfo?.quantity}
+              onChange={setProductItemInfos}
+              Error={errors?.quantity || serverError?.errors?.quantity}
+              callback={() => {
+                setErrors("");
+                setServerError("");
+              }}
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="status"
+              className="block text-gray-800 dark:text-white-100 font-medium"
+            >
+              Product Status
+            </label>
+            <CustomSelect
+              options={["true", "false"].map((status) => ({
+                value: status,
+                label: status,
+              }))}
+              onchange={(selectedOptions) => {
+                setProductItemInfo({
+                  ...productItemInfo,
+                  status: selectedOptions?.value,
+                });
+                setErrors("");
+              }}
+            />
+            <p className="text-red-700">{errors?.status}</p>
+          </div>
+          <div>
+            <label
+              htmlFor="isMainItem"
+              className="block text-gray-800 dark:text-white-100 font-medium"
+            >
+              isMainItem
+            </label>
+            <CustomSelect
+              options={["true", "false"].map((isMain) => ({
+                value: isMain,
+                label: isMain,
+              }))}
+              onchange={(selectedOptions) => {
+                setProductItemInfo({
+                  ...productItemInfo,
+                  isMainItem: selectedOptions?.value,
+                });
+                setErrors("");
+              }}
+            />
+            <p className="text-red-700">{errors?.isMainItem}</p>
+          </div>
+          <div className="col-span-2">
+            <label
+              htmlFor="colorId"
+              className="block text-gray-800 dark:text-white-100 font-medium"
+            >
+              Color
+            </label>
+            <CustomSelect
+              options={colors?.data.map((brand) => ({
+                value: brand.id,
+                label: brand.name,
+              }))}
+              onchange={(selectedOptions) => {
+                const selectedValues = selectedOptions.map(
+                  (option) => option.value
+                );
+                setProductItemInfo({
+                  ...productItemInfo,
+                  colorId: selectedValues,
+                });
+                setErrors("");
+              }}
+              type="multiple"
+            />
+            <p className="text-red-700">{errors?.colorId}</p>
           </div>
         </div>
 
-        <div className="flex justify-center mt-8">
+        <div className="grid grid-cols-2 mt-9">
           <button
             type="submit"
-            className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2"
+            className="bg-blue-600 text-white-100 w-full py- rounded-xl mr-2"
           >
             {isLoading ? <FormSpinner /> : "Add Product Item"}
           </button>
           <button
             type="submit"
-            className="w-full py-2 rounded-xl mr-2 border dark:text-white-100"
+            className="w-full py-2 rounded-xl ml-2 border dark:text-white-100"
             onClick={() => {
               setShowProductItem(false);
               setShowAddProductModal(false);

@@ -107,10 +107,7 @@ export default function EditCategory({
               </div>
             </div>
 
-            <div
-              className="flex justify-center mt-9
-            "
-            >
+            <div className="flex justify-center mt-9">
               <button
                 type="submit"
                 className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2"

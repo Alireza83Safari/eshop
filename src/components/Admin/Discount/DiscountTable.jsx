@@ -42,14 +42,15 @@ export default function DiscountTable() {
   return (
     <>
       <table
-        className={`min-w-full bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-xl 2xl:h-[50rem] md:h-[38.2rem] h-[34rem] relative ${
+        className={`min-w-full bg-white-100  dark:bg-black-200 dark:text-white-100 rounded-xl 2xl:h-[50rem] md:h-[38.2rem] h-[34rem] relative ${
           isLoading && "opacity-20"
         }`}
       >
         <thead>
-          <tr className="md:text-sm sm:text-xs text-[10px] text-center border-b grid sm:grid-cols-5 grid-cols-4">
-            <th className="2xl:py-4 py-3 sm:inline hidden">NO</th>
+          <tr className="md:text-sm text-xs text-center border-b">
+            <th className="2xl:py-4 py-3 ">NO</th>
             <th className="2xl:py-4 py-3">discount</th>
+            <th className="2xl:py-4 py-3">for</th>
             <th className="2xl:py-4 py-3">quantity</th>
             <th className="2xl:py-4 py-3">CreatedAt</th>
             <th className="2xl:py-4 py-3">Actions</th>
@@ -58,16 +59,20 @@ export default function DiscountTable() {
         {paginatedProductsLoading || paginationLoading || isLoading ? (
           <Spinner />
         ) : (
-          <tbody>
+          <tbody className=" overflow-auto">
             {paginations?.map((discount, index) => (
               <tr
-                className="2xl:text-lg md:text-sm sm:text-xs text-[10px] text-center grid sm:grid-cols-5 grid-cols-4"
+                className="2xl:text-lg md:text-sm text-xs text-center overflow-auto"
                 key={discount + 1}
               >
-                <td className="2xl:py-4 py-3 sm:inline hidden">
+                {console.log(discount)}
+                <td className="2xl:py-4 py-3 ">
                   {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
                 </td>
                 <td className="2xl:py-4 py-3 truncate">{discount?.value}%</td>
+                <td className="2xl:py-4 py-3 truncate">
+                  {discount?.productName || discount?.relatedUserUsername}
+                </td>
                 <td className="2xl:py-4 py-3 truncate">{discount?.quantity}</td>
 
                 <td className="2xl:py-4 py-3 truncate">
@@ -98,14 +103,12 @@ export default function DiscountTable() {
             ))}
           </tbody>
         )}
-
-        <Pagination
-          pagesCount={pagesCount}
-          setCurrentPage={setCurrentPage}
-          currentPage={currentPage}
-        />
       </table>
-
+      <Pagination
+        pagesCount={pagesCount}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+      />
       <Suspense fallback={<Spinner />}>
         <EditDiscount
           showEditDiscount={showEditDiscount}

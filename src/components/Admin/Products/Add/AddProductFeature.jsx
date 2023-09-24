@@ -68,7 +68,7 @@ export default function AddProductFeature({
               <label className="dark:text-white-100">{item.name}: </label>
               <input
                 type="text"
-                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200"
+                className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200 dark:text-white-100"
                 placeholder={item.name}
                 value={
                   values.find((v) => v.productFeatureKeyId === item.id)

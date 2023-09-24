@@ -3,13 +3,12 @@ import userAxios from "../../../services/Axios/userInterceptors";
 import useFetch from "../../../hooks/useFetch";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import Spinner from "../../Spinner/Spinner";
-
 const ProductInfo = lazy(() => import("../Products/ProductInfo"));
 
 const TopDiscount = () => {
   const [showInfo, setShowInfo] = useState(false);
   const { datas: product } = useFetch("/product?order=discount", userAxios);
-  var topDiscount = product?.data && product?.data[0];
+  const topDiscount = product?.data && product?.data[0];
 
   const [isLoading, setLoading] = useState(false);
   const [productInfos, setProductInfos] = useState(null);
@@ -20,7 +19,7 @@ const TopDiscount = () => {
     if (topDiscount?.itemId) {
       try {
         const response = await adminAxios.get(
-          `/productItem/product/${topDiscount?.itemId}`
+          `/productItem/product/${topDiscount?.id}`
         );
         if (response.status === 200) {
           setProductInfos(response?.data);
@@ -34,7 +33,7 @@ const TopDiscount = () => {
 
   const getProductFile = async () => {
     setLoading(true);
-    const response = await userAxios.get(`/file/${topDiscount?.itemId}/1`);
+    const response = await userAxios.get(`/file/${topDiscount?.id}/1`);
     try {
       setLoading(false);
       setProductFile(response?.data);
@@ -48,9 +47,9 @@ const TopDiscount = () => {
       getProductInfo();
       getProductFile();
     }
-  }, [topDiscount?.itemId]);
+  }, [showInfo]);
   return (
-    <div className="mr-7 mt-3">
+    <div className="mr-7 mt-4">
       <div className="bg-white-100 dark:bg-black-200 dark:text-white-100 py-7 px-5 ml-3 rounded-xl">
         <span className="flex justify-center font-bold whitespace-nowrap dark:text-white-100 lg:text-base text-xs text-center">
           Most Discount Product Weekly

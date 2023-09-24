@@ -37,10 +37,10 @@ export default function UsersTable() {
     <>
       <table className="min-w-full">
         <thead>
-          <tr className="md:text-sm sm:text-xs text-[10px] text-center border-y">
+          <tr className="md:text-sm text-xs text-center border-y">
             <th className="2xl:py-4 py-3">NO</th>
             <th className="2xl:py-4 py-3">userName</th>
-            <th className="2xl:py-4 py-3 col-span-2">email</th>
+            <th className="2xl:py-4 py-3">email</th>
             <th className="2xl:py-4 py-3">Join</th>
             <th className="2xl:py-4 py-3">Phone</th>
             <th className="2xl:py-4 py-3">actions</th>
@@ -54,7 +54,7 @@ export default function UsersTable() {
             {paginations?.length >= 1 ? (
               paginations.map((user, index) => (
                 <tr
-                  className="2xl:text-base md:text-sm sm:text-xs text-[10px] text-center overflow-auto"
+                  className="2xl:text-base md:text-sm text-xs text-center overflow-x-auto"
                   key={user.id}
                 >
                   <td className="2xl:py-4 py-3 px-1">
@@ -63,7 +63,7 @@ export default function UsersTable() {
                   <td className="2xl:py-4 py-3 px-1 whitespace-nowrap text-ellipsis overflow-hidden">
                     {user?.username}
                   </td>
-                  <td className="2xl:py-4 py-3 px-1 whitespace-nowrap text-ellipsis overflow-hidden col-span-2">
+                  <td className="2xl:py-4 py-3 px-1 whitespace-nowrap text-ellipsis overflow-hidden">
                     {user?.email}
                   </td>
                   <td className="2xl:py-4 py-3 px-1 whitespace-nowrap text-ellipsis">

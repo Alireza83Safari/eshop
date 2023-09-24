@@ -1,11 +1,11 @@
 const OrderInfos = ({ tax, income, netProfit }) => {
   const DataSection = ({ label, value, color }) => (
-    <div className="bg-white-100 dark:bg-black-200 2xl:py-6 md:py-4 py-2 rounded-xl mt-6 text-center col-span-1 md:mx-5 mx-2">
-      <span className="font-bold text-[10px] md:text-xs xl:text-lg 2xl:text-xl">
+    <div className="bg-white-100 dark:bg-black-200 2xl:py-6 sm:py-4 py-3 rounded-xl mt-6 text-center col-span-1 md:mx-5 mx-2">
+      <span className="font-bold 2xl:text-xl xl:text-lg sm:text-xs text-sm">
         {label}
       </span>
       <h1
-        className={`  lg:text-3xl md:text-2xl font-bold md:my-6 my-3 2xl:text-5xl ${color} `}
+        className={` 2xl:text-5xl lg:text-3xl sm:text-2xl text-xl font-bold md:my-6 my-3 ${color} `}
       >
         {value} $
       </h1>
@@ -13,7 +13,7 @@ const OrderInfos = ({ tax, income, netProfit }) => {
   );
 
   return (
-    <div className="dark:text-white-100 grid grid-cols-3">
+    <div className="dark:text-white-100 grid sm:grid-cols-3">
       <DataSection
         label="Your Tax This Month"
         value={tax.toLocaleString()}

@@ -31,14 +31,7 @@ export default function EditUser() {
           let $ = userData?.data;
           setUserInfos({
             ...userInfos,
-            firstName: $.firstName,
-            lastName: $.lastName,
-            username: $.username,
-            mobile: Number($.mobile),
-            email: $.email,
-            roleId: $.roleId,
-            isSystem: $.isSystem,
-            enabled: $.enabled,
+            ...userData?.data,
           });
           setRoleName($.roleName);
         });
@@ -78,7 +71,7 @@ export default function EditUser() {
   };
   return ReactDOM.createPortal(
     <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-full bg-gray-100 h-screen flex items-center justify-center transition duration-400">
-      <div className="lg:w-[30rem] bg-white-100 p-2 rounded-xl overflow-auto ">
+      <div className="lg:w-[30rem] bg-white-100 p-2 rounded-xl overflow-auto min-h-[27rem]">
         <span className="mb-4 text-xl font-bold flex justify-center">
           Edit User
         </span>

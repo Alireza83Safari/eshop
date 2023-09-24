@@ -24,7 +24,7 @@ export default function ProductsTable() {
     paginationLoading,
   } = useContext(ProductsPanelContext);
 
-  let pageSize = 12;
+  let pageSize = 11;
   const { isLoading: loading } = usePaginationURL(currentPage, pageSize);
   const pagesCount = Math.ceil(total / pageSize);
 
@@ -70,16 +70,16 @@ export default function ProductsTable() {
   const { rowNumber, limit } = useTableRow();
   return (
     <>
-      <table className="min-w-full">
+      <table className="min-w-full overflow-x-auto">
         <thead>
-          <tr className="md:text-sm sm:text-xs text-[10px] text-center border-y grid grid-cols-7">
-            <th className="py-3">NO</th>
-            <th className="py-3">PRODUCT</th>
-            <th className="py-3">Brand</th>
-            <th className="py-3">Category</th>
-            <th className="py-3">Code</th>
-            <th className="py-3">Actions</th>
-            <th className="py-3">Infos</th>
+          <tr className="md:text-sm text-xs text-center border-y hover:bg-gray-50">
+            <th className="py-3 px-2">NO</th>
+            <th className="py-3 px-2">PRODUCT</th>
+            <th className="py-3 px-2">Brand</th>
+            <th className="py-3 px-2">Category</th>
+            <th className="py-3 px-2">Code</th>
+            <th className="py-3 px-2">Actions</th>
+            <th className="py-3 px-2">Infos</th>
           </tr>
         </thead>
 
@@ -89,23 +89,23 @@ export default function ProductsTable() {
           <tbody>
             {paginations?.map((product, index) => (
               <tr
-                className="md:text-sm sm:text-xs text-[10px] text-center grid grid-cols-7"
+                className="md:text-sm text-xs text-center hover:bg-gray-50"
                 key={product.id}
               >
-                <td className="py-3">
+                <td className="py-3 px-2">
                   {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
                 </td>
-                <td className="py-3 truncate">{product?.name}</td>
-                <td className="py-3 flex justify-center items-center">
+                <td className="py-3 px-2 truncate">{product?.name}</td>
+                <td className="py-3 px-2 flex justify-center items-center">
                   <img
                     src={`http://127.0.0.1:6060/${product?.brandFileUrl} `}
                     alt=""
                     className="sm:w-8 w-6 sm:h-8 h-6 object-contain"
                   />
                 </td>
-                <td className="py-3 truncate">{product?.categoryName}</td>
-                <td className="py-3 truncate">{product?.code}</td>
-                <td className="py-3 truncate space-x-2">
+                <td className="py-3 px-2 truncate">{product?.categoryName}</td>
+                <td className="py-3 px-2 truncate">{product?.code}</td>
+                <td className="py-3 px-2 truncate space-x-2">
                   <button
                     onClick={() => {
                       setEditProductID(product?.id);
@@ -128,7 +128,7 @@ export default function ProductsTable() {
                     <FontAwesomeIcon icon={faTrash} />
                   </button>
                 </td>
-                <td className="py-3 truncate">
+                <td className="py-3 px-2 truncate">
                   <button
                     className="border md:px-2 px-1 md:text-xs text-[9px] rounded-lg"
                     onClick={() => {
@@ -143,14 +143,20 @@ export default function ProductsTable() {
             ))}
           </tbody>
         ) : (
-          <div className="flex justify-center items-center mt-32">
-            <div>
-              <img src="/images/not-found-product.svg" alt="" />
-              <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
-                Product Not Found
-              </p>
-            </div>
-          </div>
+          <tbody>
+            <tr>
+              <td colSpan="7">
+                <div className="flex justify-center items-center mt-32">
+                  <div>
+                    <img src="/images/not-found-product.svg" alt="" />
+                    <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
+                      Product Not Found
+                    </p>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
         )}
       </table>
       {showInfo && (

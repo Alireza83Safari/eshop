@@ -16,7 +16,7 @@ export default function OrderTable({ paginations, paginationLodaing, total }) {
   const [searchQuery, setSearchQuery] = useState("");
   const { setSearchValue } = useSearch(searchQuery);
   return (
-    <div className="lg:col-span-8 col-span-12 md:mt-2 text-center md:mx-5 mx-2 mb-2  bg-white-100 dark:bg-black-200 rounded-xl">
+    <div className="lg:col-span-8 col-span-12 md:mt-2 text-center md:mx-5 mx-2 mb-2 bg-white-100 dark:bg-black-200 rounded-xl">
       <div className="grid grid-cols-2 my-2">
         <div className="flex rounded-md relative md:w-auto ml-4">
           <input
@@ -35,15 +35,15 @@ export default function OrderTable({ paginations, paginationLodaing, total }) {
           />
         </div>
       </div>
-      <div className="sm:px-6 2xl:h-[32rem] h-[26rem] overflow-y-auto dark:text-white-100 rounded-b-xl relative">
+      <div className="sm:px-6 2xl:h-[32rem] h-[27rem] dark:text-white-100 rounded-b-xl relative overflow-x-auto">
         <table className="min-w-full">
           <thead>
-            <tr className="grid grid-cols-5 md:text-sm sm:text-xs text-[10px] text-center border-b">
-              <th className="2xl:py-4 py-3">NO</th>
-              <th className="2xl:py-4 py-3">userName</th>
-              <th className="2xl:py-4 py-3">price</th>
-              <th className="2xl:py-4 py-3">createdAt</th>
-              <th className="2xl:py-4 py-3">status</th>
+            <tr className="md:text-sm text-xs text-center border-b">
+              <th className="2xl:py-4 py-3 px-2">NO</th>
+              <th className="2xl:py-4 py-3 px-2">userName</th>
+              <th className="2xl:py-4 py-3 px-2">price</th>
+              <th className="2xl:py-4 py-3 px-2">createdAt</th>
+              <th className="2xl:py-4 py-3 px-2">status</th>
             </tr>
           </thead>
 
@@ -54,22 +54,28 @@ export default function OrderTable({ paginations, paginationLodaing, total }) {
               {paginations?.length >= 1 ? (
                 paginations?.map((order, index) => (
                   <tr
-                    className="grid grid-cols-5 2xl:text-base md:text-sm sm:text-xs text-[10px] text-center"
+                    className="2xl:text-base md:text-sm text-xs text-center"
                     key={order.id}
                   >
-                    <td className="2xl:py-4 py-3">
+                    <td className="2xl:py-4 py-3 px-2">
                       {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
                     </td>
-                    <td className="2xl:py-4 py-3">{order?.username}</td>
-                    <td className="2xl:py-4 py-3">{order?.price}</td>
-                    <td className="2xl:py-4 py-3">{order?.createdAt.slice(0, 10)}</td>
-                    <td className="2xl:py-4 py-3 md:space-x-2">
+                    <td className="2xl:py-4 py-3 px-2 truncate">
+                      {order?.username}
+                    </td>
+                    <td className="2xl:py-4 py-3 px-2 truncate">
+                      {order?.price}
+                    </td>
+                    <td className="2xl:py-4 py-3 px-2 truncate">
+                      {order?.createdAt.slice(0, 10)}
+                    </td>
+                    <td className="2xl:py-4 py-3 px-2 md:space-x-2 truncate">
                       {order?.status === 1 ? (
-                        <button className="text-green-300 bg-green-400 px-2 py-1 text-xs rounded-md">
+                        <button className="text-green-300 bg-green-400 sm:px-2 px-1 py-1 text-xs rounded-md">
                           Ok
                         </button>
                       ) : (
-                        <button className="bg-orange-100 text-orange-400 px-2 py-1 text-xs rounded-md">
+                        <button className="bg-orange-100 text-orange-400 sm:px-2 px-1 py-1 text-xs rounded-md">
                           pending
                         </button>
                       )}
@@ -77,14 +83,18 @@ export default function OrderTable({ paginations, paginationLodaing, total }) {
                   </tr>
                 ))
               ) : (
-                <div className="flex justify-center items-center mt-32">
-                  <div>
-                    <img src="/images/not-found-product.svg" alt="" />
-                    <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
-                      Order Not Found
-                    </p>
-                  </div>
-                </div>
+                <tr>
+                  <td colSpan="5">
+                    <div className="flex justify-center items-center mt-32">
+                      <div>
+                        <img src="/images/not-found-product.svg" alt="" />
+                        <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
+                          Order Not Found
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
               )}
             </tbody>
           )}

@@ -14,9 +14,9 @@ export default function Comments() {
   const [searchQuery, setSearchQuery] = useState("");
   const { setSearchValue } = useSearch(searchQuery);
   return (
-    <section className="float-right mt-16 pt-4 px-4 md:pb-16 bg-white-200 dark:text-white-100 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] min-h-screen">
+    <section className="float-right mt-16 pt-4 md:px-4 px-2 md:pb-16 bg-white-200 dark:text-white-100 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] min-h-screen">
       <div className="md:grid grid-cols-12">
-        <div className="md:col-span-9 mt-2 bg-white-100 rounded-xl dark:bg-black-200">
+        <div className="lg:col-span-9 col-span-12 mt-2 bg-white-100 rounded-xl dark:bg-black-200">
           <div className="grid grid-cols-2 my-2">
             <div className="flex rounded-md relative md:w-auto ml-4">
               <input
@@ -36,14 +36,14 @@ export default function Comments() {
             </div>
           </div>
 
-          <div className="relative lg:px-3 overflow-y-auto rounded-b-xl 2xl:h-[44rem] h-[37rem]">
+          <div className="relative lg:px-3 overflow-y-auto rounded-b-xl 2xl:h-[44rem] md:h-[38rem] h-[37rem] md:order-1 order-2">
             <Suspense fallback={<Spinner />}>
               <CommentsTable />
             </Suspense>
           </div>
         </div>
 
-        <div className="md:col-span-3 md:block grid grid-cols-2 md:px-4">
+        <div className="lg:col-span-3 col-span-12 lg:block grid grid-cols-2 lg:px-4 md:order-2 order-1 lg:gap-0 gap-5 lg:mt-0 mt-5">
           <Suspense fallback={<Spinner />}>
             <CommentsInfos />
           </Suspense>

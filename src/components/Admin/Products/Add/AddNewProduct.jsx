@@ -26,7 +26,6 @@ export default function AddNewProduct({
   const [errors, setErrors] = useState(null);
   const [serverError, setServerError] = useState(null);
   const [isLoading, setLoading] = useState(false);
-  console.log(serverError);
   const addNewProducts = async () => {
     productFormValidation(productInfo, errors, setErrors);
     setLoading(true);
@@ -65,7 +64,7 @@ export default function AddNewProduct({
 
       <form onSubmit={(e) => e.preventDefault()}>
         <div
-          className={` grid grid-cols-2 gap-2 mt-2 text-sm  dark:text-white-100 ${
+          className={` grid grid-cols-2 gap-y-7 gap-x-3 mt-2 text-sm  dark:text-white-100 ${
             isLoading && "opacity-20"
           } `}
         >

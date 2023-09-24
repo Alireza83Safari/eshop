@@ -38,7 +38,7 @@ export default function ProductInfo({
               >
                 {productFile?.map((img) => (
                   <SwiperSlide>
-                    <div className="flex justify-center">
+                    <div className="flex justify-center" key={img.id}>
                       <img
                         src={`http://127.0.0.1:6060/${img.fileUrl}`}
                         className="object-contain sm:h-[25rem] h-[18rem]"
@@ -94,12 +94,4 @@ export default function ProductInfo({
     </div>,
     document.getElementById("portal")
   );
-}
-
-{
-  /* <img
-  src={`http://127.0.0.1:6060/${img.fileUrl}`}
-  className="object-contain h-full"
-/>;
- */
 }
