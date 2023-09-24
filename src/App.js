@@ -5,11 +5,12 @@ import "./App.css";
 import AuthContext from "./Context/AuthContext";
 import userAxios from "./services/Axios/userInterceptors";
 import "react-toastify/dist/ReactToastify.css";
+import ThemeContext from "./Context/ThemeContext";
 
 function App() {
   const routes = useRoutes(route);
   const [userIsLogin, setUserIsLogin] = useState(null);
-  const [mode, setMode] = useState(false);
+  const [mode, setMode] = useState(null);
   const [showShopSidebar, setShowShopSidebar] = useState(false);
   const [userInfos, setUserInfos] = useState(null);
 
@@ -49,8 +50,6 @@ function App() {
     <div className="App max-w-[1400px] sm:mx-auto relative w-full min-w-full">
       <AuthContext.Provider
         value={{
-          mode,
-          setMode,
           showShopSidebar,
           setShowShopSidebar,
           userIsLogin,
@@ -59,7 +58,9 @@ function App() {
           setUserIsLogin,
         }}
       >
-        {routes}
+        <ThemeContext.Provider value={{ mode, setMode }}>
+          {routes}
+        </ThemeContext.Provider>
       </AuthContext.Provider>
     </div>
   );

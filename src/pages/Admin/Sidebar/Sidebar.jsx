@@ -18,6 +18,7 @@ import {
 import "./Sidebar.css";
 import AuthContext from "../../../Context/AuthContext";
 import adminAxios from "../../../services/Axios/adminInterceptors";
+import ThemeContext from "../../../Context/ThemeContext";
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -37,9 +38,8 @@ export default function Sidebar() {
 
   const location = useLocation().pathname;
   const pathNames = location.substring(location.lastIndexOf("/") + 1);
-  const { mode, adminLogin, userLogin, setAdminIsLogin } =
-    useContext(AuthContext);
-
+  const { adminLogin, userLogin, setAdminIsLogin } = useContext(AuthContext);
+  const { mode } = useContext(ThemeContext);
   const activeId = useMemo(() => pathNames, [pathNames]);
 
   const logoutHandler = () => {

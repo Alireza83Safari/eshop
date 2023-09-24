@@ -13,11 +13,13 @@ import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../../components/Spinner/Spinner";
 import AuthContext from "../../Context/AuthContext";
 import useFetch from "../../hooks/useFetch";
+import ThemeContext from "../../Context/ThemeContext";
 const Profile = lazy(() => import("../../components/Profile/Profile"));
 
 export default function Header() {
-  const { mode, setMode, showShopSidebar, setShowShopSidebar, userIsLogin } =
+  const { showShopSidebar, setShowShopSidebar, userIsLogin } =
     useContext(AuthContext);
+  const { mode, setMode } = useContext(ThemeContext);
   const [orders, setOrders] = useState(0);
   const [userInfos, setUserInfos] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
