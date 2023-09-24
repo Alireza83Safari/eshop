@@ -4,7 +4,7 @@ import userAxios from "./../services/Axios/userInterceptors";
 
 export default function Banner() {
   const [banner, setBanner] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(1);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const fetchBanner = async () => {
