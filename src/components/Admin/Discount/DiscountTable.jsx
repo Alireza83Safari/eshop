@@ -42,7 +42,7 @@ export default function DiscountTable() {
   return (
     <>
       <table
-        className={`min-w-full bg-white-100  dark:bg-black-200 dark:text-white-100 rounded-xl 2xl:h-[50rem] md:h-[38.2rem] h-[34rem] relative ${
+        className={` min-w-full bg-white-100  dark:bg-black-200 dark:text-white-100 rounded-xl 2xl:h-[50rem] md:h-[38.2rem] h-[34rem] relative ${
           isLoading && "opacity-20"
         }`}
       >

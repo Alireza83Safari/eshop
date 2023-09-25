@@ -1,7 +1,6 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, lazy, Suspense } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import ProductInfo from "./ProductInfo";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import Pagination from "../../getPagination";
@@ -9,6 +8,7 @@ import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
 import userAxios from "../../../services/Axios/userInterceptors";
 import useTableRow from "../../../hooks/useTableRow";
+const Infos = lazy(() => import("../Infos/Infos"));
 
 export default function ProductsTable() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,7 +48,6 @@ export default function ProductsTable() {
       }
     }
   };
-
   const getProductFile = async () => {
     setLoading(true);
     const response = await userAxios.get(`/file/${infosId}/1`);
@@ -159,14 +158,18 @@ export default function ProductsTable() {
           </tbody>
         )}
       </table>
-      {showInfo && (
-        <ProductInfo
-          setShowInfo={setShowInfo}
-          isLoading={isLoading}
-          productInfos={productInfos}
-          productFile={productFile}
-        />
-      )}
+      <Suspense fallback={<Spinner />}>
+        {showInfo && (
+          <Infos
+            setShowInfo={setShowInfo}
+            showInfo={showInfo}
+            isLoading={isLoading}
+            productInfos={productInfos}
+            productFile={productFile}
+            infosId={infosId}
+          />
+        )}
+      </Suspense>
 
       <Pagination
         pagesCount={pagesCount}

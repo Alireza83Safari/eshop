@@ -2,6 +2,7 @@ import React, { lazy, Suspense } from "react";
 import Spinner from "../../components/Spinner/Spinner";
 import adminAxios from "../../services/Axios/adminInterceptors";
 import useFetch from "../../hooks/useFetch";
+import { ToastContainer } from "react-toastify";
 
 const DashboardChart = lazy(() =>
   import("../../components/Admin/Dashboard/DashboardChart")
@@ -39,6 +40,7 @@ const Dashboard = () => {
           </Suspense>
         </div>
       </div>
+      <ToastContainer />
     </section>
   );
 };

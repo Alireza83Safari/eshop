@@ -3,7 +3,7 @@ import userAxios from "../../../services/Axios/userInterceptors";
 import useFetch from "../../../hooks/useFetch";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import Spinner from "../../Spinner/Spinner";
-const ProductInfo = lazy(() => import("../Products/ProductInfo"));
+const Infos = lazy(() => import("../Infos/Infos"));
 
 const TopSale = () => {
   const { datas: product } = useFetch("/product?order=topSell", userAxios);
@@ -73,12 +73,14 @@ const TopSale = () => {
       </div>
 
       <Suspense fallback={<Spinner />}>
-        {showInfo && !isLoading && (
-          <ProductInfo
+        {showInfo && (
+          <Infos
             setShowInfo={setShowInfo}
             isLoading={isLoading}
             productInfos={productInfos}
             productFile={productFile}
+            showInfo={showInfo}
+            infosId={topSell?.id}
           />
         )}
       </Suspense>

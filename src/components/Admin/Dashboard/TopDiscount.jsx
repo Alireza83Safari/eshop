@@ -3,7 +3,7 @@ import userAxios from "../../../services/Axios/userInterceptors";
 import useFetch from "../../../hooks/useFetch";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import Spinner from "../../Spinner/Spinner";
-const ProductInfo = lazy(() => import("../Products/ProductInfo"));
+const Infos = lazy(() => import("../Infos/Infos"));
 
 const TopDiscount = () => {
   const [showInfo, setShowInfo] = useState(false);
@@ -76,11 +76,13 @@ const TopDiscount = () => {
       </div>
       <Suspense fallback={<Spinner />}>
         {showInfo && (
-          <ProductInfo
+          <Infos
             setShowInfo={setShowInfo}
             isLoading={isLoading}
             productInfos={productInfos}
             productFile={productFile}
+            showInfo={showInfo}
+            infosId={topDiscount?.id}
           />
         )}
       </Suspense>
