@@ -139,7 +139,7 @@ export default function ProductInfo({
               isLoading && "opacity-20"
             }`}
           >
-            <div className="col-span-2">
+            <div>
               <Input
                 labelText="name"
                 placeholder="Product Name"
@@ -153,7 +153,7 @@ export default function ProductInfo({
                 }}
               />
             </div>
-            <div className="col-span-2">
+            <div>
               <Input
                 labelText="topFeatures"
                 placeholder="Product topFeatures"
