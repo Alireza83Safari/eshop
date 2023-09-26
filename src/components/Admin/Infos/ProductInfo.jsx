@@ -11,19 +11,16 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import Spinner from "../../Spinner/Spinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import userAxios from "../../../services/Axios/userInterceptors";
 import { toast } from "react-toastify";
+import Spinner from "../../Spinner/Spinner";
 
 export default function ProductInfo({
-  setShowInfo,
   isLoading: dataLoading,
   productFile,
   infosId,
-  setShowProduct,
-  setShowItem,
 }) {
   const [serverError, setServerError] = useState(false);
   const [productInfo, setProductInfo] = useState({
@@ -34,10 +31,9 @@ export default function ProductInfo({
     shortDescription: "",
     description: "",
     topFeatures: [" "],
+    categoryName: "",
   });
 
-  const [categoryName, seCategoryName] = useState("");
-  const [brandName, setBrandName] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
 
@@ -49,27 +45,24 @@ export default function ProductInfo({
   };
   const { datas: brands } = useFetch("/brand", adminAxios);
   const { datas: category } = useFetch("/category", adminAxios);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const infos = await adminAxios.get(`/product/${infosId}`);
+      let $ = infos?.data;
+
+      setProductInfo($);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const infos = await adminAxios.get(`/product/${infosId}`);
-        let $ = infos?.data;
-        setBrandName($.brandName);
-        seCategoryName($.categoryName);
-        setProductInfo({
-          ...productInfo,
-          ...infos.data,
-        });
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
+    if (infosId) {
+      fetchData();
+    }
+  }, [infosId]);
   const editProductHandler = async () => {
     productFormValidation(productInfo, errors, setErrors);
     setLoading(true);
@@ -80,8 +73,7 @@ export default function ProductInfo({
       );
       if (response.status === 200) {
         setLoading(false);
-        setShowProduct(false);
-        setShowItem(true);
+        toast.success("edit product is success");
       }
     } catch (error) {
       setLoading(false);
@@ -97,17 +89,18 @@ export default function ProductInfo({
       }
     } catch (error) {}
   };
-
   return (
     <>
-      {isLoading || dataLoading ? (
+      {isLoading ? (
         <Spinner />
       ) : (
-        <div className="grid grid-cols-4 sm:overflow-hidden overflow-auto">
-          <div className="sm:col-span-2 col-span-4 px-10">
-            {dataLoading ? (
-              <Spinner />
-            ) : productFile?.length ? (
+        <div className="grid grid-cols-4 sm:overflow-hidden overflow-auto py-6">
+          <div
+            className={`sm:col-span-2 col-span-4 px-10 ${
+              (isLoading || dataLoading) && "opacity-10"
+            }`}
+          >
+            {productFile?.length ? (
               <Swiper
                 modules={[Navigation, Pagination, Scrollbar, A11y]}
                 slidesPerView={1}
@@ -126,10 +119,12 @@ export default function ProductInfo({
                         <FontAwesomeIcon icon={faX} />
                       </button>
 
-                      <img
-                        src={`http://127.0.0.1:6060/${img.fileUrl}`}
-                        className="object-contain sm:h-[25rem] h-[18rem] relative"
-                      />
+                      <div className="h-full w-full">
+                        <img
+                          src={`http://127.0.0.1:6060/${img.fileUrl}`}
+                          className="object-contain relative"
+                        />
+                      </div>
                     </div>
                   </SwiperSlide>
                 ))}
@@ -158,7 +153,7 @@ export default function ProductInfo({
                 }}
               />
             </div>
-            <div>
+            <div className="col-span-2">
               <Input
                 labelText="topFeatures"
                 placeholder="Product topFeatures"
@@ -193,7 +188,7 @@ export default function ProductInfo({
                 }}
                 defaultValue={{
                   value: productInfo?.categoryId,
-                  label: String(categoryName),
+                  label: productInfo?.categoryName,
                 }}
               />
               <p className="text-sm text-red-700">
@@ -221,7 +216,7 @@ export default function ProductInfo({
                 }}
                 defaultValue={{
                   value: productInfo?.brandId,
-                  label: brandName,
+                  label: productInfo?.brandName,
                 }}
               />
 
@@ -230,7 +225,7 @@ export default function ProductInfo({
               </p>
             </div>
 
-            <div>
+            <div className="col-span-2">
               <Input
                 labelText="code"
                 placeholder="Product Code"
@@ -264,32 +259,30 @@ export default function ProductInfo({
             </div>
 
             <div className="col-span-2">
-              <Input
-                labelText="description"
+              <label
+                htmlFor="name"
+                className="block text-gray-800 dark:text-white-100 font-medium"
+              >
+                description
+              </label>
+              <textarea
                 placeholder="Description"
+                rows={5}
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200 dark:text-white-100 placeholder:text-sm placeholder:text-black-900 dark:placeholder:text-white-100"
                 name="description"
                 value={productInfo?.description}
                 onChange={setProductInfos}
-                Error={errors?.description || serverError?.errors?.description}
               />
             </div>
-            <div className="col-span-2 grid grid-cols-2 mt-4">
+            <div className="col-span-2 mt-4">
               <button
                 type="submit"
-                className="bg-blue-600 disabled:bg-gray-100 text-white-100 w-full py-2 rounded-xl"
+                className={`bg-blue-600 disabled:bg-gray-100 text-white-100 w-full py-2 rounded-xl ${
+                  (isLoading || dataLoading) && "py-5"
+                }`}
                 onClick={editProductHandler}
               >
-                {isLoading ? <FormSpinner /> : "Save Product"}
-              </button>
-              <button
-                type="submit"
-                className="w-full py-2 rounded-xl border dark:text-white-100"
-                onClick={() => {
-                  setShowInfo(false);
-                  setShowProduct(false);
-                }}
-              >
-                Cancel
+                {isLoading || dataLoading ? <FormSpinner /> : "Save Product"}
               </button>
             </div>
           </div>

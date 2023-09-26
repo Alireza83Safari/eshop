@@ -21,30 +21,28 @@ export default function AddProduct() {
         showAddProductModal ? "visible" : "invisible"
       }`}
     >
-      <div className="lg:w-[30rem] min-h-[27rem] bg-white-100 dark:bg-black-200  p-5 rounded-xl relative">
-        <Suspense fallback={<Spinner />}>
-          {showAddProduct && (
-            <AddNewProduct
-              setShowAddProduct={setShowAddProduct}
-              setShowProductItem={setShowProductItem}
-            />
-          )}
+      <Suspense fallback={<Spinner />}>
+        {showAddProduct && (
+          <AddNewProduct
+            setShowAddProduct={setShowAddProduct}
+            setShowProductItem={setShowProductItem}
+          />
+        )}
 
-          {showProductItem && (
-            <AddProductItem
-              setShowProductFeature={setShowProductFeature}
-              setShowProductItem={setShowProductItem}
-            />
-          )}
-          {showProductFeature && (
-            <AddProductFeature
-              setShowProductFeature={setShowProductFeature}
-              setShowFile={setShowFile}
-            />
-          )}
-          {showFile && <AddProductFile setShowFile={setShowFile} />}
-        </Suspense>
-      </div>
+        {showProductItem && (
+          <AddProductItem
+            setShowProductFeature={setShowProductFeature}
+            setShowProductItem={setShowProductItem}
+          />
+        )}
+        {showProductFeature && (
+          <AddProductFeature
+            setShowProductFeature={setShowProductFeature}
+            setShowFile={setShowFile}
+          />
+        )}
+        {showFile && <AddProductFile setShowFile={setShowFile} />}
+      </Suspense>
     </section>,
     document.getElementById("portal")
   );

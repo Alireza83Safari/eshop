@@ -56,8 +56,9 @@ export default function AddNewProduct({
 
   const { datas: category } = useFetch("/category", adminAxios);
   const { datas: brands } = useFetch("/brand", adminAxios);
+
   return (
-    <>
+    <div className="lg:w-[30rem] min-h-[27rem] max-w-10/12 bg-white-100 dark:bg-black-200  p-5 rounded-xl relative">
       <span className="mb-5 text-xl font-bold flex justify-center dark:text-white-100">
         Add New Product
       </span>
@@ -200,6 +201,6 @@ export default function AddNewProduct({
           </button>
         </div>
       </form>
-    </>
+    </div>
   );
 }

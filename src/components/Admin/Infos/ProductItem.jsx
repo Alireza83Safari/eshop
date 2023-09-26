@@ -1,11 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Spinner from "../../Spinner/Spinner";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAngleLeft,
-  faAngleRight,
-  faX,
-} from "@fortawesome/free-solid-svg-icons";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -17,30 +10,25 @@ import adminAxios from "../../../services/Axios/adminInterceptors";
 import { CustomSelect } from "../../SelectList";
 import useFetch from "../../../hooks/useFetch";
 import { toast } from "react-toastify";
+import FormSpinner from "../../FormSpinner/FormSpinner";
+import { itemValidation } from "../../../validators/itemValidation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faX } from "@fortawesome/free-solid-svg-icons";
 
 export default function ShowProductItem({
-  setShowInfo,
-  productInfos,
   productFile,
   infosId,
   isLoading: dataLoading,
 }) {
   const { datas: colors } = useFetch("/color", adminAxios);
   const [serverError, setServerError] = useState(null);
-  const [productItemInfo, setProductItemInfo] = useState({
-    colorId: "",
-    isMainItem: true,
-    price: null,
-    productId: infosId,
-    quantity: null,
-    status: null,
-  });
-  const [color, setColor] = useState("");
-  const [currentItem, setCurrentItem] = useState(0);
-  const [itemLength, setItemLength] = useState(null);
+  const [totalProductItem, setTotalProductItem] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
-  const [itemID, setItemID] = useState(null);
+  const [editItemID, setEditItemID] = useState("");
+  const [itemLength, setItemLength] = useState(null);
+  const [colorName, setColorName] = useState("");
+
   const setProductInfos = (event) => {
     let value = event.target.value;
 
@@ -48,47 +36,63 @@ export default function ShowProductItem({
       value = parseFloat(value);
     }
 
-    setProductItemInfo({
-      ...productItemInfo,
+    setEditItemValue({
+      ...EditItemValue,
       [event.target.name]: value,
     });
   };
-
   const fetchData = async () => {
     setLoading(true);
     try {
       const response = await adminAxios.get(`/productItem/product/${infosId}`);
+      let $ = response.data;
       if (response.status === 200) {
-        setItemLength(response?.data.length);
-        setColor(response?.data[currentItem]?.color);
-        setItemID(response?.data[currentItem]?.id);
-        setProductItemInfo({
-          ...productItemInfo,
-          ...response?.data,
+        setItemLength(response?.data?.length);
+        setTotalProductItem($);
+        setEditItemValue({
+          colorId: "",
+          isMainItem: true,
+          price: "",
+          productId: infosId,
+          quantity: "",
+          status: "",
         });
+        setColorName($.response.color);
       }
-
       setLoading(false);
     } catch (err) {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     if (infosId) {
       fetchData();
     }
-  }, [currentItem]);
+  }, []);
+
+  const [EditItemValue, setEditItemValue] = useState({
+    colorId: "",
+    isMainItem: true,
+    price: "",
+    productId: infosId,
+    quantity: null,
+    status: null,
+  });
+
   const editProductHandler = async (e) => {
     e.preventDefault();
+    itemValidation(EditItemValue, errors, setErrors);
     setLoading(true);
     try {
       const response = await adminAxios.post(
-        `/productItem/edit/${itemID}`,
-        productItemInfo[currentItem]
+        editItemID?.length ? `/productItem/edit/${editID}` : "/productItem",
+        { ...EditItemValue, colorId: EditItemValue?.colorId[0] }
       );
+
       if (response.status === 200) {
         toast.success("Edit product is success");
-        setShowInfo(false);
+        fetchData();
         setLoading(false);
       }
     } catch (error) {
@@ -96,36 +100,47 @@ export default function ShowProductItem({
       setLoading(false);
     }
   };
-  const nextItem = () => {
-    setLoading(true);
-    setCurrentItem((prevIndex) =>
-      prevIndex === itemLength - 1 ? prevIndex : prevIndex + 1
-    );
-    fetchData();
-    setLoading(false);
-  };
-  const prevItem = () => {
-    setLoading(true);
-    setCurrentItem((prevIndex) =>
-      prevIndex === 0 ? prevIndex : prevIndex - 1
-    );
-    fetchData();
-    setLoading(false);
-  };
-  return (
-    <>
-      <FontAwesomeIcon
-        icon={faX}
-        className="text-red-700 absolute right-2 top-2 text-xl"
-        onClick={() => setShowInfo(false)}
-      />
 
-      {isLoading || dataLoading ? (
-        <Spinner />
-      ) : (
-        <form onSubmit={editProductHandler}>
-          <div className="grid grid-cols-4 sm:overflow-hidden overflow-auto">
-            <div className="sm:col-span-2 col-span-4">
+  const [editID, setEditID] = useState(null);
+
+  const editProductItemHandler = () => {
+    let data = totalProductItem?.find((item) => item.id == editItemID);
+    setEditItemValue({
+      ...EditItemValue,
+      colorId: data?.colorId,
+      price: data?.price,
+      quantity: data?.quantity,
+      status: data?.status,
+    });
+    setColorName(data?.color);
+    setEditID(data?.id);
+  };
+  useEffect(() => {
+    if (editItemID?.length) {
+      editProductItemHandler();
+    }
+  }, []);
+
+  const deleteItemHandler = async (ID) => {
+    const response = await adminAxios.post(`/productItem/delete/${ID}`);
+
+    try {
+      if (response.status == 200) {
+        toast.success("delete is success");
+      }
+    } catch (error) {}
+  };
+
+  return (
+    <form onSubmit={editProductHandler}>
+      <div
+        className={`grid grid-cols-4 sm:overflow-hidden overflow-auto gap-x-10  ${
+          (isLoading || dataLoading) && "opacity-10"
+        }`}
+      >
+        <div className="sm:col-span-2 col-span-4">
+          <div>
+            {productFile?.length >= 1 ? (
               <Swiper
                 modules={[Navigation, Pagination, Scrollbar, A11y]}
                 slidesPerView={1}
@@ -137,182 +152,166 @@ export default function ShowProductItem({
                     <div className="flex justify-center" key={img.id}>
                       <img
                         src={`http://127.0.0.1:6060/${img.fileUrl}`}
-                        className="object-contain sm:h-[25rem] h-[18rem]"
+                        className="object-cover sm:h-[22rem] h-[18rem]"
                       />
                     </div>
                   </SwiperSlide>
                 ))}
               </Swiper>
+            ) : (
+              <div className="w-full h-full bg-gray-50">
+                <img src="/images/photo.jpg" className="object-cover" />
+              </div>
+            )}
+          </div>
+
+          <p className="text-red-700 text-center">{serverError?.message}</p>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="col-span-2">
+              <label
+                htmlFor="colorId"
+                className="block text-gray-800 font-medium"
+              >
+                color
+              </label>
+              <CustomSelect
+                options={colors?.data.map((color) => ({
+                  value: color.id,
+                  label: color.name,
+                }))}
+                onchange={(selectedOptions) => {
+                  const selectedValues = selectedOptions.map(
+                    (option) => option.value
+                  );
+                  setEditItemValue({
+                    ...EditItemValue,
+                    colorId: selectedValues,
+                  });
+                  setErrors("");
+                }}
+                defaultValue={{
+                  value: EditItemValue?.colorId,
+                  label: colorName,
+                }}
+                type="multiple"
+              />
+              <p className="text-sm text-red-700">{errors?.colorId}</p>
             </div>
-            <div className="sm:col-span-2 col-span-4">
-              {productInfos?.length ? (
-                <div>
-                  <div className="flex justify-between">
-                    <h2 className="text-xl font-bold mb-4 sm:text-start text-center">
-                      Product Item {currentItem + 1}
-                    </h2>
-                    {itemLength > 1 && (
-                      <div className="text-xl">
-                        <FontAwesomeIcon
-                          icon={faAngleLeft}
-                          className="mr-4"
-                          onClick={prevItem}
-                        />
-                        <FontAwesomeIcon
-                          icon={faAngleRight}
-                          className="ml-4"
-                          onClick={nextItem}
-                        />
-                      </div>
-                    )}
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="col-span-2">
-                      <label
-                        htmlFor="colorId"
-                        className="block text-gray-800 font-medium"
-                      >
-                        color
-                      </label>
-                      <CustomSelect
-                        options={colors?.data.map((color) => ({
-                          value: color.id,
-                          label: color.name,
-                        }))}
-                        onchange={(selectedOptions) => {
-                          const selectedValues = selectedOptions.map(
-                            (option) => option.value
-                          );
-                          setProductItemInfo({
-                            ...productItemInfo,
-                            colorId: selectedValues,
-                          });
-                          setErrors("");
-                        }}
-                        defaultValue={{
-                          value: productItemInfo[currentItem]?.colorId,
-                          label: color,
-                        }}
-                        type="multiple"
-                      />
-                      <p className="text-sm text-red-700">{errors?.colorId}</p>
-                    </div>
-                    <div className="col-span-2">
-                      <label
-                        htmlFor="status"
-                        className="block text-gray-800 font-medium"
-                      >
-                        status
-                      </label>
-                      <CustomSelect
-                        options={["Publish", "in Active"].map((item) => ({
-                          value: item,
-                          label: item,
-                        }))}
-                        onchange={(selectedOptions) => {
-                          setProductItemInfo({
-                            ...productItemInfo,
-                            status: selectedOptions?.value,
-                          });
-                          setErrors("");
-                        }}
-                        defaultValue={{
-                          value: productItemInfo[currentItem]?.status,
-                          label:
-                            productItemInfo[currentItem]?.status == 0
-                              ? "in Active"
-                              : "Publish",
-                        }}
-                      />
-                      <p className="text-sm text-red-700">{errors?.status}</p>
-                    </div>
-                    <div className="col-span-2">
-                      <label
-                        htmlFor="isMainItem"
-                        className="block text-gray-800 font-medium"
-                      >
-                        isMainItem
-                      </label>
-                      <CustomSelect
-                        options={["false", "true"].map((item) => ({
-                          value: item,
-                          label: item,
-                        }))}
-                        onchange={(selectedOptions) => {
-                          setProductItemInfo({
-                            ...productItemInfo,
-                            isMainItem:
-                              selectedOptions?.value == "true" ? true : false,
-                          });
-                        }}
-                        defaultValue={{
-                          value: productItemInfo[currentItem]?.isMainItem,
-                          label:
-                            productItemInfo[currentItem]?.isMainItem == true
-                              ? "true"
-                              : "false",
-                        }}
-                      />
-                      <p className="text-sm text-red-700">
-                        {errors?.isMainItem}
-                      </p>
-                    </div>
 
-                    <div>
-                      <Input
-                        type="number"
-                        labelText="price"
-                        placeholder="Product price"
-                        name="price"
-                        value={productItemInfo[currentItem]?.price}
-                        onChange={setProductInfos}
-                        Error={errors?.price || serverError?.errors?.price}
-                        callback={() => {
-                          setErrors("");
-                          setServerError("");
-                        }}
-                      />
-                    </div>
+            <div className="col-span-2">
+              <Input
+                type="number"
+                labelText="quantity"
+                placeholder="Product quantity"
+                name="quantity"
+                value={EditItemValue?.quantity}
+                onChange={setProductInfos}
+                Error={errors?.quantity || serverError?.errors?.quantity}
+                callback={() => {
+                  setErrors("");
+                  setServerError("");
+                }}
+              />
+            </div>
 
-                    <div>
-                      <Input
-                        labelText="quantity"
-                        placeholder="Product quantity"
-                        name="quantity"
-                        value={productItemInfo[currentItem]?.quantity}
-                        onChange={setProductInfos}
-                        Error={
-                          errors?.quantity || serverError?.errors?.quantity
-                        }
-                        callback={() => {
-                          setErrors("");
-                          setServerError("");
-                        }}
-                      />
-                    </div>
-                    <div className="col-span-2 grid grid-cols-2 mt-3">
-                      <button
-                        className=" bg-blue-600 py-2 rounded-lg text-white-100 mr-2"
-                        onClick={editProductHandler}
-                      >
-                        Save
-                      </button>
-                      <button
-                        className="border border-blue-600 rounded-lg ml-2"
-                        onClick={() => setShowInfo(false)}
-                      >
-                        cacel
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <p className="font-bold my-20">No item has been registered</p>
-              )}
+            <div>
+              <label
+                htmlFor="status"
+                className="block text-gray-800 font-medium"
+              >
+                status
+              </label>
+              <CustomSelect
+                options={["Publish", "in Active"].map((item) => ({
+                  value: item,
+                  label: item,
+                }))}
+                onchange={(selectedOptions) => {
+                  setEditItemValue({
+                    ...EditItemValue,
+                    status: selectedOptions?.value == "Publish" ? 0 : 1,
+                  });
+                  setErrors("");
+                }}
+                defaultValue={{
+                  value: EditItemValue?.status,
+                  label: EditItemValue?.status == 0 ? "in Active" : "Publish",
+                }}
+              />
+              <p className="text-sm text-red-700">{errors?.status}</p>
+            </div>
+
+            <div>
+              <Input
+                type="number"
+                labelText="price"
+                placeholder="Product price"
+                name="price"
+                value={EditItemValue?.price}
+                onChange={setProductInfos}
+                Error={errors?.price || serverError?.errors?.price}
+                callback={() => {
+                  setErrors("");
+                  setServerError("");
+                }}
+              />
+            </div>
+
+            <div className="col-span-2 mt-3">
+              <button
+                className={`bg-blue-600 py-2 w-full rounded-lg text-white-100 ${
+                  (isLoading || dataLoading) && "py-4"
+                }`}
+                onClick={editProductHandler}
+              >
+                {isLoading || dataLoading ? (
+                  <FormSpinner />
+                ) : editItemID?.length ? (
+                  "Edit Item"
+                ) : (
+                  "Add Item"
+                )}
+              </button>
             </div>
           </div>
-        </form>
-      )}
-    </>
+        </div>
+
+        <div className="sm:col-span-2 col-span-4">
+          {itemLength != 0 ? (
+            totalProductItem?.map((item) => (
+              <div
+                className="grid grid-cols-2 sm:gap-y-4 gap-y-3 md:text-base sm:text-sm text-xs border rounded-lg mb-6 px-10 py-4 relative hover:bg-gray-50 duration-300"
+                onClick={() => {
+                  setEditItemID(item.id);
+                  editProductItemHandler(item.id);
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={faX}
+                  className=" absolute right-2 top-2 text-red-700 z-10"
+                  onClick={() => deleteItemHandler(item.id)}
+                />
+                <div className="font-semibold">productTitle :</div>
+                <div>{item?.productTitle}</div>
+                <div className="font-semibold">Product Color:</div>
+                <div>{item?.color}</div>
+                <div className="font-semibold">Price:</div>
+                <div>${item?.price}</div>
+                <div className="font-semibold">quantity:</div>
+                <div>{item?.quantity}</div>
+                <div className="font-semibold">productCode:</div>
+                <div>{item?.productCode}</div>
+                <div className="font-semibold">status:</div>
+                <div>{item?.status}</div>
+              </div>
+            ))
+          ) : (
+            <p className="border rounded-lg my-6 px-10 py-20 font-bold text-lg">
+              havent any product item for this
+            </p>
+          )}
+        </div>
+      </div>
+    </form>
   );
 }
