@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 
-export default function ProductImage({ infosId }) {
+export default function ProductImage({ infosId, fetchProductList }) {
   const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState(null);
 
@@ -27,6 +27,7 @@ export default function ProductImage({ infosId }) {
       );
       if (response.status === 200) {
         setIsLoading(false);
+        fetchProductList();
         toast.success("create product is successfully");
         setImageURLs("");
         setShowUrl("");
@@ -66,9 +67,9 @@ export default function ProductImage({ infosId }) {
   };
 
   return (
-    <div className="lg:w-[46rem] min-h-[34rem] max-w-10/12 bg-white-100 dark:bg-black-200  p-5 rounded-xl relative">
-      <form onSubmit={(e) => e.preventDefault()}>
-        <div>
+    <form onSubmit={(e) => e.preventDefault()} className="">
+      <div className="lg:w-[46rem] max-h-[40rem] max-w-10/12 bg-white-100 dark:bg-black-200 p-5 rounded-xl overflow-auto ">
+        <div className="grid grid-cols-1 overflow-auto">
           <h2 className="text-center mb-4 dark:text-white-100">
             Upload images
           </h2>
@@ -100,22 +101,22 @@ export default function ProductImage({ infosId }) {
           )}
           <form
             method="post"
-            className="flex justify-center container absolute bottom-24 dark:text-white-100"
+            className="flex justify-center container dark:text-white-100"
           >
             <input type="file" onChange={handleImageChange} multiple />
           </form>
-        </div>
 
-        <div className="flex justify-center w-full absolute bottom-4">
-          <button
-            type="submit"
-            className="bg-blue-600 text-white-100 w-full py-2 md:mx-5 mx-2 rounded-xl outline-none"
-            onClick={addFile}
-          >
-            {isLoading ? <FormSpinner /> : "Add Product Files"}
-          </button>
+          <div className="flex justify-center w-full mt-16">
+            <button
+              type="submit"
+              className="bg-blue-600 text-white-100 w-full py-2 md:mx-5 mx-2 rounded-xl outline-none"
+              onClick={addFile}
+            >
+              {isLoading ? <FormSpinner /> : "Add Product Files"}
+            </button>
+          </div>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 }

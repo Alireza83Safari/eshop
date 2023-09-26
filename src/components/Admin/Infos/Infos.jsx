@@ -13,6 +13,7 @@ export default function Infos({
   isLoading,
   productFile,
   infosId,
+  fetchProductList,
 }) {
   const [activeTab, setActiveTab] = useState("ProductInfo");
   return ReactDOM.createPortal(
@@ -63,6 +64,7 @@ export default function Infos({
                 isLoading={isLoading}
                 productFile={productFile}
                 infosId={infosId}
+                fetchProductList={fetchProductList}
               />
             </Suspense>
           )}
@@ -73,10 +75,16 @@ export default function Infos({
                 isLoading={isLoading}
                 productFile={productFile}
                 infosId={infosId}
+                fetchProductList={fetchProductList}
               />
             </Suspense>
           )}
-          {activeTab === "ProductImage" && <ProductImage infosId={infosId} />}
+          {activeTab === "ProductImage" && (
+            <ProductImage
+              infosId={infosId}
+              fetchProductList={fetchProductList}
+            />
+          )}
         </div>
       </div>
     </section>,

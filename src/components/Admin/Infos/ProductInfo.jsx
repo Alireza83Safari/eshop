@@ -21,6 +21,7 @@ export default function ProductInfo({
   isLoading: dataLoading,
   productFile,
   infosId,
+  fetchProductList,
 }) {
   const [serverError, setServerError] = useState(false);
   const [productInfo, setProductInfo] = useState({
@@ -73,6 +74,7 @@ export default function ProductInfo({
       );
       if (response.status === 200) {
         setLoading(false);
+        fetchProductList();
         toast.success("edit product is success");
       }
     } catch (error) {

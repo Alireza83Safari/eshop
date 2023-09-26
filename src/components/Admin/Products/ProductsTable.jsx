@@ -22,6 +22,7 @@ export default function ProductsTable() {
     paginations,
     total,
     paginationLoading,
+    fetchProductList,
   } = useContext(ProductsPanelContext);
 
   let pageSize = 11;
@@ -167,6 +168,7 @@ export default function ProductsTable() {
             productInfos={productInfos}
             productFile={productFile}
             infosId={infosId}
+            fetchProductList={fetchProductList}
           />
         )}
       </Suspense>

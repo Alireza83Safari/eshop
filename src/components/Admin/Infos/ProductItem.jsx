@@ -20,6 +20,7 @@ export default function ShowProductItem({
   productFile,
   infosId,
   isLoading: dataLoading,
+  fetchProductList,
 }) {
   const { datas: colors } = useFetch("/color", adminAxios);
   const [serverError, setServerError] = useState(null);
@@ -94,6 +95,7 @@ export default function ShowProductItem({
       if (response.status === 200) {
         toast.success("Edit product is success");
         fetchData();
+        fetchProductList();
         setLoading(false);
       }
     } catch (error) {
@@ -136,14 +138,14 @@ export default function ShowProductItem({
       }
     } catch (error) {}
   };
-  console.log(colorName);
+
   return (
     <form onSubmit={editProductHandler}>
       {isLoading || dataLoading ? (
         <Spinner />
       ) : (
         <div
-          className={`grid grid-cols-4 sm:overflow-hidden overflow-auto gap-x-10  ${
+          className={`grid grid-cols-4  overflow-auto gap-x-10  ${
             (isLoading || dataLoading) && "opacity-10"
           }`}
         >
@@ -189,7 +191,6 @@ export default function ShowProductItem({
                     label: color.name,
                   }))}
                   onchange={(selectedOptions) => {
-                    console.log(selectedOptions);
                     const selectedValues = selectedOptions.map(
                       (option) => option.value
                     );
@@ -207,7 +208,7 @@ export default function ShowProductItem({
                   }}
                   type="multiple"
                 />
-                {console.log(colorName)}
+
                 <p className="text-sm text-red-700">{errors?.colorId}</p>
               </div>
 
