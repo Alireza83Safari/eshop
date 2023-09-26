@@ -85,21 +85,6 @@ export default function AddNewProduct({
           </div>
 
           <div>
-            <Input
-              labelText="code"
-              placeholder="Product code"
-              name="code"
-              value={productInfo?.code}
-              onChange={setProductInfos}
-              Error={errors?.code || serverError?.errors?.code}
-              callback={() => {
-                setErrors("");
-                setServerError("");
-              }}
-            />
-          </div>
-
-          <div>
             <label className="font-medium text-gray-800 dark:text-white-100">
               Brand
             </label>
@@ -164,7 +149,20 @@ export default function AddNewProduct({
               }}
             />
           </div>
-
+          <div>
+            <Input
+              labelText="code"
+              placeholder="Product code"
+              name="code"
+              value={productInfo?.code}
+              onChange={setProductInfos}
+              Error={errors?.code || serverError?.errors?.code}
+              callback={() => {
+                setErrors("");
+                setServerError("");
+              }}
+            />
+          </div>
           <div className="col-span-2">
             <Input
               labelText="description"

@@ -6,6 +6,10 @@ import { itemValidation } from "../../../../validators/itemValidation";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
 import { CustomSelect } from "../../../SelectList";
 import Input from "../../Input";
+import Spinner from "../../../Spinner/Spinner";
+import { faX } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { toast } from "react-toastify";
 
 export default function AddProductItem({
   setShowProductFeature,
@@ -16,38 +20,41 @@ export default function AddProductItem({
 
   const [errors, setErrors] = useState(null);
   const [serverError, setServerError] = useState(null);
+  const [createItemInfo, setCreateItemInfo] = useState([]);
   const [productItemInfo, setProductItemInfo] = useState({
     status: "",
     price: "",
     colorId: [""],
     quantity: "",
     isMainItem: "",
+    productId: newProductId,
   });
 
   const [isLoading, setIsLoading] = useState(false);
   const { datas: colors } = useFetch("/color", adminAxios);
+
   const addItem = async (event) => {
     event.preventDefault();
-
     itemValidation(productItemInfo, errors, setErrors);
-
-    // colorId: productItemInfo?.colorId.map((colorId) => ({ colorId })),
-    let productItem = {
-      colorId: productItemInfo?.colorId[0],
-      isMainItem: productItemInfo?.isMainItem === "true" ? true : false,
-      price: Number(productItemInfo?.price),
-      productId: newProductId,
-      quantity: Number(productItemInfo?.quantity),
-      status: productItemInfo?.status == "false" ? 1 : 0,
-    };
 
     setIsLoading(true);
     try {
-      const response = await adminAxios.post(`/productItem`, productItem);
+      const response = await adminAxios.post(`/productItem`, {
+        ...productItemInfo,
+        colorId: productItemInfo.colorId[0],
+      });
       setIsLoading(false);
       if (response.status === 200) {
         fetchProductList();
-        setCreateItemInfo(productItem);
+        setCreateItemInfo([...createItemInfo, productItemInfo]);
+        setProductItemInfo({
+          status: "",
+          price: "",
+          colorId: [""],
+          quantity: "",
+          isMainItem: "",
+          productId: newProductId,
+        });
       }
     } catch (error) {
       setServerError(error?.response?.data);
@@ -56,53 +63,48 @@ export default function AddProductItem({
   };
 
   const setProductItemInfos = (event) => {
+    let value = event.target.value;
+
+    if (event.target.type === "number") {
+      value = parseFloat(value);
+    }
+
     setProductItemInfo({
       ...productItemInfo,
-      [event.target.name]: event.target.value,
+      [event.target.name]: value,
     });
   };
-  const [createItemInfo, setCreateItemInfo] = useState([]);
+
+  const deleteItemHandler = async (ID) => {
+    const response = await adminAxios.post(`/productItem/delete/${ID}`);
+
+    try {
+      if (response.status == 200) {
+        toast.success("delete is success");
+      }
+    } catch (error) {}
+  };
 
   return (
-    <div className="lg:w-[60rem] min-h-[27rem] max-w-10/12 bg-white-100 dark:bg-black-200  p-5 rounded-xl relative grid grid-cols-2">
-      <div className="grid grid-cols-2 sm:gap-y-6 gap-y-3 gap-x-20 md:text-base sm:text-sm text-xs">
-        <div className="font-semibold">Product Title:</div>
-        <div>{createItemInfo && createItemInfo[0]?.productTitle}</div>
-        <div className="font-semibold">Product price:</div>
-        <div>{createItemInfo && createItemInfo[0]?.price}</div>
-        <div className="font-semibold">Price:</div>
-        <div>${createItemInfo && createItemInfo[0]?.quantity}</div>
-        <div className="font-semibold">quantity:</div>
-        <div>{createItemInfo && createItemInfo[0]?.quantity}</div>
-        <div className="font-semibold">Color:</div>
-        <div>{createItemInfo && createItemInfo[0]?.isMainItem}</div>
-        <div className="font-semibold">isMainItem:</div>
-        <div
-          className={` " font-bold " ${
-            createItemInfo && createItemInfo[0]?.status === 0
-              ? "text-green-300"
-              : "text-red-700"
-          }`}
-        >
-          {createItemInfo && createItemInfo[0]?.status === 0
-            ? "In Stock"
-            : "Out of Stock"}
-        </div>
-        <div className="font-semibold">Is Main Item:</div>
-        <div>{createItemInfo && createItemInfo[0]?.color ? "Yes" : "No"}</div>
-      </div>
-
-      <div>
+    <div
+      className={`min-h-[31rem] max-h-[36rem] max-w-10/12 bg-white-100 dark:bg-black-200  p-5 rounded-xl relative grid grid-cols-2 gap-x-6 overflow-auto ${
+        createItemInfo.length >= 1 ? "w-[64rem]" : "w-[30rem]"
+      }`}
+    >
+      <div
+        className={`${
+          createItemInfo.length >= 1 ? "md:col-span-1 col-span-2" : "col-span-2"
+        }`}
+      >
         <span className="mb-5 text-xl font-bold flex justify-center dark:text-white-100">
           Add New Product Item
         </span>
-
-        <form
-          onSubmit={addItem}
-          className="w-full mx-auto lg:px-2 px-4 bg-white rounded-lg"
-        >
+        <p className="text-xs text-red-700 text-center">
+          {serverError?.message}
+        </p>
+        <form onSubmit={addItem} className="w-full mx-auto bg-white rounded-lg">
           <div
-            className={` grid grid-cols-1 gap-y-7 gap-x-3 ${
+            className={` grid grid-cols-1 gap-y-4 gap-x-3 ${
               isLoading && "opacity-20"
             }`}
           >
@@ -145,14 +147,14 @@ export default function AddProductItem({
                 Product Status
               </label>
               <CustomSelect
-                options={["true", "false"].map((status) => ({
+                options={["in Active", "Publish"].map((status) => ({
                   value: status,
                   label: status,
                 }))}
                 onchange={(selectedOptions) => {
                   setProductItemInfo({
                     ...productItemInfo,
-                    status: selectedOptions?.value,
+                    status: selectedOptions?.status == "in Active" ? 1 : 0,
                   });
                   setErrors("");
                 }}
@@ -174,14 +176,14 @@ export default function AddProductItem({
                 onchange={(selectedOptions) => {
                   setProductItemInfo({
                     ...productItemInfo,
-                    isMainItem: selectedOptions?.value,
+                    isMainItem: selectedOptions?.value == "true" ? true : false,
                   });
                   setErrors("");
                 }}
               />
               <p className="text-red-700">{errors?.isMainItem}</p>
             </div>
-            <div className="col-span-2">
+            <div>
               <label
                 htmlFor="colorId"
                 className="block text-gray-800 dark:text-white-100 font-medium"
@@ -228,6 +230,51 @@ export default function AddProductItem({
             </button>
           </div>
         </form>
+      </div>
+
+      <div className="md:col-span-1 col-span-2 overflow-auto">
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <>
+            {createItemInfo.length < 1 ? null : (
+              <>
+                <button
+                  className="bg-blue-600 text-white-100 px-3 py-1 rounded-lg mb-2 text-sm"
+                  onClick={() => {
+                    setShowProductItem(false);
+                    setShowProductFeature(true);
+                  }}
+                >
+                  Click To Add Feature
+                </button>
+                {createItemInfo?.map((item) => (
+                  <div className="grid grid-cols-2 sm:gap-y-4 gap-y-3 md:text-base sm:text-sm text-xs border rounded-lg mb-6 px-10 py-4 relative hover:bg-gray-50 duration-300">
+                    <FontAwesomeIcon
+                      icon={faX}
+                      className=" absolute right-2 top-2 text-red-700 z-10"
+                      onClick={() => deleteItemHandler(item.id)}
+                    />
+
+                    <div className="font-semibold">Product Color:</div>
+                    <div>
+                      {colors?.data
+                        .filter((color) => color.id == item?.colorId)
+                        ?.map((color) => color.name)}
+                    </div>
+                    <div className="font-semibold">Price:</div>
+                    <div>{item?.price}$</div>
+                    <div className="font-semibold">quantity:</div>
+                    <div>{item?.quantity}</div>
+
+                    <div className="font-semibold">status:</div>
+                    <div>{item?.status == 0 ? "Publish" : "in Active"}</div>
+                  </div>
+                ))}
+              </>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

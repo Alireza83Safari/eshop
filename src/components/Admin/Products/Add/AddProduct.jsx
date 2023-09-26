@@ -17,7 +17,7 @@ export default function AddProduct() {
 
   return ReactDOM.createPortal(
     <section
-      className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full h-screen flex items-center justify-center transition duration-400 ${
+      className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full h-screen flex items-center justify-center transition overflow-auto duration-400 ${
         showAddProductModal ? "visible" : "invisible"
       }`}
     >
