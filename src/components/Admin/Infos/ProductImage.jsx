@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 export default function ProductImage({ infosId, fetchProductList }) {
   const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState(null);
-
   const [imageURLs, setImageURLs] = useState([]);
   const [showUrl, setShowUrl] = useState([]);
 
@@ -29,8 +28,8 @@ export default function ProductImage({ infosId, fetchProductList }) {
         setIsLoading(false);
         fetchProductList();
         toast.success("create product is successfully");
-        setImageURLs("");
-        setShowUrl("");
+        setImageURLs([]);
+        setShowUrl([]);
       }
     } catch (error) {
       setServerError(error?.response.data.message);
@@ -66,8 +65,27 @@ export default function ProductImage({ infosId, fetchProductList }) {
     setShowUrl(newShowUrl);
   };
 
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      const formData = new FormData();
+      const newImageURLs = Array.from(files).map((file, index) => {
+        formData.append(`file-${index}`, file);
+        const imageUrl = URL.createObjectURL(file);
+        return imageUrl;
+      });
+      setImageURLs((prevImageURLs) => [...prevImageURLs, ...Array.from(files)]);
+      setShowUrl((prev) => [...prev, ...newImageURLs]);
+    }
+  };
+
   return (
-    <form onSubmit={(e) => e.preventDefault()} className="">
+    <form onSubmit={(e) => e.preventDefault()} className="" onDrop={handleDrop} onDragOver={handleDragOver}>
       <div className="lg:w-[46rem] max-h-[40rem] max-w-10/12 bg-white-100 dark:bg-black-200 p-5 rounded-xl overflow-auto ">
         <div className="grid grid-cols-1 overflow-auto">
           <h2 className="text-center mb-4 dark:text-white-100">
@@ -99,13 +117,9 @@ export default function ProductImage({ infosId, fetchProductList }) {
               />
             </div>
           )}
-          <form
-            method="post"
-            className="flex justify-center container dark:text-white-100"
-          >
+          <div className="flex justify-center w-full mt-16">
             <input type="file" onChange={handleImageChange} multiple />
-          </form>
-
+          </div>
           <div className="flex justify-center w-full mt-16">
             <button
               type="submit"
