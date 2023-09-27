@@ -28,6 +28,11 @@ export default function Category() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const { setSearchValue } = useSearch(searchQuery);
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      setSearchValue();
+    }
+  };
   return (
     <section className="sm:p-6 p-3 float-right mt-16 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] min-h-screen">
       <div className="grid lg:grid-cols-12">
@@ -42,6 +47,7 @@ export default function Category() {
                 className="py-1 sm:py-2 pl-7 w-32 outline-none rounded-lg dark:bg-black-200  text-xs sm:placeholder:text-[12px] placeholder:text-[10px] dark:text-white-100"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={handleKeyPress}
               />
               <FontAwesomeIcon
                 icon={faSearch}

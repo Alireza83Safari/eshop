@@ -29,7 +29,6 @@ export default function ShowProductItem({
   const [errors, setErrors] = useState({});
   const [editItemID, setEditItemID] = useState("");
   const [itemLength, setItemLength] = useState(null);
-  const [colorName, setColorName] = useState(null);
 
   const setProductInfos = (event) => {
     let value = event.target.value;
@@ -59,7 +58,6 @@ export default function ShowProductItem({
           quantity: "",
           status: "",
         });
-        setColorName($.response.color);
       }
       setLoading(false);
     } catch (err) {
@@ -89,11 +87,11 @@ export default function ShowProductItem({
     try {
       const response = await adminAxios.post(
         editItemID?.length ? `/productItem/edit/${editID}` : "/productItem",
-        { ...EditItemValue, colorId: EditItemValue?.colorId[0] }
+        EditItemValue
       );
 
       if (response.status === 200) {
-        toast.success("Edit product is success");
+        toast.success("Add product Item is success");
         fetchData();
         fetchProductList();
         setLoading(false);
@@ -109,7 +107,7 @@ export default function ShowProductItem({
   const editProductItemHandler = async () => {
     setLoading(true);
     let data = await totalProductItem?.find((item) => item.id == editItemID);
-    setColorName(data?.color);
+    setColorName(data?.colorName);
     setEditItemValue({
       ...EditItemValue,
       colorId: data?.colorId,
@@ -128,7 +126,7 @@ export default function ShowProductItem({
       editProductItemHandler();
     }
   }, []);
-
+  const [colorName, setColorName] = useState(null);
   const deleteItemHandler = async (ID) => {
     const response = await adminAxios.post(`/productItem/delete/${ID}`);
 
@@ -145,39 +143,13 @@ export default function ShowProductItem({
         <Spinner />
       ) : (
         <div
-          className={`grid grid-cols-4  overflow-auto gap-x-10  ${
+          className={`grid grid-cols-4  overflow-auto gap-x-10 ${
             (isLoading || dataLoading) && "opacity-10"
           }`}
         >
-          <div className="sm:col-span-2 col-span-4">
-            <div>
-              {productFile?.length >= 1 ? (
-                <Swiper
-                  modules={[Navigation, Pagination, Scrollbar, A11y]}
-                  slidesPerView={1}
-                  navigation
-                  pagination={{ clickable: true }}
-                >
-                  {productFile?.map((img) => (
-                    <SwiperSlide>
-                      <div className="flex justify-center" key={img.id}>
-                        <img
-                          src={`http://127.0.0.1:6060/${img.fileUrl}`}
-                          className="object-cover sm:h-[22rem] h-[18rem]"
-                        />
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              ) : (
-                <div className="w-full h-full bg-gray-50">
-                  <img src="/images/photo.jpg" className="object-cover" />
-                </div>
-              )}
-            </div>
-
+          <div className="md:col-span-2 col-span-4 order-2">
             <p className="text-red-700 text-center">{serverError?.message}</p>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-y-6">
               <div className="col-span-2">
                 <label
                   htmlFor="colorId"
@@ -185,30 +157,24 @@ export default function ShowProductItem({
                 >
                   color
                 </label>
+
                 <CustomSelect
                   options={colors?.data.map((color) => ({
                     value: color.id,
                     label: color.name,
                   }))}
                   onchange={(selectedOptions) => {
-                    const selectedValues = selectedOptions.map(
-                      (option) => option.value
-                    );
                     setEditItemValue({
                       ...EditItemValue,
-                      colorId: selectedValues,
+                      colorId: selectedOptions?.value,
                     });
                     setErrors("");
                   }}
                   defaultValue={{
                     value: EditItemValue?.colorId,
-                    label: colors?.data.find(
-                      (color) => color.id == EditItemValue?.colorId
-                    )?.name,
+                    label: colorName,
                   }}
-                  type="multiple"
                 />
-
                 <p className="text-sm text-red-700">{errors?.colorId}</p>
               </div>
 
@@ -228,7 +194,7 @@ export default function ShowProductItem({
                 />
               </div>
 
-              <div>
+              <div className="col-span-2">
                 <label
                   htmlFor="status"
                   className="block text-gray-800 font-medium"
@@ -248,14 +214,14 @@ export default function ShowProductItem({
                     setErrors("");
                   }}
                   defaultValue={{
-                    value: EditItemValue?.status,
-                    label: EditItemValue?.status == 0 ? "in Active" : "Publish",
+                    value: EditItemValue?.colorId,
+                    label: colorName,
                   }}
                 />
                 <p className="text-sm text-red-700">{errors?.status}</p>
               </div>
 
-              <div>
+              <div className="col-span-2">
                 <Input
                   type="number"
                   labelText="price"
@@ -271,7 +237,7 @@ export default function ShowProductItem({
                 />
               </div>
 
-              <div className="col-span-2 mt-3">
+              <div className="col-span-2 mt-6">
                 <button
                   className={`bg-blue-600 py-2 w-full rounded-lg text-white-100 ${
                     (isLoading || dataLoading) && "py-4"
@@ -290,11 +256,11 @@ export default function ShowProductItem({
             </div>
           </div>
 
-          <div className="sm:col-span-2 col-span-4">
+          <div className="md:col-span-2 col-span-4 md:order-2">
             {itemLength != 0 ? (
               totalProductItem?.map((item) => (
                 <div
-                  className="grid grid-cols-2 sm:gap-y-4 gap-y-3 md:text-base sm:text-sm text-xs border rounded-lg mb-6 px-10 py-4 relative hover:bg-gray-50 duration-300"
+                  className="grid grid-cols-2 sm:gap-y-4 gap-y-3 md:text-base text-sm border rounded-lg mb-6 px-10 py-4 relative hover:bg-gray-50 duration-300"
                   onClick={() => {
                     setEditItemID(item.id);
                     editProductItemHandler(item.id);

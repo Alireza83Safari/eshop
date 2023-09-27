@@ -33,7 +33,11 @@ export default function ProductsPanel() {
   } = useFetchPagination(url, adminAxios);
 
   const { setSearchValue } = useSearch(searchQuery);
-
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      setSearchValue();
+    }
+  };
   return (
     <ProductsPanelContext.Provider
       value={{
@@ -70,6 +74,7 @@ export default function ProductsPanel() {
                   className="py-1 sm:py-2 pl-7 w-32 outline-none rounded-lg dark:bg-black-200 text-xs sm:placeholder:text-[12px] placeholder:text-[10px] dark:text-white-100"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyPress={handleKeyPress}
                 />
                 <FontAwesomeIcon
                   icon={faSearch}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import adminAxios from "../../services/Axios/adminInterceptors";
 import DiscountTable from "../../components/Admin/Discount/DiscountTable";
@@ -15,7 +15,7 @@ export default function Discount() {
     paginations,
     total,
   } = useFetchPagination(url, adminAxios);
-
+ 
   return (
     <DiscountContext.Provider
       value={{

@@ -15,6 +15,11 @@ export default function OrderTable({ paginations, paginationLodaing, total }) {
   const { rowNumber, limit } = useTableRow();
   const [searchQuery, setSearchQuery] = useState("");
   const { setSearchValue } = useSearch(searchQuery);
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      setSearchValue();
+    }
+  };
   return (
     <div className="lg:col-span-8 col-span-12 md:mt-2 text-center md:mx-5 mx-2 mb-2 bg-white-100 dark:bg-black-200 rounded-xl">
       <div className="grid grid-cols-2 my-2">
@@ -27,6 +32,7 @@ export default function OrderTable({ paginations, paginationLodaing, total }) {
             className="py-1 sm:py-2 pl-7 w-32 outline-none rounded-lg dark:bg-black-200  text-xs sm:placeholder:text-[12px] placeholder:text-[10px] dark:text-white-100"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyPress={handleKeyPress}
           />
           <FontAwesomeIcon
             icon={faSearch}

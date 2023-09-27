@@ -13,6 +13,11 @@ const CommentsTable = lazy(() =>
 export default function Comments() {
   const [searchQuery, setSearchQuery] = useState("");
   const { setSearchValue } = useSearch(searchQuery);
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      setSearchValue();
+    }
+  };
   return (
     <section className="float-right mt-16 pt-4 md:px-4 px-2 md:pb-16 bg-white-200 dark:text-white-100 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] min-h-screen">
       <div className="md:grid grid-cols-12">
@@ -27,6 +32,7 @@ export default function Comments() {
                 className="py-1 sm:py-2 pl-7 w-32 outline-none rounded-lg dark:bg-black-200  text-xs sm:placeholder:text-[12px] placeholder:text-[10px] dark:text-white-100"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={handleKeyPress}
               />
               <FontAwesomeIcon
                 icon={faSearch}
