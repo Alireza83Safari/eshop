@@ -26,6 +26,7 @@ export default function AddNewProduct({
   const [errors, setErrors] = useState(null);
   const [serverError, setServerError] = useState(null);
   const [isLoading, setLoading] = useState(false);
+  
   const addNewProducts = async () => {
     productFormValidation(productInfo, errors, setErrors);
     setLoading(true);

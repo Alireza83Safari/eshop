@@ -38,14 +38,16 @@ export function CustomSelect({
   type,
   name,
   defaultValue,
+  onFocus,defaultValues
 }) {
   const theme = useMemo(() => {
-    return localStorage.getItem("theme"); // You need to return the value
+    return localStorage.getItem("theme");
   }, []);
   const styles = useMemo(() => {
-    return globalCustomStyles(theme); // You need to return the value
+    return globalCustomStyles(theme);
   }, [theme]);
   const isMulti = type === "multiple";
+
   return (
     <Select
       options={options}
@@ -56,6 +58,8 @@ export function CustomSelect({
       name={name}
       value={defaultValue}
       isMulti={isMulti}
+      onFocus={onFocus}
+      defaultValue={defaultValues}
     />
   );
 }

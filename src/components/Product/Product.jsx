@@ -83,18 +83,20 @@ export default function Product() {
             <Spinner />
           </div>
         ) : (
-          <Suspense>
+          <Suspense fallback={<Spinner />}>
             <ProductTemplate mapData={paginatedProducts} />
           </Suspense>
         )}
       </div>
 
-      <GetPagination
-        pagesCount={pagesCount}
-        setCurrentPage={setCurrentPage}
-        currentPage={currentPage}
-        pageSize={pageSize}
-      />
+      {paginatedProducts?.length >= 1 && (
+        <GetPagination
+          pagesCount={pagesCount}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+          pageSize={pageSize}
+        />
+      )}
     </>
   );
 }

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import userAxios from "../../services/Axios/userInterceptors";
-
+import { toast } from "react-toastify";
 
 function AddComment({ fetchComments, productId }) {
   const [strengths, setStrengths] = useState([]);
@@ -55,8 +55,9 @@ function AddComment({ fetchComments, productId }) {
     try {
       await userAxios.post("/comment", commentObj).then((res) => {
         if (res.status === 200) {
+          toast.success("add comment is success");
           fetchComments();
-          setRate(null);
+          setRate("");
           setCommentValue("");
           setStrengths([]);
           setWeakPoints([]);
@@ -65,14 +66,9 @@ function AddComment({ fetchComments, productId }) {
       });
     } catch (error) {}
   };
-
+  const commentRating = [1, 2, 3, 4, 5];
   useEffect(() => {
-    setIsCommentEmpty(
-      !commentValue ||
-        !rate ||
-        strengths.length === 0 ||
-        weakPoints.length === 0
-    );
+    setIsCommentEmpty(!commentValue || !rate);
   }, [commentValue, rate, strengths, weakPoints]);
 
   return (
@@ -91,15 +87,16 @@ function AddComment({ fetchComments, productId }) {
       <fieldset className="mb-2">
         <legend className="text-sm text-gray-600">Rate this product:</legend>
         <div className="flex items-center text-sm">
-          {[1, 2, 3, 4, 5].map((rating, index) => (
+          {commentRating.map((rating, index) => (
             <label key={index} className="mr-2">
               <input
                 type="radio"
                 name="rating"
-                value={rating}
                 className="focus:ring-blue-500 mx-1"
-                onChange={(e) => setRate(e.target.value)}
+                checked={rating === rate}
+                onChange={() => setRate(rating)}
               />
+
               {rating}
             </label>
           ))}
@@ -194,7 +191,7 @@ function AddComment({ fetchComments, productId }) {
       </div>
 
       <button
-        className={` bg-blue-500 text-white font-semibold md:py-2 py-1 md:px-4 px-2 md:text-base text-sm mt-4 rounded-md focus:outline-none ${
+        className={` bg-blue-500 text-white font-semibold md:py-2 py-1 md:px-4 px-2 md:text-base text-sm mt-4 rounded-md focus:outline-none text-white-100 ${
           isCommentEmpty ? "bg-gray-200 cursor-not-allowed" : "bg-blue-600"
         }`}
         onClick={addCommentHandler}

@@ -11,9 +11,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faX } from "@fortawesome/free-solid-svg-icons";
-import userAxios from "../../../services/Axios/userInterceptors";
 import { toast } from "react-toastify";
 import Spinner from "../../Spinner/Spinner";
 
@@ -83,14 +80,6 @@ export default function ProductInfo({
     }
   };
 
-  const deleteImage = async (ID) => {
-    try {
-      const response = await userAxios.post(`/file/delete/${ID}`);
-      if (response.status === 200) {
-        toast.success("dlete is success");
-      }
-    } catch (error) {}
-  };
   return (
     <>
       {isLoading ? (
@@ -112,15 +101,6 @@ export default function ProductInfo({
                 {productFile?.map((img) => (
                   <SwiperSlide>
                     <div className="flex justify-center" key={img.id}>
-                      <button
-                        onClick={() => {
-                          deleteImage(img.id);
-                        }}
-                        className="text-red-700 absolute text-xl right-0 z-10"
-                      >
-                        <FontAwesomeIcon icon={faX} />
-                      </button>
-
                       <div className="h-full w-full">
                         <img
                           src={`http://127.0.0.1:6060/${img.fileUrl}`}
@@ -186,6 +166,7 @@ export default function ProductInfo({
                   setProductInfo({
                     ...productInfo,
                     categoryId: selectedOptions?.value,
+                    categoryName: selectedOptions?.label,
                   });
                 }}
                 defaultValue={{
@@ -214,6 +195,7 @@ export default function ProductInfo({
                   setProductInfo({
                     ...productInfo,
                     brandId: selectedOptions?.value,
+                    brandName: selectedOptions?.label,
                   });
                 }}
                 defaultValue={{

@@ -167,6 +167,7 @@ export default function ProductsTable() {
             isLoading={isLoading}
             productInfos={productInfos}
             productFile={productFile}
+            getProductFile={getProductFile}
             infosId={infosId}
             fetchProductList={fetchProductList}
           />

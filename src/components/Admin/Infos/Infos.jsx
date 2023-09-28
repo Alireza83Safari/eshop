@@ -14,10 +14,11 @@ export default function Infos({
   productFile,
   infosId,
   fetchProductList,
+  getProductFile,
 }) {
   const [activeTab, setActiveTab] = useState("ProductInfo");
   return ReactDOM.createPortal(
-    <section className="fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full h-screen flex items-center justify-center transition duration-400">
+    <section className="fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full overflow-y-auto h-screen flex items-center justify-center transition duration-400">
       <div
         className={`dark:bg-black-200 dark:text-white-100 bg-white-100 rounded-xl sm:p-5 px-3 py-2 relative overflow-y-auto ${
           activeTab != "ProductImage" && "w-[94%] h-[91%]"
@@ -73,7 +74,6 @@ export default function Infos({
               <ShowProductItem
                 setShowInfo={setShowInfo}
                 isLoading={isLoading}
-                productFile={productFile}
                 infosId={infosId}
                 fetchProductList={fetchProductList}
               />
@@ -81,8 +81,11 @@ export default function Infos({
           )}
           {activeTab === "ProductImage" && (
             <ProductImage
+              productFile={productFile}
               infosId={infosId}
               fetchProductList={fetchProductList}
+              setShowInfo={setShowInfo}
+              getProductFile={getProductFile}
             />
           )}
         </div>

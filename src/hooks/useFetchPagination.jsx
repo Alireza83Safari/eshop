@@ -36,7 +36,15 @@ export const useFetchPagination = (url, customAxios) => {
 
   useEffect(() => {
     fetchData();
-  }, [location.search, categoryId, brandId, order, minPrice, maxPrice]);
+  }, [
+    location.search,
+    categoryId,
+    brandId,
+    order,
+    minPrice,
+    maxPrice,
+    searchTerm,
+  ]);
 
   return { isLoading, paginations, total, fetchData };
 };

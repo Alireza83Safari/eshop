@@ -51,7 +51,7 @@ export default function CheckoutDetails({ orders }) {
           <p className="whitespace-nowrap mr-1">discount code:</p>
           <input
             type="text"
-            className="border border-gray-50 py-2 rounded-md outline-none placeholder:text-sm bg-black-200"
+            className="border border-gray-50 py-2 rounded-md outline-none placeholder:text-sm dark:bg-black-200"
             placeholder="discount code"
             onChange={(e) => setDiscountCode(e.target.value)}
             onFocus={() => setError(false)}

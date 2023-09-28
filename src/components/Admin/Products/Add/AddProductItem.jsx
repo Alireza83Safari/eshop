@@ -17,18 +17,25 @@ export default function AddProductItem({
 }) {
   const { fetchProductList, newProductId, setShowAddProductModal } =
     useContext(ProductsPanelContext);
+  const initialProductItemInfo = {
+    status: "",
+    statusName: "",
+    price: "",
+    quantity: "",
+    isMainItem: null,
+    isMainName: null,
+    productId: newProductId,
+    colorId: "",
+    color: "",
+  };
+
+  const [productItemInfo, setProductItemInfo] = useState(
+    initialProductItemInfo
+  );
 
   const [errors, setErrors] = useState(null);
   const [serverError, setServerError] = useState(null);
   const [createItemInfo, setCreateItemInfo] = useState([]);
-  const [productItemInfo, setProductItemInfo] = useState({
-    status: "",
-    price: "",
-    colorId: [""],
-    quantity: "",
-    isMainItem: "",
-    productId: newProductId,
-  });
 
   const [isLoading, setIsLoading] = useState(false);
   const { datas: colors } = useFetch("/color", adminAxios);
@@ -37,31 +44,29 @@ export default function AddProductItem({
     event.preventDefault();
     itemValidation(productItemInfo, errors, setErrors);
 
+    let colneProductItemInfo = { ...productItemInfo };
+    delete colneProductItemInfo.color;
+    delete colneProductItemInfo.isMainName;
+    delete colneProductItemInfo.statusName;
+
     setIsLoading(true);
+
     try {
-      const response = await adminAxios.post(`/productItem`, {
-        ...productItemInfo,
-        colorId: productItemInfo.colorId[0],
-      });
+      const response = await adminAxios.post(
+        `/productItem`,
+        colneProductItemInfo
+      );
       setIsLoading(false);
       if (response.status === 200) {
         fetchProductList();
         setCreateItemInfo([...createItemInfo, productItemInfo]);
-        setProductItemInfo({
-          status: "",
-          price: "",
-          colorId: [""],
-          quantity: "",
-          isMainItem: "",
-          productId: newProductId,
-        });
+        setProductItemInfo(initialProductItemInfo);
       }
     } catch (error) {
       setServerError(error?.response?.data);
       setIsLoading(false);
     }
   };
-
   const setProductItemInfos = (event) => {
     let value = event.target.value;
 
@@ -112,7 +117,7 @@ export default function AddProductItem({
               <Input
                 type="number"
                 labelText="price"
-                placeholder="Product price"
+                //  placeholder="Product price"
                 name="price"
                 value={productItemInfo?.price}
                 onChange={setProductItemInfos}
@@ -127,7 +132,7 @@ export default function AddProductItem({
               <Input
                 type="number"
                 labelText="quantity"
-                placeholder="Product quantity"
+                //  placeholder="Product quantity"
                 name="quantity"
                 className=""
                 value={productItemInfo?.quantity}
@@ -154,9 +159,14 @@ export default function AddProductItem({
                 onchange={(selectedOptions) => {
                   setProductItemInfo({
                     ...productItemInfo,
-                    status: selectedOptions?.status == "in Active" ? 1 : 0,
+                    status: selectedOptions?.value == "in Active" ? 1 : 0,
+                    statusName: selectedOptions?.label,
                   });
                   setErrors("");
+                }}
+                defaultValue={{
+                  value: productItemInfo?.status,
+                  label: productItemInfo?.statusName,
                 }}
               />
               <p className="text-red-700">{errors?.status}</p>
@@ -169,20 +179,27 @@ export default function AddProductItem({
                 isMainItem
               </label>
               <CustomSelect
-                options={["true", "false"].map((isMain) => ({
-                  value: isMain,
-                  label: isMain,
-                }))}
-                onchange={(selectedOptions) => {
+                options={[
+                  { value: "", label: "Select..." },
+                  { value: true, label: "true" },
+                  { value: false, label: "false" },
+                ]}
+                onchange={(selectedOption) => {
                   setProductItemInfo({
                     ...productItemInfo,
-                    isMainItem: selectedOptions?.value == "true" ? true : false,
+                    isMainItem: selectedOption?.value,
+                    isMainName: selectedOption?.label,
                   });
                   setErrors("");
+                }}
+                defaultValue={{
+                  value: productItemInfo?.isMainItem,
+                  label: productItemInfo?.isMainName,
                 }}
               />
               <p className="text-red-700">{errors?.isMainItem}</p>
             </div>
+
             <div>
               <label
                 htmlFor="colorId"
@@ -191,21 +208,23 @@ export default function AddProductItem({
                 Color
               </label>
               <CustomSelect
-                options={colors?.data.map((brand) => ({
-                  value: brand.id,
-                  label: brand.name,
+                options={colors?.data.map((color) => ({
+                  value: color.id,
+                  label: color.name,
                 }))}
                 onchange={(selectedOptions) => {
-                  const selectedValues = selectedOptions.map(
-                    (option) => option.value
-                  );
                   setProductItemInfo({
                     ...productItemInfo,
-                    colorId: selectedValues,
+                    colorId: selectedOptions?.value,
+                    color: selectedOptions?.label,
                   });
                   setErrors("");
                 }}
-                type="multiple"
+                onFocus={() => setErrors("")}
+                defaultValue={{
+                  value: productItemInfo?.colorId,
+                  label: productItemInfo?.color,
+                }}
               />
               <p className="text-red-700">{errors?.colorId}</p>
             </div>
@@ -249,7 +268,10 @@ export default function AddProductItem({
                   Click To Add Feature
                 </button>
                 {createItemInfo?.map((item) => (
-                  <div className="grid grid-cols-2 sm:gap-y-4 gap-y-3 md:text-base sm:text-sm text-xs border rounded-lg mb-6 px-10 py-4 relative hover:bg-gray-50 duration-300">
+                  <div
+                    key={item.id}
+                    className="grid grid-cols-2 sm:gap-y-4 gap-y-3 md:text-base sm:text-sm text-xs border rounded-lg mb-6 px-10 py-4 relative hover:bg-gray-50 duration-300"
+                  >
                     <FontAwesomeIcon
                       icon={faX}
                       className=" absolute right-2 top-2 text-red-700 z-10"
