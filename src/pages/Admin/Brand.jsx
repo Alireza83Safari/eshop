@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { Suspense, lazy, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import adminAxios from "../../services/Axios/adminInterceptors";
-import BrandTable from "../../components/Admin/Brand/BrandTable";
-import TotalBrand from "../../components/Admin/Brand/TotalBrand";
-import AddBrand from "../../components/Admin/Brand/AddBrand/AddBrand";
 import { useFetchPagination } from "../../hooks/useFetchPagination";
 import { useSearch } from "../../hooks/useSearch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import Spinner from "../../components/Spinner/Spinner";
+const BrandTable = lazy(() =>
+  import("../../components/Admin/Brand/BrandTable")
+);
+const TotalBrand = lazy(() =>
+  import("../../components/Admin/Brand/TotalBrand")
+);
+const AddBrand = lazy(() =>
+  import("../../components/Admin/Brand/AddBrand/AddBrand")
+);
 
 export default function Brand() {
   let url = "/brand";
@@ -48,16 +55,22 @@ export default function Brand() {
               />
             </div>
           </div>
-          <BrandTable
-            paginations={paginations}
-            paginationLodaing={paginationLodaing}
-            fetchData={fetchData}
-            total={total}
-          />
+          <Suspense fallback={<Spinner />}>
+            <BrandTable
+              paginations={paginations}
+              paginationLodaing={paginationLodaing}
+              fetchData={fetchData}
+              total={total}
+            />
+          </Suspense>
         </div>
         <div className="lg:col-span-4 col-span-12 gap-x-12 lg:order-2 order-1">
-          <TotalBrand total={total} />
-          <AddBrand fetchData={fetchData} />
+          <Suspense fallback={<Spinner />}>
+            <TotalBrand total={total} paginationLodaing={paginationLodaing} />
+          </Suspense>
+          <Suspense fallback={<Spinner />}>
+            <AddBrand fetchData={fetchData} />
+          </Suspense>
         </div>
       </div>
       <ToastContainer />

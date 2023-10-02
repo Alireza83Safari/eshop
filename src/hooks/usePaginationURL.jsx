@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export const usePaginationURL = (currentPage, pageSize) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const searchParams = new URLSearchParams(location.search);
+
+  const searchParams = useMemo(
+    () => new URLSearchParams(location.search),
+    [location.search]
+  );
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -16,7 +20,7 @@ export const usePaginationURL = (currentPage, pageSize) => {
       setLoading(false);
     };
     fetchSearchResults();
-  }, [currentPage, pageSize]);
+  }, [currentPage, pageSize, searchParams, navigate]);
 
   return { isLoading };
 };

@@ -72,7 +72,7 @@ export default function ProductsTable() {
     <>
       <table className="min-w-full overflow-x-auto">
         <thead>
-          <tr className="md:text-sm text-xs text-center border-y hover:bg-gray-50">
+          <tr className="md:text-sm text-xs text-center border-y hover:bg-gray-50 dark:hover:bg-black-900">
             <th className="py-3 px-2">NO</th>
             <th className="py-3 px-2">PRODUCT</th>
             <th className="py-3 px-2">Brand</th>
@@ -83,13 +83,13 @@ export default function ProductsTable() {
           </tr>
         </thead>
 
-        {loading || paginationLoading ? (
+        {paginationLoading || loading ? (
           <Spinner />
         ) : paginations?.length >= 1 ? (
           <tbody>
             {paginations?.map((product, index) => (
               <tr
-                className="md:text-sm text-xs text-center hover:bg-gray-50"
+                className="md:text-sm text-xs text-center hover:bg-gray-50 dark:hover:bg-black-900"
                 key={product.id}
               >
                 <td className="py-3 px-2">
@@ -142,22 +142,16 @@ export default function ProductsTable() {
               </tr>
             ))}
           </tbody>
-        ) : (
-          <tbody>
-            <tr>
-              <td colSpan="7">
-                <div className="flex justify-center items-center mt-32">
-                  <div>
-                    <img src="/images/not-found-product.svg" alt="" />
-                    <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
-                      Product Not Found
-                    </p>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        )}
+        ) : paginations.length !== 0 ? (
+          <div className="flex justify-center items-center mt-32">
+            <div>
+              <img src="/images/not-found-product.svg" alt="" />
+              <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
+                Brand Not Found
+              </p>
+            </div>
+          </div>
+        ) : null}
       </table>
       <Suspense fallback={<Spinner />}>
         {showInfo && (

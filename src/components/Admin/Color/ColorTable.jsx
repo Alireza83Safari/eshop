@@ -51,7 +51,7 @@ export default function ColorTable({
             <th className="2xl:py-4 py-3">Actions</th>
           </tr>
         </thead>
-        {pageLoading || isLoading || paginationLodaing ? (
+        {isLoading || pageLoading || paginationLodaing ? (
           <Spinner />
         ) : (
           <tbody>
@@ -93,7 +93,7 @@ export default function ColorTable({
                   </td>
                 </tr>
               ))
-            ) : (
+            ) : paginations.length !== 0 ? (
               <div className="flex justify-center items-center mt-32">
                 <div>
                   <img src="/images/not-found-product.svg" alt="" />
@@ -102,7 +102,7 @@ export default function ColorTable({
                   </p>
                 </div>
               </div>
-            )}
+            ) : null}
           </tbody>
         )}
 

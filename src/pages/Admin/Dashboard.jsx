@@ -20,7 +20,7 @@ const Dashboard = () => {
   const { datas: orders } = useFetch("/order", adminAxios);
   return (
     <section className="float-right md:mt-16 mt-12 pb-10 pt-4 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%]">
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-7 py-3 mx-7 rounded-xl mt-4 md:ml-7 ml-3 ">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-7 py-3 mx-7 rounded-xl mt-4 md:ml-7 ml-3 relative">
         <Suspense fallback={<Spinner />}>
           <Topbar orders={orders} />
         </Suspense>
@@ -33,7 +33,7 @@ const Dashboard = () => {
             <Transactions orders={orders} />
           </Suspense>
         </div>
-        <div className="grid grid-rows-2 md:col-span-4 col-span-12">
+        <div className="grid grid-rows-2 md:col-span-4 col-span-12 relative">
           <Suspense fallback={<Spinner />}>
             <TopSale />
             <TopDiscount />

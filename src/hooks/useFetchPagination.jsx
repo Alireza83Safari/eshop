@@ -14,24 +14,41 @@ export const useFetchPagination = (url, customAxios) => {
   const minPrice = searchParams.get("minPrice");
   const maxPrice = searchParams.get("maxPrice");
 
-  const fetchData = () => {
+  const fetchData = async () => {
     let URL = `${url}${location.search}`;
-    if (searchTerm) URL += `&searchTerm=${searchTerm}`;
-    if (categoryId) URL += `&categoryId=${categoryId}`;
-    if (brandId) URL += `&brandId=${brandId}`;
-    if (order) URL += `&order=${order}`;
-    if (minPrice) URL += `&minPrice=${minPrice}`;
-    if (maxPrice) URL += `&maxPrice=${maxPrice}`;
+
+    switch (true) {
+      case Boolean(searchTerm):
+        URL += `&searchTerm=${searchTerm}`;
+        break;
+      case Boolean(categoryId):
+        URL += `&categoryId=${categoryId}`;
+        break;
+      case Boolean(brandId):
+        URL += `&brandId=${brandId}`;
+        break;
+      case Boolean(order):
+        URL += `&order=${order}`;
+        break;
+      case Boolean(minPrice):
+        URL += `&minPrice=${minPrice}`;
+        break;
+      case Boolean(maxPrice):
+        URL += `&maxPrice=${maxPrice}`;
+        break;
+      default:
+        break;
+    }
 
     setLoading(true);
-    customAxios
-      .get(URL)
-      .then((res) => {
-        setLoading(false);
-        setPaginations(res?.data?.data);
-        setTotal(res?.data?.total);
-      })
-      .catch((err) => setLoading(err));
+    try {
+      const res = await customAxios.get(URL);
+      setPaginations(res?.data?.data);
+      setTotal(res?.data?.total);
+      setLoading(false);
+    } catch (err) {
+      setLoading(err);
+    }
   };
 
   useEffect(() => {

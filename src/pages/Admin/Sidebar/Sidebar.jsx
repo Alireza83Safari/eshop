@@ -45,10 +45,10 @@ export default function Sidebar() {
   const logoutHandler = () => {
     adminAxios.get("/logout").then((res) => {
       if (res.status === 200) {
-        navigate("/panel/login");
         adminLogin();
         setAdminIsLogin(false);
         userLogin();
+        navigate("/panel/login");
       }
     });
   };
@@ -92,15 +92,13 @@ export default function Sidebar() {
         </div>
       </div>
 
-      <div className="ml-4 2xl:text-lg text-xs">
+      <div className="ml-4 2xl:text-lg text-xs" onClick={() => logoutHandler()}>
         <Link className="flex xl:py-5 py-4 text-black-700 hover:text-gray-500 duration-500 dark:text-white-100">
           <FontAwesomeIcon
             icon={faSignOut}
             className="mr-3 lg:text-base text-xl"
           />
-          <p className="invisible lg:visible" onClick={() => logoutHandler()}>
-            Log Out
-          </p>
+          <p className="invisible lg:visible">Log Out</p>
         </Link>
       </div>
     </section>

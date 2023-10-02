@@ -42,9 +42,7 @@ export default function DiscountTable() {
   return (
     <>
       <table
-        className={` min-w-full bg-white-100  dark:bg-black-200 dark:text-white-100 rounded-xl 2xl:h-[50rem] md:h-[38.2rem] h-[34rem] relative ${
-          isLoading && "opacity-20"
-        }`}
+        className={` min-w-full overflow-x-auto ${isLoading && "opacity-20"}`}
       >
         <thead>
           <tr className="md:text-sm text-xs text-center border-b">
@@ -59,10 +57,10 @@ export default function DiscountTable() {
         {paginatedProductsLoading || paginationLoading || isLoading ? (
           <Spinner />
         ) : (
-          <tbody className=" overflow-auto">
+          <tbody className="overflow-auto">
             {paginations?.map((discount, index) => (
               <tr
-                className="2xl:text-lg md:text-sm text-xs text-center overflow-auto"
+                className="2xl:text-lg md:text-sm text-xs text-center hover:bg-gray-50 dark:hover:bg-black-900"
                 key={discount + 1}
               >
                 {console.log(discount)}

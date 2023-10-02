@@ -53,7 +53,7 @@ export default function RoleTable({
           <tbody>
             {rolesData?.data.map((role, index) => (
               <tr
-                className="2xl:text-base md:text-sm sm:text-xs text-[10px] text-center"
+                className="2xl:text-base md:text-sm sm:text-xs text-[10px] text-center hover:bg-gray-50 dark:hover:bg-black-900"
                 key={role.id}
               >
                 <td className="2xl:py-3 py-2">{index + 1}</td>

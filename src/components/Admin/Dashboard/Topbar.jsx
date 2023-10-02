@@ -3,10 +3,17 @@ import { faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import useFetch from "../../../hooks/useFetch";
+import Spinner from "../../Spinner/Spinner";
 
 export default function Topbar({ orders }) {
-  const { datas: totalProducts } = useFetch("/product/selectList", adminAxios);
-  const { datas: totalBrand } = useFetch("/brand", adminAxios);
+  const { datas: totalProducts, isLoading: productLoading } = useFetch(
+    "/product/selectList",
+    adminAxios
+  );
+  const { datas: totalBrand, isLoading: brandLoading } = useFetch(
+    "/brand",
+    adminAxios
+  );
   const date = new Date();
   return (
     <>
@@ -20,9 +27,16 @@ export default function Topbar({ orders }) {
             12%
           </span>
         </div>
-        <h1 className="font-bold 2xl:text-5xl xl:text-4xl text-2xl 2xl:my-6 my-3 text-blue-600 text-center">
-          {orders?.data?.length}
-        </h1>
+        {productLoading ? (
+          <div className="h-14 relative">
+            <Spinner />
+          </div>
+        ) : (
+          <h1 className="font-bold 2xl:text-5xl xl:text-4xl text-2xl 2xl:my-6 my-3 text-blue-600 text-center">
+            {orders?.data?.length}
+          </h1>
+        )}
+
         <p className="text-sm text-gray-500 2xl:text-lg">
           {date.getFullYear()}/{date.getMonth() + 1}/{date.getDate()}
         </p>
@@ -38,9 +52,15 @@ export default function Topbar({ orders }) {
             1%
           </span>
         </div>
-        <h1 className="font-bold 2xl:text-5xl xl:text-4xl text-2xl 2xl:my-6 my-3 text-blue-600 text-center">
-          {totalProducts?.total}
-        </h1>
+        {productLoading ? (
+          <div className="relative h-12">
+            <Spinner />
+          </div>
+        ) : (
+          <h1 className="font-bold 2xl:text-5xl xl:text-4xl text-2xl 2xl:my-6 my-3 text-blue-600 text-center">
+            {totalProducts?.total}
+          </h1>
+        )}
         <p className="text-sm text-gray-500 2xl:text-lg">
           {date.getFullYear()}/{date.getMonth() + 1}/{date.getDate()}
         </p>
@@ -56,9 +76,15 @@ export default function Topbar({ orders }) {
             12%
           </span>
         </div>
-        <h1 className="font-bold 2xl:text-5xl xl:text-4xl text-2xl 2xl:my-6 my-3 text-blue-600 text-center">
-          {totalBrand?.total}
-        </h1>
+        {brandLoading ? (
+          <div className="relative h-12">
+            <Spinner />
+          </div>
+        ) : (
+          <h1 className="font-bold 2xl:text-5xl xl:text-4xl text-2xl 2xl:my-6 my-3 text-blue-600 text-center">
+            {totalBrand?.total}
+          </h1>
+        )}
         <p className="text-sm text-gray-500 2xl:text-lg">
           {date.getFullYear()}/{date.getMonth() + 1}/{date.getDate()}
         </p>

@@ -63,7 +63,7 @@ export default function Color() {
         </div>
         <div className="lg:col-span-4 col-span-12 gap-x-12 gap-y-6 grid lg:order-2 order-1 lg:mb-0 mb-5">
           <Suspense fallback={<Spinner />}>
-            <TotalColor total={total} />
+            <TotalColor total={total} paginationLoading={paginationLoading} />
             <AddColor fetchData={fetchData} />
           </Suspense>
         </div>

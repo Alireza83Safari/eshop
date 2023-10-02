@@ -7,7 +7,10 @@ const Infos = lazy(() => import("../Infos/Infos"));
 
 const TopDiscount = () => {
   const [showInfo, setShowInfo] = useState(false);
-  const { datas: product } = useFetch("/product?order=discount", userAxios);
+  const { datas: product, isLoading: productLoading } = useFetch(
+    "/product?order=discount",
+    userAxios
+  );
   const topDiscount = product?.data && product?.data[0];
 
   const [isLoading, setLoading] = useState(false);
@@ -54,12 +57,16 @@ const TopDiscount = () => {
         <span className="flex justify-center font-bold whitespace-nowrap dark:text-white-100 lg:text-base text-xs text-center">
           Most Discount Product Weekly
         </span>
-        <div className="pt-4 h-56">
-          <img
-            src={`http://127.0.0.1:6060/${topDiscount?.fileUrl}`}
-            className="w-full h-full object-contain"
-            alt="Most Sale Product"
-          />
+        <div className="pt-4 h-56 relative">
+          {productLoading ? (
+            <Spinner />
+          ) : (
+            <img
+              src={`http://127.0.0.1:6060/${topDiscount?.fileUrl}`}
+              className="w-full h-full object-contain"
+              alt="Most Sale Product"
+            />
+          )}
         </div>
         <div className="flex justify-between md:px-1 px-10 xl:text-base md:text-xs text-sm mt-4">
           <p className="py-1 lg:py-0">price:{topDiscount?.price}$</p>

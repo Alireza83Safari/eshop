@@ -17,6 +17,46 @@ export default function ProductImage({
   const [imageURLs, setImageURLs] = useState([]);
   const [showUrl, setShowUrl] = useState([]);
 
+  //------- start drag drop -------////
+  const [draggedIndex, setDraggedIndex] = useState(null);
+  const [dropIndex, setDropIndex] = useState(null);
+
+  const handleDragStart = (e, index) => {
+    e.dataTransfer.setData("text/plain", `image-${index}`);
+    setDraggedIndex(index);
+  };
+
+  const handleDragOver = (e, index) => {
+    e.preventDefault();
+    setDropIndex(index);
+  };
+
+  const handleDrop = (e, index) => {
+    e.preventDefault();
+    if (draggedIndex === null || dropIndex === null) {
+      return;
+    }
+
+    const draggedImageId = e.dataTransfer.getData("text/plain");
+    const draggedImageIndex = parseInt(draggedImageId.split("-")[1]);
+
+    const newShowUrl = [...showUrl];
+    const newImageURLs = [...imageURLs];
+    const [draggedImageUrl] = newShowUrl.splice(draggedImageIndex, 1);
+    const [draggedImage] = newImageURLs.splice(draggedImageIndex, 1);
+    console.log(draggedImageUrl);
+
+    newShowUrl.splice(index, 0, draggedImageUrl);
+    newImageURLs.splice(index, 0, draggedImage);
+
+    setShowUrl(newShowUrl);
+    setImageURLs(newImageURLs);
+
+    setDraggedIndex(null);
+    setDropIndex(null);
+  };
+  // console.log(imageURLs);
+
   useEffect(() => {
     const endIndices = productFile?.map((img) => img?.fileUrl);
     setShowUrl(endIndices);
@@ -25,6 +65,7 @@ export default function ProductImage({
     const endIndices = productFile?.map((img) => img?.fileUrl);
     setImageURLs(endIndices);
   }, []);
+  //------- finish drag drop -------////
 
   const addFile = async () => {
     if (imageURLs.length === 0) {
@@ -92,32 +133,8 @@ export default function ProductImage({
     } catch (error) {}
   };
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
-      const formData = new FormData();
-      const newImageURLs = Array.from(files).map((file, index) => {
-        formData.append(`file-${index}`, file);
-        const imageUrl = URL.createObjectURL(file);
-        return imageUrl;
-      });
-      setImageURLs((prevImageURLs) => [...prevImageURLs, ...Array.from(files)]);
-      setShowUrl((prev) => [...prev, ...newImageURLs]);
-    }
-  };
-
   return (
-    <form
-      onSubmit={(e) => e.preventDefault()}
-      className=""
-      onDrop={handleDrop}
-      onDragOver={handleDragOver}
-    >
+    <form onSubmit={(e) => e.preventDefault()}>
       <div className="lg:w-[46rem] max-h-[40rem] max-w-10/12 bg-white-100 dark:bg-black-200 p-5 rounded-xl overflow-auto">
         <div className="grid grid-cols-1 overflow-auto">
           <h2 className="text-center mb-4 dark:text-white-100">
@@ -135,6 +152,11 @@ export default function ProductImage({
                         : imageUrl
                     }
                     className="mb-4 border w-96 h-44 object-contain"
+                    draggable="true"
+                    id={`image-${index}`} // اضافه کردن شناسه به عکس
+                    onDragStart={(e) => handleDragStart(e, index)} // تنظیم کردن رویداد DragStart
+                    onDragOver={(e) => handleDragOver(e, index)} // تنظیم کردن رویداد DragOver
+                    onDrop={(e) => handleDrop(e, index)} // تنظیم کردن رویداد Drop
                   />
 
                   <button

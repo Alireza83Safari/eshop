@@ -19,14 +19,11 @@ export default function Orders() {
     isLoading: paginationLodaing,
   } = useFetchPagination(url, adminAxios);
 
-  const income = paginations?.reduce((total, sale) => total + sale?.price, 0);
-  const totalTax = Math.floor(income / 9);
-  const netProfit = income - totalTax;
   return (
     <section className="float-right mt-16 md:px-4 px-2 pb-8 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] min-h-screen">
       <div className="mb-4">
         <Suspense fallback={<Spinner />}>
-          <OrderInfos tax={totalTax} income={income} netProfit={netProfit} />
+          <OrderInfos />
         </Suspense>
       </div>
 

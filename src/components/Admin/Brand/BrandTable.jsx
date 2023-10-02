@@ -22,7 +22,7 @@ export default function BrandTable({
 
   let pageSize = 9;
   const pagesCount = Math.ceil(total / pageSize);
-  const { isLoading: pageLoading } = usePaginationURL(currentPage, pageSize);
+  const { isLoading: pageLoading } = usePaginationURL(currentPage, 9);
 
   const deleteBrand = async (id) => {
     setLoading(true);
@@ -59,7 +59,7 @@ export default function BrandTable({
               paginations?.map((brand, index) => (
                 <tr
                   className="2xl:text-lg md:text-sm sm:text-xs text-[10px] text-center grid sm:grid-cols-6 grid-cols-5"
-                  key={brand + 1}
+                  key={brand.id}
                 >
                   <td className="2xl:py-4 py-3 sm:inline hidden">
                     {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
@@ -98,7 +98,7 @@ export default function BrandTable({
                   </td>
                 </tr>
               ))
-            ) : (
+            ) : paginations.length !== 0 ? (
               <div className="flex justify-center items-center mt-32">
                 <div>
                   <img src="/images/not-found-product.svg" alt="" />
@@ -107,7 +107,7 @@ export default function BrandTable({
                   </p>
                 </div>
               </div>
-            )}
+            ) : null}
           </tbody>
         )}
 

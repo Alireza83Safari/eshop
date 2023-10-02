@@ -54,7 +54,7 @@ export default function UsersTable() {
             {paginations?.length >= 1 ? (
               paginations.map((user, index) => (
                 <tr
-                  className="2xl:text-base md:text-sm text-xs text-center overflow-x-auto"
+                  className="2xl:text-base md:text-sm text-xs text-center overflow-x-auto hover:bg-gray-50 dark:hover:bg-black-900"
                   key={user.id}
                 >
                   <td className="2xl:py-4 py-3 px-1">
@@ -93,14 +93,16 @@ export default function UsersTable() {
                 </tr>
               ))
             ) : (
-              <div className="flex justify-center items-center mt-32">
-                <div>
-                  <img src="/images/not-found-product.svg" alt="" />
-                  <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
-                    user Not Found
-                  </p>
+              paginations.length !== 0 ? (
+                <div className="flex justify-center items-center mt-32">
+                  <div>
+                    <img src="/images/not-found-product.svg" alt="" />
+                    <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
+                      Color Not Found
+                    </p>
+                  </div>
                 </div>
-              </div>
+              ) : null
             )}
           </tbody>
         )}

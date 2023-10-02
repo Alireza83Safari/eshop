@@ -55,7 +55,7 @@ export default function CommentsTable() {
           <tbody>
             {paginations?.map((comment) => (
               <tr
-                className="sm:text-xs text-[10px] 2xl:text-sm sm:px-4 text-center"
+                className="sm:text-xs text-[10px] 2xl:text-sm sm:px-4 text-center hover:bg-gray-50 dark:hover:bg-black-900"
                 key={comment.id}
               >
                 <td className="truncate font-bold  py-3 px-2">
@@ -63,15 +63,11 @@ export default function CommentsTable() {
                 </td>
 
                 <td className="truncate  py-3 px-2">{comment.text}</td>
-                <td className="truncate  py-3 px-2">
-                  {comment.productName}
-                </td>
+                <td className="truncate  py-3 px-2">{comment.productName}</td>
                 <td className="truncate  py-3 px-2 ">
                   {comment.createdAt.slice(0, 10)}
                 </td>
-                <td className="truncate  py-3 px-2">
-                  {comment.rate}/5
-                </td>
+                <td className="truncate  py-3 px-2">{comment.rate}/5</td>
                 <td className="truncate  py-3 px-2 ">
                   {(() => {
                     switch (comment.commentStatus) {
@@ -116,7 +112,7 @@ export default function CommentsTable() {
               </tr>
             ))}
           </tbody>
-        ) : (
+        ) : paginations.length !== 0 ? (
           <div className="flex justify-center items-center mt-32">
             <div>
               <img src="/images/not-found-product.svg" alt="" />
@@ -125,7 +121,7 @@ export default function CommentsTable() {
               </p>
             </div>
           </div>
-        )}
+        ) : null}
       </table>
       <Pagination
         pagesCount={pagesCount}
