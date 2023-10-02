@@ -91,16 +91,8 @@ export default function AddProductItem({
   };
 
   return (
-    <div
-      className={`min-h-[31rem] max-h-[36rem] max-w-10/12 bg-white-100 dark:bg-black-200  p-5 rounded-xl relative grid grid-cols-2 gap-x-6 overflow-auto ${
-        createItemInfo.length >= 1 ? "w-[64rem]" : "w-[30rem]"
-      }`}
-    >
-      <div
-        className={`${
-          createItemInfo.length >= 1 ? "md:col-span-1 col-span-2" : "col-span-2"
-        }`}
-      >
+    <div className="min-h-[31rem] max-h-[36rem] max-w-10/12 bg-white-100 dark:bg-black-200  p-5 rounded-xl relative grid grid-cols-2 gap-x-6 overflow-auto w-[64rem]">
+      <div className="md:col-span-1 col-span-2">
         <span className="mb-5 text-xl font-bold flex justify-center dark:text-white-100">
           Add New Product Item
         </span>
@@ -250,54 +242,59 @@ export default function AddProductItem({
           </div>
         </form>
       </div>
-
-      <div className="md:col-span-1 col-span-2 overflow-auto">
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <>
-            {createItemInfo.length < 1 ? null : (
-              <>
-                <button
-                  className="bg-blue-600 text-white-100 px-3 py-1 rounded-lg mb-2 text-sm"
-                  onClick={() => {
-                    setShowProductItem(false);
-                    setShowProductFeature(true);
-                  }}
-                >
-                  Click To Add Feature
-                </button>
-                {createItemInfo?.map((item) => (
-                  <div
-                    key={item.id}
-                    className="grid grid-cols-2 sm:gap-y-4 gap-y-3 md:text-base sm:text-sm text-xs border rounded-lg mb-6 px-10 py-4 relative hover:bg-gray-50 duration-300"
+      {createItemInfo?.length ? (
+        <div className="md:col-span-1 col-span-2 overflow-auto">
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <>
+              {createItemInfo.length < 1 ? null : (
+                <>
+                  <button
+                    className="bg-blue-600 text-white-100 px-3 py-1 rounded-lg mb-2 text-sm"
+                    onClick={() => {
+                      setShowProductItem(false);
+                      setShowProductFeature(true);
+                    }}
                   >
-                    <FontAwesomeIcon
-                      icon={faX}
-                      className=" absolute right-2 top-2 text-red-700 z-10"
-                      onClick={() => deleteItemHandler(item.id)}
-                    />
+                    Click To Add Feature
+                  </button>
+                  {createItemInfo?.map((item) => (
+                    <div
+                      key={item.id}
+                      className="grid grid-cols-2 sm:gap-y-4 gap-y-3 md:text-base sm:text-sm text-xs border rounded-lg mb-6 px-10 py-4 relative hover:bg-gray-50 duration-300"
+                    >
+                      <FontAwesomeIcon
+                        icon={faX}
+                        className=" absolute right-2 top-2 text-red-700 z-10"
+                        onClick={() => deleteItemHandler(item.id)}
+                      />
 
-                    <div className="font-semibold">Product Color:</div>
-                    <div>
-                      {colors?.data
-                        .filter((color) => color.id == item?.colorId)
-                        ?.map((color) => color.name)}
+                      <div className="font-semibold">Product Color:</div>
+                      <div>
+                        {colors?.data
+                          .filter((color) => color.id == item?.colorId)
+                          ?.map((color) => color.name)}
+                      </div>
+                      <div className="font-semibold">Price:</div>
+                      <div>{item?.price}$</div>
+                      <div className="font-semibold">quantity:</div>
+                      <div>{item?.quantity}</div>
+
+                      <div className="font-semibold">status:</div>
+                      <div>{item?.status == 0 ? "Publish" : "in Active"}</div>
                     </div>
-                    <div className="font-semibold">Price:</div>
-                    <div>{item?.price}$</div>
-                    <div className="font-semibold">quantity:</div>
-                    <div>{item?.quantity}</div>
-
-                    <div className="font-semibold">status:</div>
-                    <div>{item?.status == 0 ? "Publish" : "in Active"}</div>
-                  </div>
-                ))}
-              </>
-            )}
-          </>
-        )}
-      </div>
+                  ))}
+                </>
+              )}
+            </>
+          )}
+        </div>
+      ) : (
+        <div className="text-xl font-semibold flex justify-center items-center md:col-span-1 col-span-2 overflow-auto my-10">
+          there is no item
+        </div>
+      )}
     </div>
   );
 }
