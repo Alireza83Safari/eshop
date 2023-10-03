@@ -1,20 +1,28 @@
 export const loginValidation = (loginInfos, errors, setErrors) => {
   const newErrors = { ...errors };
 
-  if (loginInfos?.username.length == 0) {
-    newErrors.username = "username cannot be empty";
-  } else if (loginInfos?.username.length < 3) {
-    newErrors.username = "minimum character is 3";
-  } else {
-    newErrors.username = "";
+  switch (true) {
+    case loginInfos?.username.length === 0:
+      newErrors.username = "Username cannot be empty";
+      break;
+    case loginInfos?.username.length < 2:
+      newErrors.username = "Minimum character length is 3";
+      break;
+    default:
+      newErrors.username = "";
+      break;
   }
 
-  if (loginInfos.password.length == 0) {
-    newErrors.password = "password cannot be empty";
-  } else if (loginInfos?.password.length < 6) {
-    newErrors.password = "minimum character is 8";
-  } else {
-    newErrors.password = "";
+  switch (true) {
+    case loginInfos?.password.length === 0:
+      newErrors.password = "Password cannot be empty";
+      break;
+    case loginInfos?.password.length < 7:
+      newErrors.password = "Minimum character length is 8";
+      break;
+    default:
+      newErrors.password = "";
+      break;
   }
 
   setErrors(newErrors);

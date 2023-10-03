@@ -1,28 +1,38 @@
 export const appPicValidation = (appicInfo, errors, setErrors) => {
   const newErrors = { ...errors };
+  const errorText = "This field cannot be empty.";
 
-  if (appicInfo?.description.length == 0) {
-    newErrors.description = "description cannot be empty";
-  } else {
-    newErrors.description = "";
+  switch (true) {
+    case appicInfo?.description.length === 0:
+      newErrors.description = errorText;
+      break;
+    default:
+      newErrors.description = "";
   }
 
-  if (appicInfo.priority.length == 0) {
-    newErrors.priority = "priority cannot be empty";
-  } else {
-    newErrors.priority = "";
+  switch (true) {
+    case appicInfo.priority.length === 0:
+      newErrors.priority = errorText;
+      break;
+    default:
+      newErrors.priority = "";
   }
 
-  if (appicInfo.title.length == 0) {
-    newErrors.title = "title cannot be empty";
-  } else {
-    newErrors.title = "";
+  switch (true) {
+    case appicInfo.title.length === 0:
+      newErrors.title = errorText;
+      break;
+    default:
+      newErrors.title = "";
   }
 
-  if (appicInfo.url.length == 0) {
-    newErrors.url = "url cannot be empty";
-  } else {
-    newErrors.url = "";
+  switch (true) {
+    case appicInfo.url.length === 0:
+      newErrors.url = errorText;
+      break;
+    default:
+      newErrors.url = "";
   }
+
   setErrors(newErrors);
 };

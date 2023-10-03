@@ -1,28 +1,36 @@
 export const itemValidation = (productItemInfo, errors, setErrors) => {
   const newErrors = { ...errors };
-
-  if (productItemInfo?.status.length == 0) {
-    newErrors.status = "status cannot be empty";
-  } else {
-    newErrors.status = "";
+  const errorText = "This field cannot be empty.";
+  switch (true) {
+    case productItemInfo?.status.length === 0:
+      newErrors.status = errorText;
+      break;
+    default:
+      newErrors.status = "";
   }
 
-  if (productItemInfo.price.length == 0) {
-    newErrors.price = "price cannot be empty";
-  } else {
-    newErrors.price = "";
+  switch (true) {
+    case productItemInfo.price.length === 0:
+      newErrors.price = errorText;
+      break;
+    default:
+      newErrors.price = "";
   }
 
-  if (productItemInfo.colorId.length == 0) {
-    newErrors.colorId = "Color cannot be empty";
-  } else {
-    newErrors.colorId = "";
+  switch (true) {
+    case productItemInfo.colorId.length === 0:
+      newErrors.colorId = errorText;
+      break;
+    default:
+      newErrors.colorId = "";
   }
 
-  if (productItemInfo.quantity.length == 0) {
-    newErrors.quantity = "quantity cannot be empty";
-  } else {
-    newErrors.quantity = "";
+  switch (true) {
+    case productItemInfo.quantity.length === 0:
+      newErrors.quantity = errorText;
+      break;
+    default:
+      newErrors.quantity = "";
   }
 
   setErrors(newErrors);

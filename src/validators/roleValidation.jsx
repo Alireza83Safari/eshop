@@ -1,16 +1,22 @@
-export const roleVlidation = (roleInfos, errors, setErrors) => {
+export const roleValidation = (roleInfos, errors, setErrors) => {
   const newErrors = { ...errors };
+  const errorText = "This field cannot be empty.";
 
-  if (roleInfos?.code.length == 0) {
-    newErrors.code = "code cannot be empty";
-  } else {
-    newErrors.code = "";
+  switch (true) {
+    case roleInfos?.code.length === 0:
+      newErrors.code = errorText;
+      break;
+    default:
+      newErrors.code = "";
   }
 
-  if (roleInfos.name.length == 0) {
-    newErrors.name = "name cannot be empty";
-  } else {
-    newErrors.name = "";
+  switch (true) {
+    case roleInfos?.name.length === 0:
+      newErrors.name = errorText;
+      break;
+    default:
+      newErrors.name = "";
   }
+
   setErrors(newErrors);
 };

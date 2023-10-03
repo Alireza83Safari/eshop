@@ -1,51 +1,67 @@
 export const addressValidation = (addressInfos, errors, setErrors) => {
   const newErrors = { ...errors };
+  const errorText = "This field cannot be empty.";
 
-  if (addressInfos.address == "") {
-    newErrors.address = "address cannot be empty";
-  } else if (addressInfos?.address.length < 8) {
-    newErrors.address = "minimum character is 8";
-  } else {
-    newErrors.address = "";
+  switch (true) {
+    case addressInfos.address === "":
+      newErrors.address = errorText;
+      break;
+    case addressInfos?.address.length < 8:
+      newErrors.address = "Minimum character length is 8";
+      break;
+    default:
+      newErrors.address = "";
   }
 
-  if (addressInfos.firstName.length == 0) {
-    newErrors.firstName = "firstName cannot be empty";
-  } else {
-    newErrors.firstName = "";
+  switch (true) {
+    case addressInfos.firstName.length === 0:
+      newErrors.firstName = errorText;
+      break;
+    default:
+      newErrors.firstName = "";
   }
 
-  if (addressInfos.lastName.length == 0) {
-    newErrors.lastName = "lastName cannot be empty";
-  } else {
-    newErrors.lastName = "";
+  switch (true) {
+    case addressInfos.lastName.length === 0:
+      newErrors.lastName = "Last name cannot be empty";
+      break;
+    default:
+      newErrors.lastName = "";
   }
 
-  if (addressInfos.nationalCode.length == 0) {
-    newErrors.nationalCode = "nationalCode cannot be empty";
-  } else {
-    newErrors.nationalCode = "";
+  switch (true) {
+    case addressInfos.nationalCode.length === 0:
+      newErrors.nationalCode = errorText;
+      break;
+    default:
+      newErrors.nationalCode = "";
   }
 
-  if (addressInfos.phoneNumber.length == 0) {
-    newErrors.phoneNumber = "phoneNumber cannot be empty";
-  }
-  if (addressInfos.phoneNumber.length < 9) {
-    newErrors.phoneNumber = "phone number format";
-  } else {
-    newErrors.phoneNumber = "";
-  }
-
-  if (addressInfos.plaque.length == 0 && !0) {
-    newErrors.plaque = "plaque cannot be empty";
-  } else {
-    newErrors.plaque = "";
+  switch (true) {
+    case addressInfos.phoneNumber.length === 0:
+      newErrors.phoneNumber = errorText;
+      break;
+    case addressInfos.phoneNumber.length < 9:
+      newErrors.phoneNumber = "Phone number format";
+      break;
+    default:
+      newErrors.phoneNumber = "";
   }
 
-  if (addressInfos.postalCode.length <= 0) {
-    newErrors.postalCode = "postalCode cannot be empty";
-  } else {
-    newErrors.postalCode = "";
+  switch (true) {
+    case addressInfos.plaque.length === 0:
+      newErrors.plaque = errorText;
+      break;
+    default:
+      newErrors.plaque = "";
+  }
+
+  switch (true) {
+    case addressInfos.postalCode.length <= 0:
+      newErrors.postalCode = errorText;
+      break;
+    default:
+      newErrors.postalCode = "";
   }
 
   setErrors(newErrors);

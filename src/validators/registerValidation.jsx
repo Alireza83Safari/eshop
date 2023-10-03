@@ -1,28 +1,37 @@
 export const registerValidation = (registerInfos, errors, setErrors) => {
   const newErrors = { ...errors };
-
-  if (registerInfos?.username.length == 0) {
-    newErrors.username = "username cannot be empty";
-  } else if (registerInfos?.username.length < 3) {
-    newErrors.username = "minimum character is 3";
-  } else {
-    newErrors.username = "";
+  const errorText = "This field cannot be empty.";
+  switch (true) {
+    case registerInfos?.username.length === 0:
+      newErrors.username = errorText;
+      break;
+    case registerInfos?.username.length < 3:
+      newErrors.username = "Minimum character length is 3";
+      break;
+    default:
+      newErrors.username = "";
   }
 
-  if (registerInfos.password.length == 0) {
-    newErrors.password = "password cannot be empty";
-  } else if (registerInfos?.password.length < 8) {
-    newErrors.password = "minimum character is 8";
-  } else {
-    newErrors.password = "";
+  switch (true) {
+    case registerInfos?.password.length === 0:
+      newErrors.password = errorText;
+      break;
+    case registerInfos?.password.length < 7:
+      newErrors.password = "Minimum character length is 8";
+      break;
+    default:
+      newErrors.password = "";
   }
 
-  if (registerInfos.passwordConfirmation.length == 0) {
-    newErrors.passwordConfirmation = "password cannot be empty";
-  } else if (registerInfos?.passwordConfirmation.length < 8) {
-    newErrors.passwordConfirmation = "minimum character is 8";
-  } else {
-    newErrors.passwordConfirmation = "";
+  switch (true) {
+    case registerInfos?.passwordConfirmation.length === 0:
+      newErrors.passwordConfirmation = errorText;
+      break;
+    case registerInfos?.passwordConfirmation.length < 7:
+      newErrors.passwordConfirmation = "Minimum character length is 8";
+      break;
+    default:
+      newErrors.passwordConfirmation = "";
   }
 
   setErrors(newErrors);

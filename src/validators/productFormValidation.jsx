@@ -1,41 +1,53 @@
 export const productFormValidation = (productInfo, errors, setErrors) => {
   const newErrors = { ...errors };
-  let errorText = "This field cannot be empty.";
-  // Validate each field and update errors
-  if (productInfo?.name.length == 0) {
-    newErrors.name = errorText;
-  } else {
-    newErrors.name = "";
+  const errorText = "This field cannot be empty.";
+
+  switch (true) {
+    case productInfo?.name.length === 0:
+      newErrors.name = errorText;
+      break;
+    default:
+      newErrors.name = "";
   }
 
-  if (productInfo.categoryId == 0) {
-    newErrors.categoryId = errorText;
-  } else {
-    newErrors.categoryId = "";
+  switch (true) {
+    case productInfo.categoryId === 0:
+      newErrors.categoryId = errorText;
+      break;
+    default:
+      newErrors.categoryId = "";
   }
 
-  if (productInfo.brandId == "") {
-    newErrors.brandId = errorText;
-  } else {
-    newErrors.brandId = "";
+  switch (true) {
+    case productInfo.brandId === "":
+      newErrors.brandId = errorText;
+      break;
+    default:
+      newErrors.brandId = "";
   }
 
-  if (productInfo.code.length == 0) {
-    newErrors.code = "Code cannot be empty";
-  } else {
-    newErrors.code = "";
+  switch (true) {
+    case productInfo?.code.length === 0:
+      newErrors.code = errorText;
+      break;
+    default:
+      newErrors.code = "";
   }
 
-  if (productInfo.shortDescription.length == 0) {
-    newErrors.shortDescription = errorText;
-  } else {
-    newErrors.shortDescription = "";
+  switch (true) {
+    case productInfo?.shortDescription.length === 0:
+      newErrors.shortDescription = errorText;
+      break;
+    default:
+      newErrors.shortDescription = "";
   }
 
-  if (productInfo.description.length == 0) {
-    newErrors.description = errorText;
-  } else {
-    newErrors.description = "";
+  switch (true) {
+    case productInfo?.description.length === 0:
+      newErrors.description = errorText;
+      break;
+    default:
+      newErrors.description = "";
   }
 
   setErrors(newErrors);
