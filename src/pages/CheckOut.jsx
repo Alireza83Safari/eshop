@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import Header from "./Header/Header";
+import Header from "./Header";
 import Footer from "./Footer";
 import useFetch from "../hooks/useFetch";
 import Spinner from "../components/Spinner/Spinner";

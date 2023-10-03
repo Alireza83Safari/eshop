@@ -20,7 +20,6 @@ import ProfileFavorite from "../components/Profile/ProfileFavorite";
 import ProfileOrders from "../components/Profile/ProfileOrders";
 import ProfileComments from "../components/Profile/ProfileComments";
 import PrivateRoute from "../components/Admin/PrivateRoute";
-import AdminLogin from "../pages/Admin/AdminLogin";
 import BrandResult from "../pages/BrandResult";
 import CategoryResult from "../pages/CategoryResult";
 import Home from "../pages/Home";
@@ -54,7 +53,6 @@ const route = [
       { path: "edit", element: <ProfileEdit /> },
     ],
   },
-  { path: "panel/login", element: <AdminLogin /> },
   {
     path: "/panel/*",
     element: <Index />,

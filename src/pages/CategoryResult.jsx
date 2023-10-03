@@ -2,7 +2,7 @@ import React, { Suspense, lazy, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import userAxios from "../services/Axios/userInterceptors";
 import Spinner from "../components/Spinner/Spinner";
-import Header from "./Header/Header";
+import Header from "./Header";
 import Footer from "./Footer";
 import { ToastContainer, toast } from "react-toastify";
 import Sidebar from "./Sidebar/Sidebar";

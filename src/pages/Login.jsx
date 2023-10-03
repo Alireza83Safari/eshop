@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Header from "./Header/Header";
+import Header from "./Header";
 import Footer from "./Footer";
 import userAxios from "../services/Axios/userInterceptors";
 import { loginValidation } from "../validators/loginValidation";

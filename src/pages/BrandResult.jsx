@@ -1,7 +1,7 @@
 import React, { Suspense, lazy, useState } from "react";
 import userAxios from "../services/Axios/userInterceptors";
 import Spinner from "../components/Spinner/Spinner";
-import Header from "./Header/Header";
+import Header from "./Header";
 import Footer from "./Footer";
 import { ToastContainer, toast } from "react-toastify";
 import Sidebar from "./Sidebar/Sidebar";

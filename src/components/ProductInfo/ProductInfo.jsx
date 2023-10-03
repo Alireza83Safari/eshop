@@ -1,7 +1,7 @@
 import React, { useState, startTransition, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import Header from "../../pages/Header/Header";
+import Header from "../../pages/Header";
 import Footer from "../../pages/Footer";
 import useFetch from "../../hooks/useFetch";
 import userAxios from "../../services/Axios/userInterceptors";

@@ -4,7 +4,7 @@ import Banner from "../components/Banner";
 import Offer from "../components/Offer";
 import Suggestion from "../components/Suggestion";
 import Promotion from "../components/Promotion";
-import Header from "./Header/Header";
+import Header from "./Header";
 import Footer from "./Footer";
 import Sidebar from "./Sidebar/Sidebar";
 import ProductSlider from "../components/ProductSlider";

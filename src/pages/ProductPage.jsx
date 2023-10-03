@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { ToastContainer } from "react-toastify";
 import Spinner from "../components/Spinner/Spinner";
-import Header from "./Header/Header";
+import Header from "./Header";
 import Footer from "./Footer";
 import Sidebar from "./Sidebar/Sidebar";
 const Product = lazy(() => import("../components/Product/Product"));

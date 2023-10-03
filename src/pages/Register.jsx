@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { registerValidation } from "../validators/registerValidation";
-import Header from "../pages/Header/Header";
+import Header from "./Header";
 import Footer from "../pages/Footer";
 import Sidebar from "./Sidebar/Sidebar";
 import Spinner from "../components/Spinner/Spinner";
