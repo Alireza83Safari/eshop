@@ -5,16 +5,13 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer } from "react-toastify";
 import userAxios from "../../services/Axios/userInterceptors";
 import useAddToCart from "../../hooks/useAddCart";
-import useFetch from "../../hooks/useFetch";
 import Spinner from "../Spinner/Spinner";
 import useRemove from "../../hooks/useRemove";
 import Pagination from "../getPagination";
+import { usePaginationURL } from "../../hooks/usePaginationURL";
+import { useFetchPagination } from "../../hooks/useFetchPagination";
+
 export default function ProfileFavorite() {
-  const {
-    datas: favoriteProducts,
-    fetchData,
-    isLoading: dataLoading,
-  } = useFetch(`/profile/favoriteProducts`, userAxios);
   const location = useLocation();
   const navigate = useNavigate();
   const { removeHandler, isLoading: removeLoading } = useRemove();
@@ -29,9 +26,6 @@ export default function ProfileFavorite() {
 
   const pageSize = 6;
   const [currentPage, setCurrentPage] = useState(1);
-  const pagesCount = Math.ceil(
-    favoriteProducts && favoriteProducts?.data?.length / pageSize
-  );
 
   const searchParams = new URLSearchParams(location.search);
 
@@ -45,28 +39,22 @@ export default function ProfileFavorite() {
     fetchSearchResults();
   }, [currentPage]);
 
-  const [paginatedProducts, setPaginatedProducts] = useState([]);
-
-  useEffect(() => {
-    let url = `/profile/favoriteProducts?page=${currentPage}&limit=${pageSize}`;
-
-    userAxios
-      .get(url)
-      .then((res) => {
-        setPaginatedProducts(res?.data?.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [location.search]);
-
+  const { isLoading: pageLoading } = usePaginationURL(currentPage, pageSize);
+  let url = "/profile/favoriteProducts";
+  const {
+    paginations,
+    total,
+    isLoading: paginationLoading,
+    fetchData,
+  } = useFetchPagination(url, userAxios);
+  const pagesCount = Math.ceil(total / pageSize);
   return (
     <>
-      {dataLoading | removeLoading ? (
+      {pageLoading | removeLoading | paginationLoading ? (
         <Spinner />
-      ) : favoriteProducts?.data.length ? (
+      ) : paginations?.length ? (
         <div className="relative grid lg:grid-cols-2 sm:grid-cols-2 col-span-12 mt-5 pb-14">
-          {paginatedProducts?.map((favorite, index) => (
+          {paginations?.map((favorite, index) => (
             <div
               className="bg-white rounded-lg shadow-lg hover:shadow-2xl overflow-hidden dark:bg-black-800 hover:opacity-70 duration-300 m-2"
               key={index}

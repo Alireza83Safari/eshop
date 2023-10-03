@@ -41,8 +41,8 @@ export default function AllAddress() {
         showAllAddress ? "visible" : "invisible"
       }`}
     >
-      <div className="w-2/5 bg-white-100 rounded-lg overflow-auto h-[30rem] relative">
-        <div className="flex justify-between py-3 border-b px-3 w-full sticky top-0 bg-white-100 rounded-t-lg">
+      <div className="w-2/5 bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-lg overflow-auto h-[30rem] relative">
+        <div className="flex justify-between py-3 border-b px-3 w-full sticky top-0 rounded-t-lg">
           <p className="font-bold">Choose Address</p>
           <FontAwesomeIcon
             icon={faMultiply}
@@ -53,15 +53,18 @@ export default function AllAddress() {
         <div className="flex justify-between border-b p-5">
           <button
             className="flex items-center"
-            onClick={() => setShowAddAddress(true)}
+            onClick={() => {
+              setShowAddAddress(true);
+              setShowAllAddress(false);
+            }}
           >
             <p className="font-semibold">Add New Address</p>
             <FontAwesomeIcon icon={faLocationPin} className="ml-2" />
           </button>
           <FontAwesomeIcon icon={faAngleRight} className="text-lg" />
         </div>
-        {userAddress?.map((address,index) => (
-          <div className="border-b p-5"key={index}>
+        {userAddress?.map((address, index) => (
+          <div className="border-b p-5" key={index}>
             <div className="flex items-center justify-between mb-3 px-3">
               <div className="flex items-center">
                 <FontAwesomeIcon icon={faLocation} className="mr-2" />
@@ -103,6 +106,7 @@ export default function AllAddress() {
                   className="text-sm text-orange-400 font-bold"
                   onClick={() => {
                     setShowEditAddress(true);
+                    setShowAllAddress(false);
                     setEditAddressId(address.id);
                   }}
                 >

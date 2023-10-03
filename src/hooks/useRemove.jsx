@@ -10,7 +10,6 @@ const useRemove = () => {
 
     try {
       const response = await userAxios.post(`${url}/${id}`);
-      console.log(response);
       if (response.status === 200) {
         toast.success(`deleted!`, {
           position: "bottom-right",

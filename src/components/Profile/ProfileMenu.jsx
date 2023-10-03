@@ -34,7 +34,7 @@ export default function ProfileMenu() {
       <div className="">
         {items.map((item, index) => (
           <Link
-            className={`flex items-center lg:justify-normal justify-center text-black-700 dark:text-white-100 relative p-5 py-7 hover:bg-gray-100 duration-500 hover-element ${
+            className={`flex items-center lg:justify-normal justify-center text-black-700 dark:text-white-100 relative p-5 py-7 hover:bg-gray-100 dark:hover:bg-black-200 duration-500 hover-element ${
               activeId?.toLocaleLowerCase() === item?.text.toLocaleLowerCase()
                 ? "active"
                 : ""

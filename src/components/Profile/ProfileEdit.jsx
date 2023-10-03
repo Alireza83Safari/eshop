@@ -39,13 +39,13 @@ export default function ProfileEdit() {
       <form onSubmit={(e) => e.preventDefault()}>
         <div className="grid grid-cols-2 gap-2 mt-2">
           <div>
-            <label className="block text-gray-800 font-medium" htmlFor="email">
+            <label className="block text-gray-800 dark:text-white-100 font-medium" htmlFor="email">
               email
             </label>
             <input
               type="text"
               placeholder="email"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200 dark:text-white-100"
               name="email"
               onChange={userInfoHandler}
               value={userInfo?.email}
@@ -54,7 +54,7 @@ export default function ProfileEdit() {
 
           <div>
             <label
-              className="block text-gray-800 font-medium"
+              className="block text-gray-800 dark:text-white-100 font-medium"
               htmlFor="firstName"
             >
               firstName
@@ -62,7 +62,7 @@ export default function ProfileEdit() {
             <input
               type="text"
               placeholder="firstName"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200 dark:text-white-100"
               name="firstName"
               onChange={userInfoHandler}
               value={userInfo?.firstName}
@@ -71,7 +71,7 @@ export default function ProfileEdit() {
 
           <div>
             <label
-              className="block text-gray-800 font-medium"
+              className="block text-gray-800 dark:text-white-100 font-medium"
               htmlFor="lastName"
             >
               lastName
@@ -79,7 +79,7 @@ export default function ProfileEdit() {
             <input
               type="text"
               placeholder="lastName"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200 dark:text-white-100"
               name="lastName"
               onChange={userInfoHandler}
               value={userInfo?.lastName}
@@ -87,13 +87,13 @@ export default function ProfileEdit() {
           </div>
 
           <div>
-            <label className="block text-gray-800 font-medium" htmlFor="mobile">
+            <label className="block text-gray-800 dark:text-white-100 font-medium" htmlFor="mobile">
               mobile
             </label>
             <input
               type="text"
               placeholder="mobile"
-              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600"
+              className="border p-2 w-full rounded-lg outline-none mt-1 focus:border-blue-600 dark:bg-black-200 dark:text-white-100"
               name="mobile"
               onChange={userInfoHandler}
               value={userInfo?.mobile}

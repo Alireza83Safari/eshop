@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import userAxios from "../../services/Axios/userInterceptors";
 import { addressValidation } from "../../validators/addressValidation";
 import FormSpinner from "../FormSpinner/FormSpinner";
+import { toast } from "react-toastify";
 
 export default function AddNewAddress({
   showAddAddress,
@@ -26,11 +27,14 @@ export default function AddNewAddress({
   const addNewAddress = () => {
     addressValidation(addressInfos, errors, setErrors);
     setIsLoadnig(true);
-
     userAxios
-      .post("/address", addressInfos)
+      .post("/address", {
+        ...addressInfos,
+        plaque: Number(addNewAddress.plaque),
+      })
       .then((res) => {
         if (res.status === 200) {
+          toast.success("create is success");
           setShowAddAddress(false);
           fetchAddress();
           setIsLoadnig(false);
@@ -52,11 +56,11 @@ export default function AddNewAddress({
 
   return ReactDOM.createPortal(
     <div
-      className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full h-screen flex items-center justify-center transition duration-400 ${
+      className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 w-full h-screen overflow-auto flex items-center justify-center transition duration-400 ${
         showAddAddress ? "visible" : "invisible"
       }`}
     >
-      <div className="md:w-2/4 w-10/12 bg-white-100 p-5 rounded-xl">
+      <div className="md:w-2/4 w-10/12 bg-white-100 dark:bg-black-200 p-5 rounded-xl dark:text-white-100 overflow-auto">
         <span
           className={` mb-5 text-xl font-bold flex justify-center ${
             isLoading && "opacity-20"
@@ -66,7 +70,7 @@ export default function AddNewAddress({
         </span>
 
         <form onSubmit={(e) => e.preventDefault()}>
-          <span className="text-xs text-center text-red-700">
+          <span className="text-xs flex justify-center text-center text-red-700">
             {serverErrors?.message}
           </span>
 
@@ -76,11 +80,13 @@ export default function AddNewAddress({
             } `}
           >
             <div>
-              <span className="font-medium text-gray-800">firstName</span>
+              <span className="font-medium text-gray-800 dark:text-white-100">
+                firstName
+              </span>
               <input
                 type="text"
                 placeholder="firstName"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 name="firstName"
                 onChange={setAddressHandler}
                 value={addressInfos?.firstName}
@@ -95,11 +101,13 @@ export default function AddNewAddress({
             </div>
 
             <div>
-              <span className="font-medium text-gray-800">lastName</span>
+              <span className="font-medium text-gray-800 dark:text-white-100">
+                lastName
+              </span>
               <input
                 type="text"
                 placeholder="lastName"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 name="lastName"
                 onChange={setAddressHandler}
                 value={addressInfos?.lastName}
@@ -115,11 +123,13 @@ export default function AddNewAddress({
             </div>
 
             <div>
-              <span className="font-medium text-gray-800">nationalCode</span>
+              <span className="font-medium text-gray-800 dark:text-white-100">
+                nationalCode
+              </span>
               <input
                 type="number"
                 placeholder="nationalCode"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 name="nationalCode"
                 onChange={setAddressHandler}
                 value={addressInfos?.nationalCode}
@@ -135,11 +145,13 @@ export default function AddNewAddress({
             </div>
 
             <div>
-              <span className="font-medium text-gray-800">plaque</span>
+              <span className="font-medium text-gray-800 dark:text-white-100">
+                plaque
+              </span>
               <input
                 type="number"
                 placeholder="plaque"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 name="plaque"
                 onChange={setAddressHandler}
                 value={addressInfos?.plaque}
@@ -156,11 +168,13 @@ export default function AddNewAddress({
             </div>
 
             <div>
-              <span className="font-medium text-gray-800">phoneNumber</span>
+              <span className="font-medium text-gray-800 dark:text-white-100">
+                phoneNumber
+              </span>
               <input
                 type="number"
                 placeholder="phoneNumber"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 name="phoneNumber"
                 onChange={setAddressHandler}
                 value={addressInfos?.phoneNumber}
@@ -177,11 +191,13 @@ export default function AddNewAddress({
             </div>
 
             <div>
-              <span className="font-medium text-gray-800">postalCode</span>
+              <span className="font-medium text-gray-800 dark:text-white-100">
+                postalCode
+              </span>
               <input
                 type="number"
                 placeholder="postalCode"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 name="postalCode"
                 onChange={setAddressHandler}
                 value={addressInfos?.postalCode}
@@ -198,13 +214,15 @@ export default function AddNewAddress({
             </div>
 
             <div className="col-span-2">
-              <span className="font-medium text-gray-800">address</span>
+              <span className="font-medium text-gray-800 dark:text-white-100">
+                address
+              </span>
 
               <textarea
                 rows="3"
                 placeholder="address"
                 name="address"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 onChange={setAddressHandler}
                 value={addressInfos?.address}
               ></textarea>

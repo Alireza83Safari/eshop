@@ -44,7 +44,9 @@ export default function EditAddress({
         setLoading(false);
       }
     };
-    fetchData();
+    if (editAddressId) {
+      fetchData();
+    }
   }, [showEditAddress]);
 
   const setAddressHandler = (event) => {
@@ -77,7 +79,7 @@ export default function EditAddress({
         showEditAddress ? "visible" : "invisible"
       }`}
     >
-      <div className="md:w-2/4 w-10/12 bg-white-100 p-5 rounded-xl">
+      <div className="md:w-2/4 w-10/12 bg-white-100 dark:text-white-100 dark:bg-black-200 p-5 rounded-xl">
         <span className="mb-5 text-xl font-bold flex justify-center">
           Edit Address
         </span>
@@ -87,12 +89,14 @@ export default function EditAddress({
             className={` grid grid-cols-2 gap-2 ${isLoading && "opacity-20"} `}
           >
             <div>
-              <span className="font-medium text-gray-800">firstName</span>
+              <span className="font-medium text-gray-800 dark:text-white-100">
+                firstName
+              </span>
               <input
                 type="text"
                 name="firstName"
                 placeholder="firstName"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 onChange={setAddressHandler}
                 value={addressInfos?.firstName}
               />
@@ -103,11 +107,13 @@ export default function EditAddress({
             </div>
 
             <div>
-              <span className="font-medium text-gray-800">lastName</span>
+              <span className="font-medium text-gray-800 dark:text-white-100">
+                lastName
+              </span>
               <input
                 type="text"
                 placeholder="lastName"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 onChange={setAddressHandler}
                 name="lastName"
                 value={addressInfos?.lastName}
@@ -119,11 +125,13 @@ export default function EditAddress({
             </div>
 
             <div>
-              <span className="font-medium text-gray-800">nationalCode</span>
+              <span className="font-medium text-gray-800 dark:text-white-100">
+                nationalCode
+              </span>
               <input
                 type="text"
                 name="nationalCode"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 placeholder="nationalCode"
                 onChange={setAddressHandler}
                 value={addressInfos?.nationalCode}
@@ -135,12 +143,14 @@ export default function EditAddress({
             </div>
 
             <div>
-              <span className="font-medium text-gray-800">plaque</span>
+              <span className="font-medium text-gray-800 dark:text-white-100">
+                plaque
+              </span>
               <input
                 type="number"
                 name="plaque"
                 placeholder="plaque"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 onChange={setAddressHandler}
                 value={addressInfos?.plaque}
               />
@@ -151,12 +161,14 @@ export default function EditAddress({
             </div>
 
             <div>
-              <span className="font-medium text-gray-800">phoneNumber</span>
+              <span className="font-medium text-gray-800 dark:text-white-100">
+                phoneNumber
+              </span>
               <input
                 type="text"
                 name="phoneNumber"
                 placeholder="phoneNumber"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 onChange={setAddressHandler}
                 value={addressInfos?.phoneNumber}
               />
@@ -167,12 +179,14 @@ export default function EditAddress({
             </div>
 
             <div>
-              <span className="font-medium text-gray-800">postalCode</span>
+              <span className="font-medium text-gray-800 dark:text-white-100">
+                postalCode
+              </span>
               <input
                 type="text"
                 name="postalCode"
                 placeholder="postalCode"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 onChange={setAddressHandler}
                 value={addressInfos?.postalCode}
               />
@@ -183,13 +197,15 @@ export default function EditAddress({
             </div>
 
             <div className="col-span-2">
-              <span className="font-medium text-gray-800">address</span>
+              <span className="font-medium text-gray-800 dark:text-white-100">
+                address
+              </span>
 
               <textarea
                 rows="3"
                 placeholder="address"
                 name="address"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
+                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 onChange={setAddressHandler}
                 value={addressInfos?.address}
               ></textarea>

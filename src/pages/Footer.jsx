@@ -12,11 +12,11 @@ const Footer = () => {
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-600"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-600 sm:text-base text-sm" 
                 />
                 <button
                   type="submit"
-                  className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:bg-blue-700 text-white-100"
+                  className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:bg-blue-700 text-white-100 sm:text-base text-sm"
                 >
                   Subscribe
                 </button>
@@ -81,12 +81,9 @@ const Footer = () => {
           </div>
         </div>
         <div className="py-4">
-          <div className="container mx-auto text-center text-gray-800">
-            <p>
-              &copy; {new Date().getFullYear()} Your Website Name. All rights
-              reserved.
-            </p>
-            <p>Designed and developed by Your Name.</p>
+          <div className="container mx-auto text-center text-gray-800 sm:text-base text-sm">
+            <p>&copy; {new Date().getFullYear()} Eshop. All rights reserved.</p>
+            <p>Designed and developed by Alireza Safari.</p>
           </div>
         </div>
       </div>

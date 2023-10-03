@@ -125,7 +125,7 @@ export default function Register() {
                   name="password"
                   id="password"
                   placeholder="password"
-                  className="p-2 block w-full rounded-md border shadow-sm outline-none"
+                  className="p-2 block w-full rounded-md border shadow-sm outline-none dark:text-white-100"
                   onChange={registerInfosHandler}
                   sameValue={sameValue}
                   value={registerInfos?.password}
@@ -150,7 +150,7 @@ export default function Register() {
                   id="passwordConfirmation"
                   name="passwordConfirmation"
                   placeholder="password"
-                  className="p-2 block w-full rounded-md border shadow-sm outline-none"
+                  className="p-2 block w-full rounded-md border shadow-sm outline-none dark:text-white-100"
                   onChange={registerInfosHandler}
                   sameValue={sameValue}
                   value={registerInfos?.passwordConfirmation}

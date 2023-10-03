@@ -44,7 +44,17 @@ export default function ProductImage({
     const newImageURLs = [...imageURLs];
     const [draggedImageUrl] = newShowUrl.splice(draggedImageIndex, 1);
     const [draggedImage] = newImageURLs.splice(draggedImageIndex, 1);
-    console.log(draggedImageUrl);
+    if (draggedImageUrl) {
+      let fileId = productFile.find(
+        (product) => product.fileUrl == draggedImageUrl
+      );
+
+      if (fileId) {
+        userAxios
+          .post(`/file/changePriority/${fileId.id}/${infosId}/1`)
+          .then((res) => console.log(res));
+      }
+    }
 
     newShowUrl.splice(index, 0, draggedImageUrl);
     newImageURLs.splice(index, 0, draggedImage);
@@ -55,7 +65,6 @@ export default function ProductImage({
     setDraggedIndex(null);
     setDropIndex(null);
   };
-  // console.log(imageURLs);
 
   useEffect(() => {
     const endIndices = productFile?.map((img) => img?.fileUrl);

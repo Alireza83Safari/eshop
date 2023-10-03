@@ -60,7 +60,7 @@ export default function Sidebar() {
             </div>
 
             <div className="mt-12">
-              <div className="flex md:hidden pb-3 items-center relative text-black-800 border-b px-2 hover:bg-gray-50">
+              <div className="flex md:hidden pb-3 items-center relative text-black-800 border-b px-2 hover:bg-gray-50 dark:hover:bg-black-900">
                 <button
                   className="absolute text-xs sm:text-sm left-1 bg-blue-600 py-2 px-2 text-white-100 rounded-l-md"
                   onClick={() => searchInHref()}

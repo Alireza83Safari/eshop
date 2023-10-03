@@ -55,6 +55,7 @@ export default function ProductsTable() {
     try {
       setLoading(false);
       setProductFile(response?.data);
+      console.log(response?.data);
     } catch (error) {
       setLoading(false);
     }

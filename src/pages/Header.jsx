@@ -8,13 +8,13 @@ import {
   faSignIn,
   faSun,
 } from "@fortawesome/free-solid-svg-icons";
-import userAxios from "../../services/Axios/userInterceptors";
+import userAxios from "../services/Axios/userInterceptors";
 import { Link, useNavigate } from "react-router-dom";
-import Spinner from "../../components/Spinner/Spinner";
-import AuthContext from "../../Context/AuthContext";
-import useFetch from "../../hooks/useFetch";
-import ThemeContext from "../../Context/ThemeContext";
-const Profile = lazy(() => import("../../components/Profile/Profile"));
+import Spinner from "../components/Spinner/Spinner";
+import AuthContext from "../Context/AuthContext";
+import useFetch from "../hooks/useFetch";
+import ThemeContext from "../Context/ThemeContext";
+const Profile = lazy(() => import("../components/Profile/Profile"));
 
 export default function Header() {
   const { showShopSidebar, setShowShopSidebar, userIsLogin } =
@@ -85,7 +85,7 @@ export default function Header() {
           <div>
             <div className="items-center relative md:ml-2 bg-white-100 px-2 rounded-lg text-black-800 md:flex hidden">
               <button
-                className="absolute flex items-center text-sm bg-blue-600 p-3 py-3 border border-blue-600 sm:text-sm left-0 text-white-100 rounded-l-md"
+                className="absolute flex items-center text-sm bg-blue-600 p-3 py-3 border dark:border-2 border-blue-600 sm:text-sm left-0 text-white-100 rounded-l-md"
                 onClick={() => searchInHref()}
               >
                 <FontAwesomeIcon icon={faSearch} />

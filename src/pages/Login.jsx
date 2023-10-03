@@ -84,7 +84,7 @@ export default function Login() {
                   name="username"
                   element="input"
                   placeholder="username"
-                  className="p-2 block w-full rounded-md border shadow-sm outline-none dark:bg-black-200"
+                  className="p-2 block w-full rounded-md border shadow-sm outline-none dark:bg-black-200 dark:text-white-100"
                   onChange={loginInfosHandler}
                   value={loginInfos?.username}
                   onFocus={() => {
@@ -107,7 +107,7 @@ export default function Login() {
                   type="password"
                   name="password"
                   placeholder="password"
-                  className="p-2 block w-full rounded-md border shadow-sm outline-none dark:bg-black-200"
+                  className="p-2 block w-full rounded-md border shadow-sm outline-none dark:bg-black-200 dark:text-white-100"
                   onChange={loginInfosHandler}
                   value={loginInfos?.password}
                   onFocus={() => {

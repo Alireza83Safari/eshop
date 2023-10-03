@@ -30,7 +30,7 @@ export default function Header({ mode, setMode }) {
     <header className="relative">
       <div
         className={` flex justify-between items-center px-4 md:py-5 py-4 fixed z-10 dark:bg-dark right-0 top-0 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] bg-white-100 dark:bg-black-900 ${
-          onScrollHeader ? "bg-white-100" : " "
+          onScrollHeader ? "bg-white-100" : ""
         }`}
       >
         <p className="font-bold ml-5 md:text-lg text-sm dark:text-white-100">

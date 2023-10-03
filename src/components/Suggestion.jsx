@@ -151,12 +151,12 @@ export default function Suggestion() {
             </p>
           </div>
           <div className="text-black-900 dark:text-white-100">
-            <p className="font-black lg:mt-10 md:mt-4 md:block hidden">
+            <p className="font-black lg:mt-10 md:mt-4 md:block hidden sm:text-base text-xs">
               Select Color
             </p>
             <div className="flex justify-between my-4">
               <div className="flex items-center">
-                <p className="font-black lg:mt-10 md:mt-4 text-sm flex md:hidden mr-10 py-5">
+                <p className="font-black lg:mt-10 md:mt-4 text-sm flex md:hidden sm:mr-10 mr-2 py-5">
                   Select Color
                 </p>
                 {suggestions?.data &&
@@ -178,7 +178,7 @@ export default function Suggestion() {
                 >
                   -
                 </button>
-                <span className="px-5">{count}</span>
+                <span className="sm:px-5 px-2">{count}</span>
                 <button
                   onClick={() => setCount(count + 1)}
                   className="lg:px-4 lg:py-2 px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 duration-200 focus:outline-none"
@@ -188,7 +188,7 @@ export default function Suggestion() {
               </div>
             </div>
 
-            <div className="md:my-4 py-6 lg:text-base md:text-sm text-xs truncate">
+            <div className="md:my-4 py-6 lg:text-base md:text-sm text-xs ">
               {productInfo?.productShortDescription}
             </div>
 
