@@ -25,8 +25,7 @@ export default function ShowProductItem({
   const [isLoading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [editItemID, setEditItemID] = useState("");
-  const [itemLength, setItemLength] = useState(null);
-
+  const [totalItemLength, setTotalItemLength] = useState(null);
   const initialProductItemInfo = {
     colorId: "",
     isMainItem: true,
@@ -37,8 +36,10 @@ export default function ShowProductItem({
     color: "",
     statusName: "",
   };
+  const [EditItemValue, setEditItemValue] = useState(initialProductItemInfo);
+  const [editID, setEditID] = useState(null);
 
-  const setProductInfos = (event) => {
+  const setInputValues = (event) => {
     let value = event.target.value;
 
     if (event.target.type === "number") {
@@ -50,15 +51,14 @@ export default function ShowProductItem({
       [event.target.name]: value,
     });
   };
-  const fetchData = async () => {
+
+  const fetchProductItem = async () => {
     setLoading(true);
     try {
       const response = await adminAxios.get(`/productItem/product/${infosId}`);
-      let $ = response.data;
       if (response.status === 200) {
-        setItemLength(response?.data?.length);
-        setTotalProductItem($);
-        setEditItemValue(initialProductItemInfo);
+        setTotalItemLength(response.data?.length);
+        setTotalProductItem(response.data);
       }
       setLoading(false);
     } catch (err) {
@@ -68,15 +68,11 @@ export default function ShowProductItem({
 
   useEffect(() => {
     if (infosId) {
-      fetchData();
+      fetchProductItem();
     }
   }, []);
 
-  const [EditItemValue, setEditItemValue] = useState(initialProductItemInfo);
-
-  const [editID, setEditID] = useState(null);
-
-  const editProductItemHandler = async () => {
+  const editItemData = async () => {
     setLoading(true);
     let data = await totalProductItem?.find((item) => item.id == editItemID);
     setEditItemValue({
@@ -93,11 +89,10 @@ export default function ShowProductItem({
       setLoading(false);
     }, 1000);
   };
+
   useEffect(() => {
-    if (editItemID?.length) {
-      editProductItemHandler();
-    }
-  }, []);
+    editItemData();
+  }, [editItemID]);
 
   const deleteItemHandler = async (ID) => {
     const response = await adminAxios.post(`/productItem/delete/${ID}`);
@@ -109,7 +104,7 @@ export default function ShowProductItem({
     } catch (error) {}
   };
 
-  const editProductHandler = async (e) => {
+  const editProductItemHandler = async (e) => {
     e.preventDefault();
     itemValidation(EditItemValue, errors, setErrors);
     setLoading(true);
@@ -121,7 +116,7 @@ export default function ShowProductItem({
 
       if (response.status === 200) {
         toast.success("Add product Item is success");
-        fetchData();
+        fetchProductItem();
         fetchProductList();
         setLoading(false);
       }
@@ -132,7 +127,7 @@ export default function ShowProductItem({
   };
 
   return (
-    <form onSubmit={editProductHandler}>
+    <form onSubmit={editProductItemHandler}>
       {isLoading || dataLoading ? (
         <Spinner />
       ) : (
@@ -185,7 +180,7 @@ export default function ShowProductItem({
                   placeholder="Product quantity"
                   name="quantity"
                   value={EditItemValue?.quantity}
-                  onChange={setProductInfos}
+                  onChange={setInputValues}
                   Error={errors?.quantity || serverError?.errors?.quantity}
                   callback={() => {
                     setErrors("");
@@ -228,7 +223,7 @@ export default function ShowProductItem({
                   placeholder="Product price"
                   name="price"
                   value={EditItemValue?.price}
-                  onChange={setProductInfos}
+                  onChange={setInputValues}
                   Error={errors?.price || serverError?.errors?.price}
                   callback={() => {
                     setErrors("");
@@ -242,7 +237,7 @@ export default function ShowProductItem({
                   className={`bg-blue-600 py-2 w-full rounded-lg text-white-100 ${
                     (isLoading || dataLoading) && "py-4"
                   }`}
-                  onClick={editProductHandler}
+                  onClick={editProductItemHandler}
                 >
                   {isLoading || dataLoading ? (
                     <FormSpinner />
@@ -257,7 +252,7 @@ export default function ShowProductItem({
           </div>
 
           <div className="md:col-span-2 col-span-4 md:order-2">
-            {itemLength != 0 ? (
+            {totalItemLength != 0 ? (
               totalProductItem?.map((item) => (
                 <div className="relative">
                   <div className="z-10">
@@ -271,7 +266,7 @@ export default function ShowProductItem({
                     className="grid grid-cols-2 sm:gap-y-4 gap-y-3 md:text-base text-sm border rounded-lg mb-6 px-10 py-4 relative hover:bg-gray-50 duration-300"
                     onClick={() => {
                       setEditItemID(item.id);
-                      editProductItemHandler(item.id);
+                      editItemData(item.id);
                     }}
                   >
                     <div className="font-semibold">productTitle :</div>
