@@ -72,7 +72,7 @@ function AddComment({ fetchComments, productId }) {
   }, [commentValue, rate, strengths, weakPoints]);
 
   return (
-    <form>
+    <form onSubmit={(e) => e.preventDefault()}>
       <textarea
         name="comment"
         value={commentValue}
