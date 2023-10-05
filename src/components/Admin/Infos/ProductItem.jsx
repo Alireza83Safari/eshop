@@ -99,6 +99,7 @@ export default function ShowProductItem({
 
     try {
       if (response.status == 200) {
+        fetchProductItem();
         toast.success("delete is success");
       }
     } catch (error) {}

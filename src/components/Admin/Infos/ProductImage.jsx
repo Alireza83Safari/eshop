@@ -15,6 +15,7 @@ export default function ProductImage({
   const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState(null);
   const [imageURLs, setImageURLs] = useState([]);
+  const [newUrl, setNewUrl] = useState([]);
   const [showUrl, setShowUrl] = useState([]);
 
   //------- start drag drop -------////
@@ -50,9 +51,7 @@ export default function ProductImage({
       );
 
       if (fileId) {
-        userAxios
-          .post(`/file/changePriority/${fileId.id}/${infosId}/1`)
-          .then((res) => console.log(res));
+        userAxios.post(`/file/changePriority/${fileId}/${infosId}/1`);
       }
     }
 
@@ -81,10 +80,8 @@ export default function ProductImage({
       setServerError("Please select at least one file.");
       return;
     }
-
     const formData = new FormData();
-    imageURLs.forEach((img) => formData.append(`fileUrl`, img));
-
+    newUrl?.forEach((img) => formData.append(`fileUrl`, img));
     try {
       const response = await userAxios.post(
         `/file/uploadImage/${infosId}/1`,
@@ -119,6 +116,7 @@ export default function ProductImage({
         return imageUrl;
       });
       setImageURLs((prevImageURLs) => [...prevImageURLs, ...Array.from(files)]);
+      setNewUrl((prevImageURLs) => [...prevImageURLs, ...Array.from(files)]);
       setShowUrl((prev) => [...prev, ...newImageURLs]);
     }
   };
@@ -193,7 +191,7 @@ export default function ProductImage({
               type="submit"
               className="bg-blue-600 text-white-100 w-full py-2 md:mx-5 mx-2 rounded-xl outline-none disabled:bg-gray-50"
               onClick={addFile}
-              disabled={imageURLs?.length < 1}
+              disabled={newUrl?.length < 1}
             >
               {isLoading ? <FormSpinner /> : "Add Product Files"}
             </button>
