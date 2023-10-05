@@ -1,13 +1,6 @@
-import React, { useContext, useEffect, useState, lazy, Suspense } from "react";
+import React, { useContext, useState, lazy, Suspense } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBars,
-  faCartShopping,
-  faMoon,
-  faSearch,
-  faSignIn,
-  faSun,
-} from "@fortawesome/free-solid-svg-icons";
+import {faBars,faCartShopping,faMoon,faSearch,faSignIn,faSun} from "@fortawesome/free-solid-svg-icons";
 import userAxios from "../services/Axios/userInterceptors";
 import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner/Spinner";
@@ -17,36 +10,12 @@ import { ThemeContext } from "../Context/ThemeContext";
 const Profile = lazy(() => import("../components/Profile/Profile"));
 
 export default function Header() {
-  const { showShopSidebar, setShowShopSidebar, userIsLogin } =
+  const { showShopSidebar, setShowShopSidebar, userIsLogin, userInfos } =
     useContext(AuthContext);
   const { mode, setMode } = useContext(ThemeContext);
-  const [orders, setOrders] = useState(0);
-  const [userInfos, setUserInfos] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
-
-  const ordersData = async () => {
-    try {
-      const response = await userAxios.get("/order");
-      setOrders(response?.data?.items.length);
-    } catch (error) {}
-  };
-
-  const fetcUserInfos = async () => {
-    try {
-      const response = await userAxios.get("/is_authenticated");
-      setUserInfos(response?.data);
-    } catch (error) {}
-  };
-
   const [showProfile, setShowProfile] = useState(false);
-
-  useEffect(() => {
-    if (userIsLogin) {
-      ordersData();
-      fetcUserInfos();
-    }
-  }, []);
 
   const searchInHref = () => {
     if (searchQuery.trim().length) {
@@ -54,9 +23,7 @@ export default function Header() {
     }
   };
 
-  let getTheme = localStorage.getItem("theme");
   const { datas: category } = useFetch("/category/selectList", userAxios);
-
   const categoryHandler = (data) => {
     document.location.href = `/category/product?categoryId=${data?.key}`;
   };
@@ -124,12 +91,12 @@ export default function Header() {
           >
             Category
             <ul className="absolute top-8 invisible group-hover:visible bg-white border dark:bg-black-200 border-gray-50 rounded-lg py-2 px-4 bg-white-100 duration-300">
-              {category?.data?.map((data, index) => (
+              {category?.data?.map((data) => (
                 <li
                   className="flex py-2 items-center text-black-700 dark:text-white-100 relative whitespace-nowrap text-sm hover:text-blue-600"
                   to="product"
                   onClick={() => categoryHandler(data)}
-                  key={index}
+                  key={data.id}
                 >
                   {data?.value}
                 </li>
@@ -142,7 +109,7 @@ export default function Header() {
             <div className="md:px-3 flex items-center usercart-parent">
               <div className="sm:mx-4 mx-2" onClick={() => setMode(!mode)}>
                 <FontAwesomeIcon
-                  icon={getTheme == "light" ? faMoon : faSun}
+                  icon={mode == false ? faMoon : faSun}
                   className="sm:text-2xl text-xl"
                 />
               </div>
@@ -153,9 +120,9 @@ export default function Header() {
                       icon={faCartShopping}
                       className="sm:text-2xl text-xl"
                     />
-                    <div className="absolute -top-3 -right-2 text-white-100 bg-red-700 rounded-full w-4 h-4 flex justify-center items-center text-[9px]">
+                    {/*     <div className="absolute -top-3 -right-2 text-white-100 bg-red-700 rounded-full w-4 h-4 flex justify-center items-center text-[9px]">
                       {orders}
-                    </div>
+                    </div> */}
                   </Link>
                 ) : (
                   <Link to="/login" className="relative">
