@@ -3,7 +3,7 @@ import { faMoon } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Profile from "../../components/Profile/Profile";
 import { useLocation } from "react-router-dom";
-import AuthContext from "../../Context/AuthContext";
+import {AuthContext} from "../../Context/AuthContext";
 
 export default function Header({ mode, setMode }) {
   const [onScrollHeader, setOnScrollHeader] = useState(false);

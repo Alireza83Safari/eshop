@@ -1,5 +1,20 @@
-import { createContext } from "react";
+import { createContext, useEffect, useState } from "react";
 
-const ThemeContext = createContext();
+export const ThemeContext = createContext();
 
-export default ThemeContext;
+export const ThemeContextProvider = ({ children }) => {
+  const [mode, setMode] = useState(() => {
+    return localStorage.getItem("theme") === "dark";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("theme", mode ? "dark" : "light");
+    document.documentElement.classList.toggle("dark", mode);
+  }, [mode]);
+
+  return (
+    <ThemeContext.Provider value={{ mode, setMode }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};

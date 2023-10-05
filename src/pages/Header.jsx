@@ -11,9 +11,9 @@ import {
 import userAxios from "../services/Axios/userInterceptors";
 import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner/Spinner";
-import AuthContext from "../Context/AuthContext";
 import useFetch from "../hooks/useFetch";
-import ThemeContext from "../Context/ThemeContext";
+import { AuthContext } from "../Context/AuthContext";
+import { ThemeContext } from "../Context/ThemeContext";
 const Profile = lazy(() => import("../components/Profile/Profile"));
 
 export default function Header() {

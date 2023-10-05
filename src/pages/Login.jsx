@@ -4,7 +4,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import userAxios from "../services/Axios/userInterceptors";
 import { loginValidation } from "../validators/loginValidation";
-import AuthContext from "../Context/AuthContext";
+import {AuthContext} from "../Context/AuthContext";
 import Sidebar from "./Sidebar/Sidebar";
 import Spinner from "../components/Spinner/Spinner";
 

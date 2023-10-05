@@ -61,9 +61,8 @@ export default function DiscountTable() {
             {paginations?.map((discount, index) => (
               <tr
                 className="2xl:text-lg md:text-sm text-xs text-center hover:bg-gray-50 dark:hover:bg-black-900"
-                key={discount + 1}
+                key={discount.id}
               >
-                {console.log(discount)}
                 <td className="2xl:py-4 py-3 ">
                   {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
                 </td>

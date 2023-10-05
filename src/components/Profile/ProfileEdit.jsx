@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import userAxios from "../../services/Axios/userInterceptors";
-import AuthContext from "../../Context/AuthContext";
+import {AuthContext} from "../../Context/AuthContext";
 
 export default function ProfileEdit() {
   const { userInfos } = useContext(AuthContext);

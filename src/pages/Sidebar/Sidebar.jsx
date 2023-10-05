@@ -4,13 +4,12 @@ import userAxios from "../../services/Axios/userInterceptors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faSearch, faSignOut } from "@fortawesome/free-solid-svg-icons";
 import "./Sidebar.css";
-import productsContext from "../../Context/AuthContext";
-import AuthContext from "../../Context/AuthContext";
+import { AuthContext } from "../../Context/AuthContext";
 
 export default function Sidebar() {
   const { userLogin, setUserIsLogin } = useContext(AuthContext);
   const navigate = useNavigate();
-  const { showShopSidebar, setShowShopSidebar } = useContext(productsContext);
+  const { showShopSidebar, setShowShopSidebar } = useContext(AuthContext);
   const [showSubMenu, setShowSubMenu] = useState(false);
   const [category, setCategory] = useState([]);
 

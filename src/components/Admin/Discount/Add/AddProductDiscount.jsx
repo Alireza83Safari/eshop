@@ -86,7 +86,7 @@ export default function AddProductDiscount({
             </label>
 
             <CustomSelect
-              options={products?.data.map((product) => ({
+              options={products?.data.forEach((product) => ({
                 value: product.itemId,
                 label: product.name,
               }))}
@@ -138,7 +138,7 @@ export default function AddProductDiscount({
               discount type
             </label>
             <CustomSelect
-              options={[1, 2].map((type) => ({
+              options={[1, 2].forEach((type) => ({
                 value: type,
                 label: type,
               }))}

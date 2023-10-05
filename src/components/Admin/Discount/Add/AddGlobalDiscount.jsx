@@ -77,7 +77,7 @@ export default function AddGlobalDiscount({
               discount type
             </label>
             <CustomSelect
-              options={[1, 2].map((type) => ({
+              options={[1, 2].forEach((type) => ({
                 value: type,
                 label: type,
               }))}

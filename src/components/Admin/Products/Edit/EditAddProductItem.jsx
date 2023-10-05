@@ -77,12 +77,12 @@ export default function EditAddProductItem({
                 Color
               </label>
               <CustomSelect
-                options={colors?.data.map((brand) => ({
+                options={colors?.data.forEach((brand) => ({
                   value: brand.id,
                   label: brand.name,
                 }))}
                 onchange={(selectedOptions) => {
-                  const selectedValues = selectedOptions.map(
+                  const selectedValues = selectedOptions.forEach(
                     (option) => option.value
                   );
                   setProductItemInfo({
@@ -144,7 +144,7 @@ export default function EditAddProductItem({
                 Product Status
               </label>
               <CustomSelect
-                options={["true", "false"].map((status) => ({
+                options={["true", "false"].forEach((status) => ({
                   value: status,
                   label: status,
                 }))}
@@ -167,7 +167,7 @@ export default function EditAddProductItem({
                 isMainItem
               </label>
               <CustomSelect
-                options={["true", "false"].map((isMain) => ({
+                options={["true", "false"].forEach((isMain) => ({
                   value: isMain,
                   label: isMain,
                 }))}

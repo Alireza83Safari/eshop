@@ -85,7 +85,7 @@ export default function AddUserDiscount({
                 User
               </label>
               <CustomSelect
-                options={users?.data.map((type) => ({
+                options={users?.data.forEach((type) => ({
                   value: type.id,
                   label: type.username,
                 }))}
@@ -120,7 +120,7 @@ export default function AddUserDiscount({
                 discount type
               </label>
               <CustomSelect
-                options={[1, 2].map((type) => ({
+                options={[1, 2].forEach((type) => ({
                   value: type,
                   label: type,
                 }))}

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { faHeart, faRoute, faShop } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../pages/Sidebar/Sidebar.css";
-import AuthContext from "../../Context/AuthContext";
+import {AuthContext} from "../../Context/AuthContext";
 
 export default function ProfileMenu() {
   const { userInfos } = useContext(AuthContext);

@@ -164,7 +164,7 @@ export default function EditDiscount({
                   Product
                 </label>
                 <CustomSelect
-                  options={products?.data.map((product) => ({
+                  options={products?.data.forEach((product) => ({
                     value: product.itemId,
                     label: product.name,
                   }))}
@@ -207,7 +207,7 @@ export default function EditDiscount({
                   relatedUserId
                 </label>
                 <CustomSelect
-                  options={users?.data.map((type) => ({
+                  options={users?.data.forEach((type) => ({
                     value: type.id,
                     label: type.username,
                   }))}
