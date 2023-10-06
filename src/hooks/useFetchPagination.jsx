@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 
 export const useFetchPagination = (url, customAxios) => {
@@ -13,10 +13,11 @@ export const useFetchPagination = (url, customAxios) => {
   const order = searchParams.get("order");
   const minPrice = searchParams.get("minPrice");
   const maxPrice = searchParams.get("maxPrice");
+  const page = searchParams.get("page");
+  const limit = searchParams.get("limit");
 
-  const fetchData = async () => {
-    let URL = `${url}${location.search}`;
-
+  const fetchData = useCallback(async () => {
+    let URL = `${url}?page=${page}&limit=${limit}`;
     switch (true) {
       case Boolean(searchTerm):
         URL += `&searchTerm=${searchTerm}`;
@@ -49,10 +50,6 @@ export const useFetchPagination = (url, customAxios) => {
     } catch (err) {
       setLoading(err);
     }
-  };
-
-  useEffect(() => {
-    fetchData();
   }, [
     location.search,
     categoryId,
@@ -63,5 +60,29 @@ export const useFetchPagination = (url, customAxios) => {
     searchTerm,
   ]);
 
-  return { isLoading, paginations, total, fetchData };
+  useEffect(() => {
+    if (page != null && limit != null) {
+      fetchData();
+    }
+  }, [
+    location.search,
+    categoryId,
+    brandId,
+    order,
+    minPrice,
+    maxPrice,
+    searchTerm,
+  ]);
+
+  const memoizedData = useMemo(
+    () => ({
+      isLoading,
+      paginations,
+      total,
+      fetchData,
+    }),
+    [paginations, total]
+  );
+
+  return memoizedData;
 };
