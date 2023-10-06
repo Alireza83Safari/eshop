@@ -3,7 +3,8 @@ import ReactDOM from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
-import adminAxios from "../../../services/Axios/adminInterceptors"
+import adminAxios from "../../../services/Axios/adminInterceptors";
+import { toast } from "react-toastify";
 
 export default function DeleteModal() {
   const cancelDeleteHandler = () => {
@@ -21,12 +22,11 @@ export default function DeleteModal() {
         `/product/delete/${productDeleteId}`
       );
       if (response.status === 200) {
+        toast.success("delete is success");
         setShowDeleteModal(false);
         fetchProductList();
       }
-    } catch (error) {
-      console.error("Error deleting the product:", error);
-    }
+    } catch (error) {}
   };
   return ReactDOM.createPortal(
     <div

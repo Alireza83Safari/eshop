@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 
 export const useFetchPagination = (url, customAxios) => {
   const location = useLocation();
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [paginations, setPaginations] = useState([]);
   const [total, setTotal] = useState(null);
   const searchParams = new URLSearchParams(location.search);
@@ -41,7 +41,6 @@ export const useFetchPagination = (url, customAxios) => {
         break;
     }
 
-    setLoading(true);
     try {
       const res = await customAxios.get(URL);
       setPaginations(res?.data?.data);

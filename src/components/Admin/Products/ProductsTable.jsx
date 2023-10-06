@@ -8,6 +8,7 @@ import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
 import userAxios from "../../../services/Axios/userInterceptors";
 import useTableRow from "../../../hooks/useTableRow";
+import { ToastContainer } from "react-toastify";
 const Infos = lazy(() => import("../Infos/Infos"));
 
 export default function ProductsTable() {
@@ -25,7 +26,8 @@ export default function ProductsTable() {
     fetchProductList,
   } = useContext(ProductsPanelContext);
 
-  let pageSize = 11;
+  const pageSize = 11;
+
   const { isLoading: loading } = usePaginationURL(currentPage, pageSize);
   const pagesCount = Math.ceil(total / pageSize);
 
@@ -33,6 +35,7 @@ export default function ProductsTable() {
   const [isLoading, setLoading] = useState(false);
   const [productInfos, setProductInfos] = useState(null);
   const [productFile, setProductFile] = useState(null);
+
   const getProductInfo = async () => {
     setLoading(true);
     if (infosId) {
@@ -66,7 +69,6 @@ export default function ProductsTable() {
       getProductFile();
     }
   }, [infosId]);
-
   const { rowNumber, limit } = useTableRow();
   return (
     <>
@@ -95,7 +97,9 @@ export default function ProductsTable() {
                 <td className="py-3 px-2">
                   {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
                 </td>
-                <td className="py-3 px-2 truncate">{product?.name}</td>
+                <td className="py-3 px-2 truncate">
+                  {product?.name?.slice(0, 25)}
+                </td>
                 <td className="py-3 px-2 flex justify-center items-center">
                   <img
                     src={`http://127.0.0.1:6060/${product?.brandFileUrl} `}
@@ -104,7 +108,9 @@ export default function ProductsTable() {
                   />
                 </td>
                 <td className="py-3 px-2 truncate">{product?.categoryName}</td>
-                <td className="py-3 px-2 truncate">{product?.code}</td>
+                <td className="py-3 px-2 truncate">
+                  {product?.code?.slice(0, 15)}
+                </td>
                 <td className="py-3 px-2 truncate space-x-2">
                   <button
                     onClick={() => {
@@ -173,6 +179,7 @@ export default function ProductsTable() {
         setCurrentPage={setCurrentPage}
         currentPage={currentPage}
       />
+      <ToastContainer />
     </>
   );
 }

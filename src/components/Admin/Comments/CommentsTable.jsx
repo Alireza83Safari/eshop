@@ -59,11 +59,13 @@ export default function CommentsTable() {
                 key={comment.id}
               >
                 <td className="truncate font-bold  py-3 px-2">
-                  {comment.username}
+                  {comment.username.slice(0, 25)}
                 </td>
 
-                <td className="truncate  py-3 px-2">{comment.text}</td>
-                <td className="truncate  py-3 px-2">{comment.productName}</td>
+                <td className="truncate  py-3 px-2">
+                  {comment.text.slice(0, 25)}
+                </td>
+                <td className="truncate  py-3 px-2">{comment.productName.slice(0, 25)}</td>
                 <td className="truncate  py-3 px-2 ">
                   {comment.createdAt.slice(0, 10)}
                 </td>

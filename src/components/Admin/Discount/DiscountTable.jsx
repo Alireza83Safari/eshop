@@ -4,15 +4,15 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import { toast } from "react-toastify";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";
-import discountContext from "../../../Context/discountContext";
 import useTableRow from "../../../hooks/useTableRow";
 import Pagination from "../../getPagination";
 import Spinner from "../../Spinner/Spinner";
+import { DiscountContext } from "../../../Context/discountContext";
 const EditDiscount = lazy(() => import("./Edit/EditDiscount"));
 
 export default function DiscountTable() {
   const { paginations, fetchData, paginatedProductsLoading, total } =
-    useContext(discountContext);
+    useContext(DiscountContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [showEditDiscount, setShowEditDiscount] = useState(false);
   const [editDiscounts, setEditDiscounts] = useState(null);

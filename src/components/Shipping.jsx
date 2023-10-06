@@ -5,7 +5,7 @@ import { faAngleRight, faLocationPin } from "@fortawesome/free-solid-svg-icons";
 import AddressContext from "../Context/AddressContext";
 import userAxios from "../services/Axios/userInterceptors";
 import useFetch from "../hooks/useFetch";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 export default function Shipping() {
   const navigate = useNavigate();
@@ -36,8 +36,8 @@ export default function Shipping() {
         {userAddress?.length ? (
           <div className="w-full border border-blue-60 py-3 px-4 rounded-lg bg-white-200 dark:bg-black-200 dark:text-white-100">
             <p className="text-xs">Your Delivery Address</p>
-            {userAddress.slice(0, 1).map((address, index) => (
-              <div className="mt-4" key={index}>
+            {userAddress.slice(0, 1).map((address) => (
+              <div className="mt-4" key={address.id}>
                 <div className="flex items-center mb-3">
                   <FontAwesomeIcon icon={faLocationPin} className="mr-1" />
                   <p className="text-sm">{address.address}</p>

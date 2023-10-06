@@ -67,7 +67,7 @@ export default function OrderTable({ paginations, paginationLodaing, total }) {
                       {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
                     </td>
                     <td className="2xl:py-4 py-3 px-2 truncate">
-                      {order?.username}
+                      {order?.username.slice(0, 25)}
                     </td>
                     <td className="2xl:py-4 py-3 px-2 truncate">
                       {order?.price}

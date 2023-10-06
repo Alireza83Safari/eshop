@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ReactDOM from "react-dom";
 import userAxios from "../../services/Axios/userInterceptors";
 import { addressValidation } from "../../validators/addressValidation";
 import FormSpinner from "../FormSpinner/FormSpinner";
 import { toast } from "react-toastify";
+import AddressContext from "../../Context/AddressContext";
 
-export default function AddNewAddress({
-  showAddAddress,
-  setShowAddAddress,
-  fetchAddress,
-}) {
+export default function AddNewAddress() {
+  const { showAddAddress, setShowAddAddress, fetchAddress } =
+    useContext(AddressContext);
   const [errors, setErrors] = useState(null);
   const [serverErrors, setServerErrors] = useState(null);
   const [isLoading, setIsLoadnig] = useState(false);
@@ -20,7 +19,7 @@ export default function AddNewAddress({
     lastName: "",
     nationalCode: "",
     phoneNumber: "",
-    plaque: 0,
+    plaque: "",
     postalCode: "",
   });
 
@@ -56,7 +55,7 @@ export default function AddNewAddress({
 
   return ReactDOM.createPortal(
     <div
-      className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 w-full h-screen overflow-auto flex items-center justify-center transition duration-400 ${
+      className={`fixed top-1/2 left-1/2 transform z-10 -translate-x-1/2 bg-gray-100 -translate-y-1/2 w-full h-screen overflow-auto flex items-center justify-center transition duration-400 ${
         showAddAddress ? "visible" : "invisible"
       }`}
     >

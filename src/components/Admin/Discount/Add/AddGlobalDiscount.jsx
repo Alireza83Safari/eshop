@@ -4,7 +4,7 @@ import adminAxios from "../../../../services/Axios/adminInterceptors";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
 import { toast } from "react-toastify";
 import { useChangeDate } from "../../../../hooks/useChangeDate";
-import discountContext from "../../../../Context/discountContext";
+import {DiscountContext} from "../../../../Context/discountContext";
 import { CustomSelect } from "../../../SelectList";
 import Input from "../../Input";
 
@@ -12,7 +12,7 @@ export default function AddGlobalDiscount({
   setShowGlobalDiscount,
   setShowSelectDiscount,
 }) {
-  const { fetchData } = useContext(discountContext);
+  const { fetchData } = useContext(DiscountContext);
   const [infos, setInfos] = useState({
     expiresIn: "",
     quantity: "",

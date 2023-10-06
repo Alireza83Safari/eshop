@@ -61,10 +61,10 @@ export default function UsersTable() {
                     {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
                   </td>
                   <td className="2xl:py-4 py-3 px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                    {user?.username}
+                    {user?.username?.slice(0, 25)}
                   </td>
                   <td className="2xl:py-4 py-3 px-1 whitespace-nowrap text-ellipsis overflow-hidden">
-                    {user?.email}
+                    {user?.email?.slice(0, 25)}
                   </td>
                   <td className="2xl:py-4 py-3 px-1 whitespace-nowrap text-ellipsis">
                     {user?.createdAt.slice(0, 10)}
@@ -92,18 +92,16 @@ export default function UsersTable() {
                   </td>
                 </tr>
               ))
-            ) : (
-              paginations.length !== 0 ? (
-                <div className="flex justify-center items-center mt-32">
-                  <div>
-                    <img src="/images/not-found-product.svg" alt="" />
-                    <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
-                      Color Not Found
-                    </p>
-                  </div>
+            ) : paginations.length !== 0 ? (
+              <div className="flex justify-center items-center mt-32">
+                <div>
+                  <img src="/images/not-found-product.svg" alt="" />
+                  <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
+                    Color Not Found
+                  </p>
                 </div>
-              ) : null
-            )}
+              </div>
+            ) : null}
           </tbody>
         )}
       </table>

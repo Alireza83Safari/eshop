@@ -64,7 +64,7 @@ export default function BrandTable({
                   <td className="2xl:py-4 py-3 sm:inline hidden">
                     {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
                   </td>
-                  <td className="2xl:py-4 py-3 truncate">{brand?.name}</td>
+                  <td className="2xl:py-4 py-3 truncate">{brand?.name?.slice(0, 25)}</td>
                   <td className="2xl:py-4 py-3 truncate">{brand?.code}</td>
                   <td className="flex justify-center items-center">
                     <img

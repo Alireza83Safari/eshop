@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import userAxios from "../../services/Axios/userInterceptors";
 import { addressValidation } from "../../validators/addressValidation";
 import FormSpinner from "../FormSpinner/FormSpinner";
+import AddressContext from "../../Context/AddressContext";
 
-export default function EditAddress({
-  showEditAddress,
-  setShowEditAddress,
-  editAddressId,
-  fetchAddress,
-}) {
+export default function EditAddress({}) {
+  const { showEditAddress, setShowEditAddress, editAddressId, fetchAddress } =
+    useContext(AddressContext);
   const [errors, setErrors] = useState(null);
   const [serverErrors, setServerErrors] = useState(null);
   const [isLoading, setLoading] = useState(false);
@@ -19,7 +17,7 @@ export default function EditAddress({
     lastName: "",
     nationalCode: "",
     phoneNumber: "",
-    plaque: 0,
+    plaque: "",
     postalCode: "",
   });
 
@@ -27,18 +25,9 @@ export default function EditAddress({
     const fetchData = async () => {
       setLoading(true);
       try {
-        userAxios.get(`/address/${editAddressId}`).then((infos) => {
-          setAddressInfos({
-            ...addressInfos,
-            address: infos?.data.address,
-            firstName: infos?.data.firstName,
-            lastName: infos?.data.lastName,
-            nationalCode: infos?.data.nationalCode,
-            phoneNumber: infos?.data.phoneNumber,
-            plaque: infos?.data.plaque,
-            postalCode: infos?.data.postalCode,
-          });
-        });
+        const response = await userAxios.get(`/address/${editAddressId}`);
+        setAddressInfos({ ...response?.data });
+
         setLoading(false);
       } catch (err) {
         setLoading(false);
@@ -58,13 +47,11 @@ export default function EditAddress({
 
   const EditHandler = async () => {
     addressValidation(addressInfos, errors, setErrors);
-
     try {
-      const res = await userAxios.post(
-        `/address/edit/${editAddressId}`,
-        addressInfos
-      );
-      console.log(res);
+      const res = await userAxios.post(`/address/edit/${editAddressId}`, {
+        ...addressInfos,
+        plaque: Number(addressInfos?.plaque),
+      });
       if (res.status === 200) {
         setShowEditAddress(false);
         fetchAddress();

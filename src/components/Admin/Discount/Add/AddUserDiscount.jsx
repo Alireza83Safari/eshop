@@ -3,7 +3,7 @@ import { discountValidation } from "../../../../validators/discountValidation";
 import adminAxios from "../../../../services/Axios/adminInterceptors";
 import Spinner from "../../../Spinner/Spinner";
 import { useChangeDate } from "../../../../hooks/useChangeDate";
-import discountContext from "../../../../Context/discountContext";
+import { DiscountContext } from "../../../../Context/discountContext";
 import { CustomSelect } from "../../../SelectList";
 import useFetch from "../../../../hooks/useFetch";
 import Input from "../../Input";
@@ -11,7 +11,7 @@ export default function AddUserDiscount({
   setShowUserDiscount,
   setShowSelectDiscount,
 }) {
-  const { fetchData } = useContext(discountContext);
+  const { fetchData } = useContext(DiscountContext);
   const [errors, setErrors] = useState();
   const [serverErrors, setServerErrors] = useState();
   const [isLoading, setIsLoading] = useState(false);

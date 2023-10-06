@@ -13,7 +13,7 @@ import {
   faMultiply,
 } from "@fortawesome/free-solid-svg-icons";
 import userAxios from "../../services/Axios/userInterceptors";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import AddressContext from "../../Context/AddressContext";
 
 export default function AllAddress() {
@@ -63,8 +63,8 @@ export default function AllAddress() {
           </button>
           <FontAwesomeIcon icon={faAngleRight} className="text-lg" />
         </div>
-        {userAddress?.map((address, index) => (
-          <div className="border-b p-5" key={index}>
+        {userAddress?.map((address) => (
+          <div className="border-b p-5" key={address.id}>
             <div className="flex items-center justify-between mb-3 px-3">
               <div className="flex items-center">
                 <FontAwesomeIcon icon={faLocation} className="mr-2" />
@@ -107,7 +107,7 @@ export default function AllAddress() {
                   onClick={() => {
                     setShowEditAddress(true);
                     setShowAllAddress(false);
-                    setEditAddressId(address.id);
+                    setEditAddressId(address?.id);
                   }}
                 >
                   Edit Address
@@ -118,7 +118,6 @@ export default function AllAddress() {
           </div>
         ))}
       </div>
-      <ToastContainer />
     </div>,
     document.getElementById("portal")
   );
