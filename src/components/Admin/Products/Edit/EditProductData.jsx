@@ -141,6 +141,7 @@ export default function EditProductData({
                   ...productInfo,
                   categoryId: selectedOptions?.value,
                 });
+                seCategoryName(selectedOptions.label);
               }}
               defaultValue={{
                 value: productInfo?.categoryId,
@@ -169,6 +170,7 @@ export default function EditProductData({
                   ...productInfo,
                   brandId: selectedOptions?.value,
                 });
+                setBrandName(selectedOptions?.label);
               }}
               defaultValue={{
                 value: productInfo?.brandId,
