@@ -60,7 +60,6 @@ export default function AddUserDiscount({
     }
   };
   const { datas: users } = useFetch("/user", adminAxios);
-
   return (
     <>
       <span className="my-3 font-bold flex justify-center sm:text-xl text-[16px]">
@@ -85,7 +84,7 @@ export default function AddUserDiscount({
                 User
               </label>
               <CustomSelect
-                options={users?.data.forEach((type) => ({
+                options={users?.data.map((type) => ({
                   value: type.id,
                   label: type.username,
                 }))}
@@ -120,7 +119,7 @@ export default function AddUserDiscount({
                 discount type
               </label>
               <CustomSelect
-                options={[1, 2].forEach((type) => ({
+                options={[1, 2].map((type) => ({
                   value: type,
                   label: type,
                 }))}
