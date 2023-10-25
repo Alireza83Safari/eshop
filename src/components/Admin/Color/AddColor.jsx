@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import FormSpinner from "../../FormSpinner/FormSpinner";
 import { toast } from "react-toastify";
-import { HexColorPicker } from "react-colorful";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faX } from "@fortawesome/free-solid-svg-icons";
 import Input from "../Input";
 
 export default function AddColor() {
@@ -60,6 +57,28 @@ export default function AddColor() {
             isLoading && "opacity-20"
           }`}
         >
+          <div className="relative flex items-center border p-2 rounded-lg">
+            <label
+              htmlFor="name"
+              className="text-gray-800 dark:text-white-100 font-medium text-sm mr-5"
+            >
+              Select your color
+              <span className="text-red-700">*</span>
+            </label>
+            <input
+              type="color"
+              placeholder="hex"
+              name="colorHex"
+              value={newColor?.colorHex}
+              onChange={setNewColorHandler}
+              className="2xl:p-3 p-2 border mr-4"
+              Error={serverErrors?.colorHex}
+              onFocus={() => setServerErrors("")}
+            />
+            <p className="text-sm">
+              {newColor?.colorHex ? newColor?.colorHex : null}
+            </p>
+          </div>
           <div className="mt-3">
             <Input
               labelText="Color Name"
@@ -72,45 +91,7 @@ export default function AddColor() {
               callback={() => setServerErrors("")}
             />
           </div>
-          <div className="relative mt-3">
-            <Input
-              labelText="Color Hex"
-              placeholder="hex"
-              name="colorHex"
-              value={newColor?.colorHex}
-              onChange={setNewColorHandler}
-              className="2xl:p-3 p-2 mt-1"
-              Error={serverErrors?.colorHex}
-              callback={() => setServerErrors("")}
-            />
 
-            <button
-              className=" absolute right-0 top-9"
-              onClick={() => setShowColorPicker(true)}
-            >
-              color picker
-            </button>
-            <div
-              className={`absolute right-0 top-1  ${
-                showColorPicker ? "visible" : "invisible"
-              }`}
-            >
-              <FontAwesomeIcon
-                icon={faX}
-                className="text-lg"
-                onClick={() => setShowColorPicker(false)}
-              />
-              <HexColorPicker
-                color={newColor.colorHex}
-                onChange={(color) =>
-                  setNewColor({
-                    ...newColor,
-                    colorHex: color,
-                  })
-                }
-              />
-            </div>
-          </div>
           <div className="mt-3">
             <Input
               labelText="Color Code"
