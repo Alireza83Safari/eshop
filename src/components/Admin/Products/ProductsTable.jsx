@@ -76,7 +76,7 @@ export default function ProductsTable() {
         <thead>
           <tr className="md:text-sm text-xs text-center border-y hover:bg-gray-50 dark:hover:bg-black-900">
             <th className="py-3 px-2">NO</th>
-            <th className="py-3 px-2">PRODUCT</th>
+            <th className="py-3 px-2">Product</th>
             <th className="py-3 px-2">Brand</th>
             <th className="py-3 px-2">Category</th>
             <th className="py-3 px-2">Code</th>
@@ -91,7 +91,7 @@ export default function ProductsTable() {
           <tbody>
             {paginations?.map((product, index) => (
               <tr
-                className="md:text-sm text-xs text-center hover:bg-gray-50 dark:hover:bg-black-900"
+                className="2xl:text-sm text-xs text-center hover:bg-gray-50 dark:hover:bg-black-900"
                 key={product.id}
               >
                 <td className="py-3 px-2">
@@ -136,7 +136,7 @@ export default function ProductsTable() {
                 </td>
                 <td className="py-3 px-2 truncate">
                   <button
-                    className="border md:px-2 px-1 md:text-xs text-[9px] rounded-lg"
+                    className="border md:px-2 py-1 px-1 md:text-xs text-[9px] rounded-lg"
                     onClick={() => {
                       setInfosId(product?.id);
                       setShowInfo(true);
@@ -149,14 +149,14 @@ export default function ProductsTable() {
             ))}
           </tbody>
         ) : paginations.length !== 0 ? (
-          <div className="flex justify-center items-center mt-32">
-            <div>
+          <tbody className="flex justify-center items-center mt-32">
+            <>
               <img src="/images/not-found-product.svg" alt="" />
               <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
                 Brand Not Found
               </p>
-            </div>
-          </div>
+            </>
+          </tbody>
         ) : null}
       </table>
       <Suspense fallback={<Spinner />}>

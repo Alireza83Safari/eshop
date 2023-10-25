@@ -71,7 +71,7 @@ export default function AddProductFile({ setShowFile }) {
   };
 
   return (
-    <div className="lg:w-[30rem] min-h-[27rem] max-w-10/12 bg-white-100 dark:bg-black-200  p-5 rounded-xl relative">
+    <div className="lg:w-[30rem] min-h-[27rem] max-w-10/12 bg-white-100 dark:bg-black-200 sm:p-5 rounded-xl relative">
       <form onSubmit={(e) => e.preventDefault()}>
         <div>
           <h2 className="text-center mb-4 dark:text-white-100">

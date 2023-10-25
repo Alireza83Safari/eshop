@@ -60,10 +60,10 @@ export default function DiscountTable() {
           <tbody className="overflow-auto">
             {paginations?.map((discount, index) => (
               <tr
-                className="2xl:text-lg md:text-sm text-xs text-center hover:bg-gray-50 dark:hover:bg-black-900"
+                className="2xl:text-base md:text-sm text-xs text-center hover:bg-gray-50 dark:hover:bg-black-900"
                 key={discount.id}
               >
-                <td className="2xl:py-4 py-3 ">
+                <td className="2xl:py-4 py-3">
                   {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
                 </td>
                 <td className="2xl:py-4 py-3 truncate">{discount?.value}%</td>
@@ -71,7 +71,6 @@ export default function DiscountTable() {
                   {discount?.productName || discount?.relatedUserUsername}
                 </td>
                 <td className="2xl:py-4 py-3 truncate">{discount?.quantity}</td>
-
                 <td className="2xl:py-4 py-3 truncate">
                   {discount?.createdAt?.slice(0, 10)}
                 </td>

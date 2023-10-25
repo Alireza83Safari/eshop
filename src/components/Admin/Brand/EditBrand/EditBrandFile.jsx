@@ -58,7 +58,7 @@ export default function EditBrandFile({
       onSubmit={(e) => e.preventDefault()}
     >
       <div className={` bg-white-100 ${isLoading && "opacity-20  "} `}>
-        <label htmlFor="image" className="block text-center font-bold text-lg">
+        <label htmlFor="image" className="block text-center font-bold text-lg dark:text-white-100">
           Upload Image
         </label>
         <form method="post" className="mt-32">
@@ -82,7 +82,7 @@ export default function EditBrandFile({
         </button>
         <button
           type="submit"
-          className="border border-blue-600 w-full py-2 rounded-xl mr-2"
+          className="border border-blue-600 w-full py-2 rounded-xl mr-2 dark:text-white-100"
           onClick={() => {
             setShowEditBrandFile(false);
             setShowEditBrand(false);

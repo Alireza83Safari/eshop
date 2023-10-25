@@ -14,14 +14,15 @@ export default function AddAppPicData({
   const [newAppPic, setNewAppPic] = useState({
     appPicType: 3,
     description: "",
-    priority: "",
+    priority: null,
     title: "",
     url: "",
   });
   const setNewAppPicHandler = (event) => {
+    const { name, value, type } = event.target;
     setNewAppPic({
       ...newAppPic,
-      [event.target.name]: event.target.value,
+      [name]: type === "number" ? +value : value,
     });
   };
   const addNewAppPicHandler = async (e) => {
@@ -48,7 +49,7 @@ export default function AddAppPicData({
 
   return (
     <div>
-      <span className="my-1 font-bold flex justify-center 2xl:text-2xl sm:text-xl text-[16px]">
+      <span className="my-2 mt-3 font-bold flex justify-center 2xl:text-2xl sm:text-xl text-[16px]">
         Add New AppPic
       </span>
 
@@ -76,6 +77,7 @@ export default function AddAppPicData({
 
           <div className="sm:col-span-1 col-span-2">
             <Input
+              type="number"
               labelText="priority"
               placeholder="AppPic priority"
               name="priority"
@@ -114,7 +116,7 @@ export default function AddAppPicData({
           </div>
         </div>
 
-        <div className="flex justify-center sm:mt-10 mt-5">
+        <div className="flex justify-center sm:mt-8 mt-5">
           <button
             type="submit"
             className={`bg-blue-600 text-white-100 w-full  2xl:p-3 p-2  rounded-xl ${

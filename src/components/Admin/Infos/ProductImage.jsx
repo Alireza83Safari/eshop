@@ -142,14 +142,14 @@ export default function ProductImage({
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
-      <div className="lg:w-[46rem] max-h-[40rem] max-w-10/12 bg-white-100 dark:bg-black-200 p-5 rounded-xl overflow-auto">
+      <div className="lg:w-[46rem] max-h-[44rem] max-w-10/12 bg-white-100 dark:bg-black-200 p-5 rounded-xl overflow-auto">
         <div className="grid grid-cols-1 overflow-auto">
           <h2 className="text-center mb-4 dark:text-white-100">
             Upload images
           </h2>
           <span className="text-center text-red-700">{serverError}</span>
           {showUrl?.length ? (
-            <div className="relative grid grid-cols-4">
+            <div className="relative grid md:grid-cols-4 grid-cols-2">
               {showUrl?.map((imageUrl, index) => (
                 <div key={imageUrl} className="w-ful p-2 relative">
                   <img

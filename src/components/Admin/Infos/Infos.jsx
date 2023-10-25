@@ -18,10 +18,11 @@ export default function Infos({
 }) {
   const [activeTab, setActiveTab] = useState("ProductInfo");
   return ReactDOM.createPortal(
-    <section className="fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full overflow-y-auto h-screen flex items-center justify-center transition duration-400">
+    <section className="fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full h-screen overflow-y-auto flex items-center justify-center transition duration-400">
       <div
-        className={`dark:bg-black-200 dark:text-white-100 bg-white-100 rounded-xl sm:p-5 px-3 py-2 relative overflow-y-auto ${
-          activeTab != "ProductImage" && "w-[94%] h-[91%]"
+        className={`dark:bg-black-200 dark:text-white-100 bg-white-100 rounded-md sm:p-5 px-3 py-2 relative overflow-y-auto ${
+          activeTab != "ProductImage" &&
+          "md:w-[94%] min-w-full min-h-[80%] max-h-[100%]"
         }`}
       >
         <FontAwesomeIcon

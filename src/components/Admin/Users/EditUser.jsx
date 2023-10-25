@@ -71,8 +71,8 @@ export default function EditUser() {
   };
   return ReactDOM.createPortal(
     <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-full bg-gray-100 h-screen flex items-center justify-center transition duration-400">
-      <div className="lg:w-[30rem] bg-white-100 p-2 rounded-xl overflow-auto min-h-[27rem]">
-        <span className="mb-4 text-xl font-bold flex justify-center">
+      <div className="lg:w-[30rem] bg-white-100 dark:bg-black-200 p-2 rounded-xl overflow-auto min-h-[27rem]">
+        <span className="mb-4 text-xl font-bold flex justify-center dark:text-white-100">
           Edit User
         </span>
         {isLoading ? (
@@ -148,7 +148,7 @@ export default function EditUser() {
                   htmlFor="colorId"
                   className="block text-gray-800 font-medium"
                 >
-                  role
+                  role<span className="text-red-700">*</span>
                 </label>
                 <CustomSelect
                   options={roles?.data.map((role) => ({
@@ -173,7 +173,7 @@ export default function EditUser() {
                   htmlFor="isSystem"
                   className="block text-gray-800 font-medium"
                 >
-                  isSystem
+                  isSystem<span className="text-red-700">*</span>
                 </label>
                 <CustomSelect
                   options={["true", "false"].map((isMain) => ({
@@ -198,7 +198,7 @@ export default function EditUser() {
                   htmlFor="isMainItem"
                   className="block text-gray-800 font-medium"
                 >
-                  enabled
+                  enabled<span className="text-red-700">*</span>
                 </label>
                 <CustomSelect
                   options={["true", "false"].map((status) => ({
@@ -229,7 +229,7 @@ export default function EditUser() {
               </button>
               <button
                 type="submit"
-                className="w-1/2 py-2 rounded-xl border ml-2"
+                className="w-1/2 py-2 rounded-xl border ml-2 dark:text-white-100"
                 onClick={() => setShowEditUser(false)}
               >
                 Cancel

@@ -31,7 +31,7 @@ export default function DashboardChart() {
   };
 
   return (
-    <section className="ml-7 mt-3 mr-5 md:mb-0 mb-6">
+    <section className="md:ml-7 ml-3 mt-3 md:mr-4 mr-3 md:mb-0">
       <div className="bg-white-100 pb-10 dark:bg-black-200 py-5 rounded-xl">
         <div className="flex justify-between px-6">
           <p className="text-xs font-bold dark:text-white-100 2xl:text-lg">
@@ -54,7 +54,7 @@ export default function DashboardChart() {
             </div>
           </div>
         </div>
-        <div className="flex justify-center px-2 bg-white-100 dark:bg-black-200 container">
+        <div className="flex justify-center px-2 bg-white-100 dark:bg-black-200 container text-xs">
           <BarChartComponent datas={chartData} />
         </div>
       </div>

@@ -52,7 +52,7 @@ export default function AddProductDiscount({
         fetchData();
         setShowSelectDiscount(true);
         setShowProductDiscount(false);
-        toast.success("create succesfuly");
+        toast.success("create discount is success");
       }
     } catch (error) {
       setServerErrors(error?.response?.data);
@@ -138,14 +138,14 @@ export default function AddProductDiscount({
               discount type
             </label>
             <CustomSelect
-              options={[1, 2].map((type) => ({
+              options={["price", "percent"].map((type) => ({
                 value: type,
                 label: type,
               }))}
               onchange={(selectedOptions) => {
                 setInfos({
                   ...infos,
-                  type: selectedOptions?.value,
+                  type: selectedOptions?.value === "price" ? 0 : 1,
                 });
                 setErrors("");
               }}

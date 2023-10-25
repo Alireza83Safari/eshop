@@ -52,14 +52,14 @@ export default function AddProductFeature({
   };
 
   return (
-    <div className="lg:w-[30rem] min-h-[27rem] max-w-10/12 bg-white-100 dark:bg-black-200  p-5 rounded-xl relative">
+    <div className="lg:w-[30rem] min-h-[27rem] max-w-10/12 bg-white-100 dark:bg-black-200 sm:p-5 p-2 rounded-xl relative">
       <span className="mb-5 text-xl font-bold flex justify-center dark:text-white-100">
         Add New Product Feature
       </span>
 
       <form onSubmit={addNewProducts}>
         <div
-          className={`grid grid-cols-2 gap-x-8 gap-y-4 mt-2 text-sm h-[18rem] ${
+          className={`grid grid-cols-2 sm:gap-x-8 gap-x-4 gap-y-4 mt-2 text-sm h-[18rem] ${
             isLoading && "opacity-20"
           }`}
         >
@@ -80,17 +80,17 @@ export default function AddProductFeature({
           ))}
         </div>
 
-        <div className="flex justify-center mt-8 gap-x-8">
+        <div className="grid grid-cols-2 mt-8 sm:gap-x-5 gap-x-3">
           <button
             type="submit"
-            className="w-full py-2 rounded-xl bg-blue-600 text-white-100"
+            className="w-full py-2 rounded-xl bg-blue-600 text-white-100 text-sm"
             onSubmit={addNewProducts}
           >
             {isLoading ? <FormSpinner /> : "Add Product Feature"}
           </button>
           <button
             type="button"
-            className="w-full py-2 rounded-xl border border-blue-600 dark:text-white-100"
+            className="w-full py-2 rounded-xl border border-blue-600 dark:text-white-100 text-sm"
             onClick={() => {
               setShowProductFeature(false);
               setShowAddProductModal(false);

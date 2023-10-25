@@ -1,7 +1,0 @@
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-<svg height="64px" width="64px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000">
-<g id="SVGRepo_bgCarrier" stroke-width="0"/>
-<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
-<g id="SVGRepo_iconCarrier"> <path style="fill:#E07188;" d="M76.8,64c-38.4,38.4-51.2,115.2-51.2,192s12.8,153.6,51.2,192h358.4V64H76.8z"/> <g> <polygon style="fill:#DC4161;" points="76.8,448 76.8,512 102.4,486.4 128,512 153.6,486.4 179.2,512 204.8,486.4 230.4,512 256,486.4 281.6,512 307.2,486.4 332.8,512 358.4,486.4 384,512 409.6,486.4 435.2,512 435.2,448 "/> <polygon style="fill:#DC4161;" points="435.2,64 435.2,0 409.6,25.6 384,0 358.4,25.6 332.8,0 307.2,25.6 281.6,0 256,25.6 230.4,0 204.8,25.6 179.2,0 153.6,25.6 128,0 102.4,25.6 76.8,0 76.8,64 "/> <path style="fill:#DC4161;" d="M435.2,64C396.8,102.4,384,179.2,384,256s12.8,153.6,51.2,192c38.4-38.4,51.2-115.2,51.2-192 S473.6,102.4,435.2,64z"/> </g> <circle style="fill:#F6E27D;" cx="204.8" cy="256" r="89.6"/> <path style="fill:#C5142C;" d="M435.2,64v384c38.4-38.4,51.2-115.2,51.2-192S473.6,102.4,435.2,64z"/> </g>
-</svg>

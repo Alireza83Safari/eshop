@@ -83,11 +83,13 @@ export default function ProductInfo({
   return (
     <>
       {isLoading ? (
-        <Spinner />
+        <div className="">
+          <Spinner />
+        </div>
       ) : (
-        <div className="grid grid-cols-4 sm:overflow-hidden overflow-auto py-6">
+        <div className="grid grid-cols-4 sm:overflow-hidden overflow-auto max-h-[100%]">
           <div
-            className={`sm:col-span-2 col-span-4 px-10 ${
+            className={`md:col-span-2 col-span-4 px-10 ${
               (isLoading || dataLoading) && "opacity-10"
             }`}
           >
@@ -99,12 +101,13 @@ export default function ProductInfo({
                 pagination={{ clickable: true }}
               >
                 {productFile?.map((img) => (
-                  <SwiperSlide>
-                    <div className="flex justify-center" key={img.id}>
+                  <SwiperSlide key={img.id}>
+                    <div className="flex justify-center">
                       <div className="h-full w-full">
                         <img
                           src={`http://127.0.0.1:6060/${img.fileUrl}`}
-                          className="object-contain relative"
+                          className="object-contain max-w-full h-auto"
+                          alt=""
                         />
                       </div>
                     </div>
@@ -112,12 +115,12 @@ export default function ProductInfo({
                 ))}
               </Swiper>
             ) : (
-              <img src="/images/photo.jpg" alt="" />
+              <img src="/images/photo.jpg" alt="empty" />
             )}
           </div>
 
           <div
-            className={` sm:col-span-2 col-span-4 grid grid-cols-2 gap-4 text-sm dark:text-white-100 min-w-full ${
+            className={` md:col-span-2 col-span-4 grid grid-cols-2 gap-4 text-sm dark:text-white-100 min-w-full ${
               isLoading && "opacity-20"
             }`}
           >

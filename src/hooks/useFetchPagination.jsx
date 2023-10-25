@@ -15,8 +15,9 @@ export const useFetchPagination = (url, customAxios) => {
   const maxPrice = searchParams.get("maxPrice");
   const page = searchParams.get("page");
   const limit = searchParams.get("limit");
-
+  
   const fetchData = useCallback(async () => {
+    setLoading(true)
     let URL = `${url}?page=${page}&limit=${limit}`;
     switch (true) {
       case Boolean(searchTerm):

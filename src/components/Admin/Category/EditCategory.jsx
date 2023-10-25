@@ -67,8 +67,8 @@ export default function EditCategory({
         showEditCategory ? "visible" : "invisible"
       }`}
     >
-      <div className="lg:w-[27rem] bg-white-100 p-5 rounded-xl min-h-[23rem]">
-        <span className="mb-5 text-xl font-bold flex justify-center">
+      <div className="lg:w-[27rem] bg-white-100 dark:bg-black-200 p-5 rounded-xl min-h-[23rem]">
+        <span className="mb-5 text-xl font-bold flex justify-center dark:text-white-100">
           Edit Category
         </span>
 
@@ -117,7 +117,7 @@ export default function EditCategory({
               </button>
               <button
                 type="submit"
-                className=" w-full py-2 rounded-xl border border-blue-600 ml-2"
+                className=" w-full py-2 rounded-xl border border-blue-600 ml-2 dark:text-white-100"
                 onClick={() => setShowEditCategory(false)}
               >
                 Cancel

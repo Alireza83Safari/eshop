@@ -15,8 +15,8 @@ export default function Departments() {
       {isLoading ? (
         <Spinner />
       ) : (
-        infos?.slice(0, 4)?.map((info) => (
-          <div className="py-3" key={info.id}>
+        infos?.slice(0, 4)?.map((info,index) => (
+          <div className="py-3" key={index}>
             <div className="flex justify-between text-xs mb-4">
               <p>{info?.categoryName}</p>
               <p>{info?.price}$</p>

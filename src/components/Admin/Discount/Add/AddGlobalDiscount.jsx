@@ -4,7 +4,7 @@ import adminAxios from "../../../../services/Axios/adminInterceptors";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
 import { toast } from "react-toastify";
 import { useChangeDate } from "../../../../hooks/useChangeDate";
-import {DiscountContext} from "../../../../Context/discountContext";
+import { DiscountContext } from "../../../../Context/discountContext";
 import { CustomSelect } from "../../../SelectList";
 import Input from "../../Input";
 
@@ -48,7 +48,7 @@ export default function AddGlobalDiscount({
         fetchData();
         setShowSelectDiscount(true);
         setShowGlobalDiscount(false);
-        toast.success("create discount succesfuly");
+        toast.success("create discount is success");
       }
     } catch (error) {
       setServerErrors(error?.response?.data);
@@ -73,7 +73,7 @@ export default function AddGlobalDiscount({
           } `}
         >
           <div>
-            <label htmlFor="type" className="block text-gray-800 font-medium">
+            <label htmlFor="type" className="block text-gray-800 font-medium text-sm">
               discount type
             </label>
             <CustomSelect
@@ -111,7 +111,7 @@ export default function AddGlobalDiscount({
           <div>
             <label
               htmlFor="expiresIn"
-              className="block text-gray-800 font-medium"
+              className="block text-gray-800 font-medium text-sm"
             >
               expiresIn
             </label>

@@ -108,8 +108,8 @@ export default function EditDiscount({
         showEditDiscount ? "visible" : "invisible"
       }`}
     >
-      <div className="lg:w-[30rem] bg-white-100 sm:p-5 rounded-xl">
-        <span className="sm:mb-5 text-xl font-bold flex justify-center">
+      <div className="lg:w-[30rem] bg-white-100 dark:bg-black-200 p-1 rounded-xl">
+        <span className="sm:mb-5 text-xl font-bold dark:text-white-100 flex justify-center">
           Edit Discount
         </span>
         <p className="text-red-700 text-center">{serverErrors?.message}</p>
@@ -136,24 +136,16 @@ export default function EditDiscount({
               </div>
             )}
             <div>
-              <label
-                htmlFor="expiresIn"
-                className="block text-gray-800 font-medium"
-              >
-                expiresIn
-              </label>
-              <input
+              <Input
+                labelText="expiresIn"
+                placeholder="expiresIn"
                 type="date"
-                id="expiresIn"
                 name="expiresIn"
-                placeholder="discount expiresIn"
-                className="border p-2 w-full rounded-lg outline-none focus:border-blue-600"
-                onChange={(e) => setInputDateValue(e.target.value)}
-                value={chanageToInputDate || ""}
-                onFocus={() => setServerErrors("")}
+                value={editDiscount?.expiresIn}
+                onChange={setEditDiscountHandler}
+                Error={serverErrors?.errors?.expiresIn}
+                callback={() => setServerErrors("")}
               />
-
-              <p className="text-red-700">{serverErrors?.expiresIn}</p>
             </div>
             {haveProductItemId?.length && (
               <div>
@@ -257,7 +249,7 @@ export default function EditDiscount({
           <div className="flex justify-center mt-8">
             <button
               type="submit"
-              className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2"
+              className="bg-blue-600 text-white-100 w-full py-2 rounded-xl dark:text-white-100 mr-2"
               onClick={editDiscountHandler}
             >
               {isLoading ? <FormSpinner /> : "Edit Discount"}

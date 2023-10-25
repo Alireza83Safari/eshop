@@ -7,6 +7,7 @@ import { DiscountContext } from "../../../../Context/discountContext";
 import { CustomSelect } from "../../../SelectList";
 import useFetch from "../../../../hooks/useFetch";
 import Input from "../../Input";
+import { toast } from "react-toastify";
 export default function AddUserDiscount({
   setShowUserDiscount,
   setShowSelectDiscount,
@@ -53,6 +54,7 @@ export default function AddUserDiscount({
         setShowSelectDiscount(true);
         setShowUserDiscount(false);
         fetchData();
+        toast.success("create discount is success");
       }
     } catch (error) {
       setServerErrors(error?.response?.data);
@@ -79,7 +81,7 @@ export default function AddUserDiscount({
             <div className="col-span-2">
               <label
                 htmlFor="relatedUserId"
-                className="block text-gray-800 dark:text-white-100 font-medium"
+                className="block text-gray-800 dark:text-white-100 font-medium text-sm"
               >
                 User
               </label>
@@ -114,7 +116,7 @@ export default function AddUserDiscount({
             <div>
               <label
                 htmlFor="type"
-                className="block text-gray-800 dark:text-white-100 font-medium"
+                className="block text-gray-800 dark:text-white-100 font-medium text-sm"
               >
                 discount type
               </label>
@@ -139,7 +141,7 @@ export default function AddUserDiscount({
             <div>
               <label
                 htmlFor="expiresIn"
-                className="block text-gray-800 dark:text-white-100 font-medium"
+                className="block text-gray-800 dark:text-white-100 font-medium text-sm"
               >
                 expiresIn
               </label>

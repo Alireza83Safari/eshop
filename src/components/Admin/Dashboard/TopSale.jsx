@@ -49,7 +49,7 @@ const TopSale = () => {
     }
   }, [showInfo]);
   return (
-    <div className="mr-7 mt-3">
+    <div className="md:mr-7 mr-3 md:mt-3 mt-2">
       <div className="bg-white-100 dark:bg-black-200 dark:text-white-100 py-7 px-5 ml-3 rounded-xl">
         <span className="flex justify-center font-bold whitespace-nowrap dark:text-white-100 lg:text-base text-xs text-center">
           Most Sale Product Weekly

@@ -27,17 +27,18 @@ export default function ProductsPanel() {
       setSearchValue();
     }
   };
+
   return (
     <section className="sm:p-6 p-3 float-right mt-12 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] min-h-screen">
       <div className="grid grid-cols-10">
         <div className="lg:col-span-7 col-span-10 mt-5 lg:px-6 px-1 overflow-x-auto relative bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-xl">
-          <div className="py-4 flex justify-between px-4 w-full">
+          <div className="py-3 flex justify-between px-1 w-full">
             <div className="flex bg-white-100 rounded-lg relative md:w-auto">
               <input
                 type="text"
                 id="searchInput"
                 name="searchTerm"
-                placeholder="Search product ..."
+                placeholder="Search product"
                 className="py-1 sm:py-2 pl-7 w-32 outline-none rounded-lg dark:bg-black-200 text-xs sm:placeholder:text-[12px] placeholder:text-[10px] dark:text-white-100"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -50,14 +51,12 @@ export default function ProductsPanel() {
               />
             </div>
 
-            <div>
-              <button
-                className="sm:text-xs text-[10px] bg-blue-600 text-white-100 md:p-2 p-1 md:mr-2 mr-1 rounded-lg whitespace-nowrap"
-                onClick={() => setShowAddProductModal(true)}
-              >
-                Add Product <FontAwesomeIcon icon={faPlus} />
-              </button>
-            </div>
+            <button
+              className="sm:text-xs text-[10px] bg-blue-600 text-white-100 md:p-2 p-1 mr-1 rounded-md whitespace-nowrap"
+              onClick={() => setShowAddProductModal(true)}
+            >
+              Add Product <FontAwesomeIcon icon={faPlus} />
+            </button>
           </div>
 
           <div className="lg:h-[46.5rem] sm:h-[44rem] h-[39rem]">

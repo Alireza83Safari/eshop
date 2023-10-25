@@ -18,13 +18,13 @@ export default function RolesPanel() {
   const [permissionInfo, setPermissionInfo] = useState(null);
 
   return (
-    <section className="float-right mt-16 md:px-6 px-2 h-screen pb-8 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%]">
-      <div className="bg-white-100 dark:bg-black-600 p-3 rounded-xl text-black-900 dark:text-white-100">
+    <section className="float-right mt-16 pt-6 md:px-6 px-2 h-screen pb-8 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%]">
+      <div className="bg-white-100 dark:bg-black-600 p-2 rounded-xl text-black-900 dark:text-white-100">
         <button
-          className="bg-blue-600 text-white-100 text-sm rounded-lg py-2 px-3 mb-2"
+          className="bg-blue-600 text-white-100 text-sm rounded-lg py-1 px-3 ml-2"
           onClick={() => setShowAddRoles(true)}
         >
-          Add new Role <FontAwesomeIcon icon={faPlus} />
+          Add New Role <FontAwesomeIcon icon={faPlus} />
         </button>
         <Suspense fallback={<Spinner />}>
           <RoleTable

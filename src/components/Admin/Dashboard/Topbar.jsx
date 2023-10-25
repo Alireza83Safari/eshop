@@ -15,6 +15,10 @@ export default function Topbar({ orders }) {
     adminAxios
   );
   const date = new Date();
+  const showDate = `${date.getFullYear()}/${
+    date.getMonth() + 1
+  }/${date.getDate()}`;
+
   return (
     <>
       <div className="relative rounded-lg sm:col-span-1 col-span-3 bg-white-100 dark:bg-black-200 p-6 dark:text-white-100 text-black-900">
@@ -37,9 +41,7 @@ export default function Topbar({ orders }) {
           </h1>
         )}
 
-        <p className="text-sm text-gray-500 2xl:text-lg">
-          {date.getFullYear()}/{date.getMonth() + 1}/{date.getDate()}
-        </p>
+        <p className="text-sm text-gray-500 2xl:text-lg">{showDate}</p>
       </div>
 
       <div className="relative rounded-lg sm:col-span-1 col-span-3 bg-white-100 dark:bg-black-200 p-6 dark:text-white-100 text-black-900">
@@ -61,9 +63,7 @@ export default function Topbar({ orders }) {
             {totalProducts?.total}
           </h1>
         )}
-        <p className="text-sm text-gray-500 2xl:text-lg">
-          {date.getFullYear()}/{date.getMonth() + 1}/{date.getDate()}
-        </p>
+        <p className="text-sm text-gray-500 2xl:text-lg">{showDate}</p>
       </div>
 
       <div className="relative rounded-lg sm:col-span-1 col-span-3 bg-white-100 dark:bg-black-200 p-6 dark:text-white-100 text-black-900">
@@ -85,9 +85,7 @@ export default function Topbar({ orders }) {
             {totalBrand?.total}
           </h1>
         )}
-        <p className="text-sm text-gray-500 2xl:text-lg">
-          {date.getFullYear()}/{date.getMonth() + 1}/{date.getDate()}
-        </p>
+        <p className="text-sm text-gray-500 2xl:text-lg">{showDate}</p>
       </div>
     </>
   );

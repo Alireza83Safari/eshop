@@ -58,7 +58,7 @@ export default function ColorTable({
             {paginations?.length >= 1 ? (
               paginations?.map((color, index) => (
                 <tr
-                  className="2xl:text-lg md:text-sm sm:text-xs text-[10px] text-center grid sm:grid-cols-6 grid-cols-5"
+                  className="2xl:text-base md:text-sm sm:text-xs text-[10px] text-center grid sm:grid-cols-6 grid-cols-5"
                   key={color + 1}
                 >
                   <td className="2xl:py-4 py-3 sm:inline hidden">

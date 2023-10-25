@@ -26,7 +26,7 @@ export default function AddNewProduct({
   const [errors, setErrors] = useState(null);
   const [serverError, setServerError] = useState(null);
   const [isLoading, setLoading] = useState(false);
-  
+
   const addNewProducts = async () => {
     productFormValidation(productInfo, errors, setErrors);
     setLoading(true);
@@ -59,7 +59,7 @@ export default function AddNewProduct({
   const { datas: brands } = useFetch("/brand", adminAxios);
 
   return (
-    <div className="lg:w-[30rem] min-h-[27rem] max-w-10/12 bg-white-100 dark:bg-black-200 p-5 rounded-xl relative">
+    <div className="lg:w-[30rem] min-h-[27rem] max-w-10/12 bg-white-100 dark:bg-black-200 sm:p-4 p-2 rounded-xl relative">
       <span className="mb-5 text-xl font-bold flex justify-center dark:text-white-100">
         Add New Product
       </span>
@@ -87,7 +87,7 @@ export default function AddNewProduct({
 
           <div>
             <label className="font-medium text-gray-800 dark:text-white-100">
-              Brand
+              Brand<span className="text-red-700">*</span>
             </label>
             <CustomSelect
               options={brands?.data.map((brand) => ({
@@ -111,7 +111,7 @@ export default function AddNewProduct({
 
           <div>
             <label className="font-medium text-gray-800 dark:text-white-100">
-              Category
+              Category<span className="text-red-700">*</span>
             </label>
             <CustomSelect
               options={category?.data.map((category) => ({
@@ -183,18 +183,15 @@ export default function AddNewProduct({
         <div className="flex justify-center mt-8">
           <button
             type="submit"
-            className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2"
+            className="bg-blue-600 text-white-100 w-full py-2 rounded-md mr-1"
             onClick={addNewProducts}
           >
             {isLoading ? <FormSpinner /> : "Add Product"}
           </button>
           <button
             type="submit"
-            className="w-full py-2 rounded-xl border border-blue-600 ml-2 dark:text-white-100"
-            onClick={() => {
-              // setShowAddProduct(false);
-              setShowAddProductModal(false);
-            }}
+            className="w-full py-2 rounded-md border border-blue-600 ml-1 dark:text-white-100"
+            onClick={() => setShowAddProductModal(false)}
           >
             Cancel
           </button>

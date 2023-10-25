@@ -15,7 +15,7 @@ export default function Input({
     <>
       <label
         htmlFor="name"
-        className="block text-gray-800 dark:text-white-100 font-medium"
+        className="block text-gray-800 dark:text-white-100 font-medium text-sm"
       >
         {labelText}
       </label>
@@ -23,7 +23,7 @@ export default function Input({
         type={type?.length > 1 ? type : "text"}
         placeholder={placeholder}
         name={name}
-        className={`border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200 dark:text-white-100 placeholder:text-sm placeholder:text-black-900 dark:placeholder:text-white-100 ${className}`}
+        className={`border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200 dark:text-white-100 placeholder:text-gray-500 placeholder:text-xs dark:placeholder:text-white-100 ${className}`}
         value={value}
         onChange={onChange}
         onFocus={callback}

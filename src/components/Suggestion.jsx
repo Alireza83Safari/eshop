@@ -31,6 +31,7 @@ export default function Suggestion() {
   }, [suggestions]);
 
   const { addToCart } = useAddToCart();
+
   const handleAddToCart = (product) => {
     addToCart(product?.productItemId, count, product);
     setCount(1);
@@ -68,6 +69,14 @@ export default function Suggestion() {
       }
     }
   }, [currentProductIndex, suggestions?.data]);
+
+  const decrementCount = () => {
+    if (count - 1 === 0) {
+      setCount(count);
+    } else {
+      setCount(count - 1);
+    }
+  };
 
   return (
     <section
@@ -107,7 +116,7 @@ export default function Suggestion() {
 
         <div className="flex justify-end mr-10 md:my-5 text-black-900 dark:text-white-100"></div>
 
-        <div className="md:w-full md:bg-gray-100 flex items-center justify-center lg:h-[32rem]">
+        <div className="md:w-full flex items-center justify-center lg:h-[32rem]">
           <img
             src={`http://127.0.0.1:6060/${
               suggestions?.data &&
@@ -173,7 +182,7 @@ export default function Suggestion() {
 
               <div className="flex items-center md:mx-10 ml-5">
                 <button
-                  onClick={() => setCount(count - 1)}
+                  onClick={decrementCount}
                   className="lg:px-4 lg:py-2 px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 duration-200 focus:outline-none"
                 >
                   -

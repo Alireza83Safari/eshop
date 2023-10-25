@@ -18,7 +18,7 @@ export default function EditBrand({
         showEditBrand ? "visible" : "invisible"
       }`}
     >
-      <div className="lg:w-[27rem] bg-white-100 p-5 rounded-xl">
+      <div className="lg:w-[27rem] bg-white-100 dark:bg-black-200 p-5 rounded-xl">
         <Suspense fallback={<Spinner />}>
           {showEditBrandData && (
             <EditBrandData

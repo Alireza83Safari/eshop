@@ -6,6 +6,7 @@ import adminAxios from "../../../services/Axios/adminInterceptors";
 import Spinner from "../../Spinner/Spinner";
 import useTableRow from "../../../hooks/useTableRow";
 import userPanelContext from "../../../Context/userPanelContext";
+import { toast } from "react-toastify";
 
 export default function UsersTable() {
   const {
@@ -27,6 +28,7 @@ export default function UsersTable() {
       const response = await adminAxios.post(`/user/delete/${ID}`);
       setLoading(false);
       if (response.status === 200) {
+        toast.success("Delete User Is Success")
         fetchData();
       }
     } catch (error) {}

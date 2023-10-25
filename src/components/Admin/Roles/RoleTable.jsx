@@ -34,7 +34,7 @@ export default function RoleTable({
       .catch(() => setLoading(false));
   };
   return (
-    <div className="2xl:h-[40rem] h-[37rem]">
+    <div className="h-[30rem]">
       {isLoading && roleLoading ? (
         <Spinner />
       ) : (

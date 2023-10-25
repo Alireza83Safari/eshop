@@ -30,7 +30,7 @@ export default function ProductSlider() {
               show all products >
             </Link>
           </div>
-          <div className="xl:px-8 my-5">
+          <div className="xl:px-8">
             <Swiper
               breakpoints={{
                 1: { slidesPerView: 2 },
@@ -45,7 +45,7 @@ export default function ProductSlider() {
                 clickable: true,
               }}
               spaceBetween={7}
-              className="mySwiper "
+              className="mySwiper"
             >
               {productsData?.data.length > 1 &&
                 productsData?.data.slice(0, 9).map((product) => (

@@ -62,7 +62,7 @@ export default function EditBrandData({
 
   return (
     <>
-      <span className="mb-5 text-xl font-bold flex justify-center">
+      <span className="mb-5 text-xl font-bold flex justify-center dark:text-white-100">
         Edit Brand
       </span>
 
@@ -109,7 +109,7 @@ export default function EditBrandData({
           </button>
           <button
             type="submit"
-            className=" w-full py-2 rounded-xl border border-blue-600 ml-2"
+            className=" w-full py-2 rounded-xl border border-blue-600 ml-2 dark:text-white-100"
             onClick={() => {
               setShowEditBrandData(false);
               setShowEditBrand(false);

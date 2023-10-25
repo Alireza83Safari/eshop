@@ -18,15 +18,12 @@ const usePost = () => {
         body: JSON.stringify(),
       });
 
-      console.log(response);
       setResponseOk(response.ok);
       setPostError(response.status);
-      console.log(response);
       if (!response.ok) {
         throw new Error("Failed to fetch data.");
       }
       setPostData(response);
-      const responseData = await response.json();
     } catch (error) {
       setPostError(error);
       console.log(error);
@@ -38,4 +35,4 @@ const usePost = () => {
   return { postData, postIsloading, postError, doPost, responseOk };
 };
 
-export default usePost;
+export default usePost

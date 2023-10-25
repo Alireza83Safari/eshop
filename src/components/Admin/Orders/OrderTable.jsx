@@ -41,7 +41,7 @@ export default function OrderTable({ paginations, paginationLodaing, total }) {
           />
         </div>
       </div>
-      <div className="sm:px-6 2xl:h-[32rem] h-[27rem] dark:text-white-100 rounded-b-xl relative overflow-x-auto">
+      <div className="sm:px-6 2xl:h-[32rem] h-[27.5rem] dark:text-white-100 rounded-b-xl relative overflow-x-auto">
         <table className="min-w-full">
           <thead>
             <tr className="md:text-sm text-xs text-center border-b">

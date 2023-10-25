@@ -20,7 +20,7 @@ export default function Users() {
   const [editUserID, setEditUserID] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   let url = "/user";
-  let pageSize = 8;
+  let pageSize = 10;
   const {
     paginations,
     total,
@@ -57,10 +57,10 @@ export default function Users() {
         editUserID,
       }}
     >
-      <section className="float-right mt-12 pt-7 px-4 md:pb-16 bg-white-200 dark:text-white-100 min-h-screen dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%]">
+      <section className="float-right mt-12 pt-7 px-4 bg-white-200 dark:text-white-100 min-h-screen dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%]">
         <div className="mt-2 text-center">
-          <div className="flex justify-between bg-white-100 dark:bg-black-200 rounded-t-xl py-3">
-            <div className="flex rounded-md relative md:w-auto md:ml-4">
+          <div className="flex justify-between bg-white-100 dark:bg-black-200 rounded-t-xl py-2">
+            <div className="flex rounded-md relative md:w-auto md:ml-3">
               <input
                 type="text"
                 id="searchInput"
@@ -85,7 +85,7 @@ export default function Users() {
             </button>
           </div>
           <div className="relative lg:px-3 px-2 overflow-y-auto bg-white-100 rounded-b-xl dark:bg-black-200">
-            <div className="2xl:h-[40rem] h-[30rem]">
+            <div className="h-[36rem]">
               <Suspense fallback={<Spinner />}>
                 <UsersTable />
               </Suspense>

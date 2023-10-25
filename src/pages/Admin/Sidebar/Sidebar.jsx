@@ -6,14 +6,14 @@ import {
   faBriefcase,
   faCarrot,
   faCoins,
-  faColonSign,
-  faCommentDots,
+  faComment,
   faGripHorizontal,
   faJedi,
-  faLayerGroup,
+  faKey,
+  faPalette,
   faPercent,
   faSignOut,
-  faUsers,
+  faUserAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import "./Sidebar.css";
 import adminAxios from "../../../services/Axios/adminInterceptors";
@@ -26,13 +26,13 @@ export default function Sidebar() {
     { icon: faGripHorizontal, text: "dashboard", to: "dashboard" },
     { icon: faBox, text: "product", to: "product" },
     { icon: faCoins, text: "orders", to: "orders" },
-    { icon: faCommentDots, text: "comments", to: "/panel/comments" },
-    { icon: faLayerGroup, text: "roles", to: "/panel/roles" },
-    { icon: faUsers, text: "users", to: "/panel/users" },
+    { icon: faComment, text: "comments", to: "/panel/comments" },
+    { icon: faKey, text: "roles", to: "/panel/roles" },
+    { icon: faUserAlt, text: "users", to: "/panel/users" },
     { icon: faPercent, text: "discount", to: "/panel/discount" },
     { icon: faCarrot, text: "category", to: "/panel/category" },
     { icon: faBriefcase, text: "brand", to: "/panel/brand" },
-    { icon: faColonSign, text: "color", to: "/panel/color" },
+    { icon: faPalette, text: "color", to: "/panel/color" },
     { icon: faJedi, text: "appPic", to: "/panel/appPic" },
   ];
 
@@ -53,7 +53,7 @@ export default function Sidebar() {
     });
   };
   return (
-    <section className=" fixed top-0 left-0 bg-white-100 dark:bg-black-900 h-full xl:w-[10%] lg:w-[12%] sm:w-[6%] w-[9%] font-bold  custom-scrollbar overflow-auto">
+    <section className="fixed top-0 left-0 bg-white-100 dark:bg-black-900 h-full xl:w-[10%] lg:w-[12%] sm:w-[6%] w-[9%] font-bold  custom-scrollbar overflow-auto">
       <div className="">
         <Link to="dashboard" className="">
           <div className="w-full invisible lg:visible">
@@ -73,7 +73,7 @@ export default function Sidebar() {
               to={item.to}
             >
               <div
-                className={` hover-element relative whitespace-nowrap 2xl:text-lg text-xs ${
+                className={` hover-element relative whitespace-nowrap 2xl:text-base text-xs ${
                   activeId.toLocaleLowerCase() === item.text.toLocaleLowerCase()
                     ? "active"
                     : ""
@@ -92,11 +92,14 @@ export default function Sidebar() {
         </div>
       </div>
 
-      <div className="ml-4 2xl:text-lg text-xs" onClick={() => logoutHandler()}>
-        <Link className="flex xl:py-5 py-4 text-black-700 hover:text-gray-500 duration-500 dark:text-white-100">
+      <div
+        className="md:ml-4 ml-1 2xl:text-lg text-xs"
+        onClick={() => logoutHandler()}
+      >
+        <Link className="flex py-3 text-black-700 hover:text-gray-500 duration-500 dark:text-white-100">
           <FontAwesomeIcon
             icon={faSignOut}
-            className="mr-3 lg:text-base text-xl"
+            className="md:mr-2 lg:text-base text-xl"
           />
           <p className="invisible lg:visible">Log Out</p>
         </Link>

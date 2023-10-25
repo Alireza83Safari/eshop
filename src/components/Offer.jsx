@@ -59,7 +59,7 @@ export default function Offer() {
                         key={product.id}
                       >
                         <div className=" flex justify-center h-5/6">
-                          <div className="w-8 h-8 flex items-center justify-center lg:text-sm text-xs text-white-100 bg-red-700 rounded-full absolute top-0 right-5">
+                          <div className="w-8 h-8 flex items-center justify-center text-xs text-white-100 bg-red-700 z-10 rounded-full absolute top-0 right-5">
                             {product?.discountValue}%
                           </div>
                           <Link

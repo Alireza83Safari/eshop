@@ -12,9 +12,9 @@ import ProductSlider from "../components/ProductSlider";
 export default function Home() {
 
   return (
-    <div>
+    <>
       <Header />
-      <div className="md:mt-8 lg:container mx-auto lg:px-0 sm:px-5">
+      <div className="md:mt-8 xl:container max-w-[1200px] mx-auto lg:px-0 sm:px-5">
         <Sidebar />
         <Banner />
         <Suggestion />
@@ -24,6 +24,6 @@ export default function Home() {
         <PopularBrand />
       </div>
       <Footer />
-    </div>
+    </>
   );
 }

@@ -109,7 +109,6 @@ export default function AddProductItem({
               <Input
                 type="number"
                 labelText="price"
-                //  placeholder="Product price"
                 name="price"
                 value={productItemInfo?.price}
                 onChange={setProductItemInfos}
@@ -124,7 +123,6 @@ export default function AddProductItem({
               <Input
                 type="number"
                 labelText="quantity"
-                //  placeholder="Product quantity"
                 name="quantity"
                 className=""
                 value={productItemInfo?.quantity}
@@ -141,7 +139,7 @@ export default function AddProductItem({
                 htmlFor="status"
                 className="block text-gray-800 dark:text-white-100 font-medium"
               >
-                Product Status
+                Product Status<span className="text-red-700">*</span>
               </label>
               <CustomSelect
                 options={["in Active", "Publish"].map((status) => ({
@@ -168,11 +166,10 @@ export default function AddProductItem({
                 htmlFor="isMainItem"
                 className="block text-gray-800 dark:text-white-100 font-medium"
               >
-                isMainItem
+                isMainItem<span className="text-red-700">*</span>
               </label>
               <CustomSelect
                 options={[
-                  { value: "", label: "Select..." },
                   { value: true, label: "true" },
                   { value: false, label: "false" },
                 ]}
@@ -197,7 +194,7 @@ export default function AddProductItem({
                 htmlFor="colorId"
                 className="block text-gray-800 dark:text-white-100 font-medium"
               >
-                Color
+                Color<span className="text-red-700">*</span>
               </label>
               <CustomSelect
                 options={colors?.data.map((color) => ({
@@ -251,7 +248,7 @@ export default function AddProductItem({
               {createItemInfo.length < 1 ? null : (
                 <>
                   <button
-                    className="bg-blue-600 text-white-100 px-3 py-1 rounded-lg mb-2 text-sm"
+                    className="bg-blue-600 text-white-100 px-3 py-1 rounded-md mb-2 text-sm"
                     onClick={() => {
                       setShowProductItem(false);
                       setShowProductFeature(true);

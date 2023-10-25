@@ -59,7 +59,7 @@ export default function CategoryTable({
             {paginations?.length ? (
               paginations.map((category, index) => (
                 <tr
-                  className="2xl:text-lg md:text-sm sm:text-xs text-[10px] text-center grid sm:grid-cols-5 grid-cols-4"
+                  className="2xl:text-base md:text-sm sm:text-xs text-[10px] text-center grid sm:grid-cols-5 grid-cols-4"
                   key={category.id}
                 >
                   <td className="2xl:py-4 py-3 sm:inline hidden">
