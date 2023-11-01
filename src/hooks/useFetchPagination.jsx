@@ -15,31 +15,32 @@ export const useFetchPagination = (url, customAxios) => {
   const maxPrice = searchParams.get("maxPrice");
   const page = searchParams.get("page");
   const limit = searchParams.get("limit");
-  
+
   const fetchData = useCallback(async () => {
-    setLoading(true)
+    setLoading(true);
     let URL = `${url}?page=${page}&limit=${limit}`;
-    switch (true) {
-      case Boolean(searchTerm):
-        URL += `&searchTerm=${searchTerm}`;
-        break;
-      case Boolean(categoryId):
-        URL += `&categoryId=${categoryId}`;
-        break;
-      case Boolean(brandId):
-        URL += `&brandId=${brandId}`;
-        break;
-      case Boolean(order):
-        URL += `&order=${order}`;
-        break;
-      case Boolean(minPrice):
-        URL += `&minPrice=${minPrice}`;
-        break;
-      case Boolean(maxPrice):
-        URL += `&maxPrice=${maxPrice}`;
-        break;
-      default:
-        break;
+    if (searchTerm) {
+      url += `&searchTerm=${searchTerm}`;
+    }
+
+    if (categoryId) {
+      url += `&categoryId=${categoryId}`;
+    }
+
+    if (brandId) {
+      url += `&brandId=${brandId}`;
+    }
+
+    if (order) {
+      url += `&order=${order}`;
+    }
+
+    if (minPrice) {
+      url += `&minPrice=${minPrice}`;
+    }
+
+    if (maxPrice) {
+      url += `&maxPrice=${maxPrice}`;
     }
 
     try {

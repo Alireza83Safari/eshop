@@ -160,10 +160,10 @@ export default function ProductImage({
                     }
                     className="mb-4 border w-96 h-44 object-contain"
                     draggable="true"
-                    id={`image-${index}`} // اضافه کردن شناسه به عکس
-                    onDragStart={(e) => handleDragStart(e, index)} // تنظیم کردن رویداد DragStart
-                    onDragOver={(e) => handleDragOver(e, index)} // تنظیم کردن رویداد DragOver
-                    onDrop={(e) => handleDrop(e, index)} // تنظیم کردن رویداد Drop
+                    id={`image-${index}`}
+                    onDragStart={(e) => handleDragStart(e, index)}
+                    onDragOver={(e) => handleDragOver(e, index)}
+                    onDrop={(e) => handleDrop(e, index)}
                   />
 
                   <button
