@@ -37,7 +37,7 @@ export default function EditDiscount({
   // fetch edit product infos
   useEffect(() => {
     const getEditDiscountData = async () => {
-      const response = await adminAxios.get(`/discount/${editDiscounts?.id}`);
+      const response = await adminAxios.get(`/discount/${editDiscounts}`);
       let $ = response?.data;
       setHaveProductItemId($.productItemId);
       setHaveProductUser($.relatedUserId);

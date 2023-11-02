@@ -33,7 +33,7 @@ export default function AppPicTable({ appPicData, fetchData, appPicLoading }) {
   );
 
   const { userHaveAccess: userHaveAccessEdit } = useAccess(
-    "action_app_pic_addmin_update"
+    "action_app_pic_admin_update"
   );
 
   const deleteAppPic = async (id) => {

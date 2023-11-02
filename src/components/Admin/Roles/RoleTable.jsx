@@ -34,10 +34,9 @@ export default function RoleTable({
   const editRoleHandler = (ID) => {
     if (userHaveAccessEdit) {
       setEditRoleId(ID);
-      setShowEditRoles(false);
-    }else{
+      setShowEditRoles(true);
+    } else {
       toast.success("edit role is successfully");
-
     }
   };
 

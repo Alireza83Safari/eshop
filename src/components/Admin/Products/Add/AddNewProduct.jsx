@@ -87,7 +87,7 @@ export default function AddNewProduct({
 
           <div>
             <label className="font-medium text-gray-800 dark:text-white-100">
-              Brand<span className="text-red-700">*</span>
+              Brand
             </label>
             <CustomSelect
               options={brands?.data.map((brand) => ({
@@ -111,7 +111,7 @@ export default function AddNewProduct({
 
           <div>
             <label className="font-medium text-gray-800 dark:text-white-100">
-              Category<span className="text-red-700">*</span>
+              Category
             </label>
             <CustomSelect
               options={category?.data.map((category) => ({

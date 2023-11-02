@@ -34,7 +34,7 @@ export default function BrandTable({
   );
 
   const { userHaveAccess: userHaveAccessEdit } = useAccess(
-    "action_bransd_admin_update"
+    "action_brand_admin_update"
   );
 
   const deleteBrand = async (id) => {

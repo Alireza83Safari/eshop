@@ -139,7 +139,7 @@ export default function AddProductItem({
                 htmlFor="status"
                 className="block text-gray-800 dark:text-white-100 font-medium"
               >
-                Product Status<span className="text-red-700">*</span>
+                Product Status
               </label>
               <CustomSelect
                 options={["in Active", "Publish"].map((status) => ({
@@ -166,7 +166,7 @@ export default function AddProductItem({
                 htmlFor="isMainItem"
                 className="block text-gray-800 dark:text-white-100 font-medium"
               >
-                isMainItem<span className="text-red-700">*</span>
+                isMainItem
               </label>
               <CustomSelect
                 options={[
@@ -194,7 +194,7 @@ export default function AddProductItem({
                 htmlFor="colorId"
                 className="block text-gray-800 dark:text-white-100 font-medium"
               >
-                Color<span className="text-red-700">*</span>
+                Color
               </label>
               <CustomSelect
                 options={colors?.data.map((color) => ({
