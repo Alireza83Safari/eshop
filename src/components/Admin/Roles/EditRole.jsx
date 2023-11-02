@@ -76,7 +76,7 @@ export default function EditRole({ setShowEditRoles, editRoleId }) {
 
   return ReactDOM.createPortal(
     <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full h-screen flex items-center justify-center transition duration-400">
-      <div className="bg-white-100 dark:bg-black-200 dark:text-white-100 w-11/12 overflow-auto p-3 h-[45rem] rounded-xl">
+      <div className="bg-white-100 dark:bg-black-200 dark:text-white-100 w-11/12 overflow-auto p-3 max-h-[98%] rounded-xl">
         <form onSubmit={handleSubmitNewRole}>
           <div className="flex justify-between mb-4">
             <div>

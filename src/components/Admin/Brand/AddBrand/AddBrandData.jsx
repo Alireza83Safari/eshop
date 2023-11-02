@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import adminAxios from "../../../../services/Axios/adminInterceptors";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
 import Input from "../../Input";
+import useAccess from "../../../../hooks/useAccess";
+import { toast } from "react-toastify";
 
 export default function AddBrandData({
   setAddBrandId,
@@ -20,26 +22,35 @@ export default function AddBrandData({
       [event.target.name]: event.target.value,
     });
   };
+
+  const { userHaveAccess: userHaveAccessEdit } = useAccess(
+    "action_brand_admin_create"
+  );
+
   const addNewBrandHandler = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const response = await adminAxios.post("/brand", newBrand);
+    if (userHaveAccessEdit) {
+      setLoading(true);
+      try {
+        const response = await adminAxios.post("/brand", newBrand);
 
-      if (response.status == 200) {
-        setShowAddBrandFile(true);
-        setShowAddBrand(false);
-        setAddBrandId(response?.data?.data);
+        if (response.status == 200) {
+          setShowAddBrandFile(true);
+          setShowAddBrand(false);
+          setAddBrandId(response?.data?.data);
+          setLoading(false);
+          setNewBrand({
+            code: "",
+            name: "",
+          });
+          setServerErrors("");
+        }
+      } catch (error) {
+        setServerErrors(error?.response?.data?.errors);
         setLoading(false);
-        setNewBrand({
-          code: "",
-          name: "",
-        });
-        setServerErrors("");
       }
-    } catch (error) {
-      setServerErrors(error?.response?.data?.errors);
-      setLoading(false);
+    } else {
+      toast.error("You Havent Access Delete Brand");
     }
   };
 

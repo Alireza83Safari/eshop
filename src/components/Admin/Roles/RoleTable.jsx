@@ -5,6 +5,8 @@ import adminAxios from "../../../services/Axios/adminInterceptors";
 import { toast } from "react-toastify";
 import useFetch from "../../../hooks/useFetch";
 import Spinner from "../../Spinner/Spinner";
+import useAccess from "../../../hooks/useAccess";
+import AccessError from "../../AccessError";
 
 export default function RoleTable({
   setPermissionInfo,
@@ -20,24 +22,40 @@ export default function RoleTable({
 
   const [isLoading, setLoading] = useState(false);
 
+  const { userHaveAccess: userHaveAccessList } = useAccess(
+    "action_role_admin_list"
+  );
+  const { userHaveAccess: userHaveAccessDelete } = useAccess(
+    "action_role_admin_delete"
+  );
+  const { userHaveAccess: userHaveAccessEdit } = useAccess(
+    "action_role_admin_update"
+  );
+  const editRoleHandler = (ID) => {};
+
   const deleteRoleHandler = (roleId) => {
-    setLoading(true);
-    adminAxios
-      .post(`/role/delete/${roleId}`)
-      .then((res) => {
-        setLoading(false);
-        if (res.status === 200) {
-          toast.success("delete role is successfully");
-          fetchData();
-        }
-      })
-      .catch(() => setLoading(false));
+    if (userHaveAccessDelete) {
+      setLoading(true);
+      adminAxios
+        .post(`/role/delete/${roleId}`)
+        .then((res) => {
+          setLoading(false);
+          if (res.status === 200) {
+            toast.success("delete role is successfully");
+            fetchData();
+          }
+        })
+        .catch(() => setLoading(false));
+    } else {
+      toast.error("You Havent Access Delete Role");
+    }
   };
+
   return (
     <div className="h-[30rem]">
       {isLoading && roleLoading ? (
         <Spinner />
-      ) : (
+      ) : userHaveAccessList ? (
         <table className="min-w-full">
           <thead>
             <tr className="md:text-sm sm:text-xs text-[10px] text-center border-b">
@@ -76,10 +94,7 @@ export default function RoleTable({
                     <FontAwesomeIcon
                       icon={faEdit}
                       className="text-orange-400"
-                      onClick={() => {
-                        setShowEditRoles(true);
-                        setEditRoleId(role.id);
-                      }}
+                      onClick={() => editRoleHandler(role.id)}
                     />
                   </button>
                   <button
@@ -93,6 +108,8 @@ export default function RoleTable({
             ))}
           </tbody>
         </table>
+      ) : (
+        <AccessError error={"Roles List"} />
       )}
     </div>
   );

@@ -54,9 +54,9 @@ export default function Sidebar() {
   };
   return (
     <section className="fixed top-0 left-0 bg-white-100 dark:bg-black-900 h-full xl:w-[10%] lg:w-[12%] sm:w-[6%] w-[9%] font-bold  custom-scrollbar overflow-auto">
-      <div className="">
-        <Link to="dashboard" className="">
-          <div className="w-full invisible lg:visible">
+      <div>
+        <Link to="dashboard">
+          <div className="w-full invisible lg:visible mt-4">
             <img
               src={mode ? "/images/logo-dark.png" : "/images/logo-light.png"}
               alt="logo"
@@ -65,7 +65,7 @@ export default function Sidebar() {
           </div>
         </Link>
 
-        <div className="lg:mt-6">
+        <div className="lg:mt-2">
           {items.map((item, index) => (
             <Link
               className="flex xl:py-5 py-4 items-center lg:justify-normal justify-center text-black-700 relative dark:text-white-100 lg:pl-4"

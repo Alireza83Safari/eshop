@@ -8,7 +8,8 @@ import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
 import userAxios from "../../../services/Axios/userInterceptors";
 import useTableRow from "../../../hooks/useTableRow";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import useAccess from "../../../hooks/useAccess";
 const Infos = lazy(() => import("../Infos/Infos"));
 
 export default function ProductsTable() {
@@ -35,6 +36,13 @@ export default function ProductsTable() {
   const [isLoading, setLoading] = useState(false);
   const [productInfos, setProductInfos] = useState(null);
   const [productFile, setProductFile] = useState(null);
+
+  const { userHaveAccess: userHaveAccessDelete } = useAccess(
+    "action_product_admin_delete"
+  );
+  const { userHaveAccess: userHaveAccessEdit } = useAccess(
+    "action_product_admin_update"
+  );
 
   const getProductInfo = async () => {
     setLoading(true);
@@ -70,6 +78,24 @@ export default function ProductsTable() {
     }
   }, [infosId]);
   const { rowNumber, limit } = useTableRow();
+
+  const deleteHandler = (product) => {
+    if (userHaveAccessDelete) {
+      setProductDeleteId(product?.id);
+      setShowDeleteModal(true);
+    } else {
+      toast.error("You Havent Access Delete Product");
+    }
+  };
+
+  const editHandler = (product) => {
+    if (userHaveAccessEdit) {
+      setEditProductID(product?.id);
+      setShowEditModal(true);
+    } else {
+      toast.error("You Havent Access Edit Product");
+    }
+  };
   return (
     <>
       <table className="min-w-full overflow-x-auto">
@@ -112,12 +138,7 @@ export default function ProductsTable() {
                   {product?.code?.slice(0, 15)}
                 </td>
                 <td className="py-3 px-2 truncate space-x-2">
-                  <button
-                    onClick={() => {
-                      setEditProductID(product?.id);
-                      setShowEditModal(true);
-                    }}
-                  >
+                  <button onClick={() => editHandler(product)}>
                     <FontAwesomeIcon
                       icon={faEdit}
                       className="text-orange-400"
@@ -126,10 +147,7 @@ export default function ProductsTable() {
 
                   <button
                     className="py-1 rounded-md text-red-700 text-white"
-                    onClick={() => {
-                      setProductDeleteId(product?.id);
-                      setShowDeleteModal(true);
-                    }}
+                    onClick={() => deleteHandler(product)}
                   >
                     <FontAwesomeIcon icon={faTrash} />
                   </button>

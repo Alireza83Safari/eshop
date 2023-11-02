@@ -3,6 +3,7 @@ import adminAxios from "../../../services/Axios/adminInterceptors";
 import FormSpinner from "../../FormSpinner/FormSpinner";
 import { ToastContainer, toast } from "react-toastify";
 import Input from "../Input";
+import useAccess from "../../../hooks/useAccess";
 export default function AddCategory({ fetchData }) {
   const [newCategory, setNewCategory] = useState({
     code: "",
@@ -11,24 +12,30 @@ export default function AddCategory({ fetchData }) {
   const [serverErrors, setServerErrors] = useState(null);
   const [isLoading, setLoading] = useState(false);
 
+  const { userHaveAccess } = useAccess("action_category_admin_create");
+
   const addCategoryHandler = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const response = await adminAxios.post("/category", newCategory);
-      if (response.status === 200) {
+    if (userHaveAccess) {
+      e.preventDefault();
+      setLoading(true);
+      try {
+        const response = await adminAxios.post("/category", newCategory);
+        if (response.status === 200) {
+          setLoading(false);
+          toast.success("add category is successfuly");
+          setNewCategory({
+            code: "",
+            name: "",
+          });
+          fetchData();
+          setServerErrors("");
+        }
+      } catch (error) {
+        setServerErrors(error?.response?.data?.errors);
         setLoading(false);
-        toast.success("add category is successfuly");
-        setNewCategory({
-          code: "",
-          name: "",
-        });
-        fetchData();
-        setServerErrors("");
       }
-    } catch (error) {
-      setServerErrors(error?.response?.data?.errors);
-      setLoading(false);
+    } else {
+      toast.error("You Havent Access Create Category");
     }
   };
 
@@ -41,7 +48,7 @@ export default function AddCategory({ fetchData }) {
 
   return (
     <>
-      <div className="bg-white-100 sm:p-5 p-2 rounded-xl dark:bg-black-200 2xl:h-[33rem] dark:text-white-100 row-span-2 min-w-full mt-6 lg:mb-0 mb-5">
+      <div className="bg-white-100 sm:p-4 p-2 rounded-xl dark:bg-black-200 2xl:h-[33rem] dark:text-white-100 row-span-2 min-w-full mt-6 lg:mb-0 mb-5">
         <span className="my-3 font-bold flex justify-center 2xl:text-2xl sm:text-xl text-[16px]">
           Add New Category
         </span>

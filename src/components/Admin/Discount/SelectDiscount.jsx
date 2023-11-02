@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import useAccess from "../../../hooks/useAccess";
+import { toast } from "react-toastify";
 
 export default function SelectDiscount({
   setShowProductDiscount,
@@ -7,16 +9,22 @@ export default function SelectDiscount({
   setShowGlobalDiscount,
 }) {
   const [btnValue, setBtnValue] = useState(null);
+  const { userHaveAccess } = useAccess("action_discodunt_admin_create");
+
   const getButtonValueHandler = () => {
-    if (btnValue === "user") {
-      setShowSelectDiscount(false);
-      setShowUserDiscount(true);
-    } else if (btnValue === "product") {
-      setShowSelectDiscount(false);
-      setShowProductDiscount(true);
-    } else if (btnValue === "Global") {
-      setShowSelectDiscount(false);
-      setShowGlobalDiscount(true);
+    if (userHaveAccess) {
+      if (btnValue === "user") {
+        setShowSelectDiscount(false);
+        setShowUserDiscount(true);
+      } else if (btnValue === "product") {
+        setShowSelectDiscount(false);
+        setShowProductDiscount(true);
+      } else if (btnValue === "Global") {
+        setShowSelectDiscount(false);
+        setShowGlobalDiscount(true);
+      }
+    } else {
+      toast.error("You Havent Access Create Discount");
     }
   };
   return (

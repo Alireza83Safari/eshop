@@ -7,6 +7,8 @@ import { CustomSelect } from "../../SelectList";
 import { useContext } from "react";
 import userPanelContext from "../../../Context/userPanelContext";
 import Input from "../Input";
+import useAccess from "../../../hooks/useAccess";
+import AccessError from "../../AccessError";
 
 export default function EditUser() {
   const { setShowEditUser, showEditUser, editUserID, fetchData } =
@@ -69,173 +71,185 @@ export default function EditUser() {
       [event.target.name]: event.target.value,
     });
   };
+
+  const { userHaveAccess } = useAccess("action_user_admin_update");
+
   return ReactDOM.createPortal(
     <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-full bg-gray-100 h-screen flex items-center justify-center transition duration-400">
       <div className="lg:w-[30rem] bg-white-100 dark:bg-black-200 p-2 rounded-xl overflow-auto min-h-[27rem]">
-        <span className="mb-4 text-xl font-bold flex justify-center dark:text-white-100">
-          Edit User
-        </span>
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <form
-            onSubmit={editUserHandler}
-            className="w-full mx-auto p-4 bg-white rounded-lg text-sm"
-          >
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Input
-                  labelText="firstName"
-                  placeholder="firstNamee"
-                  name="firstName"
-                  value={userInfos?.firstName}
-                  onChange={setUserInfosHandler}
-                  Error={serverErrors?.errors?.firstName}
-                  callback={() => setServerErrors("")}
-                />
-              </div>
-
-              <div>
-                <Input
-                  labelText="lastName"
-                  placeholder="lastName"
-                  name="lastName"
-                  value={userInfos?.lastName}
-                  onChange={setUserInfosHandler}
-                  Error={serverErrors?.errors?.lastName}
-                  callback={() => setServerErrors("")}
-                />
-              </div>
-
-              <div>
-                <Input
-                  labelText="username"
-                  placeholder="username"
-                  name="username"
-                  value={userInfos?.username}
-                  onChange={setUserInfosHandler}
-                  Error={serverErrors?.errors?.username}
-                  callback={() => setServerErrors("")}
-                />
-              </div>
-
-              <div>
-                <Input
-                  type="number"
-                  labelText="mobile"
-                  placeholder="mobile"
-                  name="mobile"
-                  value={userInfos?.mobile}
-                  onChange={setUserInfosHandler}
-                  Error={serverErrors?.errors?.mobile}
-                  callback={() => setServerErrors("")}
-                />
-              </div>
-
-              <div>
-                <Input
-                  labelText="email"
-                  placeholder="email"
-                  name="email"
-                  value={userInfos?.email}
-                  onChange={setUserInfosHandler}
-                  Error={serverErrors?.errors?.email}
-                  callback={() => setServerErrors("")}
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="colorId"
-                  className="block text-gray-800 font-medium"
-                >
-                  role<span className="text-red-700">*</span>
-                </label>
-                <CustomSelect
-                  options={roles?.data.map((role) => ({
-                    value: role.id,
-                    label: role.name,
-                  }))}
-                  onchange={(selectedOption) => {
-                    setUserInfos({
-                      ...userInfos,
-                      roleId: selectedOption?.value || "",
-                    });
-                  }}
-                  defaultValue={{
-                    value: userInfos?.roleId,
-                    label: roleName,
-                  }}
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="isSystem"
-                  className="block text-gray-800 font-medium"
-                >
-                  isSystem<span className="text-red-700">*</span>
-                </label>
-                <CustomSelect
-                  options={["true", "false"].map((isMain) => ({
-                    value: isMain,
-                    label: isMain,
-                  }))}
-                  onchange={(selectedOptions) => {
-                    setUserInfos({
-                      ...userInfos,
-                      isSystem: selectedOptions?.value,
-                    });
-                  }}
-                  defaultValue={{
-                    value: userInfos?.isSystem,
-                    label: String(userInfos?.isSystem),
-                  }}
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="isMainItem"
-                  className="block text-gray-800 font-medium"
-                >
-                  enabled<span className="text-red-700">*</span>
-                </label>
-                <CustomSelect
-                  options={["true", "false"].map((status) => ({
-                    value: status,
-                    label: status,
-                  }))}
-                  onchange={(selectedOptions) => {
-                    setUserInfos({
-                      ...userInfos,
-                      enabled: selectedOptions?.value,
-                    });
-                  }}
-                  defaultValue={{
-                    value: userInfos?.enabled,
-                    label: String(userInfos?.enabled),
-                  }}
-                />
-              </div>
-            </div>
-
-            <div className="flex justify-center mt-8">
-              <button
-                type="submit"
-                className="bg-blue-600 text-white-100 w-1/2 py-2 rounded-xl mr-2"
+        {userHaveAccess ? (
+          <>
+            <span className="mb-4 text-xl font-bold flex justify-center dark:text-white-100">
+              Edit User
+            </span>
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              <form
                 onSubmit={editUserHandler}
+                className="w-full mx-auto p-4 bg-white rounded-lg text-sm"
               >
-                Edit User
-              </button>
-              <button
-                type="submit"
-                className="w-1/2 py-2 rounded-xl border ml-2 dark:text-white-100"
-                onClick={() => setShowEditUser(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Input
+                      labelText="firstName"
+                      placeholder="firstNamee"
+                      name="firstName"
+                      value={userInfos?.firstName}
+                      onChange={setUserInfosHandler}
+                      Error={serverErrors?.errors?.firstName}
+                      callback={() => setServerErrors("")}
+                    />
+                  </div>
+
+                  <div>
+                    <Input
+                      labelText="lastName"
+                      placeholder="lastName"
+                      name="lastName"
+                      value={userInfos?.lastName}
+                      onChange={setUserInfosHandler}
+                      Error={serverErrors?.errors?.lastName}
+                      callback={() => setServerErrors("")}
+                    />
+                  </div>
+
+                  <div>
+                    <Input
+                      labelText="username"
+                      placeholder="username"
+                      name="username"
+                      value={userInfos?.username}
+                      onChange={setUserInfosHandler}
+                      Error={serverErrors?.errors?.username}
+                      callback={() => setServerErrors("")}
+                    />
+                  </div>
+
+                  <div>
+                    <Input
+                      type="number"
+                      labelText="mobile"
+                      placeholder="mobile"
+                      name="mobile"
+                      value={userInfos?.mobile}
+                      onChange={setUserInfosHandler}
+                      Error={serverErrors?.errors?.mobile}
+                      callback={() => setServerErrors("")}
+                    />
+                  </div>
+
+                  <div>
+                    <Input
+                      labelText="email"
+                      placeholder="email"
+                      name="email"
+                      value={userInfos?.email}
+                      onChange={setUserInfosHandler}
+                      Error={serverErrors?.errors?.email}
+                      callback={() => setServerErrors("")}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="colorId"
+                      className="block text-gray-800 font-medium"
+                    >
+                      role<span className="text-red-700">*</span>
+                    </label>
+                    <CustomSelect
+                      options={roles?.data.map((role) => ({
+                        value: role.id,
+                        label: role.name,
+                      }))}
+                      onchange={(selectedOption) => {
+                        setUserInfos({
+                          ...userInfos,
+                          roleId: selectedOption?.value || "",
+                        });
+                      }}
+                      defaultValue={{
+                        value: userInfos?.roleId,
+                        label: roleName,
+                      }}
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="isSystem"
+                      className="block text-gray-800 font-medium"
+                    >
+                      isSystem<span className="text-red-700">*</span>
+                    </label>
+                    <CustomSelect
+                      options={["true", "false"].map((isMain) => ({
+                        value: isMain,
+                        label: isMain,
+                      }))}
+                      onchange={(selectedOptions) => {
+                        setUserInfos({
+                          ...userInfos,
+                          isSystem: selectedOptions?.value,
+                        });
+                      }}
+                      defaultValue={{
+                        value: userInfos?.isSystem,
+                        label: String(userInfos?.isSystem),
+                      }}
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="isMainItem"
+                      className="block text-gray-800 font-medium"
+                    >
+                      enabled<span className="text-red-700">*</span>
+                    </label>
+                    <CustomSelect
+                      options={["true", "false"].map((status) => ({
+                        value: status,
+                        label: status,
+                      }))}
+                      onchange={(selectedOptions) => {
+                        setUserInfos({
+                          ...userInfos,
+                          enabled: selectedOptions?.value,
+                        });
+                      }}
+                      defaultValue={{
+                        value: userInfos?.enabled,
+                        label: String(userInfos?.enabled),
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex justify-center mt-8">
+                  <button
+                    type="submit"
+                    className="bg-blue-600 text-white-100 w-1/2 py-2 rounded-xl mr-2"
+                    onSubmit={editUserHandler}
+                  >
+                    Edit User
+                  </button>
+                  <button
+                    type="submit"
+                    className="w-1/2 py-2 rounded-xl border ml-2 dark:text-white-100"
+                    onClick={() => setShowEditUser(false)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            )}
+          </>
+        ) : (
+          <AccessError
+            error="Edit User"
+            onClose={() => setShowEditUser(false)}
+          />
         )}
       </div>
     </div>,

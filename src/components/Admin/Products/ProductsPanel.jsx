@@ -1,11 +1,12 @@
 import React, { lazy, Suspense, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useSearch } from "../../../hooks/useSearch";
 import Spinner from "../../Spinner/Spinner";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
-
+import AccessError from "../../AccessError";
+import useAccess from "../../../hooks/useAccess";
 const AddProduct = lazy(() => import("./Add/AddProduct"));
 const Departments = lazy(() => import("./Departments"));
 const PiesChart = lazy(() => import("../Charts/PieChart"));
@@ -27,7 +28,17 @@ export default function ProductsPanel() {
       setSearchValue();
     }
   };
-
+  const { userHaveAccess } = useAccess("action_product_admin_list");
+  const { userHaveAccess: userHaveAccessAdd } = useAccess(
+    "action_product_admin_create"
+  );
+  const AddProductHandler = () => {
+    if (userHaveAccessAdd) {
+      setShowAddProductModal(true);
+    } else {
+      toast.error("You Havent Access Add Product");
+    }
+  };
   return (
     <section className="sm:p-6 p-3 float-right mt-12 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] min-h-screen">
       <div className="grid grid-cols-10">
@@ -53,16 +64,20 @@ export default function ProductsPanel() {
 
             <button
               className="sm:text-xs text-[10px] bg-blue-600 text-white-100 md:p-2 p-1 mr-1 rounded-md whitespace-nowrap"
-              onClick={() => setShowAddProductModal(true)}
+              onClick={() => AddProductHandler()}
             >
               Add Product <FontAwesomeIcon icon={faPlus} />
             </button>
           </div>
 
           <div className="lg:h-[46.5rem] sm:h-[44rem] h-[39rem]">
-            <Suspense fallback={<Spinner />}>
-              <ProductsTable />
-            </Suspense>
+            {userHaveAccess ? (
+              <Suspense fallback={<Spinner />}>
+                <ProductsTable />
+              </Suspense>
+            ) : (
+              <AccessError error={"product list"} />
+            )}
           </div>
         </div>
 

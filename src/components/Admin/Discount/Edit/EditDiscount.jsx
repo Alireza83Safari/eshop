@@ -5,7 +5,6 @@ import FormSpinner from "../../../FormSpinner/FormSpinner";
 import { toast } from "react-toastify";
 import ReactDOM from "react-dom";
 import useFetch from "../../../../hooks/useFetch";
-import { useChangeToInputDate } from "../../../../hooks/useChangeToInputDate";
 import { useChangeDate } from "../../../../hooks/useChangeDate";
 import { CustomSelect } from "../../../SelectList";
 import Input from "../../Input";
@@ -31,18 +30,15 @@ export default function EditDiscount({
     value: "",
   });
 
-  const { chanageToInputDate } = useChangeToInputDate(editDiscount?.expiresIn);
   const { formattedDate } = useChangeDate(inputDateValue);
   const [productName, setProductName] = useState(null);
   const [userName, setUserName] = useState(null);
 
   // fetch edit product infos
   useEffect(() => {
-    setLoading(true);
     const getEditDiscountData = async () => {
       const response = await adminAxios.get(`/discount/${editDiscounts?.id}`);
       let $ = response?.data;
-      setLoading(false);
       setHaveProductItemId($.productItemId);
       setHaveProductUser($.relatedUserId);
       setEditDiscount({

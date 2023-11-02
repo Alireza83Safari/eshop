@@ -1,22 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import { faMoon } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Profile from "../../components/Profile/Profile";
 import { useLocation } from "react-router-dom";
-import {AuthContext} from "../../Context/AuthContext";
+import { AuthContext } from "../../Context/AuthContext";
 
 export default function Header({ mode, setMode }) {
   const [onScrollHeader, setOnScrollHeader] = useState(false);
   const { userInfos } = useContext(AuthContext);
 
-  const [showProfile, setShowProfile] = useState(false);
   const location = useLocation();
   useEffect(() => {
     const handleScroll = () => {
       const scrolled = window.scrollY;
       const profileThreshold = 40;
       setOnScrollHeader(scrolled > profileThreshold);
-      setShowProfile(false);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -45,10 +42,7 @@ export default function Header({ mode, setMode }) {
             </div>
           </div>
 
-          <div
-            className="relative flex items-center border-l dark:text-white-100 border-gray-100 px-4 "
-            onClick={() => setShowProfile(!showProfile)}
-          >
+          <div className="relative flex items-center border-l dark:text-white-100 border-gray-100 px-4">
             <p className="text-sm mr-2 sm:flex hidden">{userInfos?.username}</p>
             <div className="w-9 h-9">
               <img
@@ -58,7 +52,6 @@ export default function Header({ mode, setMode }) {
               />
             </div>
           </div>
-          {showProfile && <Profile />}
         </div>
       </div>
     </header>

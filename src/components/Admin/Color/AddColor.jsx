@@ -3,6 +3,7 @@ import adminAxios from "../../../services/Axios/adminInterceptors";
 import FormSpinner from "../../FormSpinner/FormSpinner";
 import { toast } from "react-toastify";
 import Input from "../Input";
+import useAccess from "../../../hooks/useAccess";
 
 export default function AddColor() {
   const [isLoading, setLoading] = useState(false);
@@ -19,26 +20,34 @@ export default function AddColor() {
       [event.target.name]: event.target.value,
     });
   };
+  const { userHaveAccess: userHaveAccessEdit } = useAccess(
+    "action_color_admin_create"
+  );
+
   const addNewColorHandler = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const response = await adminAxios.post("/color", newColor);
+    if (userHaveAccessEdit) {
+      setLoading(true);
+      try {
+        const response = await adminAxios.post("/color", newColor);
 
-      if (response.status == 200) {
+        if (response.status == 200) {
+          setLoading(false);
+          toast.success("color is created");
+          setServerErrors("");
+          setShowColorPicker(false);
+          setNewColor({
+            code: "",
+            name: "",
+            colorHex: "",
+          });
+        }
+      } catch (error) {
+        setServerErrors(error?.response?.data?.errors);
         setLoading(false);
-        toast.success("color is created");
-        setServerErrors("");
-        setShowColorPicker(false);
-        setNewColor({
-          code: "",
-          name: "",
-          colorHex: "",
-        });
       }
-    } catch (error) {
-      setServerErrors(error?.response?.data?.errors);
-      setLoading(false);
+    } else {
+      toast.error("You Havent Access Delete Color");
     }
   };
 
@@ -63,7 +72,6 @@ export default function AddColor() {
               className="text-gray-800 dark:text-white-100 font-medium text-sm mr-5"
             >
               Select your color
-              <span className="text-red-700">*</span>
             </label>
             <input
               type="color"

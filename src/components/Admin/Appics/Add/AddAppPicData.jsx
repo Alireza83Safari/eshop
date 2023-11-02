@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import adminAxios from "../../../../services/Axios/adminInterceptors";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
+import { toast } from "react-toastify";
 import Input from "../../Input";
-
+import useAccess from "../../../../hooks/useAccess";
 export default function AddAppPicData({
   setAddAppPicId,
   setShowAddAppPic,
@@ -25,25 +26,34 @@ export default function AddAppPicData({
       [name]: type === "number" ? +value : value,
     });
   };
+
+  const { userHaveAccess: userHaveAccessAdd } = useAccess(
+    "action_app_pic_admin_create"
+  );
+
   const addNewAppPicHandler = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const response = await adminAxios.post("/appPic", {
-        ...newAppPic,
-        priority: Number(newAppPic?.priority),
-      });
+    if (userHaveAccessAdd) {
+      setLoading(true);
+      try {
+        const response = await adminAxios.post("/appPic", {
+          ...newAppPic,
+          priority: Number(newAppPic?.priority),
+        });
 
-      if (response.status == 200) {
-        setShowAddAppPicFile(true);
-        setShowAddAppPic(false);
-        setAddAppPicId(response?.data?.data);
+        if (response.status == 200) {
+          setShowAddAppPicFile(true);
+          setShowAddAppPic(false);
+          setAddAppPicId(response?.data?.data);
+          setLoading(false);
+          setServerErrors("");
+        }
+      } catch (error) {
+        setServerErrors(error?.response?.data?.errors);
         setLoading(false);
-        setServerErrors("");
       }
-    } catch (error) {
-      setServerErrors(error?.response?.data?.errors);
-      setLoading(false);
+    } else {
+      toast.error("You Havent Access Delete AppPic");
     }
   };
 

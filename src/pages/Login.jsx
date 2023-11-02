@@ -1,16 +1,17 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import userAxios from "../services/Axios/userInterceptors";
 import { loginValidation } from "../validators/loginValidation";
-import {AuthContext} from "../Context/AuthContext";
+import { AuthContext } from "../Context/AuthContext";
 import Sidebar from "./Sidebar/Sidebar";
 import Spinner from "../components/Spinner/Spinner";
+import useAccess from "../hooks/useAccess";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { userLogin } = useContext(AuthContext);
+  const { userLogin, userPermissions } = useContext(AuthContext);
   const [errors, setErrors] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [isDisable, setIsDisable] = useState(false);
@@ -51,12 +52,13 @@ export default function Login() {
         setLoading(false);
       });
   };
+
   return (
     <>
       <Header />
       <Sidebar />
 
-      <section className="grid lg:grid-cols-2 py-16 relative m-auto min-h-screen xl:px-20 px-5 z-10">
+      <section className="grid lg:grid-cols-2 py-16 relative m-auto min-h-screen xl:px-20 px-5">
         <div className="flex lg:justify-end justify-center items-center w-96 m-auto lg:py-0 py-10">
           <div className="w-96">
             <img src="/images/User-Account-Sign-up.png" />
@@ -140,7 +142,7 @@ export default function Login() {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 1440 320"
-          className=" absolute bottom-0 -z-10"
+          className=" absolute bottom-0 -z-20"
         >
           <path
             fill="#a2d9ff"

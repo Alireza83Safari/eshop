@@ -57,7 +57,7 @@ export default function Users() {
         editUserID,
       }}
     >
-      <section className="float-right mt-12 pt-7 px-4 bg-white-200 dark:text-white-100 min-h-screen dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%]">
+      <section className="float-right mt-14 pt-7 px-4 bg-white-200 dark:text-white-100 min-h-screen dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%]">
         <div className="mt-2 text-center">
           <div className="flex justify-between bg-white-100 dark:bg-black-200 rounded-t-xl py-2">
             <div className="flex rounded-md relative md:w-auto md:ml-3">
