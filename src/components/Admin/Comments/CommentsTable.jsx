@@ -6,7 +6,7 @@ import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
 import useAccess from "../../../hooks/useAccess";
 import AccessError from "../../AccessError";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export default function CommentsTable() {
   const [currentPage, setCurrentPage] = useState(1);

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import adminAxios from "../../../../services/Axios/adminInterceptors";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
-import { toast } from "react-toastify";
 import Input from "../../Input";
 import useAccess from "../../../../hooks/useAccess";
+import toast from "react-hot-toast";
 export default function AddAppPicData({
   setAddAppPicId,
   setShowAddAppPic,

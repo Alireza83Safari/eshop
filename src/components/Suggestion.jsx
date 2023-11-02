@@ -1,7 +1,6 @@
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
-import { ToastContainer } from "react-toastify";
 import userAxios from "../services/Axios/userInterceptors";
 import useFetch from "../hooks/useFetch";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -9,6 +8,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import useAddToCart from "../hooks/useAddCart";
+import { Toaster } from "react-hot-toast";
 
 export default function Suggestion() {
   const [count, setCount] = useState(1);
@@ -225,7 +225,7 @@ export default function Suggestion() {
           />
         </button>
       </div>
-      <ToastContainer />
+      <Toaster />
     </section>
   );
 }

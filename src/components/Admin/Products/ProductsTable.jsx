@@ -8,8 +8,8 @@ import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
 import userAxios from "../../../services/Axios/userInterceptors";
 import useTableRow from "../../../hooks/useTableRow";
-import { ToastContainer, toast } from "react-toastify";
 import useAccess from "../../../hooks/useAccess";
+import toast, { Toaster } from "react-hot-toast";
 const Infos = lazy(() => import("../Infos/Infos"));
 
 export default function ProductsTable() {
@@ -197,7 +197,7 @@ export default function ProductsTable() {
         setCurrentPage={setCurrentPage}
         currentPage={currentPage}
       />
-      <ToastContainer />
+      <Toaster />
     </>
   );
 }

@@ -7,7 +7,7 @@ import { DiscountContext } from "../../../../Context/discountContext";
 import { CustomSelect } from "../../../SelectList";
 import useFetch from "../../../../hooks/useFetch";
 import Input from "../../Input";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 export default function AddUserDiscount({
   setShowUserDiscount,
   setShowSelectDiscount,

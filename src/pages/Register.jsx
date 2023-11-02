@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import axios from "axios";
 import { registerValidation } from "../validators/registerValidation";
 import Header from "./Header";
 import Footer from "../pages/Footer";
 import Sidebar from "./Sidebar/Sidebar";
 import Spinner from "../components/Spinner/Spinner";
+import toast from "react-hot-toast";
 
 export default function Register() {
   const navigate = useNavigate();

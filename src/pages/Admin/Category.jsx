@@ -1,11 +1,11 @@
 import React, { useState, lazy, Suspense } from "react";
-import { ToastContainer } from "react-toastify";
 import adminAxios from "../../services/Axios/adminInterceptors";
 import { useFetchPagination } from "../../hooks/useFetchPagination";
 import { useSearch } from "../../hooks/useSearch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "../../components/Spinner/Spinner";
+import { Toaster } from "react-hot-toast";
 
 const CategoryTable = lazy(() =>
   import("../../components/Admin/Category/CategoryTable")
@@ -72,7 +72,7 @@ export default function Category() {
           </Suspense>
         </div>
       </div>
-      <ToastContainer />
+      <Toaster />
     </section>
   );
 }

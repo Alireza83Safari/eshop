@@ -1,12 +1,12 @@
 import React, { lazy, Suspense, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { toast, ToastContainer } from "react-toastify";
 import { useSearch } from "../../../hooks/useSearch";
 import Spinner from "../../Spinner/Spinner";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import AccessError from "../../AccessError";
 import useAccess from "../../../hooks/useAccess";
+import toast, { Toaster } from "react-hot-toast";
 const AddProduct = lazy(() => import("./Add/AddProduct"));
 const Departments = lazy(() => import("./Departments"));
 const PiesChart = lazy(() => import("../Charts/PieChart"));
@@ -109,7 +109,7 @@ export default function ProductsPanel() {
         {showEditModal && <EditProduct />}
       </Suspense>
 
-      <ToastContainer />
+      <Toaster />
     </section>
   );
 }

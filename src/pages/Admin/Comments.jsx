@@ -3,7 +3,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import { useSearch } from "../../hooks/useSearch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { ToastContainer } from "react-toastify";
+import { Toaster } from "react-hot-toast";
 const CommentsInfos = lazy(() =>
   import("../../components/Admin/Comments/CommentsInfos")
 );
@@ -56,7 +56,7 @@ export default function Comments() {
           </Suspense>
         </div>
       </div>
-      <ToastContainer />
+      <Toaster />
     </section>
   );
 }

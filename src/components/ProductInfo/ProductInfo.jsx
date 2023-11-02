@@ -1,6 +1,5 @@
 import React, { useState, startTransition, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import Header from "../../pages/Header";
 import Footer from "../../pages/Footer";
 import useFetch from "../../hooks/useFetch";
@@ -12,6 +11,7 @@ import Description from "./Description";
 import Comments from "./Comments";
 import Specifications from "./Specifications";
 import Sidebar from "../../pages/Sidebar/Sidebar";
+import { Toaster } from "react-hot-toast";
 
 export default function ProductsInfoPanel() {
   const { productID } = useParams();
@@ -102,7 +102,7 @@ export default function ProductsInfoPanel() {
             <Specifications productItem={productItem} />
           )}
         </div>
-        <ToastContainer />
+        <Toaster />
       </section>
 
       <Footer />

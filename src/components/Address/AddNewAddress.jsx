@@ -3,8 +3,8 @@ import ReactDOM from "react-dom";
 import userAxios from "../../services/Axios/userInterceptors";
 import { addressValidation } from "../../validators/addressValidation";
 import FormSpinner from "../FormSpinner/FormSpinner";
-import { toast } from "react-toastify";
 import AddressContext from "../../Context/AddressContext";
+import toast from "react-hot-toast";
 
 export default function AddNewAddress() {
   const { showAddAddress, setShowAddAddress, fetchAddress } =

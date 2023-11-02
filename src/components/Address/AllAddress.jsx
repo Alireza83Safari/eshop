@@ -13,8 +13,8 @@ import {
   faMultiply,
 } from "@fortawesome/free-solid-svg-icons";
 import userAxios from "../../services/Axios/userInterceptors";
-import { toast } from "react-toastify";
 import AddressContext from "../../Context/AddressContext";
+import toast from "react-hot-toast";
 
 export default function AllAddress() {
   const {

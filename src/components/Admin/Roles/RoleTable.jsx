@@ -2,16 +2,16 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import adminAxios from "../../../services/Axios/adminInterceptors";
-import { toast } from "react-toastify";
 import useFetch from "../../../hooks/useFetch";
 import Spinner from "../../Spinner/Spinner";
 import useAccess from "../../../hooks/useAccess";
 import AccessError from "../../AccessError";
+import toast from "react-hot-toast";
 
 export default function RoleTable({
   setPermissionInfo,
-  setEditRoleId,
   setShowPermissionInfo,
+  setEditRoleId,
   setShowEditRoles,
 }) {
   const {
@@ -31,7 +31,15 @@ export default function RoleTable({
   const { userHaveAccess: userHaveAccessEdit } = useAccess(
     "action_role_admin_update"
   );
-  const editRoleHandler = (ID) => {};
+  const editRoleHandler = (ID) => {
+    if (userHaveAccessEdit) {
+      setEditRoleId(ID);
+      setShowEditRoles(false);
+    }else{
+      toast.success("edit role is successfully");
+
+    }
+  };
 
   const deleteRoleHandler = (roleId) => {
     if (userHaveAccessDelete) {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { ToastContainer } from "react-toastify";
 import AddAppPicData from "./AddAppPicData";
 import AddAppPicFile from "./AddAppicFile";
+import { Toaster } from "react-hot-toast";
 
 export default function AddAppPic({ fetchData }) {
   const [addAppPicId, setAddAppPicId] = useState(null);
@@ -29,7 +29,7 @@ export default function AddAppPic({ fetchData }) {
         )}
       </div>
 
-      <ToastContainer />
+      <Toaster />
     </>
   );
 }

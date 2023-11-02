@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import userAxios from "../../services/Axios/userInterceptors";
-import { ToastContainer, toast } from "react-toastify";
 import useAddToCart from "../../hooks/useAddCart";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function ProductContent({ findProduct, productItem }) {
   const { addToCart, isLoading } = useAddToCart();
@@ -124,7 +124,7 @@ export default function ProductContent({ findProduct, productItem }) {
           Add to cart
         </button>
       </div>
-      <ToastContainer />
+      <Toaster />
     </>
   );
 }

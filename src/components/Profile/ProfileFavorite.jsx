@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { ToastContainer } from "react-toastify";
 import userAxios from "../../services/Axios/userInterceptors";
 import useAddToCart from "../../hooks/useAddCart";
 import Spinner from "../Spinner/Spinner";
@@ -10,6 +9,7 @@ import useRemove from "../../hooks/useRemove";
 import Pagination from "../getPagination";
 import { usePaginationURL } from "../../hooks/usePaginationURL";
 import { useFetchPagination } from "../../hooks/useFetchPagination";
+import { Toaster } from "react-hot-toast";
 
 export default function ProfileFavorite() {
   const location = useLocation();
@@ -128,7 +128,7 @@ export default function ProfileFavorite() {
         pageSize={pageSize}
       />
 
-      <ToastContainer />
+      <Toaster />
     </>
   );
 }

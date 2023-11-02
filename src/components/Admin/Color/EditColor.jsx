@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import FormSpinner from "../../FormSpinner/FormSpinner";
 import useFetch from "../../../hooks/useFetch";
-import { toast } from "react-toastify";
 import ReactDOM from "react-dom";
 import Input from "../Input";
+import toast from "react-hot-toast";
 export default function EditColor({
   colorEditId,
   fetchData,

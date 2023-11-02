@@ -2,13 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { ToastContainer } from "react-toastify";
 import useFetch from "../hooks/useFetch";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import userAxios from "../services/Axios/userInterceptors";
 import useAddToCart from "../hooks/useAddCart";
+import { Toaster } from "react-hot-toast";
 
 export default function ProductSlider() {
   const { datas: productsData } = useFetch("/product", userAxios);
@@ -91,7 +91,7 @@ export default function ProductSlider() {
             </Swiper>
           </div>
 
-          <ToastContainer />
+          <Toaster />
         </section>
       )}
     </>

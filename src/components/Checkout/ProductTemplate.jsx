@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ToastContainer, toast } from "react-toastify";
 import userAxios from "../../services/Axios/userInterceptors";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function ProductTemplate({
   order,
@@ -89,7 +89,7 @@ export default function ProductTemplate({
           }}
         />
       </div>
-      <ToastContainer />
+      <Toaster />
     </div>
   );
 }

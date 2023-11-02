@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import userAxios from "../../../../services/Axios/userInterceptors";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export default function AddBrandFile({
   addBrandId,

@@ -11,8 +11,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import { toast } from "react-toastify";
 import Spinner from "../../Spinner/Spinner";
+import toast from "react-hot-toast";
 
 export default function ProductInfo({
   isLoading: dataLoading,

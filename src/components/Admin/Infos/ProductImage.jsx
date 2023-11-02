@@ -3,7 +3,7 @@ import userAxios from "../../../services/Axios/userInterceptors";
 import FormSpinner from "../../FormSpinner/FormSpinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export default function ProductImage({
   infosId,

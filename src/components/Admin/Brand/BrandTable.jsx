@@ -3,12 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "../../getPagination";
 import adminAxios from "../../../services/Axios/adminInterceptors";
-import { ToastContainer, toast } from "react-toastify";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
 import useTableRow from "../../../hooks/useTableRow";
 import useAccess from "../../../hooks/useAccess";
 import AccessError from "../../AccessError";
+import toast, { Toaster } from "react-hot-toast";
 const EditBrand = lazy(() => import("./EditBrand/EditBrand"));
 
 export default function BrandTable({
@@ -156,7 +156,7 @@ export default function BrandTable({
         )}
       </Suspense>
 
-      <ToastContainer />
+      <Toaster />
     </>
   );
 }

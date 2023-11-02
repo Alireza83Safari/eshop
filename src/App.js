@@ -1,7 +1,6 @@
 import { useLocation, useRoutes } from "react-router-dom";
 import route from "./routes/routes";
 import "./App.css";
-import "react-toastify/dist/ReactToastify.css";
 import { ThemeContextProvider } from "./Context/ThemeContext";
 import { AuthContextProvider } from "./Context/AuthContext";
 import { useEffect } from "react";

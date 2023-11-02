@@ -1,8 +1,8 @@
 import React, { Suspense, lazy } from "react";
-import { ToastContainer } from "react-toastify";
 import userAxios from "../../services/Axios/userInterceptors";
 import useFetch from "../../hooks/useFetch";
 import Spinner from "../../components/Spinner/Spinner";
+import { Toaster } from "react-hot-toast";
 
 const AppPicTable = lazy(() =>
   import("../../components/Admin/Appics/AppPicTable")
@@ -45,7 +45,7 @@ export default function AppPic() {
           </Suspense>
         </div>
       </div>
-      <ToastContainer />
+      <Toaster />
     </section>
   );
 }

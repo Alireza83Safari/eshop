@@ -7,12 +7,12 @@ import Input from "../Input";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import { CustomSelect } from "../../SelectList";
 import useFetch from "../../../hooks/useFetch";
-import { toast } from "react-toastify";
 import FormSpinner from "../../FormSpinner/FormSpinner";
 import { itemValidation } from "../../../validators/itemValidation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "../../Spinner/Spinner";
+import toast from "react-hot-toast";
 
 export default function ShowProductItem({
   infosId,

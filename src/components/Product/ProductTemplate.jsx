@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import userAxios from "../../services/Axios/userInterceptors";
+import toast from "react-hot-toast";
 
 export default function ProductTemplate({ mapData }) {
   const BasketHandler = async (data) => {

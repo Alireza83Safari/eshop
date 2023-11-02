@@ -4,8 +4,8 @@ import useFetch from "../../../hooks/useFetch";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { toast } from "react-toastify";
 import Input from "../Input";
+import toast from "react-hot-toast";
 
 export default function AddRoles({ setShowAddRoles }) {
   const [selectedPermissions, setSelectedPermissions] = useState([]);

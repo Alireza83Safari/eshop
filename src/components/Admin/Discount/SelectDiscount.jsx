@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import useAccess from "../../../hooks/useAccess";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export default function SelectDiscount({
   setShowProductDiscount,

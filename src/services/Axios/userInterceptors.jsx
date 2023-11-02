@@ -1,5 +1,5 @@
 import axios from "axios";
-import { toast } from "react-toastify"; // Import toast from react-toastify
+import toast from "react-hot-toast";
 
 const userAxios = axios.create({
   baseURL: "/api/v1/user/",

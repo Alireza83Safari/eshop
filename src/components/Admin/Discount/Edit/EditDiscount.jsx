@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import adminAxios from "../../../../services/Axios/adminInterceptors";
 import userAxios from "../../../../services/Axios/userInterceptors";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
-import { toast } from "react-toastify";
 import ReactDOM from "react-dom";
 import useFetch from "../../../../hooks/useFetch";
 import { useChangeDate } from "../../../../hooks/useChangeDate";
 import { CustomSelect } from "../../../SelectList";
 import Input from "../../Input";
+import toast from "react-hot-toast";
 
 export default function EditDiscount({
   setShowEditDiscount,

@@ -3,12 +3,12 @@ import userAxios from "../services/Axios/userInterceptors";
 import Spinner from "../components/Spinner/Spinner";
 import Header from "./Header";
 import Footer from "./Footer";
-import { ToastContainer, toast } from "react-toastify";
 import Sidebar from "./Sidebar/Sidebar";
 import FilterProducts from "../components/Product/FilterProducts";
 import Pagination from "../components/getPagination";
 import { usePaginationURL } from "../hooks/usePaginationURL";
 import { useFetchPagination } from "../hooks/useFetchPagination";
+import toast, { Toaster } from "react-hot-toast";
 const ProductTemplate = lazy(() =>
   import("../components/Product/ProductTemplate")
 );
@@ -90,7 +90,7 @@ export default function BrandResult() {
           pageSize={pageSize}
         />
 
-        <ToastContainer />
+        <Toaster />
       </section>
       <Footer />
     </>

@@ -1,9 +1,9 @@
 import React, { lazy, Suspense } from "react";
-import { ToastContainer } from "react-toastify";
 import Spinner from "../components/Spinner/Spinner";
 import Header from "./Header";
 import Footer from "./Footer";
 import Sidebar from "./Sidebar/Sidebar";
+import { Toaster } from "react-hot-toast";
 const Product = lazy(() => import("../components/Product/Product"));
 
 export default function ProductPage() {
@@ -15,7 +15,7 @@ export default function ProductPage() {
         <Suspense fallback={<Spinner />}>
           <Product />
         </Suspense>
-        <ToastContainer />
+        <Toaster />
       </section>
       <Footer />
     </>

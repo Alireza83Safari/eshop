@@ -3,7 +3,7 @@ import adminAxios from "../../../../services/Axios/adminInterceptors";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
 import Input from "../../Input";
 import useAccess from "../../../../hooks/useAccess";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export default function AddBrandData({
   setAddBrandId,

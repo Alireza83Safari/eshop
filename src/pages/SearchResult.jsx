@@ -3,13 +3,13 @@ import userAxios from "../services/Axios/userInterceptors";
 import Spinner from "../components/Spinner/Spinner";
 import Header from "./Header";
 import Footer from "./Footer";
-import { ToastContainer } from "react-toastify";
 import Sidebar from "./Sidebar/Sidebar";
 import FilterProducts from "../components/Product/FilterProducts";
 import useAddToCart from "../hooks/useAddCart";
 import Pagination from "../components/getPagination";
 import { useFetchPagination } from "../hooks/useFetchPagination";
 import { usePaginationURL } from "../hooks/usePaginationURL";
+import { Toaster } from "react-hot-toast";
 const ProductTemplate = lazy(() =>
   import("../components/Product/ProductTemplate")
 );
@@ -80,7 +80,7 @@ export default function SearchResults() {
           currentPage={currentPage}
           pageSize={pageSize}
         />
-        <ToastContainer />
+        <Toaster />
       </section>
 
       <Footer />

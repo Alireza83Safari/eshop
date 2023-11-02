@@ -6,9 +6,9 @@ import adminAxios from "../../../services/Axios/adminInterceptors";
 import Spinner from "../../Spinner/Spinner";
 import useTableRow from "../../../hooks/useTableRow";
 import userPanelContext from "../../../Context/userPanelContext";
-import { toast } from "react-toastify";
 import AccessError from "../../AccessError";
 import useAccess from "../../../hooks/useAccess";
+import toast from "react-hot-toast";
 
 export default function UsersTable() {
   const {

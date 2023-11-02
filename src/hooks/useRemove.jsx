@@ -1,6 +1,6 @@
 import { useState } from "react";
 import userAxios from "../services/Axios/userInterceptors";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 const useRemove = () => {
   const [isLoading, setIsLoading] = useState(false);

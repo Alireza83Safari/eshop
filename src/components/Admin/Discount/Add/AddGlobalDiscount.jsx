@@ -2,11 +2,11 @@ import React, { useContext, useState } from "react";
 import { discountValidation } from "../../../../validators/discountValidation";
 import adminAxios from "../../../../services/Axios/adminInterceptors";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
-import { toast } from "react-toastify";
 import { useChangeDate } from "../../../../hooks/useChangeDate";
 import { DiscountContext } from "../../../../Context/discountContext";
 import { CustomSelect } from "../../../SelectList";
 import Input from "../../Input";
+import toast from "react-hot-toast";
 
 export default function AddGlobalDiscount({
   setShowGlobalDiscount,

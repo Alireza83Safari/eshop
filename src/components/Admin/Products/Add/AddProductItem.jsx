@@ -9,7 +9,7 @@ import Input from "../../Input";
 import Spinner from "../../../Spinner/Spinner";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export default function AddProductItem({
   setShowProductFeature,

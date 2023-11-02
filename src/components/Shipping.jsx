@@ -5,7 +5,7 @@ import { faAngleRight, faLocationPin } from "@fortawesome/free-solid-svg-icons";
 import AddressContext from "../Context/AddressContext";
 import userAxios from "../services/Axios/userInterceptors";
 import useFetch from "../hooks/useFetch";
-import { ToastContainer } from "react-toastify";
+import { Toaster } from "react-hot-toast";
 
 export default function Shipping() {
   const navigate = useNavigate();
@@ -170,7 +170,7 @@ export default function Shipping() {
           </div>
         </div>
       </div>
-      <ToastContainer />
+      <Toaster />
     </>
   );
 }

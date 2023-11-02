@@ -1,6 +1,5 @@
 import React, { useState, lazy, Suspense } from "react";
 import Spinner from "../../components/Spinner/Spinner";
-import { ToastContainer } from "react-toastify";
 import { usePaginationURL } from "../../hooks/usePaginationURL";
 import adminAxios from "../../services/Axios/adminInterceptors";
 import { useFetchPagination } from "../../hooks/useFetchPagination";
@@ -8,6 +7,7 @@ import UserPanelContext from "../../Context/userPanelContext";
 import { useSearch } from "../../hooks/useSearch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { Toaster } from "react-hot-toast";
 const UsersTable = lazy(() =>
   import("../../components/Admin/Users/UsersTable")
 );
@@ -96,7 +96,7 @@ export default function Users() {
           {showEditUser && <EditUser />}
         </Suspense>
         <Suspense fallback={<Spinner />}>{showAddUser && <AddUser />}</Suspense>
-        <ToastContainer />
+        <Toaster />
       </section>
     </UserPanelContext.Provider>
   );

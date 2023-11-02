@@ -2,7 +2,6 @@ import React, { useContext, useState, lazy, Suspense } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import adminAxios from "../../../services/Axios/adminInterceptors";
-import { toast } from "react-toastify";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import useTableRow from "../../../hooks/useTableRow";
 import Pagination from "../../getPagination";
@@ -10,6 +9,7 @@ import Spinner from "../../Spinner/Spinner";
 import { DiscountContext } from "../../../Context/discountContext";
 import useAccess from "../../../hooks/useAccess";
 import AccessError from "../../AccessError";
+import toast from "react-hot-toast";
 const EditDiscount = lazy(() => import("./Edit/EditDiscount"));
 
 export default function DiscountTable() {
