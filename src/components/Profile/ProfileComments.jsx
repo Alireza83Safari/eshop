@@ -31,10 +31,10 @@ export default function ProfileComments() {
           </p>
         </div>
       ) : (
-        paginations?.map((comment, index) => (
+        paginations?.map((comment) => (
           <div
             className="border-b py-10 px-8 dark:text-white-100 relative"
-            key={index}
+            key={comment?.id}
           >
             <div className="lg::flex grid grid-cols-2 justify-between">
               <div className="flex items-center mb-5 md:text-sm text-xs">

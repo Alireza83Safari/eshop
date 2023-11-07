@@ -49,12 +49,12 @@ const TopSale = () => {
     }
   }, [showInfo]);
   return (
-    <div className="md:mr-7 mr-3 md:mt-3 mt-2">
-      <div className="bg-white-100 dark:bg-black-200 dark:text-white-100 py-7 px-5 ml-3 rounded-xl">
+    <div className="md:mr-7 mr-3 lg:mt-3 mx-3 md:mx-0 mt-2">
+      <div className="bg-white-100 dark:bg-black-200 dark:text-white-100 py-7 px-5 lg:ml-3 md:ml-2 ml-0 rounded-xl">
         <span className="flex justify-center font-bold whitespace-nowrap dark:text-white-100 lg:text-base text-xs text-center">
           Most Sale Product Weekly
         </span>
-        <div className="pt-4 h-56 relative">
+        <div className="pt-4 lg:h-56 md:h-64 h-56 relative">
           {productLoading ? (
             <Spinner />
           ) : (

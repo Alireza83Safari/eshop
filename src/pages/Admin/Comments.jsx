@@ -20,7 +20,7 @@ export default function Comments() {
     }
   };
   return (
-    <section className="float-right mt-16 pt-4 md:px-4 px-2 md:pb-16 bg-white-200 dark:text-white-100 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] min-h-screen">
+    <section className="float-right sm:mt-16 mt-14 pt-4 md:px-4 px-2 md:pb-16 bg-white-200 dark:text-white-100 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] min-h-screen">
       <div className="md:grid grid-cols-12">
         <div className="lg:col-span-9 col-span-12 mt-2 bg-white-100 rounded-xl dark:bg-black-200">
           <div className="grid grid-cols-2 my-2">

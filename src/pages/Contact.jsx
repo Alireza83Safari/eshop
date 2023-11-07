@@ -71,16 +71,16 @@ export default function Contact() {
         className="py-16 mt-24
        relative m-auto min-h-screen xl:px-20 px-5 text-center"
       >
-        <h1 className="text-4xl text-center font-semibold">
+        <h1 className="text-4xl text-center font-semibold dark:text-white-100">
           Get in touch with our creator-frendly support team
         </h1>
-        <p className="text-sm text-center my-16">
+        <p className="text-sm text-center my-16 dark:text-white-100">
           Out business are 9AM-6Pm ET Monday-Friday and 9AM-5PM ET on weekends
         </p>
         <div className="grid md:grid-cols-3 grid-cols-1">
           {supportData.map((item) => (
             <div
-              className="bg-white-200 py-5 md:mx-5 mx-2 px-3 rounded-lg md:my-0 my-4"
+              className="bg-white-200 dark:bg-black-900 dark:text-white-100 py-5 md:mx-5 mx-2 px-3 rounded-lg md:my-0 my-4"
               key={item.id}
             >
               <h5 className="text-center text-lg font-semibold">
@@ -97,9 +97,9 @@ export default function Contact() {
             </div>
           ))}
         </div>
-        <p className="text-sm mt-10">our support team</p>
-        <h2 className="text-3xl font-semibold my-4">Talk to real people</h2>
-        <p className="">
+        <p className="text-sm mt-10 dark:text-white-100">our support team</p>
+        <h2 className="text-3xl font-semibold my-4 dark:text-white-100">Talk to real people</h2>
+        <p className="dark:text-white-100">
           Amazing customer support is the #1 reason our creators cite for
           choosing Podia. Our team knows that the enterpreneurial journey comes
           with challenges , and we are here to help you every step of the way.
@@ -117,7 +117,7 @@ export default function Contact() {
               <p className="text-gray-800 mt-5 sm:text-base text-sm">
                 {item.city}
               </p>
-              <p className="my-1 sm:text-base text-sm">{item.name}</p>
+              <p className="my-1 sm:text-base text-sm dark:text-white-100">{item.name}</p>
               <p className="text-gray-800 sm:text-base text-sm">{item.name}</p>
             </div>
           ))}

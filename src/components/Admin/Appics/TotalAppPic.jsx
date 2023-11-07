@@ -4,7 +4,7 @@ import Spinner from "../../Spinner/Spinner";
 export default function TotalAppPict({ total, appPicLoading }) {
   return (
     <div className="bg-white-100 dark:bg-black-200 py-4 rounded-xl text-center h-[10rem] 2xl:h-[14rem] lg:my-0 sm:my-5 mb-5">
-      <span className="font-bold sm:text-xl text-[16px] text-sm whitespace-nowrap dark:text-white-100 2xl:text-3xl">
+      <span className="font-bold sm:text-xl text-2xl whitespace-nowrap dark:text-white-100 2xl:text-3xl">
         Total AppPic
       </span>
       {appPicLoading ? (

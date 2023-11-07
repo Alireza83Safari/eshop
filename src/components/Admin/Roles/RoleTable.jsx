@@ -87,7 +87,7 @@ export default function RoleTable({
                 <td className="2xl:py-3 py-2">{role?.code}</td>
                 <td className="2xl:py-3 py-2">
                   <button
-                    className="border rounded-lg px-2 py-1 text-xs"
+                    className="border rounded-lg sm:px-2 px-1 py-1 text-xs"
                     onClick={() => {
                       setShowPermissionInfo(true);
                       setPermissionInfo(role?.permissions);

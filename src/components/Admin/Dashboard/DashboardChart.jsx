@@ -31,7 +31,7 @@ export default function DashboardChart() {
   };
 
   return (
-    <section className="md:ml-7 ml-3 mt-3 md:mr-4 mr-3 md:mb-0">
+    <section className="md:ml-7 ml-3 mt-2 lg:mt-3 md:mr-4 mr-3 md:mb-0">
       <div className="bg-white-100 pb-10 dark:bg-black-200 py-5 rounded-xl">
         <div className="flex justify-between px-6">
           <p className="text-xs font-bold dark:text-white-100 2xl:text-lg">

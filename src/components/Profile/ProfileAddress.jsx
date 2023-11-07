@@ -52,8 +52,8 @@ export default function ProfileAddress() {
       {isLoading ? (
         <Spinner />
       ) : userAddress?.length ? (
-        userAddress?.map((address, index) => (
-          <div className="border-b p-5" key={index}>
+        userAddress?.map((address) => (
+          <div className="border-b p-5" key={address?.id}>
             <div className="flex items-center justify-between mb-3 px-3">
               <div className="flex items-center">
                 <FontAwesomeIcon icon={faLocation} className="mr-2" />

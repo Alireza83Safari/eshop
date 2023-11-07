@@ -32,8 +32,8 @@ export default function ProfileOrders() {
           </p>
         </div>
       ) : (
-        paginatedProducts?.map((data, index) => (
-          <div className="px-8 border-b py-8" key={index}>
+        paginatedProducts?.map((data) => (
+          <div className="px-8 border-b py-8" key={data?.id}>
             <div className="md:flex md:justify-between grid grid-cols-2">
               <div className="flex md:mb-0 mb-4 items-center">
                 <p className="mr-2 text-sm text-gray-800">status:</p>

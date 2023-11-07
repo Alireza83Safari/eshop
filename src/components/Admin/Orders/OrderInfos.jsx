@@ -9,7 +9,7 @@ const OrderInfos = () => {
   const netProfit = income - totalTax;
 
   const DataSection = ({ label, value, color }) => (
-    <div className="bg-white-100 dark:bg-black-200 2xl:py-6 sm:py-4 py-3 rounded-xl mt-6 text-center col-span-1 md:mx-5 mx- relative2">
+    <div className="bg-white-100 dark:bg-black-200 2xl:py-6 sm:py-4 py-3 rounded-xl mt-6 text-center col-span-1 md:mx-5 mx-2 relative">
       {isLoading ? (
         <div className="h-28 relative">
           <Spinner />

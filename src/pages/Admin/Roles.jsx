@@ -27,7 +27,7 @@ export default function RolesPanel() {
     }
   };
   return (
-    <section className="float-right mt-16 pt-6 md:px-6 px-2 h-screen pb-8 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%]">
+    <section className="float-right sm:mt-16 mt-14 pt-6 md:px-6 px-2 h-screen pb-8 bg-white-200 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%]">
       <div className="bg-white-100 dark:bg-black-600 p-2 rounded-xl text-black-900 dark:text-white-100">
         <button
           className="bg-blue-600 text-white-100 text-sm rounded-lg py-2 px-3 ml-2 my-2"

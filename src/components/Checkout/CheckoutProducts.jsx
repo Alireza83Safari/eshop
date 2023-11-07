@@ -56,15 +56,17 @@ export default function CheckoutProducts({ orders, fetchData }) {
         ) : (
           <>
             {orders?.items?.map((order, index) => (
-              <Suspense fallback={<Spinner />}>
-                <ProductTemplate
-                  order={order}
-                  handleIncrement={handleIncrement}
-                  handleDecrement={handleDecrement}
-                  fetchData={fetchData}
-                  key={index}
-                />
-              </Suspense>
+              <React.Fragment key={order?.id}>
+                <Suspense fallback={<Spinner />}>
+                  <ProductTemplate
+                    order={order}
+                    handleIncrement={handleIncrement}
+                    handleDecrement={handleDecrement}
+                    fetchData={fetchData}
+                    key={index}
+                  />
+                </Suspense>
+              </React.Fragment>
             ))}
           </>
         )}

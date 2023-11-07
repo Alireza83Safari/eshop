@@ -25,9 +25,9 @@ export default function PopularBrand() {
         }}
         spaceBetween={15}
       >
-        {brand?.data?.map((brand, index) => (
+        {brand?.data?.map((brand) => (
           <SwiperSlide
-            key={index}
+            key={brand?.id}
             className="flex justify-center items-center mb-8"
           >
             <img

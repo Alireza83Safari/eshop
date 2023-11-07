@@ -8,7 +8,7 @@ export default function Specifications({ productItem }) {
       </div>
 
       <div className="md:col-span-9 col-span-12 md:mt-12">
-        {productItem?.features?.map((feature, index) =>
+        {productItem?.features?.map((feature) =>
           feature?.items?.map((data, index) => (
             <div className="flex text-sm" key={index}>
               <p className=" text-gray-800 mr-12 py-5 w-3/12">{data?.key}</p>

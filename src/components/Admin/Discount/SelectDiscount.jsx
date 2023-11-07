@@ -9,7 +9,7 @@ export default function SelectDiscount({
   setShowGlobalDiscount,
 }) {
   const [btnValue, setBtnValue] = useState(null);
-  const { userHaveAccess } = useAccess("action_discodunt_admin_create");
+  const { userHaveAccess } = useAccess("action_discount_admin_create");
 
   const getButtonValueHandler = () => {
     if (userHaveAccess) {
@@ -27,6 +27,7 @@ export default function SelectDiscount({
       toast.error("You Havent Access Create Discount");
     }
   };
+
   return (
     <>
       <span className="my-3 font-bold flex justify-center  2xl:text-2xl sm:text-xl text-[16px]">
