@@ -1,6 +1,13 @@
 import React, { useContext, useState, lazy, Suspense } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faBars,faCartShopping,faMoon,faSearch,faSignIn,faSun} from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faCartShopping,
+  faMoon,
+  faSearch,
+  faSignIn,
+  faSun,
+} from "@fortawesome/free-solid-svg-icons";
 import userAxios from "../services/Axios/userInterceptors";
 import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner/Spinner";
@@ -27,6 +34,7 @@ export default function Header() {
   const categoryHandler = (data) => {
     document.location.href = `/category/product?categoryId=${data?.key}`;
   };
+
   return (
     <header className="w-full min-w-full bg-white-200 dark:bg-black-800 fixed top-0 right-0 z-10">
       <div className="flex justify-between items-center mx-auto xl:px-20 py-5 px-5 xl:container">
@@ -96,12 +104,19 @@ export default function Header() {
                   className="flex py-2 items-center text-black-700 dark:text-white-100 relative whitespace-nowrap text-sm hover:text-blue-600"
                   to="product"
                   onClick={() => categoryHandler(data)}
-                  key={data.id}
+                  key={data.key}
                 >
                   {data?.value}
                 </li>
               ))}
             </ul>
+          </Link>
+
+          <Link
+            to="/contact"
+            className="hover:text-blue-600 duration-300 font-semibold"
+          >
+            Contact
           </Link>
         </ul>
         <div className="flex items-center">

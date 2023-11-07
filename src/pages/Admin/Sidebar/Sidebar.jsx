@@ -93,7 +93,7 @@ export default function Sidebar() {
       </div>
 
       <div
-        className="md:ml-4 ml-1 2xl:text-lg text-xs"
+        className="md:ml-5 ml-3 2xl:text-lg text-xs"
         onClick={() => logoutHandler()}
       >
         <Link className="flex py-3 text-black-700 hover:text-gray-500 duration-500 dark:text-white-100">
@@ -101,7 +101,7 @@ export default function Sidebar() {
             icon={faSignOut}
             className="md:mr-2 lg:text-base text-xl"
           />
-          <p className="invisible lg:visible">Log Out</p>
+          <p className="hidden lg:flex">Log Out</p>
         </Link>
       </div>
     </section>

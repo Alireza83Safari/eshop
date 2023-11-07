@@ -2,7 +2,14 @@ import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import userAxios from "../../services/Axios/userInterceptors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faSearch, faSignOut } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faCartShopping,
+  faContactCard,
+  faSearch,
+  faSignOut,
+  faSort,
+} from "@fortawesome/free-solid-svg-icons";
 import "./Sidebar.css";
 import { AuthContext } from "../../Context/AuthContext";
 
@@ -44,7 +51,7 @@ export default function Sidebar() {
     };
     fetchCategory();
   }, []);
-
+  
   return (
     <>
       {showShopSidebar && (
@@ -91,24 +98,32 @@ export default function Sidebar() {
                 className="flex py-4 items-center text-sm text-black-700 dark:text-white-100 hover-element relative whitespace-nowrap border-b px-2 hover:bg-gray-50"
                 to="/product"
               >
-                <img src="/images/shop.svg" alt="" className="w-4 h-4" />
+                <FontAwesomeIcon icon={faCartShopping} className="w-4 h-4" />
                 <p className="ml-1">Shop</p>
+              </Link>
+
+              <Link
+                className="flex py-4 items-center text-sm text-black-700 dark:text-white-100 hover-element relative whitespace-nowrap border-b px-2 hover:bg-gray-50"
+                to="/product"
+              >
+                <FontAwesomeIcon icon={faContactCard} className="w-4 h-4" />
+                <p className="ml-1">Contact</p>
               </Link>
 
               <div className="cursor-pointer" onClick={toggleSubMenu}>
                 <div className="flex items-center py-4 text-sm text-black-700 dark:text-white-100 px-2 border-b hover:bg-gray-50">
-                  <img src="/images/category.svg" alt="" className="w-4 h-4" />
+                  <FontAwesomeIcon icon={faSort} className="w-4 h-4" />
                   <p className="ml-1">Category</p>
                 </div>
 
                 {showSubMenu && (
                   <div>
-                    {category?.data?.map((data, index) => (
+                    {category?.data?.map((data) => (
                       <Link
                         className="flex py-2 ml-4 items-center text-sm text-black-700 dark:text-white-100 hover-element relative whitespace-nowrap"
                         to="product"
                         onClick={() => categoryHandler(data)}
-                        key={index}
+                        key={data?.key}
                       >
                         <p className="ml-3 text-sm">{data?.value}</p>
                       </Link>

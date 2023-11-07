@@ -30,11 +30,13 @@ import Brand from "../pages/Admin/Brand";
 import Discount from "../pages/Admin/Discount";
 import Color from "../pages/Admin/Color";
 import Page404 from "../components/Page404";
+import Contact from "../pages/Contact";
 const route = [
   { path: "", element: <Home /> },
   { path: "product", element: <Product /> },
   { path: "product/:productID", element: <ProductInfo /> },
   { path: "checkout", element: <CheckOut /> },
+  { path: "contact", element: <Contact /> },
   { path: "login", element: <Login /> },
   { path: "register", element: <Register /> },
   { path: "checkout/shipping", element: <Shipping /> },
