@@ -3,12 +3,14 @@ import { DiscountContextProvider } from "../../Context/discountContext";
 import Spinner from "../../components/Spinner/Spinner";
 import { Toaster } from "react-hot-toast";
 const TotalDiscount = lazy(() =>
-  import("../../components/Admin/Discount/TotalDiscount"));
+  import("../../components/Admin/Discount/TotalDiscount")
+);
 const DiscountTable = lazy(() =>
-  import("../../components/Admin/Discount/DiscountTable"));
+  import("../../components/Admin/Discount/DiscountTable")
+);
 const AddDiscount = lazy(() =>
-  import("../../components/Admin/Discount/Add/AddDiscount"));
-
+  import("../../components/Admin/Discount/Add/AddDiscount")
+);
 
 export default function Discount() {
   return (

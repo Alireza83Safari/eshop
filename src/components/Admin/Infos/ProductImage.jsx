@@ -73,6 +73,7 @@ export default function ProductImage({
     const endIndices = productFile?.map((img) => img?.fileUrl);
     setImageURLs(endIndices);
   }, []);
+  
   //------- finish drag drop -------////
 
   const addFile = async () => {
@@ -110,7 +111,7 @@ export default function ProductImage({
     const files = e.target.files;
     if (files) {
       const formData = new FormData();
-      const newImageURLs = Array.from(files).map((file, index) => {
+      const newImageURLs = Array.from(files)?.map((file, index) => {
         formData.append(`file-${index}`, file);
         const imageUrl = URL.createObjectURL(file);
         return imageUrl;
@@ -154,9 +155,7 @@ export default function ProductImage({
                 <div key={imageUrl} className="w-ful p-2 relative">
                   <img
                     src={
-                      imageUrl?.includes("uploads")
-                        ? `http://127.0.0.1:6060/${imageUrl}`
-                        : imageUrl
+                      imageUrl?.includes("uploads") ? { imageUrl } : imageUrl
                     }
                     className="mb-4 border w-96 h-44 object-contain"
                     draggable="true"

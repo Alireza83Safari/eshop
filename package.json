@@ -1,6 +1,7 @@
 {
   "name": "eshop",
   "version": "0.1.0",
+  "proxy":"https://eshop-bak.iran.liara.run/",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",

@@ -55,6 +55,7 @@ export default function Register() {
     try {
       await axios.post("/api/v1/user/register", registerInfos).then((res) => {
         if (res.status === 200) {
+          toast.success("register is successfully");
           navigate("/login");
           setLoading(false);
         }

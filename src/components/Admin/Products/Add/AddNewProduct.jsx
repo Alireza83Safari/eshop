@@ -90,7 +90,7 @@ export default function AddNewProduct({
               Brand
             </label>
             <CustomSelect
-              options={brands?.data.map((brand) => ({
+              options={brands?.data?.map((brand) => ({
                 value: brand.id,
                 label: brand.name,
               }))}
@@ -114,7 +114,7 @@ export default function AddNewProduct({
               Category
             </label>
             <CustomSelect
-              options={category?.data.map((category) => ({
+              options={category?.data?.map((category) => ({
                 value: category.id,
                 label: category.name,
               }))}

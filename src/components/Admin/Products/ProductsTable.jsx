@@ -9,7 +9,7 @@ import Spinner from "../../Spinner/Spinner";
 import userAxios from "../../../services/Axios/userInterceptors";
 import useTableRow from "../../../hooks/useTableRow";
 import useAccess from "../../../hooks/useAccess";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 const Infos = lazy(() => import("../Infos/Infos"));
 
 export default function ProductsTable() {
@@ -128,7 +128,7 @@ export default function ProductsTable() {
                 </td>
                 <td className="py-3 px-2 flex justify-center items-center">
                   <img
-                    src={`http://127.0.0.1:6060/${product?.brandFileUrl} `}
+                    src={product?.brandFileUrl}
                     alt=""
                     className="sm:w-8 w-6 sm:h-8 h-6 object-contain"
                   />
@@ -166,7 +166,7 @@ export default function ProductsTable() {
               </tr>
             ))}
           </tbody>
-        ) : paginations.length !== 0 ? (
+        ) : paginations?.length !== 0 ? (
           <tbody className="flex justify-center items-center mt-32">
             <>
               <img src="/images/not-found-product.svg" alt="" />
@@ -197,7 +197,6 @@ export default function ProductsTable() {
         setCurrentPage={setCurrentPage}
         currentPage={currentPage}
       />
-      <Toaster />
     </>
   );
 }

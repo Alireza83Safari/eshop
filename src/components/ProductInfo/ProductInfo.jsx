@@ -6,19 +6,17 @@ import useFetch from "../../hooks/useFetch";
 import userAxios from "../../services/Axios/userInterceptors";
 import ProductFeature from "./ProductFeature";
 import ProductContent from "./ProductContent";
-import Breadcrumb from "../Breadcrumb";
 import Description from "./Description";
 import Comments from "./Comments";
 import Specifications from "./Specifications";
 import Sidebar from "../../pages/Sidebar/Sidebar";
-import { Toaster } from "react-hot-toast";
 
 export default function ProductsInfoPanel() {
   const { productID } = useParams();
   const [activeTab, setActiveTab] = useState("description");
   const { datas: productsData } = useFetch("/product", userAxios);
   const findProduct = productsData?.data.find(
-    (product) => product.name === productID?.replace(/_/g, " ")
+    (product) => product?.name === productID?.replace(/_/g, " ")
   );
   const [productItem, setProductItem] = useState(null);
   useEffect(() => {
@@ -38,24 +36,13 @@ export default function ProductsInfoPanel() {
           <div className="lg:col-span-4 md:col-span-5 col-span-12">
             <div className="md:block flex justify-center h-full w-full md:px-4 lg:py-10 md:py-20">
               <img
-                src={`http://127.0.0.1:6060/${findProduct?.fileUrl}`}
+                src={findProduct?.fileUrl}
                 alt=""
                 className="md:w-full w-3/4 object-cover md:py-0 py-5"
               />
             </div>
           </div>
           <div className="lg:col-span-6 md:col-span-7 col-span-12 md:px-0 px-8">
-            <Breadcrumb
-              links={[
-                { id: 1, title: "Home", to: "" },
-                {
-                  id: 2,
-                  title: "product Info",
-                  to: "",
-                },
-              ]}
-            />
-
             <ProductContent
               findProduct={findProduct}
               getProducts={productsData?.data}
@@ -102,7 +89,6 @@ export default function ProductsInfoPanel() {
             <Specifications productItem={productItem} />
           )}
         </div>
-        <Toaster />
       </section>
 
       <Footer />

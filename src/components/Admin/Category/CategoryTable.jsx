@@ -8,7 +8,7 @@ import Spinner from "../../Spinner/Spinner";
 import useTableRow from "../../../hooks/useTableRow";
 import useAccess from "../../../hooks/useAccess";
 import AccessError from "../../AccessError";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 const EditCategory = lazy(() => import("./EditCategory"));
 
 export default function CategoryTable({
@@ -84,7 +84,7 @@ export default function CategoryTable({
           ) : (
             <tbody>
               {paginations?.length ? (
-                paginations.map((category, index) => (
+                paginations?.map((category, index) => (
                   <tr
                     className="2xl:text-base md:text-sm sm:text-xs text-[10px] text-center grid sm:grid-cols-5 grid-cols-4"
                     key={category.id}
@@ -149,7 +149,6 @@ export default function CategoryTable({
           />
         )}
       </Suspense>
-      <Toaster />
     </>
   );
 }

@@ -24,7 +24,6 @@ import BrandResult from "../pages/BrandResult";
 import CategoryResult from "../pages/CategoryResult";
 import Home from "../pages/Home";
 import AppPic from "../pages/Admin/AppPic";
-import ProfileEdit from "../components/Profile/ProfileEdit";
 import Category from "../pages/Admin/Category";
 import Brand from "../pages/Admin/Brand";
 import Discount from "../pages/Admin/Discount";
@@ -52,10 +51,9 @@ const route = [
       { path: "favorite", element: <ProfileFavorite /> },
       { path: "orders", element: <ProfileOrders /> },
       { path: "comments", element: <ProfileComments /> },
-      { path: "edit", element: <ProfileEdit /> },
     ],
   },
-  {
+  /*   {
     path: "/panel/*",
     element: <Index />,
     children: [
@@ -158,7 +156,7 @@ const route = [
         ),
       },
     ],
-  },
+  }, */
 ];
 
 export default route;

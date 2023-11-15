@@ -18,22 +18,22 @@ export default function ProductTemplate({ mapData }) {
       }
     } catch (error) {}
   };
-
+  console.log(mapData);
   return (
     <div className=" grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 col-span-12 mt-8 pb-14">
       {mapData?.length >= 1 ? (
         mapData?.map((product) => (
           <div className="p-2" key={product.id}>
-            <div className="bg-white rounded-lg shadow-lg hover:shadow-2xl overflow-hidden dark:bg-black-800 hover:opacity-70 duration-300 lg:h-[29rem] sm:h-[26rem] h-[22rem] relative">
-              <Link to={`/product/${product.name?.replace(/ /g, "_")}`}>
+            <div className="bg-white rounded-lg shadow-lg hover:shadow-2xl overflow-hidden dark:bg-black-800 hover:opacity-70 duration-300 lg:h-[27rem] sm:h-[24rem] h-[22rem] relative">
+              <Link to={`/product/${product?.name?.replace(/ /g, "_")}`}>
                 <img
-                  src={`http://127.0.0.1:6060/${product.fileUrl}`}
+                  src={product.fileUrl}
                   alt="Product"
                   className="object-contain w-full lg:h-[18rem] sm:h-[15rem] h-[11rem]"
                 />
               </Link>
               <div className="p-2">
-                <Link to={`/product/${product.name?.replace(/ /g, "_")}`}>
+                <Link to={`/product/${product?.name?.replace(/ /g, "_")}`}>
                   <div className="flex justify-center">
                     <button className="text-gray-700 mb-4 mt-2 p-1 text-xs rounded-lg bg-green-400">
                       {product.categoryName}

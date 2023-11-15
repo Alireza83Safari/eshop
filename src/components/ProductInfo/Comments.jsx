@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import CommentsTemplate from "./CommentsTemplate";
 import AddComment from "./AddComment";
 import userAxios from "../../services/Axios/userInterceptors";
-import { Toaster } from "react-hot-toast";
 
 export default function Comments({ productId }) {
   const [getComments, setComments] = useState([]);
@@ -45,7 +44,6 @@ export default function Comments({ productId }) {
         </div>
       </>
 
-      <Toaster />
     </div>
   );
 }

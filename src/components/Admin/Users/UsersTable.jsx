@@ -107,7 +107,7 @@ export default function UsersTable() {
                     </td>
                   </tr>
                 ))
-              ) : paginations.length !== 0 ? (
+              ) : paginations?.length !== 0 ? (
                 <div className="flex justify-center items-center mt-32">
                   <div>
                     <img src="/images/not-found-product.svg" alt="" />

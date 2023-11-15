@@ -160,7 +160,7 @@ export default function EditProductData({
                 Brand
               </label>
               <CustomSelect
-                options={brands?.data.map((brand) => ({
+                options={brands?.data?.map((brand) => ({
                   value: brand.id,
                   label: brand.name,
                 }))}

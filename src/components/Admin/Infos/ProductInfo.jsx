@@ -105,7 +105,7 @@ export default function ProductInfo({
                     <div className="flex justify-center">
                       <div className="h-full w-full">
                         <img
-                          src={`http://127.0.0.1:6060/${img.fileUrl}`}
+                          src={img.fileUrl}
                           className="object-contain max-w-full h-auto"
                           alt=""
                         />

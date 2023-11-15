@@ -8,8 +8,8 @@ export default function CheckoutDetails({ orders }) {
   const totalTax = totalAmount / 10;
   const totalDiscount = totalAmount / 20;
   const totalPayment = Math.floor(totalAmount - totalDiscount - totalTax);
-  const totalQuantity = orders?.items.reduce(
-    (total, order) => total + order.quantity,
+  const totalQuantity = orders?.items?.reduce(
+    (total, order) => total + order?.quantity,
     0
   );
   const [discountCode, setDiscountCode] = useState(null);

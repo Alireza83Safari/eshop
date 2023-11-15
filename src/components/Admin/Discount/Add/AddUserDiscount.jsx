@@ -86,7 +86,7 @@ export default function AddUserDiscount({
                 User
               </label>
               <CustomSelect
-                options={users?.data.map((type) => ({
+                options={users?.data?.map((type) => ({
                   value: type.id,
                   label: type.username,
                 }))}

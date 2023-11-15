@@ -43,7 +43,7 @@ export default function DashboardChart() {
               onChange={valueHandler}
               value={selectedDataType}
             >
-              {Object.keys(dataTypeMapping).map((dataType) => (
+              {Object.keys(dataTypeMapping)?.map((dataType) => (
                 <option key={dataType} value={dataType}>
                   {dataTypeMapping[dataType]}
                 </option>

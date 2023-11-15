@@ -37,10 +37,10 @@ export default function EditRole({ setShowEditRoles, editRoleId }) {
 
   const handleSelectAll = () => {
     const allPermissions = permissionsData.flatMap((permission) =>
-      permission.children.map((child) => child.code)
+      permission?.children?.map((child) => child.code)
     );
 
-    if (selectedPermissions.length === allPermissions.length) {
+    if (selectedPermissions?.length === allPermissions?.length) {
       setSelectedPermissions([]);
     } else {
       setSelectedPermissions(allPermissions);
@@ -127,14 +127,14 @@ export default function EditRole({ setShowEditRoles, editRoleId }) {
           </div>
 
           <div className="mt-1 grid grid-cols-2">
-            {permissionsName.map((permi, index) => (
+            {permissionsName?.map((permi, index) => (
               <div key={index} className="border m-1 rounded-lg">
                 <p className="p-2">{permi}</p>
                 <ul className="text-xs grid grid-cols-2 gap-2 p-4">
-                  {permissionsData.map(
+                  {permissionsData?.map(
                     (permission) =>
                       permission.name === permi &&
-                      permission.children.map((child, childIndex) => (
+                      permission.children?.map((child, childIndex) => (
                         <li key={childIndex}>
                           <input
                             type="checkbox"

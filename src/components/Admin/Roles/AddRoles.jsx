@@ -24,7 +24,7 @@ export default function AddRoles({ setShowAddRoles }) {
 
   const handleSelectAll = () => {
     const allPermissions = permissionsData?.flatMap((permission) =>
-      permission.children.map((child) => child?.code)
+      permission?.children?.map((child) => child?.code)
     );
 
     if (selectedPermissions?.length === allPermissions?.length) {
@@ -117,14 +117,14 @@ export default function AddRoles({ setShowAddRoles }) {
           </div>
 
           <div className="mt-1 grid grid-cols-2">
-            {permissionsName.map((category, index) => (
+            {permissionsName?.map((category, index) => (
               <div key={index} className="border rounded-lg m-1">
                 <p className="p-2">{category}</p>
                 <ul className="text-xs grid grid-cols-2 gap-2 p-4">
-                  {permissionsData.map(
+                  {permissionsData?.map(
                     (permission) =>
                       permission.name === category &&
-                      permission.children.map((child, childIndex) => (
+                      permission.children?.map((child, childIndex) => (
                         <li key={childIndex}>
                           <input
                             type="checkbox"

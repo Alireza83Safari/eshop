@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import userAxios from "../../services/Axios/userInterceptors";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 export default function ProductTemplate({
   order,
@@ -35,10 +35,7 @@ export default function ProductTemplate({
       key={key}
       className={`flex items-center border-b h-36 ${isLoading && "opacity-20"}`}
     >
-      <img
-        src={`http://127.0.0.1:6060/${order.fileUrl}`}
-        className="w-24 h-24 object-contain md:mx-4"
-      />
+      <img src={order.fileUrl} className="w-24 h-24 object-contain md:mx-4" />
       <div className="md:ml-4 md:text-sm text-xs">
         <p className="pb-2">{order.productName}</p>
         <div className="flex my-1">
@@ -89,7 +86,6 @@ export default function ProductTemplate({
           }}
         />
       </div>
-      <Toaster />
     </div>
   );
 }

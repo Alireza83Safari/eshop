@@ -12,7 +12,7 @@ export default function AddDiscount() {
   const [showSelectDiscount, setShowSelectDiscount] = useState(true);
 
   return (
-    <div className="bg-white-100 md:py-5 py-2 px-4 rounded-xl dark:bg-black-200 2xl:h-[33.9rem] dark:text-white-100 min-w-full mb-5">
+    <div className="bg-white-100 md:py-5 py-2 px-4 rounded-xl dark:bg-black-200 2xl:h-[33.9rem] dark:text-white-100 min-w-full lg:mb-0 mb-5">
       <Suspense fallback={<Spinner />}>
         {showSelectDiscount && (
           <SelectDiscount

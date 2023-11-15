@@ -76,7 +76,7 @@ export default function RoleTable({
           </thead>
 
           <tbody>
-            {rolesData?.data.map((role, index) => (
+            {rolesData?.data?.map((role, index) => (
               <tr
                 className="2xl:text-base md:text-sm sm:text-xs text-[10px] text-center hover:bg-gray-50 dark:hover:bg-black-900"
                 key={role.id}

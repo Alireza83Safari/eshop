@@ -9,7 +9,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 import userAxios from "../services/Axios/userInterceptors";
 import useAddToCart from "../hooks/useAddCart";
-import { Toaster } from "react-hot-toast";
 
 export default function Offer() {
   const { datas: productsData } = useFetch(
@@ -23,9 +22,9 @@ export default function Offer() {
   };
 
   return (
-    <>
-      {productsData?.data.length < 1 ? null : (
-        <section className="mt-52 mx-4 lg:mx-20">
+    <section className="mt-52 mx-4 lg:mx-20">
+      {productsData?.data?.length ? (
+        <>
           <div className="flex items-center md:px-5 xl:px-10 px-2">
             <Timer days={1} />
             <div className="w-full h-1 bg-blue-600"></div>
@@ -51,8 +50,8 @@ export default function Offer() {
                 }}
                 className="mySwiper"
               >
-                {productsData?.data.length > 1 &&
-                  productsData?.data.map((product) => (
+                {productsData?.data?.length  &&
+                  productsData?.data?.map((product) => (
                     <SwiperSlide key={product.id}>
                       <div
                         className="dark:bg-black-200 relative duration-200 bg-white-100 mt-4 md:h-[20rem] h-[15rem] shadow-sm hover:shadow-xl"
@@ -63,11 +62,11 @@ export default function Offer() {
                             {product?.discountValue}%
                           </div>
                           <Link
-                            to={`/product/${product.name}`}
+                            to={`/product/${product?.name}`}
                             style={{ display: "block" }}
                           >
                             <img
-                              src={`http://127.0.0.1:6060/${product.fileUrl}`}
+                              src={product.fileUrl}
                               alt="Product"
                               className="relative object-contain lg:h-[260px] md:h-[220px] sm:h-[180px] h-[160px]"
                             />
@@ -100,10 +99,11 @@ export default function Offer() {
                 {}
               </Swiper>
             </div>
-            <Toaster />
           </div>
-        </section>
+        </>
+      ) : (
+        ""
       )}
-    </>
+    </section>
   );
 }

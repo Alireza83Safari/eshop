@@ -66,7 +66,7 @@ export default function Sidebar() {
         </Link>
 
         <div className="lg:mt-2">
-          {items.map((item, index) => (
+          {items?.map((item, index) => (
             <Link
               className="flex xl:py-5 py-4 items-center lg:justify-normal justify-center text-black-700 relative dark:text-white-100 lg:pl-4"
               key={index}
@@ -74,7 +74,7 @@ export default function Sidebar() {
             >
               <div
                 className={` hover-element relative whitespace-nowrap 2xl:text-base text-xs ${
-                  activeId.toLocaleLowerCase() === item.text.toLocaleLowerCase()
+                  activeId?.toLocaleLowerCase() === item?.text.toLocaleLowerCase()
                     ? "active"
                     : ""
                 }`}

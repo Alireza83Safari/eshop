@@ -22,7 +22,7 @@ export default function Sidebar() {
 
   const logOutHandler = () => {
     userAxios.get("/logout").then((res) => {
-      if (res.status === 200) {
+      if (res?.status === 200) {
         navigate("/login");
         userLogin();
         setUserIsLogin(false);
@@ -38,7 +38,7 @@ export default function Sidebar() {
   };
 
   const searchInHref = () => {
-    if (searchQuery.trim().length) {
+    if (searchQuery.trim()?.length) {
       navigate(`/search/product?searchTerm=${searchQuery}`);
     }
   };
@@ -68,7 +68,7 @@ export default function Sidebar() {
             <div className="mt-12">
               <div className="flex md:hidden pb-3 items-center relative text-black-800 border-b px-2 hover:bg-gray-50 dark:hover:bg-black-900">
                 <button
-                  className="absolute text-xs sm:text-sm left-1 bg-blue-600 py-2 px-2 text-white-100 rounded-l-md"
+                  className="absolute text-xs sm:text-sm left-1 bg-blue-600 border border-blue-600 py-2 px-2 text-white-100 rounded-l-md"
                   onClick={() => searchInHref()}
                 >
                   <FontAwesomeIcon icon={faSearch} />

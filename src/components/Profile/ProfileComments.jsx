@@ -92,7 +92,7 @@ export default function ProfileComments() {
                 )}
               </ul>
               <ul>
-                {comment?.strengthPoints.length ? (
+                {comment?.strengthPoints?.length ? (
                   <li className="md:text-sm text-xs">
                     <FontAwesomeIcon
                       icon={faMinus}

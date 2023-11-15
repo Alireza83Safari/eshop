@@ -5,7 +5,7 @@ import { faAngleRight, faLocationPin } from "@fortawesome/free-solid-svg-icons";
 import AddressContext from "../Context/AddressContext";
 import userAxios from "../services/Axios/userInterceptors";
 import useFetch from "../hooks/useFetch";
-import { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 export default function Shipping() {
   const navigate = useNavigate();
@@ -17,14 +17,15 @@ export default function Shipping() {
   const totalTax = totalAmount / 10;
   const totalDiscount = totalAmount / 20;
   const totalPayment = Math.floor(totalAmount - totalDiscount - totalTax);
-  const totalQuantity = orders?.items.reduce(
-    (total, order) => total + order.quantity,
+  const totalQuantity = orders?.items?.reduce(
+    (total, order) => total + order?.quantity,
     0
   );
 
   const buyProducts = () => {
     userAxios.post(`/order/checkout/${userAddress[0].id}`).then((res) => {
       if (res.status === 200) {
+        toast.success('create order is success')
         navigate("/");
       }
     });
@@ -36,7 +37,7 @@ export default function Shipping() {
         {userAddress?.length ? (
           <div className="w-full border border-blue-60 py-3 px-4 rounded-lg bg-white-200 dark:bg-black-200 dark:text-white-100">
             <p className="text-xs">Your Delivery Address</p>
-            {userAddress.slice(0, 1).map((address) => (
+            {userAddress?.slice(0, 1)?.map((address) => (
               <div className="mt-4" key={address.id}>
                 <div className="flex items-center mb-3">
                   <FontAwesomeIcon icon={faLocationPin} className="mr-1" />
@@ -84,15 +85,15 @@ export default function Shipping() {
         <div>
           {orders?.items?.map((order) => (
             <div
-              key={order.id}
+              key={order?.id}
               className="flex items-center border-b h-36 dark:text-white-100"
             >
               <img
-                src={`http://127.0.0.1:6060/${order.fileUrl}`}
+                src={order?.fileUrl}
                 className="w-24 h-24 object-contain md:mx-4"
               />
               <div className="md:ml-4 md:text-sm text-xs">
-                <p className="pb-2">{order.productName}</p>
+                <p className="pb-2">{order?.productName}</p>
                 <p className="py-1 text-gray-800 dark:text-white-100">
                   ${order.price}
                 </p>
@@ -170,7 +171,6 @@ export default function Shipping() {
           </div>
         </div>
       </div>
-      <Toaster />
     </>
   );
 }

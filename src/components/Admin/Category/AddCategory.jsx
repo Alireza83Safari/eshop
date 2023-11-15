@@ -3,7 +3,7 @@ import adminAxios from "../../../services/Axios/adminInterceptors";
 import FormSpinner from "../../FormSpinner/FormSpinner";
 import Input from "../Input";
 import useAccess from "../../../hooks/useAccess";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 export default function AddCategory({ fetchData }) {
   const [newCategory, setNewCategory] = useState({
     code: "",
@@ -101,7 +101,6 @@ export default function AddCategory({ fetchData }) {
           </div>
         </form>
       </div>
-      <Toaster />
     </>
   );
 }

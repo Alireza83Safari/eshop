@@ -3,12 +3,11 @@ import { Link } from "react-router-dom";
 import { faHeart, faRoute, faShop } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../pages/Sidebar/Sidebar.css";
-import {AuthContext} from "../../Context/AuthContext";
+import { AuthContext } from "../../Context/AuthContext";
 
 export default function ProfileMenu() {
   const { userInfos } = useContext(AuthContext);
   const items = [
-    { icon: faShop, text: "Edit Profile", to: "/profile/edit" },
     { icon: faShop, text: "Orders", to: "/profile/orders" },
     { icon: faRoute, text: "Address", to: "/profile/address" },
     { icon: faHeart, text: "Favorite", to: "/profile/favorite" },
@@ -17,7 +16,7 @@ export default function ProfileMenu() {
 
   const [activeId, setActiveId] = useState(null);
 
-  const lastLinkIndex = items.length - 1;
+  const lastLinkIndex = items?.length - 1;
 
   return (
     <section className="border rounded-xl dark:bg-black-800">
@@ -31,11 +30,11 @@ export default function ProfileMenu() {
           {userInfos?.username}
         </p>
       </div>
-      <div className="">
-        {items.map((item, index) => (
+      <div>
+        {items?.map((item, index) => (
           <Link
             className={`flex items-center lg:justify-normal justify-center text-black-700 dark:text-white-100 relative p-5 py-7 hover:bg-gray-100 dark:hover:bg-black-200 duration-500 hover-element ${
-              activeId?.toLocaleLowerCase() === item?.text.toLocaleLowerCase()
+              activeId?.toLocaleLowerCase() === item?.text?.toLocaleLowerCase()
                 ? "active"
                 : ""
             } ${index === lastLinkIndex ? "" : " border-b"}`}

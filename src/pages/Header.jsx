@@ -25,7 +25,7 @@ export default function Header() {
   const [showProfile, setShowProfile] = useState(false);
 
   const searchInHref = () => {
-    if (searchQuery.trim().length) {
+    if (searchQuery.trim()?.length) {
       navigate(`/search/product?searchTerm=${searchQuery}`);
     }
   };
@@ -34,12 +34,11 @@ export default function Header() {
   const categoryHandler = (data) => {
     document.location.href = `/category/product?categoryId=${data?.key}`;
   };
-
   return (
     <header className="w-full min-w-full bg-white-200 dark:bg-black-800 fixed top-0 right-0 z-10">
       <div className="flex justify-between items-center mx-auto xl:px-20 py-5 px-5 xl:container">
         <div className="flex items-center">
-          <div className="md:mr-12 mr-6 flex items-center">
+          <div className="md:mr-8 mr-6 flex items-center">
             <FontAwesomeIcon
               icon={faBars}
               className="text-2xl mr-3 dark:text-white-100 flex lg:hidden"
@@ -80,7 +79,19 @@ export default function Header() {
             </div>
           </div>
         </div>
-        <ul className="dark:text-white-100 gap-x-12 lg:text-base md:text-sm hidden lg:flex">
+        <ul className="dark:text-white-100 gap-x-12 lg:text-bas md:text-sm hidden lg:flex">
+          {(userInfos?.role?.name === "admin") |
+          (userInfos?.role?.name === "root") ? (
+            <Link
+              to="/panel"
+              className="hover:text-blue-600 duration-300 font-semibold"
+            >
+              Panel
+            </Link>
+          ) : (
+            ""
+          )}
+
           <Link
             to="/"
             className="hover:text-blue-600 duration-300 font-semibold"

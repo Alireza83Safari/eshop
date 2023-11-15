@@ -7,11 +7,11 @@ import { loginValidation } from "../validators/loginValidation";
 import { AuthContext } from "../Context/AuthContext";
 import Sidebar from "./Sidebar/Sidebar";
 import Spinner from "../components/Spinner/Spinner";
-import useAccess from "../hooks/useAccess";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { userLogin, userPermissions } = useContext(AuthContext);
+  const { userLogin } = useContext(AuthContext);
   const [errors, setErrors] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [isDisable, setIsDisable] = useState(false);
@@ -24,7 +24,7 @@ export default function Login() {
   const loginInfosHandler = (event) => {
     const { name, value } = event.target;
 
-    const isAnyInputEmpty = Object.values(loginInfos).some((val) => val === "");
+    const isAnyInputEmpty = Object.values(loginInfos)?.some((val) => val === "");
 
     setIsDisable(isAnyInputEmpty);
 
@@ -42,6 +42,7 @@ export default function Login() {
       .post("/login", loginInfos)
       .then((res) => {
         if (res.status === 200) {
+          toast.success("login is successfully");
           userLogin();
           navigate("/");
           setLoading(false);
@@ -58,7 +59,7 @@ export default function Login() {
       <Header />
       <Sidebar />
 
-      <section className="grid lg:grid-cols-2 py-16 relative m-auto min-h-screen xl:px-20 px-5">
+      <section className="grid lg:grid-cols-2 py-16 relative m-auto min-h-screen xl:px-20 px-5 mt-10">
         <div className="flex lg:justify-end justify-center items-center w-96 m-auto lg:py-0 py-10">
           <div className="w-96">
             <img src="/images/User-Account-Sign-up.png" />

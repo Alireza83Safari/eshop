@@ -10,11 +10,10 @@ import Sidebar from "./Sidebar/Sidebar";
 import ProductSlider from "../components/ProductSlider";
 
 export default function Home() {
-
   return (
     <>
       <Header />
-      <div className="md:mt-8 xl:container max-w-[1200px] mx-auto lg:px-0 sm:px-5">
+      <div className="md:mt-8 xl:container max-w-[1200px] min-h-screen mx-auto lg:px-0 sm:px-5">
         <Sidebar />
         <Banner />
         <Suggestion />

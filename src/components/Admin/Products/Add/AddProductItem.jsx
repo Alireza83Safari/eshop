@@ -197,7 +197,7 @@ export default function AddProductItem({
                 Color
               </label>
               <CustomSelect
-                options={colors?.data.map((color) => ({
+                options={colors?.data?.map((color) => ({
                   value: color.id,
                   label: color.name,
                 }))}

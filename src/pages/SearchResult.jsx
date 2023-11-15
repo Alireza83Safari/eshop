@@ -9,7 +9,6 @@ import useAddToCart from "../hooks/useAddCart";
 import Pagination from "../components/getPagination";
 import { useFetchPagination } from "../hooks/useFetchPagination";
 import { usePaginationURL } from "../hooks/usePaginationURL";
-import { Toaster } from "react-hot-toast";
 const ProductTemplate = lazy(() =>
   import("../components/Product/ProductTemplate")
 );
@@ -63,10 +62,7 @@ export default function SearchResults() {
         ) : (
           <div className="flex justify-center items-center mt-32">
             <div>
-              <img
-                src="https://www.digikala.com/statics/img/svg/plp/not-found.svg"
-                alt=""
-              />
+              <img src="https://www.digikala.com/statics/img/svg/plp/not-found.svg" />
               <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
                 Product Not Found
               </p>
@@ -80,7 +76,6 @@ export default function SearchResults() {
           currentPage={currentPage}
           pageSize={pageSize}
         />
-        <Toaster />
       </section>
 
       <Footer />

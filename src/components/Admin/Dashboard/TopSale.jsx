@@ -59,7 +59,7 @@ const TopSale = () => {
             <Spinner />
           ) : (
             <img
-              src={`http://127.0.0.1:6060/${topSell?.fileUrl}`}
+              src={topSell?.fileUrl}
               className="w-full h-full object-contain"
               alt="Most Sale Product"
             />

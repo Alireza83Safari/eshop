@@ -97,7 +97,7 @@ export default function AppPicTable({ appPicData, fetchData, appPicLoading }) {
                   <td className="py-3 truncate">{appPic?.title}%</td>
                   <td className="py-3 truncate flex justify-center">
                     <img
-                      src={`http://127.0.0.1:6060/${appPic?.fileUrl}`}
+                      src={appPic?.fileUrl}
                       className="w-8 h-8"
                     />
                   </td>

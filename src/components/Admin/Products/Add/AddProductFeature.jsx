@@ -63,7 +63,7 @@ export default function AddProductFeature({
             isLoading && "opacity-20"
           }`}
         >
-          {featureKey?.data.map((item) => (
+          {featureKey?.data?.map((item) => (
             <div key={item.id}>
               <label className="dark:text-white-100">{item.name}: </label>
               <input

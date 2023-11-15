@@ -87,7 +87,7 @@ function AddComment({ fetchComments, productId }) {
       <fieldset className="mb-2">
         <legend className="text-sm text-gray-600">Rate this product:</legend>
         <div className="flex items-center text-sm">
-          {commentRating.map((rating, index) => (
+          {commentRating?.map((rating, index) => (
             <label key={index} className="mr-2">
               <input
                 type="radio"
@@ -126,7 +126,7 @@ function AddComment({ fetchComments, productId }) {
           </div>
 
           <ul className="p-1">
-            {strengths.map((strength, index) => (
+            {strengths?.map((strength, index) => (
               <li className="flex justify-between px-2 text-sm" key={index}>
                 <div>
                   <FontAwesomeIcon
@@ -169,7 +169,7 @@ function AddComment({ fetchComments, productId }) {
           </div>
 
           <ul className="p-1">
-            {weakPoints.map((weakpoint, index) => (
+            {weakPoints?.map((weakpoint, index) => (
               <li className="flex justify-between px-2 text-sm" key={index}>
                 <div>
                   <FontAwesomeIcon

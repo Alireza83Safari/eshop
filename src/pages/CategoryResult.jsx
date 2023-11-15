@@ -7,7 +7,7 @@ import Footer from "./Footer";
 import Sidebar from "./Sidebar/Sidebar";
 import FilterProducts from "../components/Product/FilterProducts";
 import Pagination from "../components/getPagination";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 const ProductTemplate = lazy(() =>
   import("../components/Product/ProductTemplate")
 );
@@ -31,7 +31,7 @@ export default function CategoryResult() {
 
     userAxios.post("/orderItem", userBasketHandler).then((res) => {
       if (res.status === 200) {
-        toast.success(`${cartID.name} added to cart!`, {
+        toast.success(`${cartID?.name} added to cart!`, {
           position: "bottom-right",
         });
       }
@@ -103,7 +103,7 @@ export default function CategoryResult() {
         </div>
         {isLoading ? (
           <Spinner />
-        ) : paginatedProducts.length ? (
+        ) : paginatedProducts?.length ? (
           <>
             <Suspense fallback={<Spinner />}>
               <ProductTemplate
@@ -129,7 +129,6 @@ export default function CategoryResult() {
           currentPage={currentPage}
           pageSize={pageSize}
         />
-        <Toaster />
       </section>
       <Footer />
     </>

@@ -5,13 +5,14 @@ import {
   faEdit,
   faHeart,
   faRightFromBracket,
+  faRoute,
   faUserAstronaut,
   faUserGear,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import userAxios from "../../services/Axios/userInterceptors";
-import {AuthContext} from "../../Context/AuthContext";
+import { AuthContext } from "../../Context/AuthContext";
 
 export default function Profile() {
   const { datas: userInfo } = useFetch("/is_authenticated", userAxios);
@@ -35,12 +36,12 @@ export default function Profile() {
           className="rounded-full w-12 h-12 border-2 border-white-100 mb-3"
         />
         <p className="py-1">{userInfo?.username}</p>
-        <p className="text-xs text-gray-500">{userInfo?.role.name} Member</p>
+        <p className="text-xs text-gray-500">{userInfo?.role?.name} Member</p>
       </div>
 
-      <Link className="flex items-center py-2" to="/profile/edit">
-        <FontAwesomeIcon icon={faEdit} />
-        <p className="pl-2">Edit Profile</p>
+      <Link className="flex items-center py-2" to="/profile/address">
+        <FontAwesomeIcon icon={faRoute} />
+        <p className="pl-2">Address</p>
       </Link>
       <Link className="flex items-center py-2" to="/profile/favorite">
         <FontAwesomeIcon icon={faHeart} />
@@ -48,10 +49,10 @@ export default function Profile() {
       </Link>
       <Link
         className="flex items-center border-b pb-4 py-1"
-        to="/profile/favorite"
+        to="/profile/orders"
       >
         <FontAwesomeIcon icon={faUserAstronaut} />
-        <p className="pl-2">View Profile</p>
+        <p className="pl-2">Orders</p>
       </Link>
 
       <Link className="flex py-2 pt-4">

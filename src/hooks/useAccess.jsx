@@ -5,7 +5,7 @@ function useAccess(permissions) {
   const { userPermissions } = useContext(AuthContext);
 
   const userHaveAccess = useMemo(() => {
-    return userPermissions.some((item) => item === permissions);
+    return userPermissions?.some((item) => item === permissions);
   }, [permissions, userPermissions]);
   return { userHaveAccess };
 }

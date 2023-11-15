@@ -86,7 +86,7 @@ export default function AddProductDiscount({
             </label>
 
             <CustomSelect
-              options={products?.data.map((product) => ({
+              options={products?.data?.map((product) => ({
                 value: product.itemId,
                 label: product.name,
               }))}

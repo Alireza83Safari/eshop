@@ -8,7 +8,7 @@ import Spinner from "../../Spinner/Spinner";
 import useTableRow from "../../../hooks/useTableRow";
 import useAccess from "../../../hooks/useAccess";
 import AccessError from "../../AccessError";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 const EditBrand = lazy(() => import("./EditBrand/EditBrand"));
 
 export default function BrandTable({
@@ -97,7 +97,7 @@ export default function BrandTable({
                     <td className="2xl:py-4 py-3 truncate">{brand?.code}</td>
                     <td className="flex justify-center items-center">
                       <img
-                        src={`http://127.0.0.1:6060/${brand?.fileUrl}`}
+                        src={brand?.fileUrl}
                         className="md:w-8 w-6 object-contain"
                       />
                     </td>
@@ -155,8 +155,6 @@ export default function BrandTable({
           />
         )}
       </Suspense>
-
-      <Toaster />
     </>
   );
 }

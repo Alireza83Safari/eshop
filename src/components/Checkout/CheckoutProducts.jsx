@@ -3,7 +3,6 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Spinner from "../Spinner/Spinner";
 import userAxios from "../../services/Axios/userInterceptors";
-import useRemove from "../../hooks/useRemove";
 
 const ProductTemplate = lazy(() => import("./ProductTemplate"));
 const CheckoutEmpty = lazy(() => import("./CheckoutEmpty"));
@@ -19,7 +18,7 @@ export default function CheckoutProducts({ orders, fetchData }) {
 
   const changeIncrementQuantity = async (itemId, id) => {
     let newQuantity =
-      orders?.items.find((order) => order.id == id).quantity + 1;
+      orders?.items?.find((order) => order.id == id)?.quantity + 1;
     let productData = { productItemId: itemId, quantity: newQuantity };
     try {
       const response = await userAxios.post("/orderItem", productData);
@@ -31,7 +30,7 @@ export default function CheckoutProducts({ orders, fetchData }) {
 
   const changeDecrementQuantity = async (itemId, id) => {
     let newQuantity =
-      orders?.items.find((order) => order.id == id).quantity - 1;
+      orders?.items?.find((order) => order.id == id)?.quantity - 1;
     let productData = { productItemId: itemId, quantity: newQuantity };
     try {
       const response = await userAxios.post("/orderItem", productData);
@@ -49,7 +48,7 @@ export default function CheckoutProducts({ orders, fetchData }) {
       </div>
 
       <div className="border md:px-5 xl:w-[50rem] lg:w-[40rem] w-[90vw]">
-        {!orders?.items.length ? (
+        {!orders?.items?.length ? (
           <Suspense fallback={<Spinner />}>
             <CheckoutEmpty />
           </Suspense>

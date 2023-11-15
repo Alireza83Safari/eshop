@@ -10,7 +10,7 @@ export default function ProfileOrders() {
   const pageSize = 4;
 
   const totalPage =
-    orders && orders.length > 0 ? Math.ceil(orders.length / pageSize) : 1;
+    orders && orders?.length > 0 ? Math.ceil(orders?.length / pageSize) : 1;
 
   const pageNumber = Array.from(Array(totalPage).keys());
 
@@ -24,7 +24,7 @@ export default function ProfileOrders() {
     <section className="relative">
       {isLoading ? (
         <Spinner />
-      ) : !paginatedProducts || paginatedProducts.length === 0 ? (
+      ) : !paginatedProducts || paginatedProducts?.length === 0 ? (
         <div className="w-full text-center py-24">
           <img src="/images/order-empty.svg" alt="" className="m-auto " />
           <p className="text-lg font-semibold dark:text-white-100">
@@ -39,7 +39,7 @@ export default function ProfileOrders() {
                 <p className="mr-2 text-sm text-gray-800">status:</p>
                 <p className="flex">
                   {data.status === "1" ? (
-                    <img src="su" className="w-6 h-6 rounded-full" />
+                    <img src="" className="w-6 h-6 rounded-full" />
                   ) : (
                     <img
                       src="/images/success.png"
@@ -52,7 +52,7 @@ export default function ProfileOrders() {
               <div className="flex md:mb-0 mb-4 items-center">
                 <p className="mr-2 text-sm text-gray-800">Date:</p>
                 <p className="dark:text-white-100 text-black-900  text-sm lg:text-base">
-                  {data?.createdAt.slice(0, 10)}
+                  {data?.createdAt?.slice(0, 10)}
                 </p>
               </div>
               <div className="flex md:mb-0 mb-4 items-center">
@@ -72,7 +72,7 @@ export default function ProfileOrders() {
             <div className="flex py-6">
               {data?.fileUrls?.map((file, index) => (
                 <img
-                  src={`http://127.0.0.1:6060/${file}`}
+                  src={file}
                   className="w-20 h-20 mr-12 object-cover"
                   key={index}
                 />

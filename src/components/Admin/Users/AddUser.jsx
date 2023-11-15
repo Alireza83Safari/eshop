@@ -144,7 +144,7 @@ export default function AddUser() {
                       role
                     </label>
                     <CustomSelect
-                      options={roles?.data.map((role) => ({
+                      options={roles?.data?.map((role) => ({
                         value: role.id,
                         label: role.name,
                       }))}

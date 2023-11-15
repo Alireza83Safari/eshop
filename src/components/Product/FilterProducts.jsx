@@ -66,7 +66,7 @@ function FilterProducts({ setCurrentPage }) {
           </label>
 
           <CustomSelect
-            options={categoryData?.data.map((category) => ({
+            options={categoryData?.data?.map((category) => ({
               value: category.key,
               label: category.value,
             }))}
@@ -98,7 +98,7 @@ function FilterProducts({ setCurrentPage }) {
             Sort By Brand:
           </label>
           <CustomSelect
-            options={brandData?.data.map((brand) => ({
+            options={brandData?.data?.map((brand) => ({
               value: brand.id,
               label: brand.name,
             }))}

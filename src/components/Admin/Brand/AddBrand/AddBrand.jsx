@@ -1,6 +1,5 @@
 import React, { useState, lazy, Suspense } from "react";
 import Spinner from "../../../Spinner/Spinner";
-import { Toaster } from "react-hot-toast";
 const AddBrandData = lazy(() => import("./AddBrandData"));
 const AddBrandFile = lazy(() => import("./AddBrandFile"));
 
@@ -31,8 +30,6 @@ export default function AddBrand({ fetchData }) {
           )}
         </Suspense>
       </div>
-
-      <Toaster />
     </>
   );
 }

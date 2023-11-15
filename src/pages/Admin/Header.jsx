@@ -31,7 +31,7 @@ export default function Header({ mode, setMode }) {
         }`}
       >
         <p className="font-bold ml-5 md:text-lg text-sm dark:text-white-100">
-          {location.pathname?.slice(7)}
+          {location?.pathname?.slice(7)}
         </p>
         <div className="flex">
           <div className="mr-2 py-1 px-2 rounded-lg dark:text-white-100">

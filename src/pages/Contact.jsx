@@ -78,7 +78,7 @@ export default function Contact() {
           Out business are 9AM-6Pm ET Monday-Friday and 9AM-5PM ET on weekends
         </p>
         <div className="grid md:grid-cols-3 grid-cols-1">
-          {supportData.map((item) => (
+          {supportData?.map((item) => (
             <div
               className="bg-white-200 dark:bg-black-900 dark:text-white-100 py-5 md:mx-5 mx-2 px-3 rounded-lg md:my-0 my-4"
               key={item.id}
@@ -105,7 +105,7 @@ export default function Contact() {
           with challenges , and we are here to help you every step of the way.
         </p>
         <div className="grid sm:grid-cols-4 grid-cols-2 mt-14">
-          {usersData.map((item) => (
+          {usersData?.map((item) => (
             <div key={item.id} className="sm:mb-0 mb-4">
               <div className="w-24 h-24 flex justify-center m-auto">
                 <img

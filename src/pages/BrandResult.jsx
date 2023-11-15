@@ -8,7 +8,7 @@ import FilterProducts from "../components/Product/FilterProducts";
 import Pagination from "../components/getPagination";
 import { usePaginationURL } from "../hooks/usePaginationURL";
 import { useFetchPagination } from "../hooks/useFetchPagination";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 const ProductTemplate = lazy(() =>
   import("../components/Product/ProductTemplate")
 );
@@ -27,7 +27,7 @@ export default function BrandResult() {
     userAxios.post("/orderItem", userBasketHandler).then((res) => {
       setLoading(false);
       if (res.status === 200) {
-        toast.success(`${cartID.name} added to cart!`, {
+        toast.success(`${cartID?.name} added to cart!`, {
           position: "bottom-right",
         });
       }
@@ -66,7 +66,7 @@ export default function BrandResult() {
         </div>
         {isLoading || paginationLoading || productLoading ? (
           <Spinner />
-        ) : paginations.length ? (
+        ) : paginations?.length ? (
           <Suspense fallback={<Spinner />}>
             <ProductTemplate
               mapData={paginations}
@@ -89,8 +89,6 @@ export default function BrandResult() {
           currentPage={currentPage}
           pageSize={pageSize}
         />
-
-        <Toaster />
       </section>
       <Footer />
     </>

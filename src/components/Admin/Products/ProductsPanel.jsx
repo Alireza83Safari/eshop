@@ -6,7 +6,7 @@ import Spinner from "../../Spinner/Spinner";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
 import AccessError from "../../AccessError";
 import useAccess from "../../../hooks/useAccess";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 const AddProduct = lazy(() => import("./Add/AddProduct"));
 const Departments = lazy(() => import("./Departments"));
 const PiesChart = lazy(() => import("../Charts/PieChart"));
@@ -108,8 +108,6 @@ export default function ProductsPanel() {
       <Suspense fallback={<Spinner />}>
         {showEditModal && <EditProduct />}
       </Suspense>
-
-      <Toaster />
     </section>
   );
 }

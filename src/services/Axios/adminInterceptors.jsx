@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const adminAxios = axios.create({
-  baseURL: "/api/v1/admin/",
+  baseURL: "api/v1/admin/",
   withCredentials: true,
 });
 adminAxios.interceptors.request.use(

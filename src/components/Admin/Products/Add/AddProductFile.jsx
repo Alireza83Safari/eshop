@@ -49,7 +49,7 @@ export default function AddProductFile({ setShowFile }) {
     const files = e.target.files;
     if (files) {
       const formData = new FormData();
-      const newImageURLs = Array.from(files).map((file, index) => {
+      const newImageURLs = Array.from(files)?.map((file, index) => {
         formData.append(`file-${index}`, file);
         const imageUrl = URL.createObjectURL(file);
         return imageUrl;

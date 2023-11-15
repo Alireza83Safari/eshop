@@ -9,7 +9,7 @@ export default function CommentsTemplate({ index, comment }) {
           <p>{comment.username}</p>
         </div>
         <div className="flex md:text-base text-sm">
-          <p className="md:mr-5">{comment.updatedAt.slice(0, 10)}</p>
+          <p className="md:mr-5">{comment?.updatedAt?.slice(0, 10)}</p>
         </div>
         <div className="flex md:text-base text-sm sm:mt-0 mt-4">
           <p className="mr-2">rate:</p>

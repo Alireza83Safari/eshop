@@ -9,7 +9,6 @@ import useRemove from "../../hooks/useRemove";
 import Pagination from "../getPagination";
 import { usePaginationURL } from "../../hooks/usePaginationURL";
 import { useFetchPagination } from "../../hooks/useFetchPagination";
-import { Toaster } from "react-hot-toast";
 
 export default function ProfileFavorite() {
   const location = useLocation();
@@ -61,7 +60,7 @@ export default function ProfileFavorite() {
             >
               <Link to={`/product/${favorite?.name?.replace(/ /g, "_")}`}>
                 <img
-                  src={`http://127.0.0.1:6060/${favorite.fileUrl}`}
+                  src={favorite.fileUrl}
                   alt="Product"
                   className="w-full lg:h-64 sm:h-56 h-72 p-4 object-contain"
                 />
@@ -127,8 +126,6 @@ export default function ProfileFavorite() {
         currentPage={currentPage}
         pageSize={pageSize}
       />
-
-      <Toaster />
     </>
   );
 }

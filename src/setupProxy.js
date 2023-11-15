@@ -4,7 +4,7 @@ module.exports = function (app) {
   app.use(
     "/api",
     createProxyMiddleware({
-      target: "http://127.0.0.1:6060/",
+      target: "https://eshop-bak.iran.liara.run/",
       changeOrigin: true,
     })
   );

@@ -14,7 +14,7 @@ export default function EditProductFile({ setShowEditFile }) {
   const [showUrl, setShowUrl] = useState([]);
 
   const addFile = async () => {
-    if (imageURLs.length === 0) {
+    if (imageURLs?.length === 0) {
       setServerError("Please select at least one file.");
       return;
     }

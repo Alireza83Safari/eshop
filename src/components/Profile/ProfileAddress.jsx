@@ -14,7 +14,7 @@ import userAxios from "../../services/Axios/userInterceptors";
 import EditAddress from "../Address/EditAddress";
 import AddNewAddress from "../Address/AddNewAddress";
 import Spinner from "../Spinner/Spinner";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 export default function ProfileAddress() {
   const [showEditAddress, setShowEditAddress] = useState(false);
@@ -125,7 +125,6 @@ export default function ProfileAddress() {
           fetchAddress={fetchAddress}
         />
       )}
-      <Toaster />
     </div>
   );
 }
