@@ -8,7 +8,7 @@ import adminAxios from "../../../services/Axios/adminInterceptors";
 import { CustomSelect } from "../../SelectList";
 import useFetch from "../../../hooks/useFetch";
 import FormSpinner from "../../FormSpinner/FormSpinner";
-import { itemValidation } from "../../../validators/itemValidation";
+import productItemSchema from "../../../validators/productItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "../../Spinner/Spinner";
@@ -23,21 +23,23 @@ export default function ShowProductItem({
   const [serverError, setServerError] = useState(null);
   const [totalProductItem, setTotalProductItem] = useState(null);
   const [isLoading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState(null);
   const [editItemID, setEditItemID] = useState("");
   const [totalItemLength, setTotalItemLength] = useState(null);
   const initialProductItemInfo = {
     colorId: "",
     isMainItem: true,
-    price: "",
+    price: null,
     productId: infosId,
     quantity: null,
-    status: 0,
+    status: null,
     color: "",
     statusName: "",
   };
+
   const [EditItemValue, setEditItemValue] = useState(initialProductItemInfo);
   const [editID, setEditID] = useState(null);
+  const [formIsValid, setFormIsValid] = useState(false);
 
   const setInputValues = (event) => {
     let value = event.target.value;
@@ -105,22 +107,45 @@ export default function ShowProductItem({
     } catch (error) {}
   };
 
-  const editProductItemHandler = async (e) => {
-    e.preventDefault();
-    itemValidation(EditItemValue, errors, setErrors);
+  const editProductItemHandler = async () => {
     setLoading(true);
-    try {
-      const response = await adminAxios.post(
-        editItemID?.length ? `/productItem/edit/${editID}` : "/productItem",
-        EditItemValue
-      );
 
-      if (response.status === 200) {
-        toast.success("Add product Item is success");
-        fetchProductItem();
-        fetchProductList();
-        setLoading(false);
+    try {
+      const isValid = await productItemSchema.validate(EditItemValue, {
+        abortEarly: false,
+      });
+
+      setFormIsValid(isValid);
+      setLoading(false);
+    } catch (error) {
+      let errors = error.inner.reduce(
+        (acc, error) => ({
+          ...acc,
+          [error.path]: error.message,
+        }),
+        {}
+      );
+      setErrors(errors);
+      setLoading(false);
+    }
+
+    try {
+      setLoading(true);
+      if (formIsValid) {
+        const response = await adminAxios.post(
+          editItemID?.length ? `/productItem/edit/${editID}` : "/productItem",
+          EditItemValue
+        );
+
+        if (response.status === 200) {
+          toast.success("Add product Item is success");
+          fetchProductItem();
+          fetchProductList();
+          setLoading(false);
+          setEditItemValue(initialProductItemInfo);
+        }
       }
+      setLoading(false);
     } catch (error) {
       setServerError(error?.response?.data);
       setLoading(false);
@@ -128,7 +153,7 @@ export default function ShowProductItem({
   };
 
   return (
-    <form onSubmit={editProductItemHandler}>
+    <form onSubmit={(e) => e.preventDefault()}>
       {isLoading || dataLoading ? (
         <Spinner />
       ) : (
@@ -159,7 +184,6 @@ export default function ShowProductItem({
                       colorId: selectedOptions?.value,
                       color: selectedOptions?.label,
                     });
-                    setErrors("");
                   }}
                   onFocus={() => {
                     setErrors("");
@@ -169,7 +193,6 @@ export default function ShowProductItem({
                     value: EditItemValue?.colorId,
                     label: EditItemValue?.color,
                   }}
-                  on
                 />
                 <p className="text-sm text-red-700">{errors?.colorId}</p>
               </div>
@@ -207,7 +230,6 @@ export default function ShowProductItem({
                       ...EditItemValue,
                       status: selectedOptions?.value === "Publish" ? 0 : 1,
                     });
-                    setErrors("");
                   }}
                   defaultValue={{
                     value: EditItemValue?.status,

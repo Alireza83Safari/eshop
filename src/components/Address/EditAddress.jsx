@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import userAxios from "../../services/Axios/userInterceptors";
-import { addressValidation } from "../../validators/addressValidation";
 import FormSpinner from "../FormSpinner/FormSpinner";
 import AddressContext from "../../Context/AddressContext";
+import addressSchema from "../../validators/address";
 
 export default function EditAddress({}) {
   const { showEditAddress, setShowEditAddress, editAddressId, fetchAddress } =
     useContext(AddressContext);
   const [errors, setErrors] = useState(null);
+  const [formIsValid, setFormIsValid] = useState(false);
   const [serverErrors, setServerErrors] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [addressInfos, setAddressInfos] = useState({
@@ -39,14 +40,37 @@ export default function EditAddress({}) {
   }, [showEditAddress]);
 
   const setAddressHandler = (event) => {
+    const { name, value } = event.target;
     setAddressInfos({
       ...addressInfos,
-      [event.target.name]: event.target.value,
+      [name]: value,
     });
   };
 
+  const getFormValidation = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+
+    try {
+      const isValid = await addressSchema.validate(addressInfos, {
+        abortEarly: false,
+      });
+      setFormIsValid(isValid);
+      setLoading(false);
+    } catch (error) {
+      let errors = error.inner.reduce(
+        (acc, error) => ({
+          ...acc,
+          [error.path]: error.message,
+        }),
+        {}
+      );
+      setLoading(false);
+      setErrors(errors);
+    }
+  };
+
   const EditHandler = async () => {
-    addressValidation(addressInfos, errors, setErrors);
     try {
       const res = await userAxios.post(`/address/edit/${editAddressId}`, {
         ...addressInfos,
@@ -60,6 +84,13 @@ export default function EditAddress({}) {
       setServerErrors(err?.response?.data);
     }
   };
+
+  useEffect(() => {
+    if (formIsValid) {
+      EditHandler();
+    }
+  }, [formIsValid]);
+
   return ReactDOM.createPortal(
     <div
       className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 -translate-y-1/2 z-10 w-full h-screen flex items-center justify-center transition duration-400 ${
@@ -207,7 +238,7 @@ export default function EditAddress({}) {
             <button
               type="submit"
               className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2 disabled:bg-gray-100"
-              onClick={EditHandler}
+              onClick={getFormValidation}
             >
               {isLoading ? <FormSpinner /> : "Edit Product"}
             </button>

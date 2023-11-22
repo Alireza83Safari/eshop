@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ProductsPanelContext from "../../../../Context/ProductsPanelContext";
 import adminAxios from "../../../../services/Axios/adminInterceptors";
 import useFetch from "../../../../hooks/useFetch";
-import { productFormValidation } from "../../../../validators/productFormValidation";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
 import { CustomSelect } from "../../../SelectList";
 import Input from "../../Input";
+import productSchema from "../../../../validators/product";
 
 export default function AddNewProduct({
   setShowProductItem,
@@ -14,39 +14,72 @@ export default function AddNewProduct({
   const { fetchProductList, setShowAddProductModal, setNewProductId } =
     useContext(ProductsPanelContext);
 
-  const [productInfo, setProductInfo] = useState({
+  const initialState = {
     name: "",
     code: "",
     brandId: "",
     categoryId: "",
     description: "",
     shortDescription: "",
-  });
+  };
 
+  const [productInfo, setProductInfo] = useState(initialState);
+
+  const [formIsValid, setFormIsValid] = useState(false);
   const [errors, setErrors] = useState(null);
   const [serverError, setServerError] = useState(null);
   const [isLoading, setLoading] = useState(false);
 
-  const addNewProducts = async () => {
-    productFormValidation(productInfo, errors, setErrors);
+  const getFormValidation = async () => {
     setLoading(true);
-    try {
-      const response = await adminAxios.post("/product", productInfo);
-      if (response.status === 200) {
-        setNewProductId(response?.data.data);
-        fetchProductList();
-        setShowAddProduct(false);
-        setShowProductItem(true);
 
-        setLoading(false);
-      } else if (response.status === 422) {
-        setErrors("Code Is Taken");
+    try {
+      const isValid = await productSchema.validate(productInfo, {
+        abortEarly: false,
+      });
+      setFormIsValid(isValid);
+      setLoading(false);
+    } catch (error) {
+      let errors = error.inner.reduce(
+        (acc, error) => ({
+          ...acc,
+          [error.path]: error.message,
+        }),
+        {}
+      );
+      setErrors(errors);
+      setLoading(false);
+    }
+  };
+
+  const addNewProducts = async () => {
+    try {
+      if (formIsValid) {
+        setLoading(true);
+        const response = await adminAxios.post("/product", productInfo);
+        if (response.status === 200) {
+          setNewProductId(response?.data.data);
+          fetchProductList();
+          setShowAddProduct(false);
+          setShowProductItem(true);
+          setProductInfo(initialState);
+
+          setLoading(false);
+        } else if (response.status === 422) {
+          setErrors("Code Is Taken");
+        }
       }
     } catch (error) {
       setServerError(error?.response?.data);
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (formIsValid) {
+      addNewProducts();
+    }
+  }, [formIsValid]);
 
   const setProductInfos = (event) => {
     setProductInfo({
@@ -184,7 +217,7 @@ export default function AddNewProduct({
           <button
             type="submit"
             className="bg-blue-600 text-white-100 w-full py-2 rounded-md mr-1"
-            onClick={addNewProducts}
+            onClick={getFormValidation}
           >
             {isLoading ? <FormSpinner /> : "Add Product"}
           </button>

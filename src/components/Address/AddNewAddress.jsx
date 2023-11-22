@@ -1,15 +1,16 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import userAxios from "../../services/Axios/userInterceptors";
-import { addressValidation } from "../../validators/addressValidation";
 import FormSpinner from "../FormSpinner/FormSpinner";
 import AddressContext from "../../Context/AddressContext";
 import toast from "react-hot-toast";
+import addressSchema from "../../validators/address";
 
 export default function AddNewAddress() {
   const { showAddAddress, setShowAddAddress, fetchAddress } =
     useContext(AddressContext);
   const [errors, setErrors] = useState(null);
+  const [formIsValid, setFormIsValid] = useState(false);
   const [serverErrors, setServerErrors] = useState(null);
   const [isLoading, setIsLoadnig] = useState(false);
 
@@ -23,28 +24,54 @@ export default function AddNewAddress() {
     postalCode: "",
   });
 
-  const addNewAddress = () => {
-    addressValidation(addressInfos, errors, setErrors);
+  const getFormValidation = async (event) => {
+    event.preventDefault();
     setIsLoadnig(true);
-    userAxios
-      .post("/address", {
-        ...addressInfos,
-        plaque: Number(addNewAddress.plaque),
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          toast.success("create is success");
-          setShowAddAddress(false);
-          fetchAddress();
-          setIsLoadnig(false);
-        }
-      })
 
-      .catch((err) => {
-        setServerErrors(err?.response?.data);
-        setIsLoadnig(false);
+    try {
+      const isValid = await addressSchema.validate(addressInfos, {
+        abortEarly: false,
       });
+      setFormIsValid(isValid);
+      setIsLoadnig(false);
+    } catch (error) {
+      let errors = error.inner.reduce(
+        (acc, error) => ({
+          ...acc,
+          [error.path]: error.message,
+        }),
+        {}
+      );
+      setIsLoadnig(false);
+      setErrors(errors);
+    }
   };
+
+  const addNewAddress = () => {};
+
+  useEffect(() => {
+    if (formIsValid) {
+      setIsLoadnig(true);
+      userAxios
+        .post("/address", {
+          ...addressInfos,
+          plaque: Number(addNewAddress.plaque),
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            toast.success("create is success");
+            setShowAddAddress(false);
+            fetchAddress();
+            setIsLoadnig(false);
+          }
+        })
+
+        .catch((err) => {
+          setServerErrors(err?.response?.data);
+          setIsLoadnig(false);
+        });
+    }
+  }, [formIsValid]);
 
   const setAddressHandler = (event) => {
     setAddressInfos({
@@ -236,7 +263,7 @@ export default function AddNewAddress() {
             <button
               type="submit"
               className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2 disabled:bg-gray-100"
-              onClick={() => addNewAddress()}
+              onClick={() => getFormValidation()}
             >
               {isLoading ? <FormSpinner /> : "Add Product"}
             </button>

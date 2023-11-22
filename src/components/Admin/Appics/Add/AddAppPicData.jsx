@@ -4,6 +4,8 @@ import FormSpinner from "../../../FormSpinner/FormSpinner";
 import Input from "../../Input";
 import useAccess from "../../../../hooks/useAccess";
 import toast from "react-hot-toast";
+import appPicSchema from "../../../../validators/appPic";
+import { useEffect } from "react";
 export default function AddAppPicData({
   setAddAppPicId,
   setShowAddAppPic,
@@ -11,7 +13,8 @@ export default function AddAppPicData({
 }) {
   const [isLoading, setLoading] = useState(false);
   const [serverErrors, setServerErrors] = useState(false);
-
+  const [formIsValid, setFormIsValid] = useState(false);
+  const [error, setError] = useState(null);
   const [newAppPic, setNewAppPic] = useState({
     appPicType: 3,
     description: "",
@@ -19,6 +22,7 @@ export default function AddAppPicData({
     title: "",
     url: "",
   });
+
   const setNewAppPicHandler = (event) => {
     const { name, value, type } = event.target;
     setNewAppPic({
@@ -31,8 +35,31 @@ export default function AddAppPicData({
     "action_app_pic_admin_create"
   );
 
-  const addNewAppPicHandler = async (e) => {
-    e.preventDefault();
+  const getFormValidation = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+
+    try {
+      const isValid = await appPicSchema.validate(newAppPic, {
+        abortEarly: false,
+      });
+      setFormIsValid(isValid);
+      setLoading(false);
+    } catch (error) {
+      let errors = error.inner.reduce(
+        (acc, error) => ({
+          ...acc,
+          [error.path]: error.message,
+        }),
+        {}
+      );
+      setLoading(false);
+      setError(errors);
+    }
+  };
+
+  
+  const addNewAppPicHandler = async () => {
     if (userHaveAccessAdd) {
       setLoading(true);
       try {
@@ -57,6 +84,11 @@ export default function AddAppPicData({
     }
   };
 
+  useEffect(() => {
+    if (formIsValid) {
+      addNewAppPicHandler();
+    }
+  }, [formIsValid]);
   return (
     <div>
       <span className="my-2 mt-3 font-bold flex justify-center 2xl:text-2xl sm:text-xl text-[16px]">
@@ -64,7 +96,7 @@ export default function AddAppPicData({
       </span>
 
       <form
-        onSubmit={addNewAppPicHandler}
+        onSubmit={getFormValidation}
         className="w-full mx-auto sm:p-4 p-1 bg-white rounded-lg sm:text-base text-sm"
       >
         <div
@@ -80,7 +112,7 @@ export default function AddAppPicData({
               value={newAppPic?.url}
               onChange={setNewAppPicHandler}
               className="2xl:p-3 p-2 mt-1"
-              Error={serverErrors?.url}
+              Error={error?.url || serverErrors?.url}
               callback={() => setServerErrors("")}
             />
           </div>
@@ -107,7 +139,7 @@ export default function AddAppPicData({
               value={newAppPic?.title}
               onChange={setNewAppPicHandler}
               className="2xl:p-3 p-2 mt-1"
-              Error={serverErrors?.title}
+              Error={error?.title || serverErrors?.title}
               callback={() => setServerErrors("")}
             />
           </div>
@@ -120,7 +152,7 @@ export default function AddAppPicData({
               value={newAppPic?.description}
               onChange={setNewAppPicHandler}
               className="2xl:p-3 p-2 mt-1"
-              Error={serverErrors?.description}
+              Error={error?.description || serverErrors?.description}
               callback={() => setServerErrors("")}
             />
           </div>

@@ -53,7 +53,7 @@ const route = [
       { path: "comments", element: <ProfileComments /> },
     ],
   },
-  /*   {
+  {
     path: "/panel/*",
     element: <Index />,
     children: [
@@ -156,7 +156,7 @@ const route = [
         ),
       },
     ],
-  }, */
+  },
 ];
 
 export default route;

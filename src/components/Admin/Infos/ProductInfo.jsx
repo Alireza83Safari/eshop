@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import adminAxios from "../../../services/Axios/adminInterceptors";
-import { productFormValidation } from "../../../validators/productFormValidation";
+//import { productFormValidation } from "../../../validators/productFormValidation";
 import useFetch from "../../../hooks/useFetch";
 import FormSpinner from "../../FormSpinner/FormSpinner";
 import { CustomSelect } from "../../SelectList";
@@ -62,7 +62,7 @@ export default function ProductInfo({
     }
   }, [infosId]);
   const editProductHandler = async () => {
-    productFormValidation(productInfo, errors, setErrors);
+   // productFormValidation(productInfo, errors, setErrors);
     setLoading(true);
     try {
       const response = await adminAxios.post(

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { registerValidation } from "../validators/registerValidation";
+import registerSchema from "../validators/register";
 import Header from "./Header";
 import Footer from "../pages/Footer";
 import Sidebar from "./Sidebar/Sidebar";
@@ -11,9 +11,8 @@ import toast from "react-hot-toast";
 export default function Register() {
   const navigate = useNavigate();
   const [serverErrors, setServerErrors] = useState(null);
-  const [sameValue, setSameValue] = useState(false);
+  const [formIsValid, setFormIsValid] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const [isDisable, setIsDisable] = useState(false);
   const [errors, setErrors] = useState({
     username: "",
     password: "",
@@ -28,30 +27,33 @@ export default function Register() {
   const registerInfosHandler = (event) => {
     const { name, value } = event.target;
 
-    const isAnyInputEmpty = Object.values(registerInfos).some(
-      (val) => val === ""
-    );
-
-    setIsDisable(isAnyInputEmpty);
-
     setRegisterInfos({
       ...registerInfos,
       [name]: value,
     });
   };
 
-  useEffect(() => {
-    setSameValue(registerInfos.password === registerInfos.passwordConfirmation);
-  }, [registerInfos.password, registerInfos.passwordConfirmation]);
+  const getFormIsValid = async () => {
+    try {
+      const isValid = await registerSchema.validate(registerInfos, {
+        abortEarly: false,
+      });
+      setFormIsValid(isValid);
+      setLoading(false);
+    } catch (error) {
+      let errors = error.inner.reduce(
+        (acc, error) => ({
+          ...acc,
+          [error.path]: error.message,
+        }),
+        {}
+      );
+      setErrors(errors);
+      setLoading(false);
+    }
+  };
 
   const sendUserData = async () => {
-    registerValidation(registerInfos, errors, setErrors);
-
-    if (registerInfos.password !== registerInfos.passwordConfirmation) {
-      setSameValue(false);
-      return;
-    }
-    setLoading(true);
     try {
       await axios.post("/api/v1/user/register", registerInfos).then((res) => {
         if (res.status === 200) {
@@ -69,6 +71,11 @@ export default function Register() {
     }
   };
 
+  useEffect(() => {
+    if (formIsValid) {
+      sendUserData();
+    }
+  }, [formIsValid]);
   return (
     <>
       <Header />
@@ -128,7 +135,6 @@ export default function Register() {
                   placeholder="password"
                   className="p-2 block w-full rounded-md border shadow-sm outline-none dark:text-white-100"
                   onChange={registerInfosHandler}
-                  sameValue={sameValue}
                   value={registerInfos?.password}
                   onFocus={() => {
                     setErrors("");
@@ -153,7 +159,6 @@ export default function Register() {
                   placeholder="password"
                   className="p-2 block w-full rounded-md border shadow-sm outline-none dark:text-white-100"
                   onChange={registerInfosHandler}
-                  sameValue={sameValue}
                   value={registerInfos?.passwordConfirmation}
                   onFocus={() => {
                     setErrors("");
@@ -167,11 +172,10 @@ export default function Register() {
             </div>
             <button
               type="submit"
-              onClick={sendUserData}
+              onClick={getFormIsValid}
               className={`w-full mt-8 py-2 px-4 bg-blue-600 hover:bg-blue-700 duration-300 text-white-100 rounded-lg disabled:bg-gray-200 z-10 ${
                 isLoading && "py-5 bg-gray-200"
               }`}
-              disabled={isDisable || !sameValue}
             >
               {isLoading ? <Spinner /> : "Register"}
             </button>

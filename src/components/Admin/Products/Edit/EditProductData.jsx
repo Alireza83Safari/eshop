@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import ProductsPanelContext from "../../../../Context/ProductsPanelContext";
 import adminAxios from "../../../../services/Axios/adminInterceptors";
-import { productFormValidation } from "../../../../validators/productFormValidation";
+//import { productFormValidation } from "../../../../validators/productFormValidation";
 import useFetch from "../../../../hooks/useFetch";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
 import { CustomSelect } from "../../../SelectList";
 import Input from "../../Input";
 import Spinner from "../../../Spinner/Spinner";
+import productSchema from "../../../../validators/product";
 
 export default function EditProductData({
   setShowEditProduct,
@@ -60,19 +61,41 @@ export default function EditProductData({
     fetchData();
   }, [showEditModal]);
 
+  const [formIsValid, setFormIsValid] = useState(false);
   const editProductHandler = async () => {
-    productFormValidation(productInfo, errors, setErrors);
     setLoading(true);
+
     try {
-      const response = await adminAxios.post(
-        `/product/edit/${editProductID}`,
-        productInfo
+      const isValid = await productSchema.validate(productInfo, {
+        abortEarly: false,
+      });
+      setFormIsValid(isValid);
+    } catch (error) {
+      let errors = error.inner.reduce(
+        (acc, error) => ({
+          ...acc,
+          [error.path]: error.message,
+        }),
+        {}
       );
-      if (response.status === 200) {
-        setShowEditFile(true);
-        setShowEditProduct(false);
-        fetchProductList();
-        setLoading(false);
+      setErrors(errors);
+      setLoading(false);
+    }
+
+    try {
+      if (!formIsValid) {
+        return false;
+      } else {
+        const response = await adminAxios.post(
+          `/product/edit/${editProductID}`,
+          productInfo
+        );
+        if (response.status === 200) {
+          setShowEditFile(true);
+          setShowEditProduct(false);
+          fetchProductList();
+          setLoading(false);
+        }
       }
     } catch (error) {
       setLoading(false);

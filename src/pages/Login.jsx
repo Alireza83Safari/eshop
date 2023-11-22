@@ -1,20 +1,21 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext,  useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import userAxios from "../services/Axios/userInterceptors";
-import { loginValidation } from "../validators/loginValidation";
 import { AuthContext } from "../Context/AuthContext";
 import Sidebar from "./Sidebar/Sidebar";
 import Spinner from "../components/Spinner/Spinner";
 import toast from "react-hot-toast";
+import { useEffect } from "react";
+import loginSchema from "../validators/login";
 
 export default function Login() {
   const navigate = useNavigate();
   const { userLogin } = useContext(AuthContext);
   const [errors, setErrors] = useState(null);
+  const [formIsValid, setFormIsValid] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const [isDisable, setIsDisable] = useState(false);
   const [serverErrors, setServerErrors] = useState(null);
   const [loginInfos, setLoginInfos] = useState({
     username: "",
@@ -24,19 +25,33 @@ export default function Login() {
   const loginInfosHandler = (event) => {
     const { name, value } = event.target;
 
-    const isAnyInputEmpty = Object.values(loginInfos)?.some((val) => val === "");
-
-    setIsDisable(isAnyInputEmpty);
-
     setLoginInfos({
       ...loginInfos,
       [name]: value,
     });
   };
-  const userLoginHandler = (event) => {
-    event.preventDefault();
 
-    loginValidation(loginInfos, errors, setErrors);
+  const getFormIsValid = async () => {
+    try {
+      const isValid = await loginSchema.validate(loginInfos, {
+        abortEarly: false,
+      });
+      setFormIsValid(isValid);
+      setLoading(false);
+    } catch (error) {
+      let errors = error.inner.reduce(
+        (acc, error) => ({
+          ...acc,
+          [error.path]: error.message,
+        }),
+        {}
+      );
+      setErrors(errors);
+      setLoading(false);
+    }
+  };
+
+  const userLoginHandler = async () => {
     setLoading(true);
     userAxios
       .post("/login", loginInfos)
@@ -53,6 +68,12 @@ export default function Login() {
         setLoading(false);
       });
   };
+
+  useEffect(() => {
+    if (formIsValid) {
+      userLoginHandler();
+    }
+  }, [formIsValid]);
 
   return (
     <>
@@ -128,8 +149,7 @@ export default function Login() {
               className={`w-full mt-8 py-2 px-4 bg-blue-600 hover:bg-blue-700 duration-300 text-white-100 rounded-lg disabled:bg-gray-200 ${
                 isLoading && "py-5 bg-gray-200"
               }`}
-              disabled={isDisable}
-              onClick={userLoginHandler}
+              onClick={getFormIsValid}
             >
               {isLoading ? <Spinner /> : "login"}
             </button>

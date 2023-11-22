@@ -2,8 +2,12 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 const userAxios = axios.create({
-  baseURL: "api/v1/user/",
+  baseURL: "/api/v1/user/",
   withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  },
 });
 
 userAxios.interceptors.request.use(

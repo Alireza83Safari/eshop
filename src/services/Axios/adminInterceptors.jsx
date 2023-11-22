@@ -1,8 +1,12 @@
 import axios from "axios";
 
 const adminAxios = axios.create({
-  baseURL: "api/v1/admin/",
+  baseURL: "/api/v1/admin/",
   withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  },
 });
 adminAxios.interceptors.request.use(
   function (config) {

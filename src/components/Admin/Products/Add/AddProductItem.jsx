@@ -1,8 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import useFetch from "../../../../hooks/useFetch";
 import ProductsPanelContext from "../../../../Context/ProductsPanelContext";
 import adminAxios from "../../../../services/Axios/adminInterceptors";
-import { itemValidation } from "../../../../validators/itemValidation";
+import productItemSchema from "../../../../validators/productItem";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
 import { CustomSelect } from "../../../SelectList";
 import Input from "../../Input";
@@ -17,56 +17,89 @@ export default function AddProductItem({
 }) {
   const { fetchProductList, newProductId, setShowAddProductModal } =
     useContext(ProductsPanelContext);
-  const initialProductItemInfo = {
+
+  const [productItemInfo, setProductItemInfo] = useState({
     status: "",
     statusName: "",
-    price: "",
-    quantity: "",
+    price: null,
+    quantity: null,
     isMainItem: null,
     isMainName: null,
     productId: newProductId,
     colorId: "",
     color: "",
-  };
+  });
 
-  const [productItemInfo, setProductItemInfo] = useState(
-    initialProductItemInfo
-  );
-
+  const [formIsValid, setFormIsValid] = useState(false);
   const [errors, setErrors] = useState(null);
   const [serverError, setServerError] = useState(null);
   const [createItemInfo, setCreateItemInfo] = useState([]);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const { datas: colors } = useFetch("/color", adminAxios);
 
-  const addItem = async (event) => {
+  const getFormValidation = async (event) => {
     event.preventDefault();
-    itemValidation(productItemInfo, errors, setErrors);
-
-    let colneProductItemInfo = { ...productItemInfo };
-    delete colneProductItemInfo.color;
-    delete colneProductItemInfo.isMainName;
-    delete colneProductItemInfo.statusName;
-
-    setIsLoading(true);
+    setLoading(true);
 
     try {
+      const isValid = await productItemSchema.validate(productItemInfo, {
+        abortEarly: false,
+      });
+      setFormIsValid(isValid);
+      setLoading(false);
+    } catch (error) {
+      let errors = error.inner.reduce(
+        (acc, error) => ({
+          ...acc,
+          [error.path]: error.message,
+        }),
+        {}
+      );
+      setLoading(false);
+      setErrors(errors);
+    }
+  };
+
+  const addItem = async () => {
+    try {
+      let colneProductItemInfo = { ...productItemInfo };
+      delete colneProductItemInfo.color;
+      delete colneProductItemInfo.isMainName;
+      delete colneProductItemInfo.statusName;
+      setLoading(true);
       const response = await adminAxios.post(
         `/productItem`,
         colneProductItemInfo
       );
-      setIsLoading(false);
       if (response.status === 200) {
         fetchProductList();
         setCreateItemInfo([...createItemInfo, productItemInfo]);
-        setProductItemInfo(initialProductItemInfo);
+        setProductItemInfo({
+          status: "",
+          statusName: "",
+          price: 0,
+          quantity: 0,
+          isMainItem: null,
+          isMainName: null,
+          productId: newProductId,
+          colorId: "",
+          color: "",
+        });
+        setLoading(false);
       }
     } catch (error) {
       setServerError(error?.response?.data);
-      setIsLoading(false);
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (formIsValid) {
+      addItem();
+    }
+  }, [formIsValid]);
+
   const setProductItemInfos = (event) => {
     let value = event.target.value;
 
@@ -99,7 +132,10 @@ export default function AddProductItem({
         <p className="text-xs text-red-700 text-center">
           {serverError?.message}
         </p>
-        <form onSubmit={addItem} className="w-full mx-auto bg-white rounded-lg">
+        <form
+          onSubmit={getFormValidation}
+          className="w-full mx-auto bg-white rounded-lg"
+        >
           <div
             className={` grid grid-cols-1 gap-y-4 gap-x-3 ${
               isLoading && "opacity-20"
@@ -259,7 +295,7 @@ export default function AddProductItem({
                   {createItemInfo?.map((item) => (
                     <div
                       key={item.id}
-                      className="grid grid-cols-2 sm:gap-y-4 gap-y-3 md:text-base sm:text-sm text-xs border rounded-lg mb-6 px-10 py-4 relative hover:bg-gray-50 duration-300"
+                      className="grid grid-cols-2 sm:gap-y-4 gap-y-3 md:text-base sm:text-sm text-xs border rounded-lg mb-6 px-10 py-4 relative dark:text-white-100 hover:bg-gray-50 duration-300"
                     >
                       <FontAwesomeIcon
                         icon={faX}
@@ -288,7 +324,7 @@ export default function AddProductItem({
           )}
         </div>
       ) : (
-        <div className="text-xl font-semibold flex justify-center items-center md:col-span-1 col-span-2 overflow-auto my-10">
+        <div className="text-xl font-semibold flex justify-center items-center md:col-span-1 col-span-2 overflow-auto my-10 dark:text-white-100">
           there is no item
         </div>
       )}
