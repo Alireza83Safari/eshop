@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import useFetch from "../../../../hooks/useFetch";
 import ProductsPanelContext from "../../../../Context/ProductsPanelContext";
 import adminAxios from "../../../../services/Axios/adminInterceptors";
-import { itemValidation } from "../../../../validators/itemValidation";
+//import { itemValidation } from "../../../../validators/itemValidation";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
 import { CustomSelect } from "../../../SelectList";
 
@@ -27,7 +27,7 @@ export default function EditAddProductItem({
   const addItem = async (event) => {
     event.preventDefault();
 
-    itemValidation(productItemInfo, errors, setErrors);
+    //itemValidation(productItemInfo, errors, setErrors);
     setIsLoading(true);
 
     let productItem = {

@@ -9,16 +9,17 @@ function FilterProducts({ setCurrentPage }) {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const { datas: categoryData } = useFetch("/category/selectList", userAxios);
-  const { datas: brandData } = useFetch("/brand", userAxios);
+  const { datas: brandData } = useFetch("/brand/selectList", userAxios);
 
   const handleChange = useCallback(
     (name, value) => {
-      searchParams.set(name, value);
-
-      if (value === "All") {
-        searchParams.delete(name);
+      if (value) {
+        searchParams.set(name, value);
       }
 
+      if (value === "none") {
+        searchParams.delete(name);
+      }
       navigate(`?${searchParams.toString()}`);
       setCurrentPage(1);
     },
@@ -83,12 +84,12 @@ function FilterProducts({ setCurrentPage }) {
           </label>
 
           <CustomSelect
-            options={["None", "cheap", "newest", "topSell", "expensive"].map(
+            options={["none", "cheap", "newest", "topSell", "expensive"].map(
               (item) => ({ value: item, label: item })
             )}
             name="order"
             onchange={(selectedOptions) => {
-              handleChange("order", selectedOptions);
+              handleChange("order", selectedOptions?.value);
             }}
           />
         </div>
@@ -99,8 +100,8 @@ function FilterProducts({ setCurrentPage }) {
           </label>
           <CustomSelect
             options={brandData?.data?.map((brand) => ({
-              value: brand.id,
-              label: brand.name,
+              value: brand.key,
+              label: brand.value,
             }))}
             name="brandId"
             onchange={(selectedOptions) => {

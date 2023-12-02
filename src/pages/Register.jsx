@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import registerSchema from "../validators/register";
+import  registerSchema  from "../validations/register";
 import Header from "./Header";
 import Footer from "../pages/Footer";
 import Sidebar from "./Sidebar/Sidebar";
@@ -32,10 +32,9 @@ export default function Register() {
       [name]: value,
     });
   };
-
   const getFormIsValid = async () => {
     try {
-      const isValid = await registerSchema.validate(registerInfos, {
+      const isValid = await registerSchema?.validate(registerInfos, {
         abortEarly: false,
       });
       setFormIsValid(isValid);

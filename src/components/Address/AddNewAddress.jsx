@@ -4,7 +4,7 @@ import userAxios from "../../services/Axios/userInterceptors";
 import FormSpinner from "../FormSpinner/FormSpinner";
 import AddressContext from "../../Context/AddressContext";
 import toast from "react-hot-toast";
-import addressSchema from "../../validators/address";
+import addressSchema from "../../validations/address";
 
 export default function AddNewAddress() {
   const { showAddAddress, setShowAddAddress, fetchAddress } =
@@ -20,7 +20,7 @@ export default function AddNewAddress() {
     lastName: "",
     nationalCode: "",
     phoneNumber: "",
-    plaque: "",
+    plaque: 0,
     postalCode: "",
   });
 

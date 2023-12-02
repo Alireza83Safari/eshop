@@ -6,7 +6,7 @@ import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Input from "../Input";
 import toast from "react-hot-toast";
-import roleShema from "../../../validators/role";
+import  roleShema  from "../../../validations/role";
 import Spinner from "../../Spinner/Spinner";
 import { useEffect } from "react";
 

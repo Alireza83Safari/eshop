@@ -4,6 +4,7 @@ import FormSpinner from "../../FormSpinner/FormSpinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import toast from "react-hot-toast";
+import Spinner from "../../Spinner/Spinner";
 
 export default function ProductImage({
   infosId,
@@ -73,10 +74,12 @@ export default function ProductImage({
     const endIndices = productFile?.map((img) => img?.fileUrl);
     setImageURLs(endIndices);
   }, []);
-  
+
   //------- finish drag drop -------////
 
   const addFile = async () => {
+    setIsLoading(true);
+
     if (imageURLs.length === 0) {
       setServerError("Please select at least one file.");
       return;
@@ -143,59 +146,62 @@ export default function ProductImage({
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
-      <div className="lg:w-[46rem] max-h-[44rem] max-w-10/12 bg-white-100 dark:bg-black-200 p-5 rounded-xl overflow-auto">
-        <div className="grid grid-cols-1 overflow-auto">
-          <h2 className="text-center mb-4 dark:text-white-100">
-            Upload images
-          </h2>
-          <span className="text-center text-red-700">{serverError}</span>
-          {showUrl?.length ? (
-            <div className="relative grid md:grid-cols-4 grid-cols-2">
-              {showUrl?.map((imageUrl, index) => (
-                <div key={imageUrl} className="w-ful p-2 relative">
-                  <img
-                    src={
-                      imageUrl?.includes("uploads") ? { imageUrl } : imageUrl
-                    }
-                    className="mb-4 border w-96 h-44 object-contain"
-                    draggable="true"
-                    id={`image-${index}`}
-                    onDragStart={(e) => handleDragStart(e, index)}
-                    onDragOver={(e) => handleDragOver(e, index)}
-                    onDrop={(e) => handleDrop(e, index)}
-                  />
+      <div className="lg:w-[46rem] min-h-[28rem] max-w-10/12 bg-white-100 dark:bg-black-200 p-5 rounded-xl overflow-auto">
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <div className="grid grid-cols-1 overflow-auto">
+            <h2 className="text-center mb-4 dark:text-white-100">
+              Upload images
+            </h2>
+            <span className="text-center text-red-700">{serverError}</span>
+            {showUrl?.length ? (
+              <div className="relative grid md:grid-cols-4 grid-cols-2">
+                {showUrl?.map((imageUrl, index) => (
+                  <div key={imageUrl} className="w-ful p-2 relative">
+                    <img
+                      src={showUrl}
+                      className="mb-4 border w-96 h-44 object-contain"
+                      draggable="true"
+                      id={`image-${index}`}
+                      onDragStart={(e) => handleDragStart(e, index)}
+                      onDragOver={(e) => handleDragOver(e, index)}
+                      onDrop={(e) => handleDrop(e, index)}
+                    />
+                    {console.log(imageUrl)}
 
-                  <button
-                    className="absolute top-2 right-2 text-red-700 p-1 rounded-full cursor-pointer"
-                    onClick={() => deleteImage(imageUrl, index)}
-                  >
-                    <FontAwesomeIcon icon={faX} />
-                  </button>
-                </div>
-              ))}
+                    <button
+                      className="absolute top-2 right-2 text-red-700 p-1 rounded-full cursor-pointer"
+                      onClick={() => deleteImage(imageUrl, index)}
+                    >
+                      <FontAwesomeIcon icon={faX} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex justify-center items-center">
+                <img
+                  src="/images/empty.jpg"
+                  className="object-contain h-72 rounded-xl"
+                />
+              </div>
+            )}
+            <div className="flex justify-center w-full mt-16">
+              <input type="file" onChange={handleImageChange} multiple />
             </div>
-          ) : (
-            <div className="flex justify-center items-center">
-              <img
-                src="/images/empty.jpg"
-                className="object-contain h-72 rounded-xl"
-              />
+            <div className="flex justify-center w-full mt-16">
+              <button
+                type="submit"
+                className="bg-blue-600 text-white-100 w-full py-2 md:mx-5 mx-2 rounded-xl outline-none disabled:bg-gray-50"
+                onClick={addFile}
+                disabled={newUrl?.length < 1}
+              >
+                {isLoading ? <FormSpinner /> : "Add Product Files"}
+              </button>
             </div>
-          )}
-          <div className="flex justify-center w-full mt-16">
-            <input type="file" onChange={handleImageChange} multiple />
           </div>
-          <div className="flex justify-center w-full mt-16">
-            <button
-              type="submit"
-              className="bg-blue-600 text-white-100 w-full py-2 md:mx-5 mx-2 rounded-xl outline-none disabled:bg-gray-50"
-              onClick={addFile}
-              disabled={newUrl?.length < 1}
-            >
-              {isLoading ? <FormSpinner /> : "Add Product Files"}
-            </button>
-          </div>
-        </div>
+        )}
       </div>
     </form>
   );

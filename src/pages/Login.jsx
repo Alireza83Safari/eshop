@@ -1,4 +1,4 @@
-import React, { useContext,  useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -8,11 +8,11 @@ import Sidebar from "./Sidebar/Sidebar";
 import Spinner from "../components/Spinner/Spinner";
 import toast from "react-hot-toast";
 import { useEffect } from "react";
-import loginSchema from "../validators/login";
+import loginSchema from "../validations/login";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { userLogin } = useContext(AuthContext);
+  const { userLogin, setUserIsLogin } = useContext(AuthContext);
   const [errors, setErrors] = useState(null);
   const [formIsValid, setFormIsValid] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -33,7 +33,7 @@ export default function Login() {
 
   const getFormIsValid = async () => {
     try {
-      const isValid = await loginSchema.validate(loginInfos, {
+      const isValid = await loginSchema?.validate(loginInfos, {
         abortEarly: false,
       });
       setFormIsValid(isValid);
@@ -57,10 +57,14 @@ export default function Login() {
       .post("/login", loginInfos)
       .then((res) => {
         if (res.status === 200) {
+          const expireTime = new Date(res?.data?.expiresAt);
+          document.cookie = `Authorization= ${res?.data?.token} ; expires=${expireTime}; secure; path=/; `;
           toast.success("login is successfully");
           userLogin();
           navigate("/");
           setLoading(false);
+          setUserIsLogin(true);
+          navigate("/");
         }
       })
       .catch((err) => {
@@ -87,7 +91,10 @@ export default function Login() {
           </div>
         </div>
         <div className="flex lg:justify-start justify-center items-center">
-          <form className="sm:w-[26rem] w-full py-8 px-5 rounded-xl shadow-md bg-white-300 dark:bg-black-900">
+          <form
+            className="sm:w-[26rem] w-full py-8 px-5 rounded-xl shadow-md bg-white-300 dark:bg-black-900"
+            onSubmit={(e) => e.preventDefault()}
+          >
             <div className={` ${isLoading && "opacity-30"}`}>
               <h2 className="text-2xl font-bold mb-8 text-center dark:text-white-200">
                 Login

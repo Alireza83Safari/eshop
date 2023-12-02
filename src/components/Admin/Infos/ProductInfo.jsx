@@ -36,9 +36,10 @@ export default function ProductInfo({
   const [errors, setErrors] = useState(null);
 
   const setProductInfos = (event) => {
+    const { name, value } = event.target;
     setProductInfo({
       ...productInfo,
-      [event.target.name]: event.target.value,
+      [name]: name === "topFeatures" ? [value] : value,
     });
   };
   const { datas: brands } = useFetch("/brand", adminAxios);
@@ -62,7 +63,7 @@ export default function ProductInfo({
     }
   }, [infosId]);
   const editProductHandler = async () => {
-   // productFormValidation(productInfo, errors, setErrors);
+    // productFormValidation(productInfo, errors, setErrors);
     setLoading(true);
     try {
       const response = await adminAxios.post(
@@ -83,7 +84,7 @@ export default function ProductInfo({
   return (
     <>
       {isLoading ? (
-        <div className="">
+        <div>
           <Spinner />
         </div>
       ) : (
@@ -106,7 +107,7 @@ export default function ProductInfo({
                       <div className="h-full w-full">
                         <img
                           src={img.fileUrl}
-                          className="object-contain max-w-full h-auto"
+                          className="object-contain w-10/12 h-5/6 h-auto"
                           alt=""
                         />
                       </div>

@@ -5,7 +5,7 @@ import useFetch from "../../../../hooks/useFetch";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
 import { CustomSelect } from "../../../SelectList";
 import Input from "../../Input";
-import productSchema from "../../../../validators/product";
+import productSchema from "../../../../validations/product";
 
 export default function AddNewProduct({
   setShowProductItem,
@@ -82,9 +82,10 @@ export default function AddNewProduct({
   }, [formIsValid]);
 
   const setProductInfos = (event) => {
+    const { name, value } = event.target;
     setProductInfo({
       ...productInfo,
-      [event.target.name]: event.target.value,
+      [name]: value,
     });
   };
 

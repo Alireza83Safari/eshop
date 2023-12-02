@@ -1,66 +1,34 @@
-import React, { useEffect, useState, lazy, Suspense } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import Spinner from "../Spinner/Spinner";
 import useFetch from "../../hooks/useFetch";
 import userAxios from "../../services/Axios/userInterceptors";
-import { useLocation } from "react-router-dom";
 import GetPagination from "../getPagination";
 import { usePaginationURL } from "../../hooks/usePaginationURL";
+import { useFetchPagination } from "../../hooks/useFetchPagination";
+import { useLocation } from "react-router-dom";
 const ProductTemplate = lazy(() => import("../Product/ProductTemplate"));
 const FilterProducts = lazy(() => import("./FilterProducts"));
 
 export default function Product() {
-  const location = useLocation();
   const pageSize = 12;
   const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
-  const [filterProduct, setFilterProduct] = useState(0);
   const [showFilter, setShowFilter] = useState(false);
-  const { datas: productsData, isLoading: productLoading } = useFetch(
-    "/product",
-    userAxios
-  );
+  const { datas: productsData } = useFetch("/product", userAxios);
 
-  const pagesCount = Math.ceil(
-    filterProduct > 1
-      ? filterProduct / pageSize
-      : !productLoading && productsData?.total / pageSize
-  );
-  const searchParams = new URLSearchParams(location.search);
-  const categoryId = searchParams.get("categoryId");
-  const brandId = searchParams.get("brandId");
-  const order = searchParams.get("order");
-  const minPrice = searchParams.get("minPrice");
-  const maxPrice = searchParams.get("maxPrice");
+  const pagesCount = Math.ceil(productsData?.data?.length / pageSize);
+
   const { isLoading: paginationLoading } = usePaginationURL(
     currentPage,
     pageSize
   );
 
-  const [paginatedProducts, setPaginatedProducts] = useState([]);
+  const location = useLocation();
+  let url = `/product`;
 
-  useEffect(() => {
-    let url = `/product?page=${currentPage}&limit=${pageSize}`;
-    if (categoryId) url += `&categoryId=${categoryId}`;
-    if (brandId) url += `&brandId=${brandId}`;
-    if (order) url += `&order=${order}`;
-    if (minPrice) url += `&minPrice=${minPrice}`;
-    if (maxPrice) url += `&maxPrice=${maxPrice}`;
-
-    setIsLoading(true);
-
-    setTimeout(() => {
-      userAxios
-        .get(url)
-        .then((res) => {
-          setIsLoading(false);
-          setPaginatedProducts(res?.data?.data);
-          url != `/product?page=${currentPage}&limit=${pageSize}`
-            ? setFilterProduct(res?.data?.total)
-            : setFilterProduct(0);
-        })
-        .catch((err) => setIsLoading(err));
-    }, 1000);
-  }, [location.search, categoryId, brandId, order, minPrice, maxPrice]);
+  const { isLoading, paginations, total, fetchData } = useFetchPagination(
+    url,
+    userAxios
+  );
 
   return (
     <>
@@ -84,12 +52,12 @@ export default function Product() {
           </div>
         ) : (
           <Suspense fallback={<Spinner />}>
-            <ProductTemplate mapData={paginatedProducts} />
+            <ProductTemplate mapData={paginations} />
           </Suspense>
         )}
       </div>
 
-      {paginatedProducts?.length >= 1 && (
+      {paginations?.length >= 1 && (
         <GetPagination
           pagesCount={pagesCount}
           setCurrentPage={setCurrentPage}

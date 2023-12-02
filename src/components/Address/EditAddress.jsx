@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import userAxios from "../../services/Axios/userInterceptors";
 import FormSpinner from "../FormSpinner/FormSpinner";
 import AddressContext from "../../Context/AddressContext";
-import addressSchema from "../../validators/address";
+import addressSchema from "../../validations/address";
 
 export default function EditAddress({}) {
   const { showEditAddress, setShowEditAddress, editAddressId, fetchAddress } =

@@ -162,10 +162,7 @@ export default function Suggestion() {
               </p>
             </div>
             <div className="text-black-900 dark:text-white-100">
-              <p className="font-black lg:mt-10 md:mt-4 md:block hidden sm:text-base text-xs">
-                Select Color
-              </p>
-              <div className="flex justify-between my-4">
+              <div className="flex justify-between my-6">
                 <div className="flex items-center">
                   <p className="font-black lg:mt-10 md:mt-4 text-sm flex md:hidden sm:mr-10 mr-2 py-5">
                     Select Color

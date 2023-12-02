@@ -5,7 +5,7 @@ export default function Pagination({
   setCurrentPage,
   currentPage,
 }) {
-  let arrayPage = Array.from(Array(pagesCount).keys());
+  let arrayPage = Array?.from(Array(pagesCount)?.keys());
   const currentPageIndex = currentPage - 1;
   const showPage = useMemo(() => {
     if (pagesCount <= 5) {

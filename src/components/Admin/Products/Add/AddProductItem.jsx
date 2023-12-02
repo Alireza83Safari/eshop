@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from "react";
 import useFetch from "../../../../hooks/useFetch";
 import ProductsPanelContext from "../../../../Context/ProductsPanelContext";
 import adminAxios from "../../../../services/Axios/adminInterceptors";
-import productItemSchema from "../../../../validators/productItem";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
 import { CustomSelect } from "../../../SelectList";
 import Input from "../../Input";
@@ -10,6 +9,7 @@ import Spinner from "../../../Spinner/Spinner";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import toast from "react-hot-toast";
+import productItemSchema from "../../../../validations/productItem";
 
 export default function AddProductItem({
   setShowProductFeature,

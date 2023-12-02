@@ -18,7 +18,7 @@ export default function ProductTemplate({ mapData }) {
       }
     } catch (error) {}
   };
-  console.log(mapData);
+
   return (
     <div className=" grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 col-span-12 mt-8 pb-14">
       {mapData?.length >= 1 ? (
@@ -45,7 +45,23 @@ export default function ProductTemplate({ mapData }) {
                 </Link>
                 <div className="flex items-center justify-between pt-1 absolute bottom-0 right-0 left-0 p-4 bg-white-100 dark:bg-black-800">
                   <p className="text-gray-900 font-bold dark:text-white-100 md:texs-base text-sm">
-                    $ {product.price.toLocaleString()}
+                    <div className="flex mt-2">
+                      <p
+                        className={`mr-4 text-sm ${
+                          product?.discountValue
+                            ? `text-red-700`
+                            : `text-gray-900 dark:text-white-100`
+                        }`}
+                      >
+                        {product?.discountValue
+                          ? product?.price -
+                            (product?.discountValue / 100) * product?.price
+                          : product?.price}
+                      </p>
+                      <p className="line-through text-sm">
+                        {product?.discountValue ? `$ ${product?.price}` : ""}
+                      </p>
+                    </div>
                   </p>
                   <button
                     className="md:px-4 sm:px-2 px-1 sm:py-2 py-1 bg-blue-600 text-white-100 rounded-lg hover:bg-blue-900 duration-200 md:texs-base text-xs"

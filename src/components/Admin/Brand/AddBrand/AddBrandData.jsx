@@ -100,7 +100,7 @@ export default function AddBrandData({
           <button
             type="submit"
             className={`bg-blue-600 text-white-100 w-full p-2 2xl:p-3 rounded-xl ${
-              isLoading && "py-5"
+              isLoading ? "py-5" : `py-2`
             }`}
           >
             {isLoading ? <FormSpinner /> : "Add Brand"}

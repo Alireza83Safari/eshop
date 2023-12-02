@@ -7,7 +7,7 @@ import userAxios from "../../services/Axios/userInterceptors";
 import ProductFeature from "./ProductFeature";
 import ProductContent from "./ProductContent";
 import Description from "./Description";
-import Comments from "./Comments";
+import Comments from "./Comment/Comments";
 import Specifications from "./Specifications";
 import Sidebar from "../../pages/Sidebar/Sidebar";
 
@@ -38,7 +38,7 @@ export default function ProductsInfoPanel() {
               <img
                 src={findProduct?.fileUrl}
                 alt=""
-                className="md:w-full w-3/4 object-cover md:py-0 py-5"
+                className="md:w-5/6 w-3/4 object-cover md:py-0 py-5"
               />
             </div>
           </div>

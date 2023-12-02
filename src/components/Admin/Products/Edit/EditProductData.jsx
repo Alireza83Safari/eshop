@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import ProductsPanelContext from "../../../../Context/ProductsPanelContext";
 import adminAxios from "../../../../services/Axios/adminInterceptors";
-//import { productFormValidation } from "../../../../validators/productFormValidation";
 import useFetch from "../../../../hooks/useFetch";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
 import { CustomSelect } from "../../../SelectList";
 import Input from "../../Input";
 import Spinner from "../../../Spinner/Spinner";
-import productSchema from "../../../../validators/product";
+import productSchema from "../../../../validations/product";
 
 export default function EditProductData({
   setShowEditProduct,
@@ -23,7 +22,7 @@ export default function EditProductData({
     code: "",
     shortDescription: "",
     description: "",
-    topFeatures: [" "],
+    topFeatures: ["suggestions"],
   });
   const [categoryName, seCategoryName] = useState(null);
   const [brandName, setBrandName] = useState(null);
@@ -31,9 +30,10 @@ export default function EditProductData({
   const [errors, setErrors] = useState(null);
 
   const setProductInfos = (event) => {
+    const { name, value } = event.target;
     setProductInfo({
       ...productInfo,
-      [event.target.name]: event.target.value,
+      [name]: name === "topFeatures" ? [value] : value,
     });
   };
   const { datas: brands } = useFetch("/brand", adminAxios);
@@ -61,15 +61,17 @@ export default function EditProductData({
     fetchData();
   }, [showEditModal]);
 
-  const [formIsValid, setFormIsValid] = useState(false);
-  const editProductHandler = async () => {
+  const editProductHandler = async (e) => {
+    e.preventDefault();
     setLoading(true);
-
     try {
       const isValid = await productSchema.validate(productInfo, {
         abortEarly: false,
       });
-      setFormIsValid(isValid);
+      if (isValid) {
+        postProductItem();
+      }
+      setLoading(false);
     } catch (error) {
       let errors = error.inner.reduce(
         (acc, error) => ({
@@ -81,21 +83,19 @@ export default function EditProductData({
       setErrors(errors);
       setLoading(false);
     }
+  };
 
+  const postProductItem = async () => {
     try {
-      if (!formIsValid) {
-        return false;
-      } else {
-        const response = await adminAxios.post(
-          `/product/edit/${editProductID}`,
-          productInfo
-        );
-        if (response.status === 200) {
-          setShowEditFile(true);
-          setShowEditProduct(false);
-          fetchProductList();
-          setLoading(false);
-        }
+      const response = await adminAxios.post(
+        `/product/edit/${editProductID}`,
+        productInfo
+      );
+      if (response.status === 200) {
+        setShowEditFile(true);
+        setShowEditProduct(false);
+        fetchProductList();
+        setLoading(false);
       }
     } catch (error) {
       setLoading(false);
@@ -114,7 +114,7 @@ export default function EditProductData({
       ) : (
         <form
           className="w-full mx-auto bg-white rounded-lg"
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={editProductHandler}
         >
           <div className="grid grid-cols-2 gap-4 text-sm mt-4 dark:text-white-100">
             <div className="col-span-2">

@@ -78,7 +78,7 @@ export default function AddBrandFile({
         <button
           type="submit"
           className={`bg-blue-600 text-white-100 w-full 2xl:p-3 py-2 rounded-xl mr-2 2xl:mt-28 ${
-            isLoading && "py-5"
+            isLoading ? "py-5" : `py-2`
           }`}
           onClick={addFile}
         >

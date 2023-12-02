@@ -5,6 +5,7 @@ import useFetch from "../../../hooks/useFetch";
 import ReactDOM from "react-dom";
 import Input from "../Input";
 import toast from "react-hot-toast";
+import colorSchema from "../../../validations/color";
 export default function EditColor({
   colorEditId,
   fetchData,
@@ -17,6 +18,29 @@ export default function EditColor({
   });
   const [serverErrors, setServerErrors] = useState(null);
   const [isLoading, setLoading] = useState(false);
+  const [errors, setErrors] = useState();
+
+  const getFormIsValid = async () => {
+    try {
+      const isValid = await colorSchema?.validate(editColor, {
+        abortEarly: false,
+      });
+      if (isValid) {
+        editColorHandler();
+      }
+      setLoading(false);
+    } catch (error) {
+      let errors = error.inner.reduce(
+        (acc, error) => ({
+          ...acc,
+          [error.path]: error.message,
+        }),
+        {}
+      );
+      setErrors(errors);
+      setLoading(false);
+    }
+  };
 
   const editColorHandler = async (e) => {
     e.preventDefault();
@@ -83,7 +107,7 @@ export default function EditColor({
                 value={editColor?.name}
                 onChange={setEditColorHandler}
                 className="2xl:p-3 p-2 mt-1"
-                Error={serverErrors?.name}
+                Error={errors?.name || serverErrors?.name}
                 callback={() => setServerErrors("")}
               />
             </div>
@@ -96,7 +120,7 @@ export default function EditColor({
                 value={editColor?.code}
                 onChange={setEditColorHandler}
                 className="2xl:p-3 p-2 mt-1"
-                Error={serverErrors?.code}
+                Error={errors?.code || serverErrors?.code}
                 callback={() => setServerErrors("")}
               />
             </div>
@@ -109,7 +133,7 @@ export default function EditColor({
                 value={editColor?.colorHex}
                 onChange={setEditColorHandler}
                 className="2xl:p-3 p-2 mt-1"
-                Error={serverErrors?.colorHex}
+                Error={errors?.colorHex || serverErrors?.colorHex}
                 callback={() => setServerErrors("")}
               />
             </div>
@@ -119,7 +143,7 @@ export default function EditColor({
             <button
               type="submit"
               className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2"
-              onClick={editColorHandler}
+              onClick={getFormIsValid}
             >
               {isLoading ? <FormSpinner /> : "Edit Color"}
             </button>

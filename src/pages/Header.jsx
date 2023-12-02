@@ -36,7 +36,7 @@ export default function Header() {
   };
   return (
     <header className="w-full min-w-full bg-white-200 dark:bg-black-800 fixed top-0 right-0 z-10">
-      <div className="flex justify-between items-center mx-auto xl:px-20 py-5 px-5 xl:container">
+      <div className="flex justify-between items-center mx-auto xl:px-20 py-5 px-5 xl:container relative">
         <div className="flex items-center">
           <div className="md:mr-8 mr-6 flex items-center">
             <FontAwesomeIcon

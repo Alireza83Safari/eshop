@@ -4,10 +4,11 @@ import FormSpinner from "../../FormSpinner/FormSpinner";
 import Input from "../Input";
 import useAccess from "../../../hooks/useAccess";
 import toast from "react-hot-toast";
+import colorSchema from "../../../validations/color";
 
 export default function AddColor() {
   const [isLoading, setLoading] = useState(false);
-  const [showColorPicker, setShowColorPicker] = useState(false);
+  const [errors, setErrors] = useState();
   const [serverErrors, setServerErrors] = useState(false);
   const [newColor, setNewColor] = useState({
     code: "",
@@ -24,8 +25,29 @@ export default function AddColor() {
     "action_color_admin_create"
   );
 
-  const addNewColorHandler = async (e) => {
-    e.preventDefault();
+  const getFormIsValid = async () => {
+    try {
+      const isValid = await colorSchema?.validate(newColor, {
+        abortEarly: false,
+      });
+      if (isValid) {
+        addNewColorHandler();
+      }
+      setLoading(false);
+    } catch (error) {
+      let errors = error.inner.reduce(
+        (acc, error) => ({
+          ...acc,
+          [error.path]: error.message,
+        }),
+        {}
+      );
+      setErrors(errors);
+      setLoading(false);
+    }
+  };
+
+  const addNewColorHandler = async () => {
     if (userHaveAccessEdit) {
       setLoading(true);
       try {
@@ -35,7 +57,6 @@ export default function AddColor() {
           setLoading(false);
           toast.success("color is created");
           setServerErrors("");
-          setShowColorPicker(false);
           setNewColor({
             code: "",
             name: "",
@@ -79,8 +100,8 @@ export default function AddColor() {
               name="colorHex"
               value={newColor?.colorHex}
               onChange={setNewColorHandler}
-              className="2xl:p-3 p-2 border mr-4"
-              Error={serverErrors?.colorHex}
+              className="2xl:p-3 p-2 border mr-4 w-full"
+              Error={errors?.colorHex || serverErrors?.colorHex}
               onFocus={() => setServerErrors("")}
             />
             <p className="text-sm">
@@ -95,7 +116,7 @@ export default function AddColor() {
               value={newColor?.name}
               onChange={setNewColorHandler}
               className="2xl:p-3 p-2 mt-1"
-              Error={serverErrors?.name}
+              Error={errors?.name || serverErrors?.name}
               callback={() => setServerErrors("")}
             />
           </div>
@@ -108,7 +129,7 @@ export default function AddColor() {
               value={newColor?.code}
               onChange={setNewColorHandler}
               className="2xl:p-3 p-2 mt-1"
-              Error={serverErrors?.code}
+              Error={errors?.code || serverErrors?.code}
               callback={() => setServerErrors("")}
             />
           </div>
@@ -120,7 +141,7 @@ export default function AddColor() {
             className={`bg-blue-600 text-white-100 w-full 2xl:p-3 p-2 rounded-xl outline-none ${
               isLoading && "py-5"
             }`}
-            onClick={addNewColorHandler}
+            onClick={getFormIsValid}
           >
             {isLoading ? <FormSpinner /> : "Add Color"}
           </button>

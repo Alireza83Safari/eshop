@@ -67,80 +67,82 @@ export default function BrandTable({
   return (
     <>
       {userHaveAccessList ? (
-        <table className="min-w-full dark:text-white-100 rounded-xl 2xl:h-[46.2rem] md:h-[35rem] h-[32rem] relative">
-          <thead>
-            <tr className="md:text-sm sm:text-xs text-[10px] text-center border-y grid sm:grid-cols-6 grid-cols-5">
-              <th className="2xl:py-4 py-3 sm:inline hidden">NO</th>
-              <th className="2xl:py-4 py-3">Brand</th>
-              <th className="2xl:py-4 py-3">Code</th>
-              <th className="2xl:py-4 py-3">Image</th>
-              <th className="2xl:py-4 py-3">CreatedAt</th>
-              <th className="2xl:py-4 py-3">Actions</th>
-            </tr>
-          </thead>
-          {pageLoading || isLoading || paginationLodaing ? (
-            <Spinner />
-          ) : (
-            <tbody>
-              {paginations?.length >= 1 ? (
-                paginations?.map((brand, index) => (
-                  <tr
-                    className="2xl:text-base md:text-sm sm:text-xs text-[10px] text-center grid sm:grid-cols-6 grid-cols-5"
-                    key={brand.id}
-                  >
-                    <td className="2xl:py-4 py-3 sm:inline hidden">
-                      {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
-                    </td>
-                    <td className="2xl:py-4 py-3 truncate">
-                      {brand?.name?.slice(0, 25)}
-                    </td>
-                    <td className="2xl:py-4 py-3 truncate">{brand?.code}</td>
-                    <td className="flex justify-center items-center">
-                      <img
-                        src={brand?.fileUrl}
-                        className="md:w-8 w-6 object-contain"
-                      />
-                    </td>
-                    <td className="2xl:py-4 py-3 truncate">
-                      {brand?.createdAt?.slice(0, 10)}
-                    </td>
-                    <td className="2xl:py-4 py-3 truncate space-x-2">
-                      <button onClick={() => editBrand(brand)}>
-                        <FontAwesomeIcon
-                          icon={faEdit}
-                          className="text-orange-400"
+        <div className="2xl:h-[46.2rem] md:h-[35rem] h-[32rem] relative">
+          <table className="min-w-full dark:text-white-100 rounded-xl ">
+            <thead>
+              <tr className="md:text-sm sm:text-xs text-[10px] text-center border-y grid sm:grid-cols-6 grid-cols-5">
+                <th className="2xl:py-4 py-3 sm:inline hidden">NO</th>
+                <th className="2xl:py-4 py-3">Brand</th>
+                <th className="2xl:py-4 py-3">Code</th>
+                <th className="2xl:py-4 py-3">Image</th>
+                <th className="2xl:py-4 py-3">CreatedAt</th>
+                <th className="2xl:py-4 py-3">Actions</th>
+              </tr>
+            </thead>
+            {pageLoading || isLoading || paginationLodaing ? (
+              <Spinner />
+            ) : (
+              <tbody>
+                {paginations?.length >= 1 ? (
+                  paginations?.map((brand, index) => (
+                    <tr
+                      className="2xl:text-base md:text-sm sm:text-xs text-[10px] text-center grid sm:grid-cols-6 grid-cols-5"
+                      key={brand.id}
+                    >
+                      <td className="2xl:py-4 py-3 sm:inline hidden">
+                        {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
+                      </td>
+                      <td className="2xl:py-4 py-3 truncate">
+                        {brand?.name?.slice(0, 25)}
+                      </td>
+                      <td className="2xl:py-4 py-3 truncate">{brand?.code}</td>
+                      <td className="flex justify-center items-center">
+                        <img
+                          src={brand?.fileUrl}
+                          className="md:w-8 w-6 object-contain"
                         />
-                      </button>
-                      <button
-                        className="py-1 rounded-md text-red-700 text-white"
-                        onClick={() => {
-                          deleteBrand(brand?.id);
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : paginations.length !== 0 ? (
-                <div className="flex justify-center items-center mt-32">
-                  <div>
-                    <img src="/images/not-found-product.svg" alt="" />
-                    <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
-                      Brand Not Found
-                    </p>
+                      </td>
+                      <td className="2xl:py-4 py-3 truncate">
+                        {brand?.createdAt?.slice(0, 10)}
+                      </td>
+                      <td className="2xl:py-4 py-3 truncate space-x-2">
+                        <button onClick={() => editBrand(brand)}>
+                          <FontAwesomeIcon
+                            icon={faEdit}
+                            className="text-orange-400"
+                          />
+                        </button>
+                        <button
+                          className="py-1 rounded-md text-red-700 text-white"
+                          onClick={() => {
+                            deleteBrand(brand?.id);
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faTrash} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : paginations.length !== 0 ? (
+                  <div className="flex justify-center items-center mt-32">
+                    <div>
+                      <img src="/images/not-found-product.svg" alt="" />
+                      <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
+                        Brand Not Found
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ) : null}
-            </tbody>
-          )}
+                ) : null}
+              </tbody>
+            )}
 
-          <Pagination
-            pagesCount={pagesCount}
-            setCurrentPage={setCurrentPage}
-            currentPage={currentPage}
-          />
-        </table>
+            <Pagination
+              pagesCount={pagesCount}
+              setCurrentPage={setCurrentPage}
+              currentPage={currentPage}
+            />
+          </table>
+        </div>
       ) : (
         <AccessError error={"Brands List"} />
       )}

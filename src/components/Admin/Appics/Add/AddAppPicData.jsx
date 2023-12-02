@@ -4,8 +4,8 @@ import FormSpinner from "../../../FormSpinner/FormSpinner";
 import Input from "../../Input";
 import useAccess from "../../../../hooks/useAccess";
 import toast from "react-hot-toast";
-import appPicSchema from "../../../../validators/appPic";
 import { useEffect } from "react";
+import appPicSchema from "../../../../validations/appPic";
 export default function AddAppPicData({
   setAddAppPicId,
   setShowAddAppPic,
@@ -58,7 +58,6 @@ export default function AddAppPicData({
     }
   };
 
-  
   const addNewAppPicHandler = async () => {
     if (userHaveAccessAdd) {
       setLoading(true);

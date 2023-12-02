@@ -38,7 +38,8 @@ export function CustomSelect({
   type,
   name,
   defaultValue,
-  onFocus,defaultValues
+  onFocus,
+  defaultValues,
 }) {
   const theme = useMemo(() => {
     return localStorage.getItem("theme");

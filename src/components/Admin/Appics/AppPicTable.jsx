@@ -67,71 +67,68 @@ export default function AppPicTable({ appPicData, fetchData, appPicLoading }) {
   return (
     <>
       {userHaveAccessList ? (
-        <table
-          className={`min-w-full bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-xl 2xl:h-[46.2rem] md:h-[37.2rem] h-[34rem] relative ${
-            isLoading && "opacity-20"
-          }`}
-        >
-          <thead>
-            <tr className="md:text-sm sm:text-xs text-[10px] text-center border-b grid sm:grid-cols-6 grid-cols-5">
-              <th className="py-3 sm:inline hidden">NO</th>
-              <th className="py-3">Title</th>
-              <th className="py-3">Image</th>
-              <th className="py-3">priority</th>
-              <th className="py-3">CreatedAt</th>
-              <th className="py-3">Actions</th>
-            </tr>
-          </thead>
-          {appPicLoading || paginationLoading || isLoading ? (
-            <Spinner />
-          ) : (
-            <tbody>
-              {appPicData?.map((appPic, index) => (
-                <tr
-                  className="md:text-sm sm:text-xs text-[10px] text-center grid sm:grid-cols-6 grid-cols-5"
-                  key={appPic.id}
-                >
-                  <td className="py-3 sm:inline hidden">
-                    {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
-                  </td>
-                  <td className="py-3 truncate">{appPic?.title}%</td>
-                  <td className="py-3 truncate flex justify-center">
-                    <img
-                      src={appPic?.fileUrl}
-                      className="w-8 h-8"
-                    />
-                  </td>
-                  <td className="py-3">{appPic.priority}</td>
-                  <td className="py-3 truncate">
-                    {appPic?.createdAt?.slice(0, 10)}
-                  </td>
-                  <td className="py-3 truncate space-x-2">
-                    <button onClick={() => editAppPic(appPic?.id)}>
-                      <FontAwesomeIcon
-                        icon={faEdit}
-                        className="text-orange-400"
-                      />
-                    </button>
-                    <button
-                      className="py-1 rounded-md text-red-700 text-white"
-                      onClick={() => {
-                        deleteAppPic(appPic?.id);
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faTrash} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          )}
+        <div className="2xl:h-[46.2rem] md:h-[37.2rem] h-[34rem] bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-xl">
+          <table
+            className={` min-w-full relative ${isLoading && "opacity-20"}`}
+          >
+            <thead>
+              <tr className="md:text-sm sm:text-xs text-[10px] text-center border-b grid sm:grid-cols-6 grid-cols-5">
+                <th className="py-3 sm:inline hidden">NO</th>
+                <th className="py-3">Title</th>
+                <th className="py-3">Image</th>
+                <th className="py-3">priority</th>
+                <th className="py-3">CreatedAt</th>
+                <th className="py-3">Actions</th>
+              </tr>
+            </thead>
+            {appPicLoading || paginationLoading || isLoading ? (
+              <Spinner />
+            ) : (
+              <tbody>
+                {appPicData?.map((appPic, index) => (
+                  <tr
+                    className="md:text-sm sm:text-xs text-[10px] text-center grid sm:grid-cols-6 grid-cols-5"
+                    key={appPic.id}
+                  >
+                    <td className="py-3 sm:inline hidden">
+                      {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
+                    </td>
+                    <td className="py-3 truncate">{appPic?.title}%</td>
+                    <td className="py-3 truncate flex justify-center">
+                      <img src={appPic?.fileUrl} className="w-8 h-8" />
+                    </td>
+                    <td className="py-3">{appPic.priority}</td>
+                    <td className="py-3 truncate">
+                      {appPic?.createdAt?.slice(0, 10)}
+                    </td>
+                    <td className="py-3 truncate space-x-2">
+                      <button onClick={() => editAppPic(appPic?.id)}>
+                        <FontAwesomeIcon
+                          icon={faEdit}
+                          className="text-orange-400"
+                        />
+                      </button>
+                      <button
+                        className="py-1 rounded-md text-red-700 text-white"
+                        onClick={() => {
+                          deleteAppPic(appPic?.id);
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            )}
 
-          <Pagination
-            pagesCount={pagesCount}
-            setCurrentPage={setCurrentPage}
-            currentPage={currentPage}
-          />
-        </table>
+            <Pagination
+              pagesCount={pagesCount}
+              setCurrentPage={setCurrentPage}
+              currentPage={currentPage}
+            />
+          </table>
+        </div>
       ) : (
         <AccessError error={"AppPics List"} />
       )}

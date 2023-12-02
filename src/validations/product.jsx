@@ -5,8 +5,8 @@ const productSchema = Yup.object().shape({
   code: Yup.string().min(2).max(16).required(),
   brandId: Yup.string().required(),
   categoryId: Yup.string().required(),
-  description: Yup.string().min(10).max(100).required(),
-  shortDescription: Yup.string().min(8).max(100).required(),
+  description: Yup.string().min(10).max(200).required(),
+  shortDescription: Yup.string().min(8).max(200).required(),
 });
 
 export default productSchema;

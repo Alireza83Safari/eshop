@@ -8,6 +8,7 @@ export const AuthContextProvider = ({ children }) => {
   const [userInfos, setUserInfos] = useState(null);
   const [userIsLogin, setUserIsLogin] = useState(null);
   const [showShopSidebar, setShowShopSidebar] = useState(false);
+
   const userLogin = useCallback(() => {
     userAxios.get("/is_authenticated").then((res) => {
       if (res.status === 200) {
@@ -21,7 +22,7 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     userLogin();
   }, []);
-  
+
   return (
     <AuthContext.Provider
       value={{

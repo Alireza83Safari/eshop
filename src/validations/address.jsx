@@ -6,8 +6,8 @@ const addressSchema = Yup.object().shape({
   lastName: Yup.string().required(),
   nationalCode: Yup.string().required(),
   phoneNumber: Yup.string().required(),
-  plaque: Yup.string().required(),
+  plaque: Yup.number().required(),
   postalCode: Yup.string().required(),
 });
 
-export default addressSchema;
+export default addressSchema

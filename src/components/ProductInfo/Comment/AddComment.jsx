@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
-import userAxios from "../../services/Axios/userInterceptors";
+import userAxios from "../../../services/Axios/userInterceptors";
 import toast from "react-hot-toast";
 
 function AddComment({ fetchComments, productId }) {

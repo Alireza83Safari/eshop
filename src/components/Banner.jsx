@@ -31,7 +31,7 @@ export default function Banner() {
       setCurrentIndex((prevIndex) =>
         prevIndex === banner?.length - 1 ? 0 : prevIndex + 1
       );
-    }, 20000);
+    }, 5000);
 
     return () => clearInterval(timer);
   }, [currentIndex, banner]);
@@ -62,10 +62,10 @@ export default function Banner() {
                   </Link>
                 </div>
               </div>
-              <div className="flex justify-end items-center container order-1">
+              <div className="flex justify-center items-center container order-1">
                 <img
                   src={banner[currentIndex] && banner[currentIndex]?.fileUrl}
-                  className="md:w-[30rem] xl:w-[34rem] object-cover"
+                  className="max-w-[16rem] xl:max-w-[20rem] object-cover"
                   alt={`Slide ${currentIndex}`}
                 />
               </div>

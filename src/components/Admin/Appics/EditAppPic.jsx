@@ -4,7 +4,7 @@ import useFetch from "../../../hooks/useFetch";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import Spinner from "../../Spinner/Spinner";
 import userAxios from "../../../services/Axios/userInterceptors";
-import { appPicValidation } from "../../../validators/appPicValidation";
+import { appPicValidation } from "../../../validations/appPic";
 
 export default function EditAppPic({ setShowEditAppPic, editAppPicId }) {
   const { fetchData } = useFetch("/appPic", userAxios);

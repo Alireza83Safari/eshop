@@ -8,7 +8,7 @@ import adminAxios from "../../../services/Axios/adminInterceptors";
 import { CustomSelect } from "../../SelectList";
 import useFetch from "../../../hooks/useFetch";
 import FormSpinner from "../../FormSpinner/FormSpinner";
-import productItemSchema from "../../../validators/productItem";
+import productItemSchema from "../../../validations/productItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "../../Spinner/Spinner";
