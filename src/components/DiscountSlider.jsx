@@ -70,7 +70,7 @@ export default function DiscountSlider() {
                       >
                         <div className="flex justify-center relative h-4/6">
                           <Link
-                            to={`/product/${product?.name?.replace(/ /g, "_")}`}
+                            to={`/product/${product?.id}`}
                             style={{ display: "block" }}
                           >
                             <img
@@ -92,7 +92,7 @@ export default function DiscountSlider() {
                         </div>
                         <div className="p-2 h-2/6">
                           <Link
-                            to={`/product/${product?.name?.replace(/ /g, "_")}`}
+                            to={`/product/${product?.id}`}
                           >
                             <h2 className="font-bold mb-2 text-xs whitespace-pre-line dark:text-white-100 text-center py-2">
                               {product?.name}

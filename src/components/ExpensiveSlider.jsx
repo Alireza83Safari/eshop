@@ -63,10 +63,7 @@ export default function ExpensiveSlider() {
                       key={product.id}
                     >
                       <div className="flex justify-center relative h-4/6">
-                        <Link
-                          to={`/product/${product?.name?.replace(/ /g, "_")}`}
-                          style={{ display: "block" }}
-                        >
+                        <Link to={`/product/${product?.id}`} className="block">
                           <img
                             src={product.fileUrl}
                             alt="Product"
@@ -83,7 +80,7 @@ export default function ExpensiveSlider() {
                       </div>
                       <div className="p-2 h-2/6">
                         <Link
-                          to={`/product/${product?.name?.replace(/ /g, "_")}`}
+                          to={`/product/${product?.id}`}
                         >
                           <h2 className="font-bold mb-2 text-xs whitespace-pre-line dark:text-white-100 text-center py-2">
                             {product?.name}

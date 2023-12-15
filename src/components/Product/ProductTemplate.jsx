@@ -25,7 +25,7 @@ export default function ProductTemplate({ mapData }) {
         mapData?.map((product) => (
           <div className="p-2" key={product.id}>
             <div className="bg-white rounded-lg shadow-lg hover:shadow-2xl overflow-hidden dark:bg-black-800 hover:opacity-70 duration-300 lg:h-[27rem] sm:h-[24rem] h-[22rem] relative">
-              <Link to={`/product/${product?.name?.replace(/ /g, "_")}`}>
+              <Link to={`/product/${product?.id}`}>
                 <img
                   src={product.fileUrl}
                   alt="Product"
@@ -33,7 +33,7 @@ export default function ProductTemplate({ mapData }) {
                 />
               </Link>
               <div className="p-2">
-                <Link to={`/product/${product?.name?.replace(/ /g, "_")}`}>
+                <Link to={`/product/${product?.id}`}>
                   <div className="flex justify-center">
                     <button className="text-gray-700 mb-4 mt-2 p-1 text-xs rounded-lg bg-green-400">
                       {product.categoryName}

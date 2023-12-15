@@ -59,7 +59,7 @@ export default function ProfileFavorite() {
               className="bg-white rounded-lg shadow-lg hover:shadow-2xl overflow-hidden dark:bg-black-800 hover:opacity-70 duration-300 m-2"
               key={index}
             >
-              <Link to={`/product/${favorite?.name?.replace(/ /g, "_")}`}>
+              <Link to={`/product/${favorite?.id}`}>
                 <img
                   src={favorite.fileUrl}
                   alt="Product"
@@ -67,7 +67,7 @@ export default function ProfileFavorite() {
                 />
               </Link>
               <div className="p-6 ">
-                <Link to={`/product/${favorite?.name?.replace(/ /g, "_")}`}>
+                <Link to={`/product/${favorite?.id}`}>
                   <div className="flex justify-between">
                     <h2 className="font-bold mb-2 xl:text-lg md:text-base text-sm whitespace-nowrap dark:text-white-100">
                       {favorite.name}

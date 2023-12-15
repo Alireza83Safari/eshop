@@ -14,9 +14,9 @@ import Sidebar from "../../pages/Sidebar/Sidebar";
 export default function ProductsInfoPanel() {
   const { productID } = useParams();
   const [activeTab, setActiveTab] = useState("description");
-  const { datas: productsData } = useFetch("/product", userAxios);
+  const { datas: productsData } = useFetch("/product?limit=100", userAxios);
   const findProduct = productsData?.data.find(
-    (product) => product?.name === productID?.replace(/_/g, " ")
+    (product) => product?.id === productID
   );
   const [productItem, setProductItem] = useState(null);
   useEffect(() => {
