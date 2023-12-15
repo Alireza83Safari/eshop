@@ -20,7 +20,7 @@ export default function ProductTemplate({ mapData }) {
   };
 
   return (
-    <div className=" grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 col-span-12 mt-8 pb-14">
+    <div className="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 col-span-12 mt-8 pb-14">
       {mapData?.length >= 1 ? (
         mapData?.map((product) => (
           <div className="p-2" key={product.id}>
@@ -29,7 +29,7 @@ export default function ProductTemplate({ mapData }) {
                 <img
                   src={product.fileUrl}
                   alt="Product"
-                  className="object-contain w-full lg:h-[18rem] sm:h-[15rem] h-[11rem]"
+                  className="object-contain m-auto w-10/12 lg:h-[18rem] sm:h-[15rem] h-[11rem]"
                 />
               </Link>
               <div className="p-2">

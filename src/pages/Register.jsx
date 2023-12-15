@@ -79,7 +79,7 @@ export default function Register() {
     <>
       <Header />
       <Sidebar />
-      <section className="grid lg:grid-cols-2 py-16 relative m-auto min-h-screen xl:px-20 px-5 z-10">
+      <section className="grid lg:grid-cols-2 py-16 relative m-auto min-h-screen xl:px-8 px-5 z-10">
         <div className="flex lg:justify-end justify-center items-center w-96 m-auto lg:py-0 py-10">
           <div className="w-96">
             <img src="/images/User-Account-Sign-up.png" />

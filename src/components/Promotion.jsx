@@ -59,7 +59,7 @@ export default function Suggestion() {
 
   return (
     <section
-      className={` w-full px-4 lg:px-20 lg:mt-52 mt-32 relative ${
+      className={` w-full px-5 xl:px-8 lg:mt-52 mt-32 relative ${
         isLoading && "opacity-20"
       }`}
       onMouseEnter={() => setHover(true)}

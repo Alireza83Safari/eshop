@@ -9,10 +9,11 @@ export const AddressContextProvider = ({ children }) => {
   const [showAllAddress, setShowAllAddress] = useState(false);
   const [showEditAddress, setShowEditAddress] = useState(false);
   const [editAddressId, setEditAddressId] = useState(null);
-  const { datas: userAddress, fetchData: fetchAddress } = useFetch(
-    "/address",
-    userAxios
-  );
+  const {
+    datas: userAddress,
+    fetchData: fetchAddress,
+    isLoading,
+  } = useFetch("/address", userAxios);
   return (
     <AddressContext.Provider
       value={{
@@ -26,6 +27,7 @@ export const AddressContextProvider = ({ children }) => {
         editAddressId,
         setShowEditAddress,
         showEditAddress,
+        isLoading,
       }}
     >
       {children}

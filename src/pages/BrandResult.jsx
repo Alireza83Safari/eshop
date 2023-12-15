@@ -1,8 +1,9 @@
-import React, { Suspense, lazy, useState } from "react";
+import React, { Suspense, lazy, useMemo, useState } from "react";
 import userAxios from "../services/Axios/userInterceptors";
 import Spinner from "../components/Spinner/Spinner";
 import Header from "./Header";
 import Footer from "./Footer";
+import { useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar/Sidebar";
 import FilterProducts from "../components/Product/FilterProducts";
 import Pagination from "../components/getPagination";
@@ -15,9 +16,13 @@ const ProductTemplate = lazy(() =>
 
 export default function BrandResult() {
   const [isLoading, setLoading] = useState(false);
-  const pageSize = 12;
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const limit = searchParams.get("limit");
+  const pageSize = limit ? +limit : 12;
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilter, setShowFilter] = useState(false);
+
   const BasketHandler = (cartID) => {
     let userBasketHandler = {
       productItemId: cartID.itemId,
@@ -39,7 +44,10 @@ export default function BrandResult() {
     paginations,
     total,
   } = useFetchPagination(url, userAxios);
-  const pagesCount = Math.ceil(total / pageSize);
+
+  const pagesCount = useMemo(() => {
+    return Math.ceil(total / pageSize);
+  }, [total, pageSize]);
 
   const { isLoading: paginationLoading } = usePaginationURL(
     currentPage,
@@ -50,10 +58,10 @@ export default function BrandResult() {
     <>
       <Header />
       <Sidebar />
-      <section className="min-h-screen mt-28 relative xl:px-20 px-5">
+      <section className="mx-auto py-4 dark:bg-black-200 xl:container min-h-screen mt-24 relative">
         <div className="col-span-12 flex justify-center ">
           <button
-            className="text-xl p-2 bg-gray-100 rounded-lg absolute -top-7"
+            className="text-xl p-2 bg-gray-100 rounded-lg absolute -top-3"
             onClick={() => setShowFilter(!showFilter)}
           >
             <img src="/images/filter.svg" />
@@ -83,12 +91,14 @@ export default function BrandResult() {
             </div>
           </div>
         )}
-        <Pagination
-          pagesCount={pagesCount}
-          setCurrentPage={setCurrentPage}
-          currentPage={currentPage}
-          pageSize={pageSize}
-        />
+        {pagesCount && (
+          <Pagination
+            pagesCount={pagesCount}
+            setCurrentPage={setCurrentPage}
+            currentPage={currentPage}
+            pageSize={pageSize}
+          />
+        )}
       </section>
       <Footer />
     </>

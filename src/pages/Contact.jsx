@@ -69,7 +69,7 @@ export default function Contact() {
       <Sidebar />
       <section
         className="py-16 mt-24
-       relative m-auto min-h-screen xl:px-20 px-5 text-center"
+       relative m-auto min-h-screen xl:px-8 px-5 text-center"
       >
         <h1 className="text-4xl text-center font-semibold dark:text-white-100">
           Get in touch with our creator-frendly support team

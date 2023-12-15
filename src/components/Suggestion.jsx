@@ -79,7 +79,7 @@ export default function Suggestion() {
 
   return (
     <section
-      className="w-full xl:px-20 md:px-4 lg:mt-52 md:mt-40 mt-32 relative"
+      className="w-full xl:px-8 px-5 lg:mt-52 md:mt-40 mt-32 relative"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >

@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useState } from "react";
+import React, { Suspense, lazy, useMemo, useState } from "react";
 import userAxios from "../services/Axios/userInterceptors";
 import Spinner from "../components/Spinner/Spinner";
 import Header from "./Header";
@@ -6,6 +6,7 @@ import Footer from "./Footer";
 import Sidebar from "./Sidebar/Sidebar";
 import FilterProducts from "../components/Product/FilterProducts";
 import useAddToCart from "../hooks/useAddCart";
+import { useLocation } from "react-router-dom";
 import Pagination from "../components/getPagination";
 import { useFetchPagination } from "../hooks/useFetchPagination";
 import { usePaginationURL } from "../hooks/usePaginationURL";
@@ -20,7 +21,10 @@ export default function SearchResults() {
     addToCart(product.itemId, 1, product);
   };
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 12;
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const limit = searchParams.get("limit");
+  const pageSize = limit ? +limit : 12;
 
   const url = "/product";
   const {
@@ -33,14 +37,16 @@ export default function SearchResults() {
     currentPage,
     pageSize
   );
-  const pagesCount = Math.ceil(total / pageSize);
+  const pagesCount = useMemo(() => {
+    return Math.ceil(total / pageSize);
+  }, [total, pageSize]);
 
   return (
     <>
       <Header />
       <Sidebar />
 
-      <section className="min-h-screen mt-28 relative lg:container mx-auto">
+      <section className="mx-auto py-4 dark:bg-black-200 xl:container min-h-screen mt-24 relative">
         <div className="col-span-12 flex justify-center ">
           <button
             className="text-xl p-2 bg-gray-100 rounded-lg absolute top-0"

@@ -16,8 +16,10 @@ function AddComment({ fetchComments, productId }) {
   const addNewStrength = useCallback(
     (e) => {
       e.preventDefault();
-      setStrengths([...strengths, strengthValue]);
-      setStrengthValue("");
+      if (strengthValue?.length) {
+        setStrengths([...strengths, strengthValue]);
+        setStrengthValue("");
+      }
     },
     [strengths, strengthValue]
   );
@@ -25,8 +27,10 @@ function AddComment({ fetchComments, productId }) {
   const addNewWeakPoints = useCallback(
     (e) => {
       e.preventDefault();
-      setWeakPoints([...weakPoints, weakPointsValue]);
-      setWeakPointsValue("");
+      if (weakPoints?.length) {
+        setWeakPoints([...weakPoints, weakPointsValue]);
+        setWeakPointsValue("");
+      }
     },
     [weakPoints, weakPointsValue]
   );
@@ -87,8 +91,8 @@ function AddComment({ fetchComments, productId }) {
       <fieldset className="mb-2">
         <legend className="text-sm text-gray-600">Rate this product:</legend>
         <div className="flex items-center text-sm">
-          {commentRating?.map((rating, index) => (
-            <label key={index} className="mr-2">
+          {commentRating?.map((rating) => (
+            <label key={rating} className="mr-2">
               <input
                 type="radio"
                 name="rating"

@@ -10,8 +10,11 @@ import userAxios from "../services/Axios/userInterceptors";
 import useAddToCart from "../hooks/useAddCart";
 import Spinner from "./Spinner/Spinner";
 
-export default function ProductSlider() {
-  const { datas: productsData, isLoading } = useFetch("/product", userAxios);
+export default function NewestSlider() {
+  const { datas: productsData, isLoading } = useFetch(
+    "/product?order=newest&limit=8",
+    userAxios
+  );
   const { addToCart } = useAddToCart();
 
   const handleAddToCart = (product) => {
@@ -23,18 +26,20 @@ export default function ProductSlider() {
       {!productsData?.data?.length ? null : isLoading ? (
         <Spinner />
       ) : (
-        <section className="mt-52 rounded-xl border lg:mx-20 ">
+        <section className="mt-52 rounded-xl border lg:mx-8">
           <div className="flex justify-between dark:text-white-100 font-bold border-b py-4 px-5">
             <p className="lg:text-xl md:text-lg text-sm p-1">
-              All eshop Products
+              newest eshop Products
             </p>
             <Link to="/product" className="p-1 md:text-sm text-xs">
-              show all products >
+              show newest products >
             </Link>
           </div>
 
           <div className="xl:px-8">
             <Swiper
+              loop={true}
+              rewind={true}
               breakpoints={{
                 1: { slidesPerView: 2 },
                 768: {
@@ -50,7 +55,7 @@ export default function ProductSlider() {
               spaceBetween={7}
               className="mySwiper"
             >
-              {productsData?.data?.length  &&
+              {productsData?.data?.length &&
                 productsData?.data?.slice(0, 9)?.map((product) => (
                   <SwiperSlide key={product.id}>
                     <div

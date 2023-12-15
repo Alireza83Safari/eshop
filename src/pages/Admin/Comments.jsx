@@ -3,7 +3,6 @@ import Spinner from "../../components/Spinner/Spinner";
 import { useSearch } from "../../hooks/useSearch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { Toaster } from "react-hot-toast";
 const CommentsInfos = lazy(() =>
   import("../../components/Admin/Comments/CommentsInfos")
 );
@@ -24,7 +23,7 @@ export default function Comments() {
     <section className="float-right sm:mt-16 mt-14 pt-4 md:px-4 px-2 md:pb-16 bg-white-200 dark:text-white-100 dark:bg-black-600 xl:w-[90%] lg:w-[88%] sm:w-[94%] w-[91%] min-h-screen">
       <Suspense fallback={<Spinner />}>
         <div className="md:grid grid-cols-12">
-          <div className="lg:col-span-9 col-span-12 mt-2 bg-white-100 rounded-xl dark:bg-black-200">
+          <div className="lg:col-span-9 col-span-12 mt-7 bg-white-100 rounded-xl dark:bg-black-200">
             <div className="grid grid-cols-2 my-2">
               <div className="flex rounded-md relative md:w-auto ml-4">
                 <input
@@ -54,7 +53,6 @@ export default function Comments() {
             <CommentsInfos />
           </div>
         </div>
-        <Toaster />
       </Suspense>
     </section>
   );

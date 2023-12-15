@@ -23,8 +23,8 @@ export default function Comments({ productId }) {
     <div className="border p-4 mb-20 rounded-xl">
       <>
         {getComments?.length > 0 ? (
-          getComments?.map((comment, index) => (
-            <CommentsTemplate index={index} comment={comment} />
+          getComments?.map((comment) => (
+            <CommentsTemplate comment={comment} />
           ))
         ) : (
           <div className="text-xl text-center w-full bg-gray-200 dark:bg-black-200 mt-10">

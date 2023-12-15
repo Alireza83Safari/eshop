@@ -5,7 +5,6 @@ import { useSearch } from "../../hooks/useSearch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "../../components/Spinner/Spinner";
-import { Toaster } from "react-hot-toast";
 
 const CategoryTable = lazy(() =>
   import("../../components/Admin/Category/CategoryTable")
@@ -69,7 +68,6 @@ export default function Category() {
             <AddCategory fetchData={fetchData} />
           </div>
         </div>
-        <Toaster />
       </Suspense>
     </section>
   );

@@ -1,7 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import { DiscountContextProvider } from "../../Context/discountContext";
 import Spinner from "../../components/Spinner/Spinner";
-import { Toaster } from "react-hot-toast";
 const TotalDiscount = lazy(() =>
   import("../../components/Admin/Discount/TotalDiscount")
 );
@@ -26,7 +25,6 @@ export default function Discount() {
               <AddDiscount />
             </div>
           </div>
-          <Toaster />
         </section>
       </Suspense>
     </DiscountContextProvider>

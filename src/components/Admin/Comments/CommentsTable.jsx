@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Pagination from "../../getPagination";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import { useFetchPagination } from "../../../hooks/useFetchPagination";
@@ -7,19 +7,26 @@ import Spinner from "../../Spinner/Spinner";
 import useAccess from "../../../hooks/useAccess";
 import AccessError from "../../AccessError";
 import toast from "react-hot-toast";
+import { useLocation } from "react-router-dom";
 
 export default function CommentsTable() {
   const [currentPage, setCurrentPage] = useState(1);
-
   let url = "/comment";
-  let pageSize = 11;
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const limit = searchParams.get("limit");
+  const pageSize = limit ? +limit : 11;
+
   const {
     isLoading: paginationLodaing,
     paginations,
     total,
     fetchData,
   } = useFetchPagination(url, adminAxios);
-  const pagesCount = Math.ceil(total / pageSize);
+  const pagesCount = useMemo(() => {
+    return Math.ceil(total / pageSize);
+  }, [total, pageSize]);
+
   const { isLoading } = usePaginationURL(currentPage, pageSize);
 
   const { userHaveAccess } = useAccess("action_comment_admin_list");

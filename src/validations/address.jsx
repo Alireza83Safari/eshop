@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 
 const addressSchema = Yup.object().shape({
-  address: Yup.string().min(8).max(100).required(),
+  address: Yup.string().min(2).max(100).required(),
   firstName: Yup.string().required(),
   lastName: Yup.string().required(),
   nationalCode: Yup.string().required(),

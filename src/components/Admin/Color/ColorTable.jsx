@@ -1,4 +1,4 @@
-import React, { useState, Suspense } from "react";
+import React, { useState, Suspense, useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "../../getPagination";
@@ -9,6 +9,7 @@ import useTableRow from "../../../hooks/useTableRow";
 import useAccess from "../../../hooks/useAccess";
 import AccessError from "../../AccessError";
 import toast from "react-hot-toast";
+import { useLocation } from "react-router-dom";
 const EditColor = React.lazy(() => import("./EditColor"));
 
 export default function ColorTable({
@@ -22,8 +23,15 @@ export default function ColorTable({
   const [colorEditId, setColorEditId] = useState(null);
   const [isLoading, setLoading] = useState(false);
 
-  let pageSize = 10;
-  const pagesCount = Math.ceil(total / pageSize);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const limit = searchParams.get("limit");
+  const pageSize = limit ? +limit : 10;
+
+  const pagesCount = useMemo(() => {
+    return Math.ceil(total / pageSize);
+  }, [total, pageSize]);
+
   const { isLoading: pageLoading } = usePaginationURL(currentPage, pageSize);
 
   const { userHaveAccess: userHaveAccessList } = useAccess(
@@ -63,7 +71,7 @@ export default function ColorTable({
     }
   };
 
-  const { rowNumber, limit } = useTableRow();
+  const { rowNumber, limit: limitRow } = useTableRow();
   return (
     <>
       {userHaveAccessList ? (
@@ -89,7 +97,9 @@ export default function ColorTable({
                     key={color.id}
                   >
                     <td className="2xl:py-4 py-3 sm:inline hidden">
-                      {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
+                      {rowNumber >= limitRow
+                        ? rowNumber + index + 1
+                        : index + 1}
                     </td>
                     <td className="2xl:py-4 py-3 truncate">{color?.name}</td>
                     <td className="2xl:py-4 py-3 truncate">{color?.code}</td>
@@ -128,11 +138,13 @@ export default function ColorTable({
             </tbody>
           )}
 
-          <Pagination
-            pagesCount={pagesCount}
-            setCurrentPage={setCurrentPage}
-            currentPage={currentPage}
-          />
+          {pagesCount && (
+            <Pagination
+              pagesCount={pagesCount}
+              setCurrentPage={setCurrentPage}
+              currentPage={currentPage}
+            />
+          )}
         </table>
       ) : (
         <AccessError error={"Colors List"} />

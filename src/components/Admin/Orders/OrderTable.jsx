@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Pagination from "../../getPagination";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import Spinner from "../../Spinner/Spinner";
@@ -8,13 +8,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import useAccess from "../../../hooks/useAccess";
 import AccessError from "../../AccessError";
+import { useLocation } from "react-router-dom";
 
 export default function OrderTable({ paginations, paginationLodaing, total }) {
   const [currentPage, setCurrentPage] = useState(1);
-  let pageSize = 7;
-  const pagesCount = Math.ceil(total / pageSize);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const limit = searchParams.get("limit");
+  const pageSize = limit ? +limit : 7;
+
+  const pagesCount = useMemo(() => {
+    return Math.ceil(total / pageSize);
+  }, [total, pageSize]);
+
   const { isLoading } = usePaginationURL(currentPage, pageSize);
-  const { rowNumber, limit } = useTableRow();
+  const { rowNumber, limit: lomitRow } = useTableRow();
   const [searchQuery, setSearchQuery] = useState("");
   const { setSearchValue } = useSearch(searchQuery);
   const handleKeyPress = (event) => {
@@ -72,7 +80,7 @@ export default function OrderTable({ paginations, paginationLodaing, total }) {
                         key={order.id}
                       >
                         <td className="2xl:py-4 py-3 px-2">
-                          {rowNumber >= limit
+                          {rowNumber >= lomitRow
                             ? rowNumber + index + 1
                             : index + 1}
                         </td>

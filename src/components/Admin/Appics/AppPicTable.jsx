@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { useState, lazy, Suspense, useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "../../getPagination";
@@ -9,6 +9,7 @@ import useTableRow from "../../../hooks/useTableRow";
 import useAccess from "../../../hooks/useAccess";
 import AccessError from "../../AccessError";
 import toast from "react-hot-toast";
+import { useLocation } from "react-router-dom";
 const EditAppPic = lazy(() => import("./Edit/EditAppPic"));
 
 export default function AppPicTable({ appPicData, fetchData, appPicLoading }) {
@@ -16,13 +17,20 @@ export default function AppPicTable({ appPicData, fetchData, appPicLoading }) {
   const [showEditAppPic, setShowEditAppPic] = useState(false);
   const [editAppPicId, setEditAppPicId] = useState(null);
   const [isLoading, setLoading] = useState(false);
-  let pageSize = 10;
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const limit = searchParams.get("limit");
+  const pageSize = limit ? +limit : 12;
+
   const { isLoading: paginationLoading } = usePaginationURL(
     currentPage,
     pageSize
   );
 
-  const pagesCount = Math.ceil(appPicData && appPicData?.length / pageSize);
+  const pagesCount = useMemo(() => {
+    return Math.ceil(appPicData && appPicData?.length / pageSize);
+  }, [appPicData, pageSize]);
 
   const { userHaveAccess: userHaveAccessList } = useAccess(
     "action_app_pic_admin_list"
@@ -63,7 +71,7 @@ export default function AppPicTable({ appPicData, fetchData, appPicLoading }) {
     }
   };
 
-  const { rowNumber, limit } = useTableRow();
+  const { rowNumber, limit: limitRow } = useTableRow();
   return (
     <>
       {userHaveAccessList ? (
@@ -91,11 +99,13 @@ export default function AppPicTable({ appPicData, fetchData, appPicLoading }) {
                     key={appPic.id}
                   >
                     <td className="py-3 sm:inline hidden">
-                      {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
+                      {rowNumber >= limitRow
+                        ? rowNumber + index + 1
+                        : index + 1}
                     </td>
                     <td className="py-3 truncate">{appPic?.title}%</td>
                     <td className="py-3 truncate flex justify-center">
-                      <img src={appPic?.fileUrl} className="w-8 h-8" />
+                      <img src={appPic?.fileUrl} className="w-8 h-8 object-contain" />
                     </td>
                     <td className="py-3">{appPic.priority}</td>
                     <td className="py-3 truncate">
@@ -122,11 +132,13 @@ export default function AppPicTable({ appPicData, fetchData, appPicLoading }) {
               </tbody>
             )}
 
-            <Pagination
-              pagesCount={pagesCount}
-              setCurrentPage={setCurrentPage}
-              currentPage={currentPage}
-            />
+            {pagesCount && (
+              <Pagination
+                pagesCount={pagesCount}
+                setCurrentPage={setCurrentPage}
+                currentPage={currentPage}
+              />
+            )}
           </table>
         </div>
       ) : (

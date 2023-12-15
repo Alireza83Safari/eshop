@@ -14,7 +14,7 @@ export default function Banner() {
       try {
         setLoading(true);
         const response = await userAxios.get("/appPic");
-        setBanner(response?.data);
+        setBanner(response?.data?.filter((appPic) => appPic?.appPicType === 0));
         setLoading(false);
         setBrandIsFetch(true);
       } catch (error) {
@@ -35,23 +35,24 @@ export default function Banner() {
 
     return () => clearInterval(timer);
   }, [currentIndex, banner]);
+
   return (
     <section className="mt-32">
       {banner?.length ? (
-        <div className="grid sm:grid-cols-2 w-full xl:px-20 px-10 md:mt-0 mt-16">
+        <div className="grid sm:grid-cols-2 w-full xl:px-8 px-5 md:mt-0 mt-16">
           {loading ? (
             <Spinner />
           ) : (
             <>
               <div className="my-auto sm:order-1 order-2">
                 <div className="text-black-900 dark:text-white-100">
-                  <h1 className="xl:text-6xl lg:text-5xl md:text-4xl text-3xl font-black sm:text-start text-center sm:mt-0 mt-14">
+                  <h1 className="xl:text-6xl lg:text-5xl md:text-4xl text-3xl font-black sm:text-start text-center sm:mt-0 mt-14" style={{lineHeight:"80px"}}>
                     {banner[currentIndex] && banner[currentIndex]?.title}
                   </h1>
                 </div>
-                <p className="xl:text-lg text-base sm:my-16 my-10 text-black-900 dark:text-white-100 sm:text-start text-center">
-                  {banner?.description}
-                </p>
+                 <p className="xl:text-lg text-base sm:my-16 my-10 text-black-900 dark:text-white-100 sm:text-start text-center">
+                  {/* {banner?.description} */}
+                </p> 
 
                 <div className="sm:block flex justify-center">
                   <Link

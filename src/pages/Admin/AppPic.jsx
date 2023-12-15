@@ -2,7 +2,6 @@ import React, { Suspense, lazy } from "react";
 import userAxios from "../../services/Axios/userInterceptors";
 import useFetch from "../../hooks/useFetch";
 import Spinner from "../../components/Spinner/Spinner";
-import { Toaster } from "react-hot-toast";
 
 const AppPicTable = lazy(() =>
   import("../../components/Admin/Appics/AppPicTable")
@@ -40,7 +39,6 @@ export default function AppPic() {
             <AddAppPic fetchData={fetchData} />
           </div>
         </div>
-        <Toaster />
       </Suspense>
     </section>
   );

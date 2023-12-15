@@ -11,12 +11,16 @@ export const usePaginationURL = (currentPage, pageSize) => {
   );
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [limit, setLimit] = useState(pageSize);
 
   const fetchSearchResults = useCallback(async () => {
     try {
       setLoading(true);
-      searchParams.set("page", currentPage?.toString());
-      searchParams.set("limit", pageSize?.toString());
+      searchParams.set(
+        "page",
+        currentPage !== null ? currentPage?.toString() : "1"
+      );
+      searchParams.set("limit", limit !== null ? limit?.toString() : "12");
       navigate(`?${searchParams.toString()}`);
       setLoading(false);
       setError(null);
@@ -25,11 +29,15 @@ export const usePaginationURL = (currentPage, pageSize) => {
       setLoading(false);
     }
   }, [currentPage, pageSize, searchParams, navigate]);
+  useEffect(() => {
+    const limitParam = searchParams.get("limit");
+    if (limitParam) {
+      setLimit(limitParam);
+    }
+  }, [currentPage, limit]);
 
   useEffect(() => {
-    if (currentPage != null && pageSize != null) {
-      fetchSearchResults();
-    }
+    fetchSearchResults();
   }, [fetchSearchResults]);
 
   return { isLoading, error };

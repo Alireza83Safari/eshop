@@ -1,4 +1,4 @@
-import React, { useContext, useState, lazy, Suspense } from "react";
+import React, { useContext, useState, lazy, Suspense, useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import adminAxios from "../../../services/Axios/adminInterceptors";
@@ -10,6 +10,7 @@ import { DiscountContext } from "../../../Context/discountContext";
 import useAccess from "../../../hooks/useAccess";
 import AccessError from "../../AccessError";
 import toast from "react-hot-toast";
+import { useLocation } from "react-router-dom";
 const EditDiscount = lazy(() => import("./Edit/EditDiscount"));
 
 export default function DiscountTable() {
@@ -19,13 +20,20 @@ export default function DiscountTable() {
   const [showEditDiscount, setShowEditDiscount] = useState(false);
   const [editDiscounts, setEditDiscounts] = useState(null);
   const [isLoading, setLoading] = useState(false);
-  let pageSize = 10;
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const limit = searchParams.get("limit");
+  const pageSize = limit ? +limit : 12;
+
   const { isLoading: paginationLoading } = usePaginationURL(
     currentPage,
     pageSize
   );
 
-  const pagesCount = Math.ceil(total / pageSize);
+  const pagesCount = useMemo(() => {
+    return Math.ceil(total / pageSize);
+  }, [total, pageSize]);
 
   const { userHaveAccess: userHaveAccessList } = useAccess(
     "action_discount_admin_list"
@@ -54,7 +62,7 @@ export default function DiscountTable() {
       toast.error("You Havent Access Delete Discount");
     }
   };
-  const { rowNumber, limit } = useTableRow();
+  const { rowNumber, limit:limitRow } = useTableRow();
 
   const editDiscountHandler = (ID) => {
     if (userHaveAccessEdit) {
@@ -93,7 +101,7 @@ export default function DiscountTable() {
                     key={discount.id}
                   >
                     <td className="2xl:py-4 py-3">
-                      {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
+                      {rowNumber >= limitRow ? rowNumber + index + 1 : index + 1}
                     </td>
                     <td className="2xl:py-4 py-3 truncate">
                       {discount?.value}%

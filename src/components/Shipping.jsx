@@ -33,7 +33,7 @@ export default function Shipping() {
 
   return (
     <>
-      <div className="lg:col-span-8 px-8">
+      <div className="lg:col-span-8">
         {userAddress?.length ? (
           <div className="w-full border border-blue-60 py-3 px-4 rounded-lg bg-white-200 dark:bg-black-200 dark:text-white-100">
             <p className="text-xs">Your Delivery Address</p>
@@ -103,7 +103,7 @@ export default function Shipping() {
         </div>
       </div>
       <div className="lg:col-span-4">
-        <div className="lg:w-[20rem] lg:block hidden h-[24rem] px-6 py-2 ml-8 border text-sm z-10 rounded-lg dark:text-white-100">
+        <div className="lg:w-[20rem] lg:block hidden h-[24rem] sm:px-4 py-2 ml-8 border text-sm z-10 rounded-lg dark:text-white-100">
           <p className="py-2 text-xl font-bold text-center">Cart Total</p>
 
           <div className="flex justify-between pt-6 pb-2">
@@ -126,7 +126,7 @@ export default function Shipping() {
             <p>{totalTax}$</p>
           </div>
 
-          <div className="flex justify-between py-4 font-black">
+          <div className="flex justify-between py-4 font-black md:text-base text-sm">
             <p>Total Payment</p>
             <p>{totalPayment}$</p>
           </div>
@@ -141,7 +141,8 @@ export default function Shipping() {
             </button>
           </Link>
         </div>
-        <div className="lg:hidden block fixed bottom-16 bg-white-100 w-full px-12 dark:bg-black-600 dark:text-white-100">
+
+        <div className="lg:hidden block fixed bottom-16 left-0 bg-white-100 w-full px-8 dark:bg-black-600 dark:text-white-100 min-w-full">
           <div className="flex text-sm justify-between py-2">
             <p>Products Discount :</p>
             <p className="text-green-300 font-black">{totalDiscount}$</p>
@@ -157,7 +158,7 @@ export default function Shipping() {
           </div>
         </div>
 
-        <div className="lg:hidden flex fixed bottom-0 w-full border-t py-3 bg-white-100  dark:bg-black-600 dark:text-white-100">
+        <div className="lg:hidden flex fixed left-0 bottom-0 w-full border-t py-3 bg-white-100 dark:bg-black-600 dark:text-white-100">
           <button
             className="w-1/3 text-white-100 rounded-lg py-2 mx-4 bg-blue-600 flex justify-center disabled:bg-gray-100"
             disabled={!userAddress?.length}
@@ -165,7 +166,7 @@ export default function Shipping() {
           >
             Buy
           </button>
-          <div className="absolute flex items-center right-0 text-lg">
+          <div className="absolute flex items-center right-0 md:text-base text-sm">
             <p className="mr-1">Total Payment:</p>
             <span className="mr-5 font-bold">{totalPayment}$</span>
           </div>

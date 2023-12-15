@@ -104,10 +104,10 @@ export default function ProductInfo({
                 {productFile?.map((img) => (
                   <SwiperSlide key={img.id}>
                     <div className="flex justify-center">
-                      <div className="h-full w-full">
+                      <div className=" max-h-[40rem]">
                         <img
                           src={img.fileUrl}
-                          className="object-contain w-10/12 h-5/6 h-auto"
+                          className="object-contain w-10/12 h-5/6"
                           alt=""
                         />
                       </div>

@@ -41,7 +41,7 @@ export default function AllAddress() {
         showAllAddress ? "visible" : "invisible"
       }`}
     >
-      <div className="w-2/5 bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-lg overflow-auto h-[30rem] relative">
+      <div className="md:w-2/4 sm:w-10/12 w-11/12 bg-white-100 dark:bg-black-200 dark:text-white-100 rounded-lg overflow-auto h-[30rem] relative">
         <div className="flex justify-between py-3 border-b px-3 w-full sticky top-0 rounded-t-lg">
           <p className="font-bold">Choose Address</p>
           <FontAwesomeIcon

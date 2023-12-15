@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "../../components/Spinner/Spinner";
 import useAccess from "../../hooks/useAccess";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 const RoleTable = lazy(() => import("../../components/Admin/Roles/RoleTable"));
 const EditRole = lazy(() => import("../../components/Admin/Roles/EditRole"));
 const AddRoles = lazy(() => import("../../components/Admin/Roles/AddRoles"));
@@ -62,7 +62,6 @@ export default function RolesPanel() {
             permissionInfo={permissionInfo}
           />
         )}
-        <Toaster />
       </section>
     </Suspense>
   );

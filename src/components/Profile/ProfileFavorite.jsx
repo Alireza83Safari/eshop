@@ -15,7 +15,7 @@ export default function ProfileFavorite() {
   const navigate = useNavigate();
   const { removeHandler, isLoading: removeLoading } = useRemove();
   const deleteFavorite = async (ID) => {
-    removeHandler("/favoriteProductItem/delete/", ID, fetchData);
+    removeHandler("/favoriteProductItem/delete", ID, fetchData);
   };
 
   const { addToCart, isLoading } = useAddToCart();
@@ -46,6 +46,7 @@ export default function ProfileFavorite() {
     isLoading: paginationLoading,
     fetchData,
   } = useFetchPagination(url, userAxios);
+  
   const pagesCount = Math.ceil(total / pageSize);
   return (
     <>

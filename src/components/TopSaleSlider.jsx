@@ -10,11 +10,8 @@ import "swiper/css/pagination";
 import userAxios from "../services/Axios/userInterceptors";
 import useAddToCart from "../hooks/useAddCart";
 
-export default function Offer() {
-  const { datas: productsData } = useFetch(
-    "/product?onlyDiscount=true",
-    userAxios
-  );
+export default function TopSaleSlider() {
+  const { datas: productsData } = useFetch("/product?order=topSell", userAxios);
 
   const { addToCart, isLoading } = useAddToCart();
   const handleAddToCart = (product) => {
@@ -22,7 +19,7 @@ export default function Offer() {
   };
 
   return (
-    <section className="mt-52 mx-4 lg:mx-20">
+    <section className="mt-52 px-5 xl:px-8">
       {productsData?.data?.length ? (
         <>
           <div className="flex items-center md:px-5 xl:px-10 px-2">
@@ -35,6 +32,8 @@ export default function Offer() {
             </p>
             <div className="xl:px-10 p-2">
               <Swiper
+                loop={true}
+                rewind={true}
                 breakpoints={{
                   1: { slidesPerView: 2 },
                   768: {
@@ -50,7 +49,7 @@ export default function Offer() {
                 }}
                 className="mySwiper"
               >
-                {productsData?.data?.length  &&
+                {productsData?.data?.length &&
                   productsData?.data?.map((product) => (
                     <SwiperSlide key={product.id}>
                       <div
@@ -58,9 +57,6 @@ export default function Offer() {
                         key={product.id}
                       >
                         <div className=" flex justify-center h-5/6">
-                          <div className="w-8 h-8 flex items-center justify-center text-xs text-white-100 bg-red-700 z-10 rounded-full absolute top-0 right-5">
-                            {product?.discountValue}%
-                          </div>
                           <Link
                             to={`/product/${product?.name}`}
                             style={{ display: "block" }}

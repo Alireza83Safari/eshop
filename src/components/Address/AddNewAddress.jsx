@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import ReactDOM from "react-dom";
 import userAxios from "../../services/Axios/userInterceptors";
 import FormSpinner from "../FormSpinner/FormSpinner";
@@ -10,7 +10,6 @@ export default function AddNewAddress() {
   const { showAddAddress, setShowAddAddress, fetchAddress } =
     useContext(AddressContext);
   const [errors, setErrors] = useState(null);
-  const [formIsValid, setFormIsValid] = useState(false);
   const [serverErrors, setServerErrors] = useState(null);
   const [isLoading, setIsLoadnig] = useState(false);
 
@@ -32,7 +31,9 @@ export default function AddNewAddress() {
       const isValid = await addressSchema.validate(addressInfos, {
         abortEarly: false,
       });
-      setFormIsValid(isValid);
+      if (isValid) {
+        addNewAddress();
+      }
       setIsLoadnig(false);
     } catch (error) {
       let errors = error.inner.reduce(
@@ -47,36 +48,31 @@ export default function AddNewAddress() {
     }
   };
 
-  const addNewAddress = () => {};
+  const addNewAddress = async () => {
+    setIsLoadnig(true);
+    try {
+      const res = await userAxios.post("/address", {
+        ...addressInfos,
+        plaque: Number(addNewAddress.plaque),
+      });
 
-  useEffect(() => {
-    if (formIsValid) {
-      setIsLoadnig(true);
-      userAxios
-        .post("/address", {
-          ...addressInfos,
-          plaque: Number(addNewAddress.plaque),
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            toast.success("create is success");
-            setShowAddAddress(false);
-            fetchAddress();
-            setIsLoadnig(false);
-          }
-        })
-
-        .catch((err) => {
-          setServerErrors(err?.response?.data);
-          setIsLoadnig(false);
-        });
+      if (res.status === 200) {
+        toast.success("create is success");
+        fetchAddress();
+        setShowAddAddress(false);
+        setIsLoadnig(false);
+      }
+    } catch (error) {
+      setServerErrors(error?.response?.data);
+      setIsLoadnig(false);
     }
-  }, [formIsValid]);
+  };
 
   const setAddressHandler = (event) => {
+    const { name, value, type } = event.target;
     setAddressInfos({
       ...addressInfos,
-      [event.target.name]: event.target.value,
+      [name]: type === "number" ? +value : value,
     });
   };
 
@@ -86,7 +82,7 @@ export default function AddNewAddress() {
         showAddAddress ? "visible" : "invisible"
       }`}
     >
-      <div className="md:w-2/4 w-10/12 bg-white-100 dark:bg-black-200 p-5 rounded-xl dark:text-white-100 overflow-auto">
+      <div className="md:w-2/4 sm:w-10/12 w-11/12 bg-white-100 dark:bg-black-200 p-5 rounded-xl dark:text-white-100 overflow-auto">
         <span
           className={` mb-5 text-xl font-bold flex justify-center ${
             isLoading && "opacity-20"
@@ -153,7 +149,6 @@ export default function AddNewAddress() {
                 nationalCode
               </span>
               <input
-                type="number"
                 placeholder="nationalCode"
                 className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 name="nationalCode"
@@ -198,7 +193,6 @@ export default function AddNewAddress() {
                 phoneNumber
               </span>
               <input
-                type="number"
                 placeholder="phoneNumber"
                 className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 name="phoneNumber"
@@ -221,7 +215,6 @@ export default function AddNewAddress() {
                 postalCode
               </span>
               <input
-                type="number"
                 placeholder="postalCode"
                 className="border p-2 w-full rounded-lg outline-none focus:border-blue-600 dark:bg-black-200"
                 name="postalCode"
@@ -263,7 +256,7 @@ export default function AddNewAddress() {
             <button
               type="submit"
               className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2 disabled:bg-gray-100"
-              onClick={() => getFormValidation()}
+              onClick={getFormValidation}
             >
               {isLoading ? <FormSpinner /> : "Add Product"}
             </button>

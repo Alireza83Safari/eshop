@@ -40,7 +40,7 @@ export default function CheckoutDetails({ orders }) {
           <p>{totalAmount.toLocaleString()}$</p>
         </div>
 
-        <div className="flex justify-between pt-8 font-black">
+        <div className="flex justify-between pt-8 font-black md:text-base text-sm">
           <p>Total Payment</p>
           <p>{totalPayment}$</p>
         </div>
@@ -117,7 +117,7 @@ export default function CheckoutDetails({ orders }) {
         >
           Buy
         </Link>
-        <div className="absolute flex items-center right-0">
+        <div className="absolute flex items-center right-0 md:text-base text-sm">
           <p className="mr-1">Total Payment:</p>
           <span className="mr-5">{totalPayment}$</span>
         </div>

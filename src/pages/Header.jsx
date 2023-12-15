@@ -9,11 +9,12 @@ import {
   faSun,
 } from "@fortawesome/free-solid-svg-icons";
 import userAxios from "../services/Axios/userInterceptors";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Spinner from "../components/Spinner/Spinner";
 import useFetch from "../hooks/useFetch";
 import { AuthContext } from "../Context/AuthContext";
 import { ThemeContext } from "../Context/ThemeContext";
+import { useEffect } from "react";
 const Profile = lazy(() => import("../components/Profile/Profile"));
 
 export default function Header() {
@@ -23,6 +24,14 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const [showProfile, setShowProfile] = useState(false);
+  const location = useLocation();
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const searchTerm = searchParams.get("searchTerm");
+    if (searchTerm) {
+      setSearchQuery(searchTerm);
+    }
+  }, [location.search]);
 
   const searchInHref = () => {
     if (searchQuery.trim()?.length) {
@@ -31,12 +40,14 @@ export default function Header() {
   };
 
   const { datas: category } = useFetch("/category/selectList", userAxios);
+
   const categoryHandler = (data) => {
     document.location.href = `/category/product?categoryId=${data?.key}`;
   };
+
   return (
     <header className="w-full min-w-full bg-white-200 dark:bg-black-800 fixed top-0 right-0 z-10">
-      <div className="flex justify-between items-center mx-auto xl:px-20 py-5 px-5 xl:container relative">
+      <div className="flex justify-between items-center mx-auto xl:px-8 py-5 px-5 xl:container relative">
         <div className="flex items-center">
           <div className="md:mr-8 mr-6 flex items-center">
             <FontAwesomeIcon

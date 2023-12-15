@@ -1,8 +1,11 @@
 import React from "react";
 
-export default function CommentsTemplate({ index, comment }) {
+export default function CommentsTemplate({ comment }) {
   return (
-    <div className="md:w-[80%] w-[100%]  m-auto py-4 border-b" key={index}>
+    <div
+      className="md:w-[80%] w-[100%]  m-auto py-4 border-b"
+      key={comment?.id}
+    >
       <div className="sm:flex grid grid-cols-2 sm:justify-between">
         <div className="flex  md:text-base text-sm">
           <p className="md:mr-4 sm:flex hidden">Username:</p>

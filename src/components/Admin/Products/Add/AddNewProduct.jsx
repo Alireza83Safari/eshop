@@ -162,8 +162,8 @@ export default function AddNewProduct({
               }}
             />
             <p className="text-sm text-red-700">
-              {errors?.brandId}
-              {serverError?.brandId}
+              {errors?.categoryId}
+              {serverError?.categoryId}
             </p>
           </div>
 

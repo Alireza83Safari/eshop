@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { useState, lazy, Suspense, useMemo } from "react";
 import Spinner from "../../components/Spinner/Spinner";
 import { usePaginationURL } from "../../hooks/usePaginationURL";
 import adminAxios from "../../services/Axios/adminInterceptors";
@@ -6,8 +6,8 @@ import { useFetchPagination } from "../../hooks/useFetchPagination";
 import UserPanelContext from "../../Context/userPanelContext";
 import { useSearch } from "../../hooks/useSearch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useLocation } from "react-router-dom";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { Toaster } from "react-hot-toast";
 const UsersTable = lazy(() =>
   import("../../components/Admin/Users/UsersTable")
 );
@@ -20,14 +20,22 @@ export default function Users() {
   const [editUserID, setEditUserID] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   let url = "/user";
-  let pageSize = 10;
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const limit = searchParams.get("limit");
+  const pageSize = limit ? +limit : 12;
+
   const {
     paginations,
     total,
     isLoading: paginationLodaing,
     fetchData,
   } = useFetchPagination(url, adminAxios);
-  const pagesCount = Math.ceil(total / pageSize);
+
+  const pagesCount = useMemo(() => {
+    return Math.ceil(total / pageSize);
+  }, [total, pageSize]);
+
   const { isLoading: pageLoading } = usePaginationURL(
     currentPage,
     pageSize,
@@ -93,7 +101,6 @@ export default function Users() {
           </div>
           {showEditUser && <EditUser />}
           {showAddUser && <AddUser />}
-          <Toaster />
         </section>
       </Suspense>
     </UserPanelContext.Provider>

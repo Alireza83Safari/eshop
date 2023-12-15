@@ -252,7 +252,7 @@ export default function EditDiscount({
             </button>
             <button
               type="submit"
-              className=" w-full py-2 rounded-xl border border-blue-600 ml-2"
+              className=" w-full py-2 rounded-xl border border-blue-600 ml-2 dark:text-white-100"
               onClick={() => setShowEditDiscount(false)}
             >
               Cancel

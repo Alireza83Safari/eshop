@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { useState, lazy, Suspense, useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "../../getPagination";
@@ -9,6 +9,7 @@ import useTableRow from "../../../hooks/useTableRow";
 import useAccess from "../../../hooks/useAccess";
 import AccessError from "../../AccessError";
 import toast from "react-hot-toast";
+import { useLocation } from "react-router-dom";
 const EditCategory = lazy(() => import("./EditCategory"));
 
 export default function CategoryTable({
@@ -22,13 +23,18 @@ export default function CategoryTable({
   const [categoryEditId, setCategoryEditId] = useState(null);
   const [isLoading, setLoading] = useState(false);
 
-  let pageSize = 9;
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const limit = searchParams.get("limit");
+  const pageSize = limit ? +limit : 12;
 
   const { isLoading: pageLoading } = usePaginationURL(currentPage, pageSize);
 
-  const pagesCount = Math.ceil(total / pageSize);
+  const pagesCount = useMemo(() => {
+    return Math.ceil(total / pageSize);
+  }, [total, pageSize]);
 
-  const { rowNumber, limit } = useTableRow();
+  const { rowNumber, limit:limitRow } = useTableRow();
   const { userHaveAccess: userHaveAccessList } = useAccess(
     "action_category_admin_list"
   );
@@ -90,7 +96,7 @@ export default function CategoryTable({
                     key={category.id}
                   >
                     <td className="2xl:py-4 py-3 sm:inline hidden">
-                      {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
+                      {rowNumber >= limitRow ? rowNumber + index + 1 : index + 1}
                     </td>
                     <td className="2xl:py-4 py-3 truncate">{category?.name}</td>
 

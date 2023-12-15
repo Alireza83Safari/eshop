@@ -1,4 +1,11 @@
-import React, { useState, useContext, useEffect, lazy, Suspense } from "react";
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  lazy,
+  Suspense,
+  useMemo,
+} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import ProductsPanelContext from "../../../Context/ProductsPanelContext";
@@ -10,6 +17,7 @@ import userAxios from "../../../services/Axios/userInterceptors";
 import useTableRow from "../../../hooks/useTableRow";
 import useAccess from "../../../hooks/useAccess";
 import toast from "react-hot-toast";
+import { useLocation } from "react-router-dom";
 const Infos = lazy(() => import("../Infos/Infos"));
 
 export default function ProductsTable() {
@@ -27,10 +35,15 @@ export default function ProductsTable() {
     fetchProductList,
   } = useContext(ProductsPanelContext);
 
-  const pageSize = 11;
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const limit = searchParams.get("limit");
+  const pageSize = limit ? +limit : 11;
 
   const { isLoading: loading } = usePaginationURL(currentPage, pageSize);
-  const pagesCount = Math.ceil(total / pageSize);
+  const pagesCount = useMemo(() => {
+    return Math.ceil(total / pageSize);
+  }, [total, pageSize]);
 
   // product info
   const [isLoading, setLoading] = useState(false);
@@ -60,6 +73,7 @@ export default function ProductsTable() {
       }
     }
   };
+
   const getProductFile = async () => {
     setLoading(true);
     const response = await userAxios.get(`/file/${infosId}/1`);
@@ -77,7 +91,7 @@ export default function ProductsTable() {
       getProductFile();
     }
   }, [infosId]);
-  const { rowNumber, limit } = useTableRow();
+  const { rowNumber, limit: limitRow } = useTableRow();
 
   const deleteHandler = (product) => {
     if (userHaveAccessDelete) {
@@ -121,7 +135,7 @@ export default function ProductsTable() {
                 key={product.id}
               >
                 <td className="py-3 px-2">
-                  {rowNumber >= limit ? rowNumber + index + 1 : index + 1}
+                  {rowNumber >= limitRow ? rowNumber + index + 1 : index + 1}
                 </td>
                 <td className="py-3 px-2 truncate">
                   {product?.name?.slice(0, 25)}

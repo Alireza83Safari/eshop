@@ -13,7 +13,7 @@ export default function ShippingPage() {
     <>
       <Header />
       <AddressContextProvider>
-        <section className="min-h-screen lg:grid grid-cols-12 lg:container m-auto lg:px-20 mt-28">
+        <section className="min-h-screen lg:grid grid-cols-12 lg:container m-auto xl:px-8 sm:px-5 px-2 sm:mt-28 mt-24">
           <Suspense fallback={<Spinner />}>
             <Shipping />
           </Suspense>

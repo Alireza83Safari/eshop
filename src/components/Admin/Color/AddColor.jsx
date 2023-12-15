@@ -6,7 +6,7 @@ import useAccess from "../../../hooks/useAccess";
 import toast from "react-hot-toast";
 import colorSchema from "../../../validations/color";
 
-export default function AddColor() {
+export default function AddColor({ fetchData }) {
   const [isLoading, setLoading] = useState(false);
   const [errors, setErrors] = useState();
   const [serverErrors, setServerErrors] = useState(false);
@@ -57,6 +57,7 @@ export default function AddColor() {
           setLoading(false);
           toast.success("color is created");
           setServerErrors("");
+          fetchData();
           setNewColor({
             code: "",
             name: "",

@@ -1,27 +1,27 @@
-import React, { Suspense, lazy, useEffect, useMemo, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { Suspense, lazy, useState } from "react";
 import userAxios from "../services/Axios/userInterceptors";
 import Spinner from "../components/Spinner/Spinner";
 import Header from "./Header";
 import Footer from "./Footer";
 import Sidebar from "./Sidebar/Sidebar";
+import { useLocation } from "react-router-dom";
 import FilterProducts from "../components/Product/FilterProducts";
 import Pagination from "../components/getPagination";
 import toast from "react-hot-toast";
+import { useFetchPagination } from "../hooks/useFetchPagination";
+import { usePaginationURL } from "../hooks/usePaginationURL";
+import { useMemo } from "react";
 const ProductTemplate = lazy(() =>
   import("../components/Product/ProductTemplate")
 );
 
 export default function CategoryResult() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [categoryResult, setCategoryResult] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
-
-  const pageSize = 12;
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const limit = searchParams.get("limit");
+  const pageSize = limit ? +limit : 12;
   const [currentPage, setCurrentPage] = useState(1);
-  const pagesCount = Math.ceil(categoryResult / pageSize);
 
   const BasketHandler = (cartID) => {
     let userBasketHandler = {
@@ -38,60 +38,19 @@ export default function CategoryResult() {
     });
   };
 
-  const searchParams = new URLSearchParams(location.search);
-  const categoryId = searchParams.get("categoryId");
-  const brandId = searchParams.get("brandId");
-  const order = searchParams.get("order");
-  const minPrice = searchParams.get("minPrice");
-  const maxPrice = searchParams.get("maxPrice");
+  const {} = usePaginationURL(currentPage, pageSize);
+  let url = `/product`;
 
-  const [paginatedProducts, setPaginatedProducts] = useState([]);
-  useEffect(() => {
-    let url = `/product?page=${currentPage}&limit=${pageSize}`;
-    if (categoryId) {
-      url += `&categoryId=${categoryId}`;
-    }
-    if (brandId) {
-      url += `&brandId=${brandId}`;
-    }
-    if (order) {
-      url += `&order=${order}`;
-    }
-    if (minPrice) {
-      url += `&minPrice=${minPrice}`;
-    }
-    if (maxPrice) {
-      url += `&maxPrice=${maxPrice}`;
-    }
-    setIsLoading(true);
-    setTimeout(() => {
-      userAxios
-        .get(url)
-        .then((res) => {
-          setIsLoading(false);
-          setPaginatedProducts(res?.data?.data);
-          if (url !== `/product?page=${currentPage}&limit=${pageSize}`) {
-            setCategoryResult(res?.data?.total);
-          }
-        })
-        .catch(() => setIsLoading(false));
-    }, 1000);
-  }, [location.search]);
-
-  useEffect(() => {
-    const fetchSearchResults = () => {
-      searchParams.set("page", currentPage.toString());
-      searchParams.set("limit", pageSize.toString());
-      navigate(`?${searchParams.toString()}`);
-    };
-    fetchSearchResults();
-  }, [currentPage, categoryId, brandId]);
+  const { isLoading, paginations, total } = useFetchPagination(url, userAxios);
+  const pagesCount = useMemo(() => {
+    return Math.ceil(total / pageSize);
+  }, [total, pageSize]);
 
   return (
     <>
       <Header />
       <Sidebar />
-      <section className="min-h-screen mt-28 relative lg:container mx-auto xl:px-20 px-5">
+      <section className="mx-auto py-4 dark:bg-black-200 xl:container min-h-screen mt-24 relative">
         <div className="col-span-12 flex justify-center">
           <button
             className="text-xl p-2 my-4 bg-gray-100 rounded-lg absolute -top-8"
@@ -103,11 +62,11 @@ export default function CategoryResult() {
         </div>
         {isLoading ? (
           <Spinner />
-        ) : paginatedProducts?.length ? (
+        ) : paginations?.length ? (
           <>
             <Suspense fallback={<Spinner />}>
               <ProductTemplate
-                mapData={paginatedProducts}
+                mapData={paginations}
                 basketHandler={BasketHandler}
               />
             </Suspense>
@@ -123,12 +82,14 @@ export default function CategoryResult() {
           </div>
         )}
 
-        <Pagination
-          pagesCount={pagesCount}
-          setCurrentPage={setCurrentPage}
-          currentPage={currentPage}
-          pageSize={pageSize}
-        />
+        {paginations?.length && (
+          <Pagination
+            pagesCount={pagesCount}
+            setCurrentPage={setCurrentPage}
+            currentPage={currentPage}
+            pageSize={pageSize}
+          />
+        )}
       </section>
       <Footer />
     </>
