@@ -12,7 +12,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import userAxios from "../../services/Axios/userInterceptors";
-import { AuthContext } from "../../Context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Profile() {
   const { datas: userInfo } = useFetch("/is_authenticated", userAxios);

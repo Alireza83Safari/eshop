@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
-import { discountValidation } from "../../../../validations/discountValidation"
+import { discountValidation } from "../../../../validations/discountValidation";
 import adminAxios from "../../../../services/Axios/adminInterceptors";
 import Spinner from "../../../Spinner/Spinner";
 import { useChangeDate } from "../../../../hooks/useChangeDate";
-import { DiscountContext } from "../../../../Context/discountContext";
+import { DiscountContext } from "../../../../context/discountContext";
 import { CustomSelect } from "../../../SelectList";
 import useFetch from "../../../../hooks/useFetch";
 import Input from "../../Input";

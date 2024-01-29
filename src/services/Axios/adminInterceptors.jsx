@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const adminAxios = axios.create({
-  baseURL: "https://eshop-bak.iran.liara.run/api/v1/admin/",
+  baseURL: "https://eshop-bak.liara.run/api/v1/admin/",
   withCredentials: true,
 });
 adminAxios.interceptors.request.use(

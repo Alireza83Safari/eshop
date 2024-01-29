@@ -73,7 +73,7 @@ export default function OrderTable({ paginations, paginationLodaing, total }) {
                 <Spinner />
               ) : (
                 <tbody>
-                  {paginations?.length >= 1 ? (
+                  {!!paginations?.length  ? (
                     paginations?.map((order, index) => (
                       <tr
                         className="2xl:text-base md:text-sm text-xs text-center hover:bg-gray-50 dark:hover:bg-black-900"
@@ -106,7 +106,7 @@ export default function OrderTable({ paginations, paginationLodaing, total }) {
                         </td>
                       </tr>
                     ))
-                  ) : paginations.length !== 0 ? (
+                  ) : !paginations.length  ? (
                     <div className="flex justify-center items-center mt-32">
                       <div>
                         <img src="/images/not-found-product.svg" alt="" />

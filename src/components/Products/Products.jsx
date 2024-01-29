@@ -5,10 +5,10 @@ import GetPagination from "../getPagination";
 import { useLocation } from "react-router-dom";
 import { usePaginationURL } from "../../hooks/usePaginationURL";
 import { useFetchPagination } from "../../hooks/useFetchPagination";
-const ProductTemplate = lazy(() => import("../Product/ProductTemplate"));
+const ProductTemplate = lazy(() => import("./ProductTemplate"));
 const FilterProducts = lazy(() => import("./FilterProducts"));
 
-export default function Product() {
+export default function Products() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const limitUrl = searchParams.get("limit");
@@ -55,7 +55,7 @@ export default function Product() {
         )}
       </div>
 
-      {paginations?.length && (
+      {!!paginations?.length && (
         <GetPagination
           pagesCount={pagesCount}
           setCurrentPage={setCurrentPage}

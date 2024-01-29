@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight, faLocationPin } from "@fortawesome/free-solid-svg-icons";
-import AddressContext from "../Context/AddressContext";
+import AddressContext from "../context/AddressContext";
 import userAxios from "../services/Axios/userInterceptors";
 import useFetch from "../hooks/useFetch";
 import toast from "react-hot-toast";

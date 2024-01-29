@@ -1,44 +1,35 @@
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-export const usePaginationURL = (currentPage, pageSize) => {
+export const usePaginationURL = (currentPage, initialLimit) => {
+  const [isLoading, setLoading] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
+  const searchParams = new URLSearchParams(location.search);
 
-  const searchParams = useMemo(
-    () => new URLSearchParams(location.search),
-    [location.search]
-  );
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [limit, setLimit] = useState(pageSize);
+  const searchParamsPage = searchParams.get("page");
+  const searchParamsLimit = searchParams.get("limit");
 
-  const fetchSearchResults = useCallback(async () => {
-    try {
-      setLoading(true);
-      searchParams.set(
-        "page",
-        currentPage !== null ? currentPage?.toString() : "1"
-      );
-      searchParams.set("limit", limit !== null ? limit?.toString() : "12");
-      navigate(`?${searchParams.toString()}`);
-      setLoading(false);
-      setError(null);
-    } catch (err) {
-      setError(err);
-      setLoading(false);
+  const page = currentPage ? currentPage : searchParamsPage;
+  const limit = searchParamsLimit ? searchParamsLimit : initialLimit;
+
+  const getPaginationUrl = useCallback(async () => {
+    setLoading(true);
+    const searchParams = new URLSearchParams(location.search);
+
+    if (page) {
+      searchParams.set("page", String(page));
     }
-  }, [currentPage, pageSize, searchParams, navigate]);
-  useEffect(() => {
-    const limitParam = searchParams.get("limit");
-    if (limitParam) {
-      setLimit(limitParam);
+    if (limit) {
+      searchParams.set("limit", String(limit));
     }
-  }, [currentPage, limit]);
+    navigate(`?${searchParams.toString()}`);
+    setLoading(false);
+  }, [page, limit]);
 
   useEffect(() => {
-    fetchSearchResults();
-  }, [fetchSearchResults]);
+    getPaginationUrl();
+  }, [page, currentPage]);
 
-  return { isLoading, error };
+  return { isLoading };
 };

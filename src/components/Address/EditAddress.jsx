@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import userAxios from "../../services/Axios/userInterceptors";
 import FormSpinner from "../FormSpinner/FormSpinner";
-import AddressContext from "../../Context/AddressContext";
+import AddressContext from "../../context/AddressContext";
 import addressSchema from "../../validations/address";
 
 export default function EditAddress({}) {

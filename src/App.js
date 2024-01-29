@@ -1,8 +1,8 @@
 import { useLocation, useRoutes } from "react-router-dom";
 import route from "./routes/routes";
 import "./App.css";
-import { ThemeContextProvider } from "./Context/ThemeContext";
-import { AuthContextProvider } from "./Context/AuthContext";
+import { ThemeContextProvider } from "./context/ThemeContext";
+import { AuthContextProvider } from "./context/AuthContext";
 import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 
@@ -15,10 +15,10 @@ function App() {
 
   return (
     <div className="App max-w-[1400px] sm:mx-auto relative w-full min-w-full">
-      <Toaster />
       <ThemeContextProvider>
         <AuthContextProvider>{routes}</AuthContextProvider>
       </ThemeContextProvider>
+      <Toaster />
     </div>
   );
 }

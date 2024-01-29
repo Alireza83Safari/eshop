@@ -6,7 +6,7 @@ import { usePaginationURL } from "../../../hooks/usePaginationURL";
 import useTableRow from "../../../hooks/useTableRow";
 import Pagination from "../../getPagination";
 import Spinner from "../../Spinner/Spinner";
-import { DiscountContext } from "../../../Context/discountContext";
+import { DiscountContext } from "../../../context/discountContext";
 import useAccess from "../../../hooks/useAccess";
 import AccessError from "../../AccessError";
 import toast from "react-hot-toast";

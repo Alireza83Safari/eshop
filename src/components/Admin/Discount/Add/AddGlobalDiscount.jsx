@@ -3,7 +3,7 @@ import { discountValidation } from "../../../../validations/discountValidation"
 import adminAxios from "../../../../services/Axios/adminInterceptors";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
 import { useChangeDate } from "../../../../hooks/useChangeDate";
-import { DiscountContext } from "../../../../Context/discountContext";
+import { DiscountContext } from "../../../../context/discountContext";
 import { CustomSelect } from "../../../SelectList";
 import Input from "../../Input";
 import toast from "react-hot-toast";

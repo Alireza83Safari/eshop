@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import ProductsPanelContext from "../../../../Context/ProductsPanelContext";
+import ProductsPanelContext from "../../../../context/ProductsPanelContext";
 import userAxios from "../../../../services/Axios/userInterceptors";
 import FormSpinner from "../../../FormSpinner/FormSpinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import  registerSchema  from "../validations/register";
-import Header from "./Header";
-import Footer from "../pages/Footer";
-import Sidebar from "./Sidebar/Sidebar";
-import Spinner from "../components/Spinner/Spinner";
+import registerSchema from "../validations/register";
+import { Header, Footer, Spinner } from "../components";
 import toast from "react-hot-toast";
 
 export default function Register() {
@@ -78,7 +75,6 @@ export default function Register() {
   return (
     <>
       <Header />
-      <Sidebar />
       <section className="grid lg:grid-cols-2 py-16 relative m-auto min-h-screen xl:px-8 px-5 z-10">
         <div className="flex lg:justify-end justify-center items-center w-96 m-auto lg:py-0 py-10">
           <div className="w-96">

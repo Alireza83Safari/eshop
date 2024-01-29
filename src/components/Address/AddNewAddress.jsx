@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import ReactDOM from "react-dom";
 import userAxios from "../../services/Axios/userInterceptors";
 import FormSpinner from "../FormSpinner/FormSpinner";
-import AddressContext from "../../Context/AddressContext";
+import AddressContext from "../../context/AddressContext";
 import toast from "react-hot-toast";
 import addressSchema from "../../validations/address";
 

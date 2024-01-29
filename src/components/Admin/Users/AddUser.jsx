@@ -4,7 +4,7 @@ import useFetch from "../../../hooks/useFetch";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import Spinner from "../../Spinner/Spinner";
 import { CustomSelect } from "../../SelectList";
-import userPanelContext from "../../../Context/userPanelContext";
+import userPanelContext from "../../../context/userPanelContext";
 import Input from "../Input";
 import useAccess from "../../../hooks/useAccess";
 import AccessError from "../../AccessError";

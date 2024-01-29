@@ -17,8 +17,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./Sidebar.css";
 import adminAxios from "../../../services/Axios/adminInterceptors";
-import { AuthContext } from "../../../Context/AuthContext";
-import { ThemeContext } from "../../../Context/ThemeContext";
+import { AuthContext } from "../../../context/AuthContext";
+import { ThemeContext } from "../../../context/ThemeContext";
 
 export default function Sidebar() {
   const navigate = useNavigate();

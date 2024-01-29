@@ -1,10 +1,9 @@
 import React from "react";
-import Header from ".././pages/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import Footer from "./Footer";
 import { Link } from "react-router-dom";
-import Sidebar from "./Sidebar/Sidebar";
+import { Header, Footer } from "../components";
+
 export default function Contact() {
   const usersData = [
     {
@@ -66,7 +65,6 @@ export default function Contact() {
   return (
     <>
       <Header />
-      <Sidebar />
       <section
         className="py-16 mt-24
        relative m-auto min-h-screen xl:px-8 px-5 text-center"
@@ -98,7 +96,9 @@ export default function Contact() {
           ))}
         </div>
         <p className="text-sm mt-10 dark:text-white-100">our support team</p>
-        <h2 className="text-3xl font-semibold my-4 dark:text-white-100">Talk to real people</h2>
+        <h2 className="text-3xl font-semibold my-4 dark:text-white-100">
+          Talk to real people
+        </h2>
         <p className="dark:text-white-100">
           Amazing customer support is the #1 reason our creators cite for
           choosing Podia. Our team knows that the enterpreneurial journey comes
@@ -117,7 +117,9 @@ export default function Contact() {
               <p className="text-gray-800 mt-5 sm:text-base text-sm">
                 {item.city}
               </p>
-              <p className="my-1 sm:text-base text-sm dark:text-white-100">{item.name}</p>
+              <p className="my-1 sm:text-base text-sm dark:text-white-100">
+                {item.name}
+              </p>
               <p className="text-gray-800 sm:text-base text-sm">{item.name}</p>
             </div>
           ))}

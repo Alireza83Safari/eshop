@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import ProductsPanelContext from "../../../../Context/ProductsPanelContext";
+import ProductsPanelContext from "../../../../context/ProductsPanelContext";
 import adminAxios from "../../../../services/Axios/adminInterceptors";
 import useFetch from "../../../../hooks/useFetch";
 import FormSpinner from "../../../FormSpinner/FormSpinner";

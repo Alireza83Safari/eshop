@@ -14,7 +14,7 @@ import EditAddress from "./EditAddress";
 import AddNewAddress from "./AddNewAddress";
 import Spinner from "../Spinner/Spinner";
 import toast from "react-hot-toast";
-import AddressContext from "../../Context/AddressContext";
+import AddressContext from "../../context/AddressContext";
 
 export default function Address() {
   const {

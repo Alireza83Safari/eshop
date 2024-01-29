@@ -1,7 +1,5 @@
 import React, { useState, startTransition, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import Header from "../../pages/Header";
-import Footer from "../../pages/Footer";
 import useFetch from "../../hooks/useFetch";
 import userAxios from "../../services/Axios/userInterceptors";
 import ProductFeature from "./ProductFeature";
@@ -9,9 +7,8 @@ import ProductContent from "./ProductContent";
 import Description from "./Description";
 import Comments from "./Comment/Comments";
 import Specifications from "./Specifications";
-import Sidebar from "../../pages/Sidebar/Sidebar";
 
-export default function ProductsInfoPanel() {
+export default function ProductsInfoComponents() {
   const { productID } = useParams();
   const [activeTab, setActiveTab] = useState("description");
   const { datas: productsData } = useFetch("/product?limit=100", userAxios);
@@ -29,8 +26,6 @@ export default function ProductsInfoPanel() {
 
   return (
     <>
-      <Header />
-      <Sidebar />
       <section className="md:px-5 xl:px-16 px-2 xl:container mx-auto mt-24">
         <div className="grid grid-cols-12">
           <div className="lg:col-span-4 md:col-span-5 col-span-12">
@@ -90,8 +85,6 @@ export default function ProductsInfoPanel() {
           )}
         </div>
       </section>
-
-      <Footer />
     </>
   );
 }

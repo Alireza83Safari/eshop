@@ -5,7 +5,7 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import Spinner from "../../Spinner/Spinner";
 import useTableRow from "../../../hooks/useTableRow";
-import userPanelContext from "../../../Context/userPanelContext";
+import userPanelContext from "../../../context/userPanelContext";
 import AccessError from "../../AccessError";
 import useAccess from "../../../hooks/useAccess";
 import toast from "react-hot-toast";
@@ -66,7 +66,7 @@ export default function UsersTable() {
             <Spinner />
           ) : (
             <tbody>
-              {paginations?.length >= 1 ? (
+              {!!paginations?.length ? (
                 paginations.map((user, index) => (
                   <tr
                     className="2xl:text-base md:text-sm text-xs text-center overflow-x-auto hover:bg-gray-50 dark:hover:bg-black-900"
@@ -107,7 +107,7 @@ export default function UsersTable() {
                     </td>
                   </tr>
                 ))
-              ) : paginations?.length !== 0 ? (
+              ) : !paginations?.length ? (
                 <div className="flex justify-center items-center mt-32">
                   <div>
                     <img src="/images/not-found-product.svg" alt="" />

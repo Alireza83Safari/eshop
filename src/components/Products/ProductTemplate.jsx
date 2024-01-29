@@ -54,8 +54,10 @@ export default function ProductTemplate({ mapData }) {
                         }`}
                       >
                         {product?.discountValue
-                          ? product?.price -
-                            (product?.discountValue / 100) * product?.price
+                          ? (
+                              product?.price -
+                              (product?.discountValue / 100) * product?.price
+                            ).toFixed(1)
                           : product?.price}
                       </p>
                       <p className="line-through text-sm">

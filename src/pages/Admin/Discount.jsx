@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import { DiscountContextProvider } from "../../Context/discountContext";
+import { DiscountContextProvider } from "../../context/discountContext";
 import Spinner from "../../components/Spinner/Spinner";
 const TotalDiscount = lazy(() =>
   import("../../components/Admin/Discount/TotalDiscount")

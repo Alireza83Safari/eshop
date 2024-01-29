@@ -3,7 +3,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import { usePaginationURL } from "../../hooks/usePaginationURL";
 import adminAxios from "../../services/Axios/adminInterceptors";
 import { useFetchPagination } from "../../hooks/useFetchPagination";
-import UserPanelContext from "../../Context/userPanelContext";
+import UserPanelContext from "../../context/userPanelContext";
 import { useSearch } from "../../hooks/useSearch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";

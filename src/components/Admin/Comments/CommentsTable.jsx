@@ -72,7 +72,7 @@ export default function CommentsTable() {
             </thead>
             {paginationLodaing || isLoading ? (
               <Spinner />
-            ) : paginations?.length >= 1 ? (
+            ) : !!paginations?.length ? (
               <tbody>
                 {paginations?.map((comment) => (
                   <tr
@@ -137,7 +137,7 @@ export default function CommentsTable() {
                   </tr>
                 ))}
               </tbody>
-            ) : paginations.length !== 0 ? (
+            ) : !paginations.length ? (
               <div className="flex justify-center items-center mt-32">
                 <div>
                   <img src="/images/not-found-product.svg" alt="" />

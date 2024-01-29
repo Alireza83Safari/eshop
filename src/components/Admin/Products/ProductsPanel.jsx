@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useSearch } from "../../../hooks/useSearch";
 import Spinner from "../../Spinner/Spinner";
-import ProductsPanelContext from "../../../Context/ProductsPanelContext";
+import ProductsPanelContext from "../../../context/ProductsPanelContext";
 import AccessError from "../../AccessError";
 import useAccess from "../../../hooks/useAccess";
 import toast from "react-hot-toast";

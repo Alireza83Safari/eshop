@@ -1,5 +1,5 @@
 import React, { useContext, useState, lazy, Suspense } from "react";
-import ProductsPanelContext from "../../../../Context/ProductsPanelContext";
+import ProductsPanelContext from "../../../../context/ProductsPanelContext";
 import ReactDOM from "react-dom";
 import Spinner from "../../../Spinner/Spinner";
 

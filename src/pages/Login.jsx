@@ -1,14 +1,11 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Header from "./Header";
-import Footer from "./Footer";
 import userAxios from "../services/Axios/userInterceptors";
-import { AuthContext } from "../Context/AuthContext";
-import Sidebar from "./Sidebar/Sidebar";
-import Spinner from "../components/Spinner/Spinner";
+import { AuthContext } from "../context/AuthContext";
 import toast from "react-hot-toast";
 import { useEffect } from "react";
 import loginSchema from "../validations/login";
+import { Header, Footer, Spinner } from "../components";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -82,7 +79,6 @@ export default function Login() {
   return (
     <>
       <Header />
-      <Sidebar />
 
       <section className="grid lg:grid-cols-2 py-16 relative m-auto min-h-screen xl:px-8 px-5 mt-10">
         <div className="flex lg:justify-end justify-center items-center w-96 m-auto lg:py-0 py-10">

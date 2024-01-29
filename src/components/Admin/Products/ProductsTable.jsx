@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import ProductsPanelContext from "../../../Context/ProductsPanelContext";
+import ProductsPanelContext from "../../../context/ProductsPanelContext";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import Pagination from "../../getPagination";
 import { usePaginationURL } from "../../../hooks/usePaginationURL";
@@ -127,7 +127,7 @@ export default function ProductsTable() {
 
         {paginationLoading || loading ? (
           <Spinner />
-        ) : paginations?.length >= 1 ? (
+        ) : !!paginations?.length ? (
           <tbody>
             {paginations?.map((product, index) => (
               <tr
@@ -180,7 +180,7 @@ export default function ProductsTable() {
               </tr>
             ))}
           </tbody>
-        ) : paginations?.length !== 0 ? (
+        ) : !paginations?.length ? (
           <tbody className="flex justify-center items-center mt-32">
             <>
               <img src="/images/not-found-product.svg" alt="" />

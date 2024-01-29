@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
-import ProductsPanelContext from "../../../Context/ProductsPanelContext";
+import ProductsPanelContext from "../../../context/ProductsPanelContext";
 import adminAxios from "../../../services/Axios/adminInterceptors";
 import toast from "react-hot-toast";
 

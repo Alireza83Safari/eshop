@@ -2,19 +2,19 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import useFetch from "../hooks/useFetch";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import userAxios from "../services/Axios/userInterceptors";
 import useAddToCart from "../hooks/useAddCart";
 import Spinner from "./Spinner/Spinner";
 
-export default function ExpensiveSlider() {
-  const { datas: productsData, isLoading } = useFetch(
-    "/product?order=expensive&limit=8",
-    userAxios
-  );
+export default function ProductSlider({
+  products,
+  isLoading,
+  title,
+  linkText,
+  href,
+}) {
   const { addToCart } = useAddToCart();
 
   const handleAddToCart = (product) => {
@@ -23,16 +23,14 @@ export default function ExpensiveSlider() {
 
   return (
     <>
-      {!productsData?.data?.length ? null : isLoading ? (
+      {isLoading ? (
         <Spinner />
       ) : (
         <section className="mt-52 rounded-xl border lg:mx-8">
           <div className="flex justify-between dark:text-white-100 font-bold border-b py-4 px-5">
-            <p className="lg:text-xl md:text-lg text-sm p-1">
-              expensive eshop Products
-            </p>
-            <Link to="/product" className="p-1 md:text-sm text-xs">
-              show expensive products >
+            <p className="lg:text-xl md:text-lg text-sm p-1">{title}</p>
+            <Link to={href} className="p-1 md:text-sm text-xs">
+              {linkText}
             </Link>
           </div>
 
@@ -55,15 +53,18 @@ export default function ExpensiveSlider() {
               spaceBetween={7}
               className="mySwiper"
             >
-              {productsData?.data?.length &&
-                productsData?.data?.slice(0, 9)?.map((product) => (
+              {!!products?.length &&
+                products?.slice(0, 9)?.map((product) => (
                   <SwiperSlide key={product.id}>
                     <div
                       className="dark:bg-black-200 relative duration-200 bg-white-100 mt-4 md:h-[22rem] h-[15rem] shadow-sm hover:shadow-xl "
                       key={product.id}
                     >
                       <div className="flex justify-center relative h-4/6">
-                        <Link to={`/product/${product?.id}`} className="block">
+                        <Link
+                          to={`/product/${product?.id}`}
+                          style={{ display: "block" }}
+                        >
                           <img
                             src={product.fileUrl}
                             alt="Product"
@@ -79,9 +80,7 @@ export default function ExpensiveSlider() {
                         </button>
                       </div>
                       <div className="p-2 h-2/6">
-                        <Link
-                          to={`/product/${product?.id}`}
-                        >
+                        <Link to={`/product/${product?.id}`}>
                           <h2 className="font-bold mb-2 text-xs whitespace-pre-line dark:text-white-100 text-center py-2">
                             {product?.name}
                           </h2>

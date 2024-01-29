@@ -34,7 +34,7 @@ export default function CategoryTable({
     return Math.ceil(total / pageSize);
   }, [total, pageSize]);
 
-  const { rowNumber, limit:limitRow } = useTableRow();
+  const { rowNumber, limit: limitRow } = useTableRow();
   const { userHaveAccess: userHaveAccessList } = useAccess(
     "action_category_admin_list"
   );
@@ -89,14 +89,16 @@ export default function CategoryTable({
             <Spinner />
           ) : (
             <tbody>
-              {paginations?.length ? (
+              {!!paginations?.length ? (
                 paginations?.map((category, index) => (
                   <tr
                     className="2xl:text-base md:text-sm sm:text-xs text-[10px] text-center grid sm:grid-cols-5 grid-cols-4"
                     key={category.id}
                   >
                     <td className="2xl:py-4 py-3 sm:inline hidden">
-                      {rowNumber >= limitRow ? rowNumber + index + 1 : index + 1}
+                      {rowNumber >= limitRow
+                        ? rowNumber + index + 1
+                        : index + 1}
                     </td>
                     <td className="2xl:py-4 py-3 truncate">{category?.name}</td>
 
@@ -123,7 +125,7 @@ export default function CategoryTable({
                     </td>
                   </tr>
                 ))
-              ) : paginations.length !== 0 ? (
+              ) : !paginations.length ? (
                 <div className="flex justify-center items-center mt-32">
                   <div>
                     <img src="/images/not-found-product.svg" alt="" />

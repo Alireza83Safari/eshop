@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from "react";
-import { AuthContext } from "../Context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 
 function useAccess(permissions) {
   const { userPermissions } = useContext(AuthContext);

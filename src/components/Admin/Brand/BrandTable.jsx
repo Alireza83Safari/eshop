@@ -91,7 +91,7 @@ export default function BrandTable({
               <Spinner />
             ) : (
               <tbody>
-                {paginations?.length >= 1 ? (
+                {!!paginations?.length ? (
                   paginations?.map((brand, index) => (
                     <tr
                       className="2xl:text-base md:text-sm sm:text-xs text-[10px] text-center grid sm:grid-cols-6 grid-cols-5"
@@ -133,7 +133,7 @@ export default function BrandTable({
                       </td>
                     </tr>
                   ))
-                ) : paginations.length !== 0 ? (
+                ) : !paginations.length  ? (
                   <div className="flex justify-center items-center mt-32">
                     <div>
                       <img src="/images/not-found-product.svg" alt="" />
