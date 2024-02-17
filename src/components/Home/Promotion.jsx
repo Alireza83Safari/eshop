@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Timer from "./Timer";
-import useFetch from "../hooks/useFetch";
+import Timer from "../Timer";
+import useFetch from "../../hooks/useFetch";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import userAxios from "../services/Axios/userInterceptors";
+import userAxios from "../../services/Axios/userInterceptors";
 import { Link } from "react-router-dom";
 
 export default function Suggestion() {
@@ -56,7 +56,6 @@ export default function Suggestion() {
       }
     }
   }, [currentProductIndex, promotion?.data]);
-
   return (
     <section
       className={` w-full px-5 xl:px-8 lg:mt-52 mt-32 relative ${
@@ -108,10 +107,7 @@ export default function Suggestion() {
             <div className="flex justify-center items-center">
               <Link
                 className="text-white-100 rounded-md py-3 px-20 md:px-14 bg-blue-600 md:mt-40 mt-10"
-                to={`/product/${
-                  promotion &&
-                  promotion?.data[currentProductIndex]?.name?.replace(/ /g, "_")
-                }`}
+                to={`/product/${promotion?.data[currentProductIndex]?.id} `}
               >
                 Show Now
               </Link>

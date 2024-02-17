@@ -59,6 +59,10 @@ export default function Header() {
     });
   };
 
+  const isAdmin =
+    !!(userInfos?.role?.name === "admin") |
+    !!(userInfos?.role?.name === "root");
+
   const [showCategory, setShowCategory] = useState(false);
   return (
     <header className="w-full min-w-full bg-white-200 dark:bg-black-800 fixed top-0 right-0 z-10">
@@ -106,14 +110,15 @@ export default function Header() {
           </div>
         </div>
         <ul className="dark:text-white-100 gap-x-12 lg:text-bas md:text-sm hidden lg:flex">
-          {(userInfos?.role?.name === "admin") |
-            (userInfos?.role?.name === "root") && (
+          {!!isAdmin ? (
             <Link
               to="/panel"
               className="hover:text-blue-600 duration-300 font-semibold"
             >
               Panel
             </Link>
+          ) : (
+            ""
           )}
 
           <Link
@@ -123,7 +128,7 @@ export default function Header() {
             Home
           </Link>
           <Link
-            to="/product"
+            to="/products"
             className="hover:text-blue-600 duration-300 font-semibold"
           >
             Shop
@@ -135,14 +140,14 @@ export default function Header() {
             Category
             <ul className="absolute top-8 invisible group-hover:visible bg-white border dark:bg-black-200 border-gray-50 rounded-lg py-2 px-4 bg-white-100 duration-300">
               {category?.data?.map((data) => (
-                <li
+                <Link
                   className="flex py-2 items-center text-black-700 dark:text-white-100 relative whitespace-nowrap text-sm hover:text-blue-600"
-                  to="product"
+                  to={`/products?categoryId=${data?.key}`}
                   onClick={() => categoryHandler(data)}
                   key={data.key}
                 >
                   {data?.value}
-                </li>
+                </Link>
               ))}
             </ul>
           </Link>

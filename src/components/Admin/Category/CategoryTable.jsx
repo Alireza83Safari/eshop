@@ -127,12 +127,12 @@ export default function CategoryTable({
                 ))
               ) : !paginations.length ? (
                 <div className="flex justify-center items-center mt-32">
-                  <div>
+                  {/*  <div>
                     <img src="/images/not-found-product.svg" alt="" />
                     <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
                       Category Not Found
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               ) : null}
             </tbody>

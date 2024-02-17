@@ -5,8 +5,8 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import useAddToCart from "../hooks/useAddCart";
-import Spinner from "./Spinner/Spinner";
+import useAddToCart from "../../hooks/useAddCart";
+import Spinner from "../Spinner/Spinner";
 
 export default function ProductSlider({
   products,

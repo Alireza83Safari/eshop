@@ -106,12 +106,12 @@ export default function ProductContent({ findProduct, productItem }) {
         <h3 className="pb-6 sm:text-sm text-xs sm:py-4 py-6 my-3">
           Total Price:
           <span className="text-lg ml-4 font-bold text-red-700">
-            {Math.floor(
-              productItem?.discountValue
-                ? findProduct?.price -
-                    (productItem?.discountValue / 100) * findProduct?.price
-                : findProduct?.price
-            )}
+            {productItem?.discountValue
+              ? (
+                  findProduct?.price -
+                  (productItem?.discountValue / 100) * findProduct?.price
+                ).toFixed(1)
+              : findProduct?.price}
             $
           </span>
         </h3>

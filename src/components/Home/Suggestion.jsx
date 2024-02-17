@@ -1,13 +1,13 @@
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
-import userAxios from "../services/Axios/userInterceptors";
-import useFetch from "../hooks/useFetch";
+import userAxios from "../../services/Axios/userInterceptors";
+import useFetch from "../../hooks/useFetch";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
-import useAddToCart from "../hooks/useAddCart";
+import useAddToCart from "../../hooks/useAddCart";
 
 export default function Suggestion() {
   const [count, setCount] = useState(1);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import userAxios from "./../services/Axios/userInterceptors";
-import Spinner from "./Spinner/Spinner";
+import userAxios from "../../services/Axios/userInterceptors";
+import Spinner from "../Spinner/Spinner";
 
 export default function Banner() {
   const [banner, setBanner] = useState([]);

@@ -5,7 +5,7 @@ import GetPagination from "../getPagination";
 import { useLocation } from "react-router-dom";
 import { usePaginationURL } from "../../hooks/usePaginationURL";
 import { useFetchPagination } from "../../hooks/useFetchPagination";
-const ProductTemplate = lazy(() => import("./ProductTemplate"));
+import ProductTemplate from "./ProductTemplate";
 const FilterProducts = lazy(() => import("./FilterProducts"));
 
 export default function Products() {
@@ -21,7 +21,7 @@ export default function Products() {
     pageSize
   );
 
-  let url = `/product`;
+  let url = `product`;
 
   const { isLoading, paginations, total } = useFetchPagination(url, userAxios);
   const pagesCount = useMemo(() => {
@@ -45,13 +45,26 @@ export default function Products() {
           )}
         </div>
         {isLoading || paginationLoading ? (
-          <div className="flex justify-center items-center">
+          <div className="pt-32 col-span-12">
             <Spinner />
           </div>
         ) : (
-          <Suspense fallback={<Spinner />}>
-            <ProductTemplate mapData={paginations} />
-          </Suspense>
+          <div className="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 col-span-12 mt-8 pb-14">
+            {!!paginations?.length ? (
+              paginations?.map((product) => (
+                <ProductTemplate product={product} />
+              ))
+            ) : (
+              <div className="flex justify-center items-center mt-32 lg:col-span-4 sm:col-span-3 col-span-2">
+                {/*    <div>
+                  <img src="/images/not-found-product.svg" alt="" />
+                  <p className="text-center mt-8 text-lg font-bold dark:text-white-100">
+                    Product Not Found
+                  </p>
+                </div> */}
+              </div>
+            )}
+          </div>
         )}
       </div>
 

@@ -56,8 +56,10 @@ export default function Address() {
       </div>
 
       {isLoading ? (
-        <Spinner />
-      ) : userAddress?.length ? (
+        <div className="pt-64">
+          <Spinner />
+        </div>
+      ) : !!userAddress?.length ? (
         userAddress?.map((address) => (
           <div className="border-b p-5" key={address?.id}>
             <div className="flex items-center justify-between mb-3 px-3">

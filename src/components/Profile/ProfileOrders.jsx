@@ -23,8 +23,10 @@ export default function ProfileOrders() {
   return (
     <section className="relative">
       {isLoading ? (
-        <Spinner />
-      ) : !paginatedProducts || paginatedProducts?.length === 0 ? (
+        <div className="pt-64">
+          <Spinner />
+        </div>
+      ) : !paginatedProducts || !paginatedProducts?.length ? (
         <div className="w-full text-center py-24">
           <img src="/images/order-empty.svg" alt="" className="m-auto " />
           <p className="text-lg font-semibold dark:text-white-100">

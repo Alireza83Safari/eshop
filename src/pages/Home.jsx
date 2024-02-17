@@ -24,8 +24,8 @@ export default function Home() {
     "/product?order=newest&limit=8",
     userAxios
   );
-  const { datas: haveDiscount, isLoading: discountLoading } = useFetch(
-    "/product?onlyDiscount=true&limit=8",
+  const { datas: topSell, isLoading: topSellLoading } = useFetch(
+    "/product?order=topSell&limit=8",
     userAxios
   );
   return (
@@ -62,11 +62,11 @@ export default function Home() {
         />
 
         <ProductSlider
-          products={haveDiscount?.data}
-          isLoading={discountLoading}
-          title="eshop have discount Products"
+          products={topSell?.data}
+          isLoading={topSellLoading}
+          title="eshop have top sell Products"
           linkText="show all >"
-          to="/products?onlyDiscount=true"
+          to="/products?order=topSell"
         />
 
         <PopularBrand />

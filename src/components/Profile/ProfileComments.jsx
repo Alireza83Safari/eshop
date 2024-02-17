@@ -22,8 +22,10 @@ export default function ProfileComments() {
   return (
     <section className="relative pb-16">
       {pageLoading | paginationLoading ? (
-        <Spinner />
-      ) : paginations?.length < 1 ? (
+        <div className="pt-64">
+          <Spinner />
+        </div>
+      ) : !paginations?.length ? (
         <div className="w-full text-center py-24">
           <img src="/images/order-empty.svg" alt="" className="m-auto " />
           <p className="text-lg font-semibold dark:text-white-100">

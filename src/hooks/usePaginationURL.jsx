@@ -25,11 +25,11 @@ export const usePaginationURL = (currentPage, initialLimit) => {
     }
     navigate(`?${searchParams.toString()}`);
     setLoading(false);
-  }, [page, limit]);
+  }, [page, limit, location.search]);
 
   useEffect(() => {
     getPaginationUrl();
-  }, [page, currentPage]);
+  }, [page, currentPage, location.search]);
 
   return { isLoading };
 };
