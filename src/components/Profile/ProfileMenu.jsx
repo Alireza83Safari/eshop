@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { faHeart, faRoute, faShop } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function ProfileMenu() {
+  const location = useLocation();
   const { userInfos } = useContext(AuthContext);
   const items = [
     { icon: faShop, text: "Orders", to: "/profile/orders" },
@@ -12,10 +13,6 @@ export default function ProfileMenu() {
     { icon: faHeart, text: "Favorite", to: "/profile/favorite" },
     { icon: faHeart, text: "Comments", to: "/profile/comments" },
   ];
-
-  const [activeId, setActiveId] = useState(null);
-
-  const lastLinkIndex = items?.length - 1;
 
   return (
     <section className="border rounded-xl dark:bg-black-800">
@@ -33,11 +30,10 @@ export default function ProfileMenu() {
         {items?.map((item, index) => (
           <Link
             className={`flex items-center lg:justify-normal justify-center text-black-700 dark:text-white-100 relative p-5 py-7 hover:bg-gray-100 dark:hover:bg-black-200 duration-500 hover-element ${
-              activeId?.toLocaleLowerCase() === item?.text?.toLocaleLowerCase()
+              location.pathname?.includes(item?.text?.toLocaleLowerCase())
                 ? "active"
                 : ""
-            } ${index === lastLinkIndex ? "" : " border-b"}`}
-            onClick={() => setActiveId(item.text)}
+            } ${index === items?.length - 1 ? "" : " border-b"}`}
             key={index}
             to={item.to}
           >

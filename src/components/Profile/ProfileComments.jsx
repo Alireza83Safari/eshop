@@ -1,31 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
-import userAxios from "../../services/Axios/userInterceptors";
-import Pagination from "../getPagination";
 import Spinner from "../Spinner/Spinner";
-import { useFetchPagination } from "../../hooks/useFetchPagination";
-import { usePaginationURL } from "../../hooks/usePaginationURL";
+import useMyComments from "../../api/comment/user/useMyComments";
 
 export default function ProfileComments() {
-  const [currentPage, setCurrentPage] = useState(1);
-  let pageSize = 4;
-
-  const { isLoading: pageLoading } = usePaginationURL(currentPage, pageSize);
-  let url = "/comment";
-  const {
-    paginations,
-    total,
-    isLoading: paginationLoading,
-  } = useFetchPagination(url, userAxios);
-  const pagesCount = Math.ceil(total / pageSize);
+  const { comments, isLoading } = useMyComments();
   return (
     <section className="relative pb-16">
-      {pageLoading | paginationLoading ? (
+      {isLoading ? (
         <div className="pt-64">
           <Spinner />
         </div>
-      ) : !paginations?.length ? (
+      ) : !comments?.length ? (
         <div className="w-full text-center py-24">
           <img src="/images/order-empty.svg" alt="" className="m-auto " />
           <p className="text-lg font-semibold dark:text-white-100">
@@ -33,7 +20,7 @@ export default function ProfileComments() {
           </p>
         </div>
       ) : (
-        paginations?.map((comment) => (
+        comments?.map((comment) => (
           <div
             className="border-b py-10 px-8 dark:text-white-100 relative"
             key={comment?.id}
@@ -108,13 +95,6 @@ export default function ProfileComments() {
           </div>
         ))
       )}
-      <div className={` ${pagesCount > 1 ? "visible" : "hidden"}`}>
-        <Pagination
-          pagesCount={pagesCount}
-          setCurrentPage={setCurrentPage}
-          currentPage={currentPage}
-        />
-      </div>
     </section>
   );
 }

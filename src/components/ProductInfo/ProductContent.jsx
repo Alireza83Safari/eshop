@@ -1,66 +1,44 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import userAxios from "../../services/Axios/userInterceptors";
-import useAddToCart from "../../hooks/useAddCart";
-import toast from "react-hot-toast";
+import useAddCart from "../../api/order/user/useAddCart";
+import useAddFavorite from "../../api/favorite/user/useAddFavorite";
+import useIsFavorite from "../../api/favorite/user/useIsFavorite";
 
-export default function ProductContent({ findProduct, productItem }) {
-  const { addToCart, isLoading } = useAddToCart();
-  const [isFavorite, setIsFavorite] = useState(null);
-  const handleAddToCart = () => {
-    addToCart(findProduct.itemId, 1, findProduct);
+export default function ProductContent({ productItem }) {
+  const productAddedToCart = {
+    productItemId: productItem?.id,
+    quantity: 1,
   };
 
-  const addToFavorite = (itemID) => {
-    const productData = {
-      productItemId: itemID,
-    };
+  const { isFavorite, isFavoriteHandler } = useIsFavorite();
+  const { addToCart } = useAddCart();
+  const { addToFavorite } = useAddFavorite();
 
-    userAxios
-      .post("/favoriteProductItem", productData)
-      .then((res) => {
-        if (res.status === 200) {
-          toast.success(`${findProduct?.name} added to favorite!`, {
-            position: "bottom-right",
-          });
-        }
-      })
-      .catch((err) => {
-        if (err.response.status) {
-          toast.error(`Previously added product`, {
-            position: "bottom-right",
-          });
-        }
-      });
-  };
   useEffect(() => {
-    if (findProduct) {
-      userAxios
-        .get(`/favoriteProductItem/isFavorite/${findProduct?.itemId}`)
-        .then((res) => setIsFavorite(res.data.data));
+    if (productItem) {
+      isFavoriteHandler(productItem?.id);
     }
-  }, [findProduct?.itemId, isFavorite]);
+  }, [productItem]);
 
   return (
     <>
       <div className="text-black-900 dark:text-white-100 pr-4">
         <div className="flex justify-between my-3">
           <h1 className="sm:text-2xl text-lg 0 font-bold">
-            {findProduct?.name}
+            {productItem?.productTitle}
           </h1>
-          <img
-            src={`  ${
-              isFavorite
-                ? "/images/heart-red-svgrepo-com.svg"
-                : "/images/heart-svgrepo-com.svg"
-            } `}
-            className="w-6 h-6 text-red-700 hover:text-red-300 mr-10 text-2xl"
-            onClick={() => {
-              addToFavorite(findProduct?.itemId);
-              setIsFavorite(true);
-            }}
-          />
+          <button disabled={isFavorite}>
+            <img
+              src={`  ${
+                isFavorite
+                  ? "/images/heart-red-svgrepo-com.svg"
+                  : "/images/heart-svgrepo-com.svg"
+              } `}
+              className="w-6 h-6 text-red-700 hover:text-red-300 mr-10 text-2xl"
+              onClick={() => addToFavorite(productItem?.id)}
+            />
+          </button>
         </div>
         <div className="md:flex grid grid-cols-2 sm:py-4 py-6 sm:text-sm text-xs  my-3">
           <p className="sm:text-sm text-xs mr-12">Total Review Rate </p>
@@ -75,7 +53,7 @@ export default function ProductContent({ findProduct, productItem }) {
         <div className="text-sm">
           <div className="md:flex grid grid-cols-2  my-3">
             <p className="py-2 mr-20 sm:text-sm text-xs">
-              Category :{findProduct?.categoryName}
+              Category :{productItem?.categoryName}
             </p>
             <p className="py-2 sm:text-sm text-xs">
               Status :
@@ -108,18 +86,18 @@ export default function ProductContent({ findProduct, productItem }) {
           <span className="text-lg ml-4 font-bold text-red-700">
             {productItem?.discountValue
               ? (
-                  findProduct?.price -
-                  (productItem?.discountValue / 100) * findProduct?.price
+                  productItem?.price -
+                  (productItem?.discountValue / 100) * productItem?.price
                 ).toFixed(1)
-              : findProduct?.price}
+              : productItem?.price}
             $
           </span>
         </h3>
 
         <button
           className="bg-blue-60 relative bg-blue-600 hover:bg-blue-300 duration-300 text-white-100 px-8 py-2 text-sm rounded-lg mt-3"
-          onClick={handleAddToCart}
-          disabled={isLoading}
+          onClick={() => addToCart(productAddedToCart)}
+          disabled={addToCart.isLoading}
         >
           Add to cart
         </button>

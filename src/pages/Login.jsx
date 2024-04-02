@@ -1,23 +1,21 @@
-import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import userAxios from "../services/Axios/userInterceptors";
-import { AuthContext } from "../context/AuthContext";
-import toast from "react-hot-toast";
-import { useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import loginSchema from "../validations/login";
 import { Header, Footer, Spinner } from "../components";
+import useLogin from "../api/auth/useLogin";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Login() {
-  const navigate = useNavigate();
-  const { userLogin, setUserIsLogin } = useContext(AuthContext);
+  const { userLogin } = useContext(AuthContext);
   const [errors, setErrors] = useState(null);
-  const [formIsValid, setFormIsValid] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [serverErrors, setServerErrors] = useState(null);
   const [loginInfos, setLoginInfos] = useState({
     username: "",
     password: "",
   });
+
+  const { loginHandler, isSuccess } = useLogin();
 
   const loginInfosHandler = (event) => {
     const { name, value } = event.target;
@@ -33,7 +31,9 @@ export default function Login() {
       const isValid = await loginSchema?.validate(loginInfos, {
         abortEarly: false,
       });
-      setFormIsValid(isValid);
+      if (isValid) {
+        loginHandler(loginInfos);
+      }
       setLoading(false);
     } catch (error) {
       let errors = error.inner.reduce(
@@ -48,33 +48,11 @@ export default function Login() {
     }
   };
 
-  const userLoginHandler = async () => {
-    setLoading(true);
-    userAxios
-      .post("/login", loginInfos)
-      .then((res) => {
-        if (res.status === 200) {
-          const expireTime = new Date(res?.data?.expiresAt);
-          document.cookie = `Authorization= ${res?.data?.token} ; expires=${expireTime}; secure; path=/; `;
-          toast.success("login is successfully");
-          userLogin();
-          navigate("/");
-          setLoading(false);
-          setUserIsLogin(true);
-          navigate("/");
-        }
-      })
-      .catch((err) => {
-        setServerErrors(err?.response?.data);
-        setLoading(false);
-      });
-  };
-
   useEffect(() => {
-    if (formIsValid) {
-      userLoginHandler();
+    if (isSuccess) {
+      userLogin();
     }
-  }, [formIsValid]);
+  }, [isSuccess]);
 
   return (
     <>

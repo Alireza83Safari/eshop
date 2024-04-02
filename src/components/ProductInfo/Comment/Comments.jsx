@@ -1,30 +1,15 @@
-import React, { useState, useEffect } from "react";
 import CommentsTemplate from "./CommentsTemplate";
 import AddComment from "./AddComment";
-import userAxios from "../../../services/Axios/userInterceptors";
+import useComments from "../../../api/comment/user/useComments";
 
 export default function Comments({ productId }) {
-  const [getComments, setComments] = useState([]);
-
-  const fetchComments = async () => {
-    try {
-      const response = await userAxios.get(`/comment/product/${productId}`);
-
-      if (response.status === 200) {
-        setComments(response?.data.data);
-      }
-    } catch (error) {}
-  };
-  useEffect(() => {
-    fetchComments();
-  }, []);
-
+  const { data: comments } = useComments(productId);
   return (
     <div className="border p-4 mb-20 rounded-xl">
       <>
-        {getComments?.length > 0 ? (
-          getComments?.map((comment) => (
-            <CommentsTemplate comment={comment} />
+        {comments?.length > 0 ? (
+          comments?.map((comment) => (
+            <CommentsTemplate comment={comment} key={comment?.id} />
           ))
         ) : (
           <div className="text-xl text-center w-full bg-gray-200 dark:bg-black-200 mt-10">
@@ -40,10 +25,9 @@ export default function Comments({ productId }) {
             about this product.
           </p>
 
-          <AddComment fetchComments={fetchComments} productId={productId} />
+          <AddComment productId={productId} />
         </div>
       </>
-
     </div>
   );
 }

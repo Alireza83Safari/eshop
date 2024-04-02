@@ -1,17 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import userAxios from "../../services/Axios/userInterceptors";
 import FormSpinner from "../FormSpinner/FormSpinner";
 import AddressContext from "../../context/AddressContext";
 import addressSchema from "../../validations/address";
+import useEditAddress from "../../api/address/user/useEditAddress";
+import useAddress from "../../api/address/user/useAddress";
 
-export default function EditAddress({}) {
-  const { showEditAddress, setShowEditAddress, editAddressId, fetchAddress } =
+export default function EditAddress() {
+  const { showEditAddress, setShowEditAddress, editAddressId } =
     useContext(AddressContext);
   const [errors, setErrors] = useState(null);
-  const [formIsValid, setFormIsValid] = useState(false);
   const [serverErrors, setServerErrors] = useState(null);
   const [isLoading, setLoading] = useState(false);
+
   const [addressInfos, setAddressInfos] = useState({
     address: "",
     firstName: "",
@@ -22,22 +23,8 @@ export default function EditAddress({}) {
     postalCode: "",
   });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await userAxios.get(`/address/${editAddressId}`);
-        setAddressInfos({ ...response?.data });
-
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
-      }
-    };
-    if (editAddressId) {
-      fetchData();
-    }
-  }, [showEditAddress]);
+  const { editAddress, isSuccess, error } = useEditAddress();
+  const { getAddress, isPending, address } = useAddress();
 
   const setAddressHandler = (event) => {
     const { name, value } = event.target;
@@ -55,7 +42,15 @@ export default function EditAddress({}) {
       const isValid = await addressSchema.validate(addressInfos, {
         abortEarly: false,
       });
-      setFormIsValid(isValid);
+      if (isValid) {
+        editAddress({
+          addressId: editAddressId,
+          address: {
+            ...addressInfos,
+            plaque: Number(addressInfos?.plaque),
+          },
+        });
+      }
       setLoading(false);
     } catch (error) {
       let errors = error.inner.reduce(
@@ -70,26 +65,29 @@ export default function EditAddress({}) {
     }
   };
 
-  const EditHandler = async () => {
-    try {
-      const res = await userAxios.post(`/address/edit/${editAddressId}`, {
-        ...addressInfos,
-        plaque: Number(addressInfos?.plaque),
-      });
-      if (res.status === 200) {
-        setShowEditAddress(false);
-        fetchAddress();
-      }
-    } catch (err) {
-      setServerErrors(err?.response?.data);
+  useEffect(() => {
+    if (editAddressId) {
+      getAddress(editAddressId);
     }
-  };
+  }, [showEditAddress]);
 
   useEffect(() => {
-    if (formIsValid) {
-      EditHandler();
+    if (address) {
+      setAddressInfos(address);
     }
-  }, [formIsValid]);
+  }, [address]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setShowEditAddress(false);
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (error) {
+      setServerErrors(error?.data);
+    }
+  }, [error]);
 
   return ReactDOM.createPortal(
     <div
@@ -104,7 +102,9 @@ export default function EditAddress({}) {
 
         <form onSubmit={(e) => e.preventDefault()}>
           <div
-            className={` grid grid-cols-2 gap-2 ${isLoading && "opacity-20"} `}
+            className={` grid grid-cols-2 gap-2 ${
+              isLoading || (isPending && "opacity-20")
+            } `}
           >
             <div>
               <span className="font-medium text-gray-800 dark:text-white-100">
@@ -240,7 +240,7 @@ export default function EditAddress({}) {
               className="bg-blue-600 text-white-100 w-full py-2 rounded-xl mr-2 disabled:bg-gray-100"
               onClick={getFormValidation}
             >
-              {isLoading ? <FormSpinner /> : "Edit Product"}
+              {isLoading || isPending ? <FormSpinner /> : "Edit Product"}
             </button>
 
             <button

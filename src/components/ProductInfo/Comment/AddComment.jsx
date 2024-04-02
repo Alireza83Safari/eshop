@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
-import userAxios from "../../../services/Axios/userInterceptors";
-import toast from "react-hot-toast";
+import useCreateComment from "../../../api/comment/user/useCreateComment";
 
-function AddComment({ fetchComments, productId }) {
+function AddComment({ productId }) {
   const [strengths, setStrengths] = useState([]);
   const [strengthValue, setStrengthValue] = useState("");
   const [commentValue, setCommentValue] = useState("");
@@ -45,10 +44,10 @@ function AddComment({ fetchComments, productId }) {
     setStrengths(updatedStrengths);
   };
 
+  const { createComment, isSuccess } = useCreateComment();
   const addCommentHandler = async (e) => {
     e.preventDefault();
-
-    const commentObj = {
+    const comment = {
       productId: productId,
       rate: Number(rate),
       strengthPoints: strengths,
@@ -56,20 +55,18 @@ function AddComment({ fetchComments, productId }) {
       weakPoints: weakPoints,
     };
 
-    try {
-      await userAxios.post("/comment", commentObj).then((res) => {
-        if (res.status === 200) {
-          toast.success("add comment is success");
-          fetchComments();
-          setRate("");
-          setCommentValue("");
-          setStrengths([]);
-          setWeakPoints([]);
-          setIsCommentEmpty(true);
-        }
-      });
-    } catch (error) {}
+    createComment(comment);
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setRate("");
+      setCommentValue("");
+      setStrengths([]);
+      setWeakPoints([]);
+      setIsCommentEmpty(true);
+    }
+  }, [isSuccess]);
   const commentRating = [1, 2, 3, 4, 5];
   useEffect(() => {
     setIsCommentEmpty(!commentValue || !rate);

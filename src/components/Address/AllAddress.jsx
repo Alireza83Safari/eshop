@@ -12,9 +12,8 @@ import {
   faUser,
   faMultiply,
 } from "@fortawesome/free-solid-svg-icons";
-import userAxios from "../../services/Axios/userInterceptors";
 import AddressContext from "../../context/AddressContext";
-import toast from "react-hot-toast";
+import useDeleteAddress from "../../api/address/user/useDeleteAddress";
 
 export default function AllAddress() {
   const {
@@ -24,17 +23,10 @@ export default function AllAddress() {
     setShowEditAddress,
     setEditAddressId,
     userAddress,
-    fetchAddress,
   } = useContext(AddressContext);
 
-  const deleteAddressHandler = (id) => {
-    userAxios.post(`/address/delete/${id}`).then((res) => {
-      fetchAddress();
-      toast.success(`delete is successfuly`, {
-        position: "bottom-right",
-      });
-    });
-  };
+  const { deleteAddress } = useDeleteAddress();
+
   return ReactDOM.createPortal(
     <div
       className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 bg-gray-100 h-screen -translate-y-1/2 z-10 w-full flex items-center justify-center transition duration-400 ${
@@ -70,7 +62,7 @@ export default function AllAddress() {
                 <FontAwesomeIcon icon={faLocation} className="mr-2" />
                 <p>{address.address}</p>
               </div>
-              <button onClick={() => deleteAddressHandler(address.id)}>
+              <button onClick={() => deleteAddress(address.id)}>
                 <FontAwesomeIcon icon={faTrashAlt} className="text-red-700" />
               </button>
             </div>

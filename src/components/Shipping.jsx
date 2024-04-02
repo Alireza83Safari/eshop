@@ -1,43 +1,38 @@
 import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight, faLocationPin } from "@fortawesome/free-solid-svg-icons";
 import AddressContext from "../context/AddressContext";
-import userAxios from "../services/Axios/userInterceptors";
-import useFetch from "../hooks/useFetch";
-import toast from "react-hot-toast";
+import useOrderItems from "../api/order/user/useOrderItems";
+import useCreateOrder from "../api/order/user/useCreateOrder";
 
 export default function Shipping() {
-  const navigate = useNavigate();
-  const { userAddress, setShowAllAddress, setShowAddAddress } =
+  const { addresses, setShowAllAddress, setShowAddAddress } =
     useContext(AddressContext);
 
-  const { datas: orders } = useFetch("/order", userAxios);
-  const totalAmount = orders?.price || 0;
+  const { orderItems } = useOrderItems();
+
+  const totalAmount = orderItems?.price || 0;
   const totalTax = totalAmount / 10;
   const totalDiscount = totalAmount / 20;
   const totalPayment = Math.floor(totalAmount - totalDiscount - totalTax);
-  const totalQuantity = orders?.items?.reduce(
+  const totalQuantity = orderItems?.items?.reduce(
     (total, order) => total + order?.quantity,
     0
   );
 
+  const { createOrder } = useCreateOrder();
   const buyProducts = () => {
-    userAxios.post(`/order/checkout/${userAddress[0].id}`).then((res) => {
-      if (res.status === 200) {
-        toast.success('create order is success')
-        navigate("/");
-      }
-    });
+    createOrder(addresses[0].id);
   };
 
   return (
     <>
       <div className="lg:col-span-8">
-        {userAddress?.length ? (
+        {addresses?.length ? (
           <div className="w-full border border-blue-60 py-3 px-4 rounded-lg bg-white-200 dark:bg-black-200 dark:text-white-100">
             <p className="text-xs">Your Delivery Address</p>
-            {userAddress?.slice(0, 1)?.map((address) => (
+            {addresses?.slice(0, 1)?.map((address) => (
               <div className="mt-4" key={address.id}>
                 <div className="flex items-center mb-3">
                   <FontAwesomeIcon icon={faLocationPin} className="mr-1" />
@@ -83,7 +78,7 @@ export default function Shipping() {
         )}
 
         <div>
-          {orders?.items?.map((order) => (
+          {orderItems?.items?.map((order) => (
             <div
               key={order?.id}
               className="flex items-center border-b h-36 dark:text-white-100"
@@ -135,7 +130,7 @@ export default function Shipping() {
             <button
               className=" w-full mt-3 py-2 bg-blue-600 text-xs text-white-100 rounded-lg disabled:bg-gray-100"
               onClick={() => buyProducts()}
-              disabled={!userAddress?.length}
+              disabled={!addresses?.length}
             >
               Order Placement
             </button>
@@ -161,7 +156,7 @@ export default function Shipping() {
         <div className="lg:hidden flex fixed left-0 bottom-0 w-full border-t py-3 bg-white-100 dark:bg-black-600 dark:text-white-100">
           <button
             className="w-1/3 text-white-100 rounded-lg py-2 mx-4 bg-blue-600 flex justify-center disabled:bg-gray-100"
-            disabled={!userAddress?.length}
+            disabled={!addresses?.length}
             onClick={() => buyProducts()}
           >
             Buy

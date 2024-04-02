@@ -16,8 +16,6 @@ export const useFetchPagination = (url, customAxios) => {
     try {
       if (page) {
         setLoading(true);
-        console.log(URL);
-
         const res = await customAxios.get(URL);
         setPaginations(res?.data?.data);
         setTotal(res?.data?.total);

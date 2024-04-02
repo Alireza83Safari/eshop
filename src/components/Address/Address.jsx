@@ -15,24 +15,25 @@ import AddNewAddress from "./AddNewAddress";
 import Spinner from "../Spinner/Spinner";
 import toast from "react-hot-toast";
 import AddressContext from "../../context/AddressContext";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Address() {
+  const queryClinet = useQueryClient();
   const {
     setShowAddAddress,
     setShowEditAddress,
     setEditAddressId,
     showAddAddress,
     showEditAddress,
-    userAddress,
-    fetchAddress,
-    isLoading,
+    addresses,
+    addressesLoading,
   } = useContext(AddressContext);
 
   const deleteAddressHandler = async (id) => {
     try {
       const res = await userAxios.post(`/address/delete/${id}`);
       if (res.status === 200) {
-        fetchAddress();
+        queryClinet.invalidateQueries("addresses");
         toast.success(`delete is successfuly`, {
           position: "bottom-right",
         });
@@ -55,12 +56,12 @@ export default function Address() {
         </div>
       </div>
 
-      {isLoading ? (
+      {addressesLoading ? (
         <div className="pt-64">
           <Spinner />
         </div>
-      ) : !!userAddress?.length ? (
-        userAddress?.map((address) => (
+      ) : !!addresses?.length ? (
+        addresses?.map((address) => (
           <div className="border-b p-5" key={address?.id}>
             <div className="flex items-center justify-between mb-3 px-3">
               <div className="flex items-center">
@@ -118,8 +119,8 @@ export default function Address() {
         </div>
       )}
 
-      {showEditAddress && <EditAddress fetchAddress={fetchAddress} />}
-      {showAddAddress && <AddNewAddress fetchAddress={fetchAddress} />}
+      {showEditAddress && <EditAddress />}
+      {showAddAddress && <AddNewAddress />}
     </div>
   );
 }

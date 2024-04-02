@@ -1,6 +1,4 @@
 import React from "react";
-import useFetch from "../hooks/useFetch";
-import userAxios from "../services/Axios/userInterceptors";
 import {
   Header,
   Footer,
@@ -10,31 +8,41 @@ import {
   Banner,
   PopularBrand,
 } from "../components/index";
+import useFetch from "../hooks/useFetch";
+import userAxios from "../services/Axios/userInterceptors";
 
 export default function Home() {
-  const { datas: expensive, isLoading: expensiveLoading } = useFetch(
-    "/product?order=expensive&limit=8",
-    userAxios
+  const { data: expensiveProducts, isLoading: expensiveLoading } = useFetch(
+    "/product?order=expensive&limit=10",
+    userAxios,
+    "expensiveProducts"
   );
-  const { datas: cheap, isLoading: cheapsLoading } = useFetch(
-    "/product?order=cheap&limit=8",
-    userAxios
+
+  const { data: cheapProducts, isLoading: cheapLoading } = useFetch(
+    "/product?order=cheap&limit=10",
+    userAxios,
+    "cheapProducts"
   );
-  const { datas: newest, isLoading: newestLoading } = useFetch(
+
+  const { data: newestProducts, isLoading: newestLoading } = useFetch(
     "/product?order=newest&limit=8",
-    userAxios
+    userAxios,
+    "newestProducts"
   );
-  const { datas: topSell, isLoading: topSellLoading } = useFetch(
+
+  const { data: topSellProducts, isLoading: topSellLoading } = useFetch(
     "/product?order=topSell&limit=8",
-    userAxios
+    userAxios,
+    "topSellProducts"
   );
+
   return (
     <>
       <Header />
       <div className="md:mt-8 xl:container max-w-[1200px] min-h-screen mx-auto lg:px-0 sm:px-5">
         <Banner />
         <ProductSlider
-          products={expensive?.data}
+          products={expensiveProducts?.data}
           isLoading={expensiveLoading}
           title="expensive eshop Products"
           linkText="show all >"
@@ -44,7 +52,7 @@ export default function Home() {
         <Suggestion />
 
         <ProductSlider
-          products={newest?.data}
+          products={newestProducts?.data}
           isLoading={newestLoading}
           title="newest eshop Products"
           linkText="show all >"
@@ -54,15 +62,15 @@ export default function Home() {
         <Promotion />
 
         <ProductSlider
-          products={cheap?.data}
-          isLoading={cheapsLoading}
+          products={cheapProducts?.data}
+          isLoading={cheapLoading}
           title="eshop cheap products"
           linkText="show all >"
           to="/products?order=cheap"
         />
 
         <ProductSlider
-          products={topSell?.data}
+          products={topSellProducts?.data}
           isLoading={topSellLoading}
           title="eshop have top sell Products"
           linkText="show all >"

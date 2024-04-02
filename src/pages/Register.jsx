@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Link } from "react-router-dom";
 import registerSchema from "../validations/register";
 import { Header, Footer, Spinner } from "../components";
-import toast from "react-hot-toast";
+import useRegister from "../api/auth/useRegister";
 
 export default function Register() {
-  const navigate = useNavigate();
   const [serverErrors, setServerErrors] = useState(null);
-  const [formIsValid, setFormIsValid] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [errors, setErrors] = useState({
     username: "",
@@ -21,6 +18,8 @@ export default function Register() {
     passwordConfirmation: "",
   });
 
+  const { registerHandler, error } = useRegister();
+
   const registerInfosHandler = (event) => {
     const { name, value } = event.target;
 
@@ -29,12 +28,15 @@ export default function Register() {
       [name]: value,
     });
   };
+
   const getFormIsValid = async () => {
     try {
       const isValid = await registerSchema?.validate(registerInfos, {
         abortEarly: false,
       });
-      setFormIsValid(isValid);
+      if (isValid) {
+        registerHandler(registerInfos);
+      }
       setLoading(false);
     } catch (error) {
       let errors = error.inner.reduce(
@@ -49,29 +51,10 @@ export default function Register() {
     }
   };
 
-  const sendUserData = async () => {
-    try {
-      await axios.post("/api/v1/user/register", registerInfos).then((res) => {
-        if (res.status === 200) {
-          toast.success("register is successfully");
-          navigate("/login");
-          setLoading(false);
-        }
-      });
-    } catch (error) {
-      setServerErrors(error?.response?.data?.errors);
-      setLoading(false);
-      toast.error("Failed ", {
-        position: "bottom-right",
-      });
-    }
-  };
-
   useEffect(() => {
-    if (formIsValid) {
-      sendUserData();
-    }
-  }, [formIsValid]);
+    setServerErrors(error?.response?.data?.errors);
+  }, [error]);
+
   return (
     <>
       <Header />
@@ -136,9 +119,6 @@ export default function Register() {
                     setServerErrors("");
                   }}
                 />
-                <span className=" text-red-700 text-center text-xs">
-                  {errors?.password} {serverErrors?.password}
-                </span>
               </div>
               <div className="mb-4 mt-6">
                 <label

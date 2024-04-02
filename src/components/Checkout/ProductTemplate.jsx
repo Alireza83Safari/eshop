@@ -1,39 +1,21 @@
 import React, { useState } from "react";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import userAxios from "../../services/Axios/userInterceptors";
-import toast from "react-hot-toast";
+import useDeleteOrderItem from "../../api/order/user/useDeleteOrderItem";
 
-export default function ProductTemplate({
-  order,
-  handleDecrement,
-  handleIncrement,
-  fetchData,
-  key,
-}) {
-  const [isLoading, setIsLoading] = useState(false);
+export default function ProductTemplate({ order, changeProductQuantity }) {
+  const [deleteId, setDeleteId] = useState(null);
+  const { deleteOrderItem, isPending } = useDeleteOrderItem();
 
-  const removeProductHandler = async (id) => {
-    try {
-      const response = await userAxios.post(`/orderItem/delete/${id}`);
-      console.log(response);
-      if (response.status === 200) {
-        toast.success(`deleted!`, {
-          position: "bottom-right",
-        });
-        fetchData();
-        setIsLoading(false);
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
+  const removeProductHandler = async () => {
+    if (deleteId) {
+      deleteOrderItem(deleteId);
     }
   };
+
   return (
     <div
-      key={key}
-      className={`flex items-center border-b h-36 ${isLoading && "opacity-20"}`}
+      className={`flex items-center border-b h-36 ${isPending && "opacity-20"}`}
     >
       <img src={order.fileUrl} className="w-24 h-24 object-contain md:mx-4" />
       <div className="md:ml-4 md:text-sm text-xs">
@@ -65,14 +47,14 @@ export default function ProductTemplate({
 
         <div className="flex items-center md:mx-10 mx-4">
           <button
-            onClick={() => handleDecrement(order)}
+            onClick={() => changeProductQuantity(order, "decrement")}
             className="md:px-4 px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 duration-200 focus:outline-none"
           >
             -
           </button>
           <span className="md:px-5 px-2">{order.quantity}</span>
           <button
-            onClick={() => handleIncrement(order)}
+            onClick={() => changeProductQuantity(order, "increment")}
             className="md:px-4 px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 duration-200 focus:outline-none"
           >
             +
@@ -82,7 +64,8 @@ export default function ProductTemplate({
           icon={faTrashAlt}
           className="text-red-700"
           onClick={() => {
-            removeProductHandler(order?.productItemId);
+            setDeleteId(order?.productItemId);
+            removeProductHandler();
           }}
         />
       </div>

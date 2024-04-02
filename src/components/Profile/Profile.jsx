@@ -27,6 +27,7 @@ export default function Profile() {
       }
     });
   };
+  
   return (
     <div className="absolute top-16 right-24 dark:bg-black-900 dark:text-white-100 bg-white-100 text-sm px-6 py-4 rounded-xl z-10 border">
       <div className="mb-3">

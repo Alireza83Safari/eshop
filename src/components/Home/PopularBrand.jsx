@@ -1,12 +1,11 @@
 import React from "react";
-import useFetch from "../../hooks/useFetch";
-import userAxios from "../../services/Axios/userInterceptors";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Link } from "react-router-dom";
 import Spinner from "../Spinner/Spinner";
+import useBrands from "../../api/brand/user/useBrands";
 
 export default function PopularBrand() {
-  const { datas: brand, isLoading } = useFetch("/brand", userAxios);
+  const { data: brands, isLoading } = useBrands();
 
   return (
     <section className="md:px-5 md:mt-40 mt-20 text-black-900 dark:text-white-100 ">
@@ -29,7 +28,7 @@ export default function PopularBrand() {
             }}
             spaceBetween={15}
           >
-            {brand?.data?.map((brand) => (
+            {brands?.map((brand) => (
               <SwiperSlide
                 key={brand?.id}
                 className="flex justify-center items-center mb-8"

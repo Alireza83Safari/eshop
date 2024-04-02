@@ -14,21 +14,31 @@ import {
 import userAxios from "../services/Axios/userInterceptors";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Spinner from "./Spinner/Spinner";
-import useFetch from "../hooks/useFetch";
 import { AuthContext } from "../context/AuthContext";
 import { ThemeContext } from "../context/ThemeContext";
 import { useEffect } from "react";
+import useCategoriesList from "../api/category/user/useCategoriesList";
 const Profile = lazy(() => import("./Profile/Profile"));
 
 export default function Header() {
   const { userIsLogin, userInfos, userLogin, setUserIsLogin } =
     useContext(AuthContext);
+
   const [showSubMenu, setShowSubMenu] = useState(false);
-  const { mode, setMode } = useContext(ThemeContext);
   const [searchQuery, setSearchQuery] = useState("");
-  const navigate = useNavigate();
   const [showProfile, setShowProfile] = useState(false);
+  const [showCategory, setShowCategory] = useState(false);
+
+  const { mode, setMode } = useContext(ThemeContext);
+  const navigate = useNavigate();
   const location = useLocation();
+
+  const { data: categories } = useCategoriesList();
+
+  const isAdmin =
+    !!(userInfos?.role?.name === "admin") |
+    !!(userInfos?.role?.name === "root");
+
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const searchTerm = searchParams.get("searchTerm");
@@ -42,8 +52,6 @@ export default function Header() {
       navigate(`/products?searchTerm=${searchQuery}`);
     }
   };
-
-  const { datas: category } = useFetch("/category/selectList", userAxios);
 
   const categoryHandler = (data) => {
     navigate(`/products?categoryId=${data?.key}`);
@@ -59,11 +67,6 @@ export default function Header() {
     });
   };
 
-  const isAdmin =
-    !!(userInfos?.role?.name === "admin") |
-    !!(userInfos?.role?.name === "root");
-
-  const [showCategory, setShowCategory] = useState(false);
   return (
     <header className="w-full min-w-full bg-white-200 dark:bg-black-800 fixed top-0 right-0 z-10">
       <div className="flex justify-between items-center mx-auto xl:px-8 py-5 px-5 xl:container relative">
@@ -139,7 +142,7 @@ export default function Header() {
           >
             Category
             <ul className="absolute top-8 invisible group-hover:visible bg-white border dark:bg-black-200 border-gray-50 rounded-lg py-2 px-4 bg-white-100 duration-300">
-              {category?.data?.map((data) => (
+              {categories?.map((data) => (
                 <Link
                   className="flex py-2 items-center text-black-700 dark:text-white-100 relative whitespace-nowrap text-sm hover:text-blue-600"
                   to={`/products?categoryId=${data?.key}`}
@@ -175,9 +178,6 @@ export default function Header() {
                       icon={faCartShopping}
                       className="sm:text-2xl text-xl"
                     />
-                    {/*     <div className="absolute -top-3 -right-2 text-white-100 bg-red-700 rounded-full w-4 h-4 flex justify-center items-center text-[9px]">
-                      {orders}
-                    </div> */}
                   </Link>
                 ) : (
                   <Link to="/login" className="relative">
@@ -287,7 +287,7 @@ export default function Header() {
 
                 {showCategory && (
                   <div>
-                    {category?.data?.map((data) => (
+                    {categories?.map((data) => (
                       <Link
                         className="flex py-2 ml-4 items-center text-sm text-black-700 dark:text-white-100 hover-element relative whitespace-nowrap"
                         to="product"

@@ -1,15 +1,16 @@
 import React, { useMemo, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import useFetch from "../../hooks/useFetch";
-import userAxios from "../../services/Axios/userInterceptors";
 import { CustomSelect } from "../SelectList";
+import useCategoriesList from "../../api/category/user/useCategoriesList";
+import useBrandsList from "../../api/brand/user/useBrandsList";
 
-function FilterProducts({ setCurrentPage }) {
+function FilterProducts() {
   const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const { datas: categoryData } = useFetch("/category/selectList", userAxios);
-  const { datas: brandData } = useFetch("/brand/selectList", userAxios);
+
+  const { data: categories } = useCategoriesList();
+  const { data: brands } = useBrandsList();
 
   const handleChange = useCallback(
     (name, value) => {
@@ -21,9 +22,8 @@ function FilterProducts({ setCurrentPage }) {
         searchParams.delete(name);
       }
       navigate(`?${searchParams.toString()}`);
-      setCurrentPage(1);
     },
-    [searchParams, navigate, setCurrentPage]
+    [searchParams, navigate]
   );
 
   const MemoizedFilterProducts = useMemo(
@@ -67,7 +67,7 @@ function FilterProducts({ setCurrentPage }) {
           </label>
 
           <CustomSelect
-            options={categoryData?.data?.map((category) => ({
+            options={categories?.map((category) => ({
               value: category.key,
               label: category.value,
             }))}
@@ -99,7 +99,7 @@ function FilterProducts({ setCurrentPage }) {
             Sort By Brand:
           </label>
           <CustomSelect
-            options={brandData?.data?.map((brand) => ({
+            options={brands?.map((brand) => ({
               value: brand.key,
               label: brand.value,
             }))}
@@ -111,7 +111,7 @@ function FilterProducts({ setCurrentPage }) {
         </div>
       </section>
     ),
-    [categoryData, brandData, searchParams, navigate, setCurrentPage]
+    [categories, brands, searchParams, navigate]
   );
 
   return MemoizedFilterProducts;

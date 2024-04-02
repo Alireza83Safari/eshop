@@ -1,14 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import userAxios from "../../services/Axios/userInterceptors";
 import FormSpinner from "../FormSpinner/FormSpinner";
 import AddressContext from "../../context/AddressContext";
-import toast from "react-hot-toast";
 import addressSchema from "../../validations/address";
+import useCreateAddress from "../../api/address/user/useCreateAddress";
 
 export default function AddNewAddress() {
-  const { showAddAddress, setShowAddAddress, fetchAddress } =
-    useContext(AddressContext);
+  const { createAddress, isSuccess, error } = useCreateAddress();
+  const { showAddAddress, setShowAddAddress } = useContext(AddressContext);
   const [errors, setErrors] = useState(null);
   const [serverErrors, setServerErrors] = useState(null);
   const [isLoading, setIsLoadnig] = useState(false);
@@ -32,7 +31,10 @@ export default function AddNewAddress() {
         abortEarly: false,
       });
       if (isValid) {
-        addNewAddress();
+        createAddress({
+          ...addressInfos,
+          plaque: Number(addressInfos.plaque),
+        });
       }
       setIsLoadnig(false);
     } catch (error) {
@@ -48,26 +50,6 @@ export default function AddNewAddress() {
     }
   };
 
-  const addNewAddress = async () => {
-    setIsLoadnig(true);
-    try {
-      const res = await userAxios.post("/address", {
-        ...addressInfos,
-        plaque: Number(addNewAddress.plaque),
-      });
-
-      if (res.status === 200) {
-        toast.success("create is success");
-        fetchAddress();
-        setShowAddAddress(false);
-        setIsLoadnig(false);
-      }
-    } catch (error) {
-      setServerErrors(error?.response?.data);
-      setIsLoadnig(false);
-    }
-  };
-
   const setAddressHandler = (event) => {
     const { name, value, type } = event.target;
     setAddressInfos({
@@ -75,6 +57,20 @@ export default function AddNewAddress() {
       [name]: type === "number" ? +value : value,
     });
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setShowAddAddress(false);
+      setIsLoadnig(false);
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (error) {
+      setServerErrors(error?.response?.data);
+      setIsLoadnig(false);
+    }
+  }, [error]);
 
   return ReactDOM.createPortal(
     <div

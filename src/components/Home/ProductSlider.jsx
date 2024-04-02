@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Spinner from "../Spinner/Spinner";
+import useAddCart from "../../api/order/user/useAddCart";
 import "swiper/css";
 import "swiper/css/pagination";
-import useAddToCart from "../../hooks/useAddCart";
-import Spinner from "../Spinner/Spinner";
 
 export default function ProductSlider({
   products,
@@ -15,11 +15,7 @@ export default function ProductSlider({
   linkText,
   href,
 }) {
-  const { addToCart } = useAddToCart();
-
-  const handleAddToCart = (product) => {
-    addToCart(product.itemId, 1, product);
-  };
+  const { addToCart } = useAddCart();
 
   return (
     <>
@@ -73,7 +69,12 @@ export default function ProductSlider({
                         </Link>
                         <button
                           className="flex items-center justify-center text-blue-600 hover:text-white-100 hover:bg-blue-300 duration-500 absolute md:w-10 md:h-10 w-7 h-7 rounded-full lg:bottom-6 bottom-16 right-6 z-10 border border-blue-600"
-                          onClick={() => handleAddToCart(product)}
+                          onClick={() =>
+                            addToCart({
+                              productItemId: product.itemId,
+                              quantity: 1,
+                            })
+                          }
                           disabled={isLoading}
                         >
                           <FontAwesomeIcon icon={faPlus} className="text-xl" />

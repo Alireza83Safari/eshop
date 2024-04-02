@@ -1,40 +1,26 @@
-import React, { useMemo, useState } from "react";
-import useFetch from "../../hooks/useFetch";
-import userAxios from "../../services/Axios/userInterceptors";
-import Pagination from "../Paganation";
 import Spinner from "../Spinner/Spinner";
+import useOrders from "../../api/order/user/useOrders";
 
 export default function ProfileOrders() {
-  const { datas: orders, isLoading } = useFetch("/profile/orders", userAxios);
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 4;
-
-  const totalPage =
-    orders && orders?.length > 0 ? Math.ceil(orders?.length / pageSize) : 1;
-
-  const pageNumber = Array.from(Array(totalPage).keys());
-
-  const paginatedProducts = useMemo(() => {
-    let endIndex = pageSize * currentPage;
-    let startIndex = endIndex - pageSize;
-    return orders?.slice(startIndex, endIndex);
-  }, [currentPage, totalPage]);
-
+  const { orders, isLoading } = useOrders();
   return (
     <section className="relative">
       {isLoading ? (
         <div className="pt-64">
           <Spinner />
         </div>
-      ) : !paginatedProducts || !paginatedProducts?.length ? (
+      ) : !orders?.length ? (
         <div className="w-full text-center py-24">
-          <img src="/images/order-empty.svg" alt="" className="m-auto " />
+          <img
+            src="/images/order-empty.svg"
+            className="m-auto object-contain"
+          />
           <p className="text-lg font-semibold dark:text-white-100">
             You haven't placed any orders
           </p>
         </div>
       ) : (
-        paginatedProducts?.map((data) => (
+        orders?.map((data) => (
           <div className="px-8 border-b py-8" key={data?.id}>
             <div className="md:flex md:justify-between grid grid-cols-2">
               <div className="flex md:mb-0 mb-4 items-center">
@@ -80,11 +66,6 @@ export default function ProfileOrders() {
                 />
               ))}
             </div>
-            <Pagination
-              currentPage={currentPage}
-              pageNumber={pageNumber}
-              setCurrentPage={setCurrentPage}
-            />
           </div>
         ))
       )}

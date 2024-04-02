@@ -3,11 +3,9 @@ import { AddressContextProvider } from "../../context/AddressContext";
 import Address from "../Address/Address";
 const ProfileAddress = () => {
   return (
-    <div>
-      <AddressContextProvider>
-        <Address />
-      </AddressContextProvider>
-    </div>
+    <AddressContextProvider>
+      <Address />
+    </AddressContextProvider>
   );
 };
 

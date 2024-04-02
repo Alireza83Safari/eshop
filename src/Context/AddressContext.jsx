@@ -1,6 +1,5 @@
 import { createContext, useState } from "react";
-import useFetch from "../hooks/useFetch";
-import userAxios from "../services/Axios/userInterceptors";
+import useAddresses from "../api/address/user/useAddresses";
 
 export const AddressContext = createContext();
 
@@ -9,11 +8,8 @@ export const AddressContextProvider = ({ children }) => {
   const [showAllAddress, setShowAllAddress] = useState(false);
   const [showEditAddress, setShowEditAddress] = useState(false);
   const [editAddressId, setEditAddressId] = useState(null);
-  const {
-    datas: userAddress,
-    fetchData: fetchAddress,
-    isLoading,
-  } = useFetch("/address", userAxios);
+  const { addresses, addressesLoading } = useAddresses();
+ 
   return (
     <AddressContext.Provider
       value={{
@@ -22,12 +18,11 @@ export const AddressContextProvider = ({ children }) => {
         setEditAddressId,
         showAllAddress,
         setShowAllAddress,
-        fetchAddress,
-        userAddress,
+        addresses,
         editAddressId,
         setShowEditAddress,
         showEditAddress,
-        isLoading,
+        addressesLoading,
       }}
     >
       {children}

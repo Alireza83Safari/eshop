@@ -1,60 +1,48 @@
-import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import React, { useCallback, useRef } from "react";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import userAxios from "../../services/Axios/userInterceptors";
-import useAddToCart from "../../hooks/useAddCart";
 import Spinner from "../Spinner/Spinner";
-import useRemove from "../../hooks/useRemove";
-import Pagination from "../getPagination";
-import { usePaginationURL } from "../../hooks/usePaginationURL";
-import { useFetchPagination } from "../../hooks/useFetchPagination";
+import useFavorites from "../../api/favorite/user/useFavorites";
+import useAddCart from "../../api/order/user/useAddCart";
+import useDeleteFavorite from "../../api/favorite/user/useDeleteFavorite";
 
 export default function ProfileFavorite() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { removeHandler, isLoading: removeLoading } = useRemove();
-  const deleteFavorite = async (ID) => {
-    removeHandler("/favoriteProductItem/delete", ID, fetchData);
-  };
-
-  const { addToCart, isLoading } = useAddToCart();
-  const handleAddToCart = async (product) => {
-    addToCart(product?.itemId, 1, product);
-  };
-
-  const pageSize = 6;
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const searchParams = new URLSearchParams(location.search);
-
-  useEffect(() => {
-    const fetchSearchResults = () => {
-      searchParams.set("page", currentPage.toString());
-      searchParams.set("limit", pageSize.toString());
-
-      navigate(`?${searchParams.toString()}`);
-    };
-    fetchSearchResults();
-  }, [currentPage]);
-
-  const { isLoading: pageLoading } = usePaginationURL(currentPage, pageSize);
-  let url = "/profile/favoriteProducts";
+  const observer = useRef(null);
   const {
-    paginations,
-    total,
-    isLoading: paginationLoading,
-    fetchData,
-  } = useFetchPagination(url, userAxios);
-  
-  const pagesCount = Math.ceil(total / pageSize);
+    data: favorites,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+  } = useFavorites();
+
+  const { deleteFavorite } = useDeleteFavorite();
+  const { addToCart } = useAddCart();
+
+  const lastElementRef = useCallback(
+    (node) => {
+      if (isLoading) return;
+
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isLoading) {
+          fetchNextPage();
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [fetchNextPage, hasNextPage, isLoading, isLoading]
+  );
+
   return (
     <>
-      {pageLoading | removeLoading | paginationLoading ? (
+      {isLoading ? (
         <Spinner />
-      ) : paginations?.length ? (
+      ) : favorites?.length ? (
         <div className="relative grid lg:grid-cols-2 sm:grid-cols-2 col-span-12 mt-5 pb-14">
-          {paginations?.map((favorite, index) => (
+          {favorites?.map((favorite, index) => (
             <div
               className="bg-white rounded-lg shadow-lg hover:shadow-2xl overflow-hidden dark:bg-black-800 hover:opacity-70 duration-300 m-2"
               key={index}
@@ -90,7 +78,10 @@ export default function ProfileFavorite() {
                   <button
                     className="py-2 w-2/3 bg-blue-600 text-white-100 text-sm rounded-lg hover:bg-blue-900 duration-200 transition"
                     onClick={() => {
-                      handleAddToCart(favorite);
+                      addToCart({
+                        productItemId: favorite?.itemId,
+                        quantity: 1,
+                      });
                     }}
                   >
                     Add to Cart
@@ -107,12 +98,13 @@ export default function ProfileFavorite() {
               </div>
             </div>
           ))}
+          <div ref={lastElementRef}></div>
         </div>
       ) : (
         <div className="w-full text-center py-24">
           <img
             src="https://www.digikala.com/statics/img/svg/favorites-list-empty.svg"
-            alt=""
+            alt="empty favorite"
             className="m-auto "
           />
           <p className="text-lg font-semibold">
@@ -120,13 +112,6 @@ export default function ProfileFavorite() {
           </p>
         </div>
       )}
-
-      <Pagination
-        pagesCount={pagesCount}
-        setCurrentPage={setCurrentPage}
-        currentPage={currentPage}
-        pageSize={pageSize}
-      />
     </>
   );
 }

@@ -1,7 +1,6 @@
 import React, { Suspense, lazy } from "react";
-import useFetch from "../hooks/useFetch";
-import userAxios from "./../services/Axios/userInterceptors";
 import { Header, Footer, Spinner } from "../components";
+import useOrderItems from "../api/order/user/useOrderItems";
 
 const CheckoutProducts = lazy(() =>
   import("../components/Checkout/CheckoutProducts")
@@ -11,8 +10,7 @@ const CheckoutDetails = lazy(() =>
 );
 
 export default function Orders() {
-  const { datas: orders, fetchData } = useFetch("/order", userAxios);
-
+  const { orderItems } = useOrderItems();
   return (
     <>
       <Header />
@@ -20,11 +18,11 @@ export default function Orders() {
         <div className="flex justify-center">
           <div className="relative max-h-[40rem] overflow-x-auto">
             <Suspense fallback={<Spinner />}>
-              <CheckoutProducts orders={orders} fetchData={fetchData} />
+              <CheckoutProducts orderItems={orderItems} />
             </Suspense>
           </div>
           <Suspense fallback={<Spinner />}>
-            <CheckoutDetails orders={orders} />
+            <CheckoutDetails orders={orderItems} />
           </Suspense>
         </div>
       </section>
